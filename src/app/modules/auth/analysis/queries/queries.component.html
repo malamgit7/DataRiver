@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <p-contextMenu #cm [model]="items"></p-contextMenu>
+    <p-card styleClass="p-card-shadow">
+      <p-table #dt [value]="queries" [(contextMenuSelection)]="selectedQuery" [contextMenu]="cm" dataKey="queryId"
+        [resizableColumns]="true" styleClass="p-datatable-gridlines p-datatable-sm" [rowHover]="true" [paginator]="true"
+        [rows]="10" [rowsPerPageOptions]="[10,25,50]"
+        [globalFilterFields]="['queryName','queryDescription','querySQL','addedBy', 'addedDate', 'updatedBy', 'updatedDate']">
+        <ng-template pTemplate="caption">
+          <div class="ui-helper-clearfix">
+            <div class="d-flex bd-highlight">
+              <div class="p-2 flex-grow-1 bd-highlight">
+                Queries
+              </div>
+              <div class="p-2 bd-highlight">
+                <div class="input-group input-group-sm">
+                  <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
+                  <input type="text" class="form-control shadow-none"
+                    (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search" aria-label="Search"
+                    aria-describedby="basic-addon1">
+                </div>
+              </div>
+              <div class="p-2 bd-highlight">
+                <button pRipple class="btn btn-sm btn-primary shadow-sm" (click)="redirectToNewQuery()"><i
+                    class="fas fa-plus"></i> New Query</button>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th pResizableColumn pSortableColumn="queryName">Name <p-sortIcon field="queryName"></p-sortIcon>
+            </th>
+            <th pResizableColumn pSortableColumn="queryDescription">Description <p-sortIcon field="queryDescription">
+              </p-sortIcon>
+            </th>
+            <th pResizableColumn pSortableColumn="querySQL">SQL <p-sortIcon field="querySQL"></p-sortIcon>
+            </th>
+            <th pResizableColumn pSortableColumn="nextExecution">Next Run Time <p-sortIcon field="nextExecution">
+              </p-sortIcon>
+            </th>
+            <th pResizableColumn pSortableColumn="addedBy">Created By <p-sortIcon field="addedBy"></p-sortIcon>
+            </th>
+            <th pResizableColumn pSortableColumn="addedDate">Created Date <p-sortIcon field="addedDate"></p-sortIcon>
+            </th>
+            <th pResizableColumn pSortableColumn="updatedBy">Updated By <p-sortIcon field="updatedBy"></p-sortIcon>
+            </th>
+            <th pResizableColumn pSortableColumn="updatedDate">Updated Date <p-sortIcon field="updatedDate">
+              </p-sortIcon>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-querie>
+          <tr [pContextMenuRow]="querie" [ngClass]="{'scheduled': querie.scheduled !=null}">
+            <td class="text-truncate">{{querie.queryName}}</td>
+            <td class="text-truncate">{{querie.queryDescription}}</td>
+            <td class="text-truncate">{{querie.querySQL}}</td>
+            <td class="text-truncate">{{querie.nextExecution | date:'medium'}}</td>
+            <td class="text-truncate">{{querie.addedBy}}</td>
+            <td class="text-truncate">{{querie.addedDate | date:'medium'}}</td>
+            <td class="text-truncate">{{querie.updatedBy}}</td>
+            <td class="text-truncate">{{querie.updatedDate | date:'medium'}}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-card>
+  </div>
+</body>
+
+</html>
+
+<p-dialog header="Schedule" [(visible)]="displayModal" [modal]="true" [style]="{width: '40vw'}" [baseZIndex]="999999"
+  [draggable]="false" [resizable]="false">
+  <form [formGroup]="scheduleQueryForm">
+    <div class="mb-3">
+      <label for="formFile" class="form-label">Date</label>
+      <input type="datetime-local" class="form-control shadow-none" formControlName="ScheduledStartDateTime"
+        aria-label="Schedule Date">
+    </div>
+    <div class="mb-3">
+      <div class="form-check form-check-inline" *ngFor="let scheduleFrequency of scheduleFrequencies">
+        <input class="form-check-input" type="radio" id="flexRadioDefault1" formControlName="FrequencyNumber"
+          [value]="scheduleFrequency.frequencyNumber">
+        <label class="form-check-label" for="flexRadioDefault1">{{scheduleFrequency.frequencyValue}}</label>
+      </div>
+    </div>
+  </form>
+  <ng-template pTemplate="footer">
+    <div class="d-flex">
+      <button pButton pRipple type="button" icon="pi pi-clock" (click)="onSubmitScheduleQueryForm()" label="Schedule"
+        class="p-button-raised p-button-sm me-auto" aria-label="Suubmit Schedule Form"
+        [disabled]="!scheduleQueryForm.valid"></button>
+      <button pButton pRipple type="button" icon="pi pi-times" (click)="clearScheduleQueryForm();displayModal=false; "
+        label="Cancel" class="p-button-raised p-button-sm p-button-warning" aria-label="Cancel Schedule Form"></button>
+      <button [disabled]="!this.scheduleQueryForm.controls.Scheduled.value" pButton pRipple type="button"
+        icon="pi pi-trash" (click)="deleteSchedule()" label="Delete" class="p-button-raised p-button-sm p-button-danger"
+        aria-label="Cancel Schedule Form"></button>
+    </div>
+
+  </ng-template>
+</p-dialog>
+
+
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-toast></p-toast>

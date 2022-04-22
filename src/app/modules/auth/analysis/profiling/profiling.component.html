@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="get-metadata">
+      <form [formGroup]="getTableMeatadataForm" (ngSubmit)="onSubmitGetTableMeatadataForm()">
+        <div class="card mb-3">
+          <div class="card-header">
+            Profiling
+          </div>
+          <div class="card-body mb-0 pb-0">
+            <div class="row g-3 mb-3">
+              <div class="col-sm-3">
+                <label class="form-label">Connection</label>
+                <div class="input-group">
+                  <span *ngIf="connectionString_loading" class="input-group-text" id="basic-addon1">
+                    <div class="spinner-grow spinner-grow-sm text-primary" role="status">
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                  </span>
+                  <select (change)="onSelectConnectionString($event)" formControlName="ConnectionStringId"
+                    class="form-select form-select-sm shadow-none" aria-label="Connection String">
+                    <option value={{default_select}} selected>Select Connection..</option>
+                    <option value="{{connectionString.connectionStringId}}"
+                      *ngFor="let connectionString of connectionStrings, let i = index">
+                      {{connectionString.connectionName}}
+                    </option>
+                  </select>
+                </div>
+
+              </div>
+              <div class="col-sm-3">
+                <label class="form-label">Database</label>
+                <input class="form-control form-control-sm" type="text" value="{{databaseName}}"
+                  aria-label=".form-control-sm example" disabled>
+              </div>
+              <div class="col-sm-3">
+                <label class="form-label">Table Type</label>
+                <div class="input-group">
+                  <span *ngIf="Table_loading || externalTable_loading" class="input-group-text" id="basic-addon2">
+                    <div class="spinner-grow spinner-grow-sm text-primary" role="status">
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                  </span>
+                  <select (change)="onSelectTableType($event)" class="form-select form-select-sm shadow-none"
+                    aria-label=".form-select-sm example">
+                    <option selected>Select Table Type...</option>
+                    <option *ngIf="Tables.length>=1" value='1'>Tables</option>
+                    <option *ngIf="ExternalTables.length>=1" value='2'>External Table</option>
+                  </select>
+                </div>
+
+              </div>
+              <div class="col-sm-3">
+                <label class="form-label">Tables</label>
+                <div class="input-group">
+                  <span *ngIf="allTables_loading" class="input-group-text" id="basic-addon3">
+                    <div class="spinner-grow spinner-grow-sm text-primary" role="status">
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                  </span>
+                  <select (change)="onSelectTable($event)" formControlName="ExternalTableName"
+                    class="form-select form-select-sm shadow-none" aria-label="ExternalTable Name">
+                    <option value={{default_select}} selected>Select Table...</option>
+                    <option value="{{allTables.tableName}}" *ngFor="let allTables of allTables">
+                      {{allTables.tableName}}
+                    </option>
+                  </select>
+                </div>
+
+              </div>
+            </div>
+            <div class="row" style="height: 2px;">
+              <div class="col">
+                <p-progressBar
+                  *ngIf="connectionString_loading || Table_loading || externalTable_loading || allTables_loading"
+                  mode="indeterminate" [style]="{'height': '2px'}"></p-progressBar>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer d-flex">
+            <div class="me-auto"></div>
+            <button type="submit" class="btn btn-primary btn-sm me-2 shadow-sm"
+              [disabled]="!getTableMeatadataForm.valid">
+
+              <div *ngIf="!getTableMeatadata_loading"><i class="fas fa-chevron-circle-down"></i> Get
+                Metadata
+              </div>
+              <div *ngIf="getTableMeatadata_loading" class="spinner-grow spinner-grow-sm text-warning" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+
+            </button>
+            <button type="reset" class="btn btn-warning btn-sm shadow-sm" (click)="ResetgetTableMeatadataForm()"><i
+                class="fas fa-broom"></i> Reset</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="get-profile" *ngIf="Tablemetadata.length>=1">
+      <div class="card mb-3">
+        <div class="card-body">
+          <p-table [value]="Tablemetadata" responsiveLayout="scroll">
+            <ng-template pTemplate="header">
+              <tr>
+                <th> </th>
+                <th>Column</th>
+                <th>Data Type</th>
+                <th>Is Nullable</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-Tablemetadata>
+              <tr>
+                <td>
+                  <div class="form-check">
+                    <input class="form-check-input" [value]="Tablemetadata.columN_NAME"
+                      (change)="onCheckboxChange($event)" type="checkbox" aria-label="Checkbox">
+                  </div>
+                </td>
+                <td>{{Tablemetadata.columN_NAME}}</td>
+
+                <td>{{Tablemetadata.datA_TYPE }}</td>
+                <td>{{Tablemetadata.iS_NULLABLE}}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+        <div class="card-footer d-flex">
+          <button class="btn btn-primary btn-sm me-auto shadow-sm" (click)="onSubmitCreateTableProfileForm()">
+            <div *ngIf="!createTableProfileForm_loading"><i class="far fa-edit"></i> Create Profile
+            </div>
+            <div *ngIf="createTableProfileForm_loading" class="spinner-grow spinner-grow-sm text-warning" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </button>
+          <!-- <button class="btn btn-danger btn-sm shadow-sm" (click)="clearColumnsArray()"><i class="fas fa-broom"></i>
+            Clear</button> -->
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+
+</html>

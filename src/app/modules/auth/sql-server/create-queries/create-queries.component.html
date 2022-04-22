@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script type="text/javascript">
+    var editor = CodeMirror.fromTextArea('codemirror', {
+      theme: 'material',
+      mode: "text/x-mysql",
+      indentWithTabs: true,
+      smartIndent: true,
+      lineNumbers: true,
+      lineWrapping: false,
+      autofocus: true,
+      extraKeys: {
+        "Ctrl-Space": "autocomplete"
+      },
+      gutters: [
+        "CodeMirror-linenumbers",
+        "CodeMirror-foldgutter",
+        "CodeMirror-matchingbracket",
+        "CodeMirror-focused"
+      ],
+      autoCloseBrackets: true,
+      matchBrackets: true,
+      lint: true
+    });
+
+  </script>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-12">
+        <form [formGroup]="createQueriesForm">
+          <div class="card shadow">
+            <div class="card-body p-0">
+              <as-split unit="percent" direction="horizontal" gutterSize='5' style="height: calc(100vh - 90px)">
+                <as-split-area [size]="horizontalSplitterSizes.left" #area1="asSplitArea">
+                  <div class="card rounded-start h-100" style="height: calc(100vh - 88px);">
+                    <div class="card-header bg-secondary">
+                      <div class="row">
+                        <div class="col">
+                          <input #txtInput (keyup.enter)="txtInput.blur()" type="text" title="Search Tables"
+                            class="form-control form-control-sm shadow-none" [(ngModel)]="selectedTableName"
+                            [ngModelOptions]="{standalone: true}" placeholder="Search Objects"
+                            [disabled]="suggetionTables.length<=0" (ngModelChange)="searchTableLists()">
+                          <!-- <input title="Search Tables" name="selectedTableName" [(ngModel)]="selectedTableName"
+                            [ngModelOptions]="{standalone: true}" [typeahead]="suggetionTables"
+                            [adaptivePosition]="true" class="form-control form-control-sm shadow-none" type="text"
+                            placeholder="Search Objects" [disabled]="suggetionTables.length<=0"
+                            (typeaheadOnBlur)="typeaheadOnBlur($event)" (ngModelChange)="searchTableLists()"> -->
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-body overflow-auto p-0" style="min-width: 0; overflow: hidden;">
+                      <div class="accordion" id="accordionExample" style="padding: 0;">
+                        <div class="accordion-item">
+                          <button
+                            class="btn btn-toggle align-items-center rounded collapsed shadow-none col-12 text-truncate"
+                            type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                            [attr.aria-expanded]="tables.length>=1?true:false" aria-controls="collapseOne">
+                            Tables
+                          </button>
+                          <div id="collapseOne" class="accordion-collapse collapse py-0"
+                            [ngClass]="{'show': tables.length>=1}" aria-labelledby="headingOne"
+                            data-bs-parent="#accordionExample">
+                            <div class="accordion-body py-0">
+                              <ul class="list-unstyled" style="overflow-y: scroll;">
+                                <li dragHandle=".p-panel-titlebar" class="list-item" *ngFor="let table of tables">
+                                  {{table.tableName}}
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="accordion-item">
+                          <button
+                            class="btn btn-toggle align-items-center rounded collapsed shadow-none col-12 text-truncate"
+                            type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+                            [attr.aria-expanded]="externalTables.length>=1?true:false" aria-controls="collapseTwo">
+                            External Tables
+                          </button>
+                          <div id="collapseTwo" class="accordion-collapse collapse"
+                            [ngClass]="{'show': externalTables.length>=1}" aria-labelledby="headingTwo"
+                            data-bs-parent="#accordionExample">
+                            <div class="accordion-body py-0">
+                              <ul class="list-unstyled" style="overflow-y: scroll;">
+                                <li class="list-item" *ngFor="let externalTable of externalTables">
+                                  {{externalTable.tableName}}</li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="accordion-item">
+                          <button
+                            class="btn btn-toggle align-items-center rounded collapsed shadow-none col-12 text-truncate"
+                            type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree"
+                            [attr.aria-expanded]="viewTables.length>=1?true:false" aria-controls="collapseThree">
+                            Views
+                          </button>
+                          <div id="collapseThree" class="accordion-collapse collapse"
+                            [ngClass]="{'show': viewTables.length>=1}" aria-labelledby="headingThree"
+                            data-bs-parent="#accordionExample">
+                            <div class="accordion-body py-0">
+                              <ul class="list-unstyled py-0" style="overflow-y: scroll;">
+                                <li class="list-item" *ngFor="let viewTable of viewTables">
+                                  {{viewTable.tableName}}</li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </as-split-area>
+                <as-split-area [size]="horizontalSplitterSizes.right" #area2="asSplitArea">
+                  <as-split direction="vertical" gutterSize='5'>
+                    <as-split-area [size]="verticalSplitterSizes.top" style="display: flex;">
+                      <div class="card" style="width: 100%;">
+                        <div class="card-header bg-secondary d-flex ps-0">
+                          <button (click)="toggleHorizontalSplitter()" title="Toggle" type="button"
+                            class="btn btn-sm shadow-none me-2" style="color: white;">
+                            <i *ngIf="!horizontalLeftHidden" class="fas fa-angle-left fa-lg"></i>
+                            <i *ngIf="horizontalLeftHidden" class="fas fa-angle-left fa-lg fa-flip-horizontal"></i>
+                          </button>
+                          <div class="me-2">
+                            <div class="input-group">
+                              <select aria-label="Connection String" (change)="onSelectConnectionString($event)"
+                                class="form-control form-control-sm shadow-none text-truncate"
+                                formControlName="ConnectionStringId">
+                                <option value={{default_select}} selected>Select Connection...</option>
+                                <option value={{connectionString.connectionStringId}}
+                                  *ngFor="let connectionString of connectionStrings">
+                                  {{connectionString.connectionName}}
+                                </option>
+                              </select>
+                              <div class="input-group-text" *ngIf="connectionString_loading">
+                                <div class="spinner-grow spinner-grow-sm text-primary" role="status">
+                                  <span class="visually-hidden">Loading...</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="me-2">
+                            <input class="form-control form-control-sm shadow-none text-truncate" type="text"
+                              [value]="databaseName" aria-label="Disabled input example" disabled readonly>
+                          </div>
+                          <div class="me-2">
+                            <button type="button" class="btn btn-sm btn-success shadow-none"
+                              (click)="onSubmitExecuteQueryForm()">
+                              <div *ngIf="!executeQueryForm_loading"><i class="fas fa-play"></i> Run </div>
+                              <div *ngIf="executeQueryForm_loading" class="spinner-grow spinner-grow-sm text-warning"
+                                role="status">
+                                <span class="visually-hidden">Loading...</span>
+                              </div>
+                            </button>
+                          </div>
+                          <div class="me-2">
+                            <button type="button" class="btn btn-sm btn-danger shadow-none" [disabled]="true">
+                              <div><i class="fas fa-stop"></i> Cancel</div>
+                            </button>
+                          </div>
+
+                          <div class="me-auto">
+                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                              data-bs-target="#staticBackdrop"><i class="far fa-save"></i>
+                              Save</button>
+                          </div>
+                          <div *ngIf="returnUrl!='/'">
+                            <button type="button" (click)="back()" class="btn btn-sm btn-secondary shadow-none"><i
+                                class="fas fa-arrow-left"></i> Back</button>
+                          </div>
+                        </div>
+                        <div (resized)="onResized($event)" class="card-body p-0">
+                          <div id="editor" style="display: block;">
+                            <ngx-codemirror #cm [options]="codeMirrorOptions" formControlName="QuerySQL">
+                            </ngx-codemirror>
+                          </div>
+
+                        </div>
+                        <div class="card-footer bg-secondary text-white d-flex pt-1 pb-1">
+                          <div class="me-2">{{time}} Seconds, {{queryResults ? queryResults.length : 0 }} Rows fetched
+                          </div>
+                          <div class="me-auto">
+                            <small>{{selectedConnectionName}}</small>
+                          </div>
+                        </div>
+                      </div>
+                    </as-split-area>
+                    <as-split-area [size]="verticalSplitterSizes.bottom" class="d-flex">
+                      <div class="card" style="width: 100%;">
+                        <div class="card-header d-flex justify-content-start align-items-center">
+                          <button title="Toggle " type="button" class="btn btn-link
+                                 btn-sm shadow-none me-2 p-0" (click)="toggleVerticalSplitter()">
+                            <i *ngIf="!verticalTopHidden" class="fas fa-angle-up fa-lg"></i>
+                            <i *ngIf="verticalTopHidden" class="fas fa-angle-up fa-lg fa-flip-vertical"></i>
+                          </button>
+                          <button *ngIf="queryResults.length>=1" title="Excel " type="button" class="btn btn-link
+                                 btn-sm shadow-none me-2 p-0" (click)="exportExcel()"><i
+                              class="fas fa-file-excel fa-lg"></i></button>
+                          <button *ngIf="queryResults.length>=1" title="CSV" type="button"
+                            class="btn btn-link btn-sm shadow-none me-2 p-0" (click)="exportCSV()"><i
+                              class="fas fa-file-csv fa-lg"></i></button>
+                          <button *ngIf="queryResults.length>=1" type="button" title="Edit" (click)="toggleEditMode()"
+                            class="btn btn-link btn-sm shadow-none me-2 p-0"><i class="fas fa-edit fa-lg"></i></button>
+                        </div>
+                        <div class="card-body overflow-auto p-0" [ngStyle]="{'width':editor_card_width+'px'}">
+                          <p-table #dt *ngIf="queryResults.length>=1" dataKey="{{dataKey}}" editMode="row"
+                            styleClass="p-datatable-sm p-datatable-gridlines" [columns]="cols" [value]="queryResults"
+                            responsiveLayout="scroll">
+                            <ng-template pTemplate="header" let-columns>
+                              <tr>
+                                <th *ngIf="isEditmode"></th>
+                                <th pResizableColumn pSortableColumn="{{col.field}}" *ngFor="let col of columns">
+                                  {{col.header}}
+                                </th>
+                              </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-columns="columns" let-editing="editing"
+                              let-ri="rowIndex">
+                              <tr [pEditableRow]="rowData">
+                                <td *ngIf="isEditmode" style="text-align:center">
+                                  <button title="edit" *ngIf="!editing" pButton pRipple type="button" pInitEditableRow
+                                    icon="pi pi-pencil" (click)="onRowEditInit(rowData, ri)"
+                                    class="p-button-rounded p-button-text"></button>
+                                  <button title="save" *ngIf="editing" pButton pRipple type="button" pSaveEditableRow
+                                    icon="pi pi-check" (click)="onRowEditSave(rowData, ri)"
+                                    class="p-button-rounded p-button-text p-button-success p-mr-2"></button>
+                                  <button title="cancel" *ngIf="editing" pButton pRipple type="button"
+                                    pCancelEditableRow icon="pi pi-times" (click)="onRowEditCancel(rowData, ri)"
+                                    class="p-button-rounded p-button-text p-button-danger"></button>
+                                </td>
+                                <td class="text-truncate" *ngFor="let col of columns">
+                                  <ng-template #noEdit>
+                                    {{typeOf(rowData[col.field])==='object' ? null : rowData[col.field]}}
+                                  </ng-template>
+                                  <p-cellEditor *ngIf="col.editable; else noEdit">
+                                    <ng-template pTemplate="input">
+                                      <input title="input" class="form-control form-control-sm shadow-none" type="text"
+                                        [(ngModel)]="typeOf(rowData[col.field])==='object' ? null : rowData[col.field]"
+                                        [ngModelOptions]="{standalone: true}">
+                                    </ng-template>
+                                    <ng-template pTemplate="output">
+                                      {{typeOf(rowData[col.field])==='object' ? null : rowData[col.field]}}
+                                    </ng-template>
+                                  </p-cellEditor>
+                                </td>
+                              </tr>
+                            </ng-template>
+                          </p-table>
+                          <div class="mt-1 ms-1" *ngIf="queryResultsSuccess" style="color: #3F51B5;">
+                            {{queryResultsSuccessMessage}}
+                          </div>
+                          <div class="mt-1 ms-1" *ngIf="queryResultsError" style="color: red;">
+                            {{queryResultsErrorMessage}}
+                          </div>
+                        </div>
+                      </div>
+                    </as-split-area>
+                  </as-split>
+                </as-split-area>
+              </as-split>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
+
+
+
+<!-- Create query form modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
+        <form [formGroup]="createQueriesForm">
+          <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Query Name</label>
+            <input type="text" class="form-control form-control-sm shadow-none" formControlName="QueryName"
+              id="exampleFormControlInput1">
+          </div>
+          <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label">Query Description</label>
+            <textarea class="form-control form-control-sm shadow-none" formControlName="QueryDescription"
+              id="exampleFormControlTextarea1" rows="5"></textarea>
+          </div>
+          <div class="d-flex">
+            <div class="p-2 flex-grow-1 bd-highlight">
+              <button type="button" class="btn btn-sm btn-primary shadow-none" (click)="onSubmitCreteQueriesForm()">
+                <div *ngIf="!createQueriesForm_loading"><i class="fas fa-plus"></i> Save Query</div>
+                <div *ngIf="createQueriesForm_loading" class="spinner-grow spinner-grow-sm text-warning" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </button>
+            </div>
+            <div class="p-2 bd-highlight">
+              <button type="button" class="btn btn-sm btn-warning shadow-none" (click)="clearCreateQueriesForm()"><i
+                  class="fas fa-broom"></i>
+                Clear</button>
+            </div>
+            <div class="p-2 bd-highlight">
+              <button type="button" class="btn btn-sm btn-danger shadow-none" (click)="clearCreateQueriesForm()"
+                data-bs-dismiss="modal"><i class="fas fa-times"></i>
+                Cancel</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

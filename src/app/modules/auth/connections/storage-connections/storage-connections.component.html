@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="card mb-2" style="background: whitesmoke;">
+      <div class="card-body p-2">
+        <div class="d-flex bd-highlight">
+          <div class="flex-grow-1 bd-highlight">
+            <strong>Storage Connection Strings</strong>
+          </div>
+          <div class="bd-highlight">
+            <button type="button" class="btn btn-sm btn-primary shadow-none" data-bs-toggle="offcanvas"
+              data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><i class="fas fa-plus"></i> New
+              Connection</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="connection-strings" *ngFor="let storageConnectionString of storageConnectionStrings" [@fadeInOut]>
+      <div class="row">
+        <div class="col">
+          <div #conn class="card mb-2">
+            <div class="card-body d-flex p-2">
+              <div><i class="fas fa-project-diagram me-2"></i> {{storageConnectionString.connectionName}}</div>
+              <div class="vr mx-2"></div>
+              <div class="flex-grow-1"> <strong>{{storageConnectionString.storageName}}</strong></div>
+              <button title="Edit" type="button" class="btn btn-sm btn-warning border-0 shadow-sm me-3"
+                (click)="SetValueToEdit(storageConnectionString)" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><i class="fas fa-pen"></i>
+              </button>
+              <button title="DeleteF" type="button" class="btn btn-sm btn-danger border-0 shadow-sm"
+                (click)="DeleteStorageConnectionString(storageConnectionString)">
+                <i class="far fa-trash-alt"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" data-bs-scroll="true" data-bs-backdrop="false"
+  aria-labelledby="offcanvasRightLabel">
+  <div class="offcanvas-header d-flex">
+    <div class="flex-grow-1"></div>
+    <button (click)="ResetForm()" type="button" class="btn-close text-reset shadow-none" data-bs-dismiss="offcanvas"
+      aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <form [formGroup]="storageConnectionStringForm">
+      <div class="mb-3">
+        <input type="text" placeholder="Connection Name" formControlName="ConnectionName"
+          class="form-control form-control-sm shadow-none"
+          [ngClass]="{ 'is-invalid': f.ConnectionName.touched && f.ConnectionName.errors }" />
+      </div>
+      <div class="mb-3">
+        <input type="text" placeholder="Storage Name" formControlName="StorageName"
+          class="form-control form-control-sm shadow-none"
+          [ngClass]="{ 'is-invalid': f.StorageName.touched && f.StorageName.errors }" />
+      </div>
+      <div class="mb-3">
+        <input type="text" placeholder="SAS Key" formControlName="SAS" class="form-control form-control-sm shadow-none"
+          [ngClass]="{ 'is-invalid': f.SAS.touched && f.SAS.errors }" />
+      </div>
+
+      <div class="mb-3">
+        <div class="d-flex bd-highlight">
+          <div class="flex-grow-1 bd-highlight">
+            <button type="button" class="btn btn-sm btn-primary shadow-none"
+              (click)="onSubmitStorageConnectionStringForm()" [disabled]="!storageConnectionStringForm.valid">Save
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>

@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <!-- [(contextMenuSelection)]="selectedBlob" -->
+    <p-contextMenu #cm appendTo="body" [model]="items"></p-contextMenu>
+    <p-card>
+      <p-table #dt [value]="blobs" (onContextMenuSelect)="onContextMenuSelect($event, cm)"
+        [(contextMenuSelection)]="selectedBlob" [contextMenu]="cm" [paginator]="true" [rows]="10"
+        [rowsPerPageOptions]="[10,25,50]" [showCurrentPageReport]="true" [rowHover]="true" [autoLayout]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [resizableColumns]="true"
+        [autoLayout]="true" responsiveLayout="scroll" [globalFilterFields]="['name']"
+        styleClass="p-datatable-gridlines p-datatable-sm">
+        <ng-template pTemplate="caption">
+          <div class="d-flex">
+            <div class="me-2">
+              <div class="input-group" style="border-radius: 10rem;">
+                <select (change)="onSelectConnectionString($event)" id="connnString"
+                  class="form-control form-control-sm shadow-none" aria-label="connstring">
+                  <option value={{default_select}} selected>Select Connection...</option>
+                  <option value="{{connectionString.connectionStringId}}"
+                    *ngFor="let connectionString of connectionStrings">
+                    {{connectionString.connectionName}}
+                  </option>
+                </select>
+                <div class="input-group-text" *ngIf="connectionString_loading">
+                  <div class="spinner-grow spinner-grow-sm text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="me-2">
+              <div class="input-group">
+                <select title="Container" (change)=" onSelectFileSystem($event)" id="container"
+                  class="form-control form-control-sm shadow-none">
+                  <option value={{default_select}} selected>Select Container...</option>
+                  <option value="{{container.name}}" *ngFor="let container of containers">
+                    {{container.name}}
+                  </option>
+                </select>
+                <div class="input-group-text" *ngIf="GetFileSystems_loading">
+                  <div class="spinner-grow spinner-grow-sm text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="me-auto">
+              <button type="button" pRipple class="btn btn-primary btn-sm shadow-sm" (click)="GetBlobs()">
+                <i *ngIf="!GetBlobs_loading" class="fas fa-sync-alt"></i>
+                <i *ngIf="GetBlobs_loading" class="fas fa-sync fa-spin"></i>
+                Refresh
+              </button>
+            </div>
+            <div class="me-2">
+              <div class="input-group shadow-sm input-group-sm">
+                <span class="input-group-text" id="basic-addon5"><i class="fas fa-search"></i></span>
+                <input type="text" class="form-control shadow-none"
+                  (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search" aria-label="Search"
+                  aria-describedby="basic-addon5" [disabled]="blobs.length<=0">
+              </div>
+            </div>
+            <button (click)="showUploadDialog()" aria-label="upload file" pRipple
+              class="btn btn-primary btn-sm shadow-sm" id="container-float-button"
+              aria-controls="container-float-button" [disabled]="(connectionString_Next && fileSystem_Next)==null"><i
+                class="fas fa-file-upload"></i>
+              Upload Files</button>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th pSortableColumn="name">Blobs<p-sortIcon field="name"></p-sortIcon>
+            </th>
+            <th pSortableColumn="contentLength">File Size <p-sortIcon field="contentLength">
+              </p-sortIcon>
+            <th pSortableColumn="lastModified">Last Modified<p-sortIcon field="lastModified">
+              </p-sortIcon>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-blob>
+          <tr [pContextMenuRow]="blob">
+            <td>
+              {{blob.name}}</td>
+            <td>
+              {{blob.fileSize}}</td>
+            <td>
+              {{blob.lastModified | date:'medium'}}</td>
+            <!-- <td>
+              {{blob.leaseState}}</td> -->
+
+            <!-- <td>
+              {{blob.contentLength | number}}</td> -->
+            <!-- <td>
+              <div *ngIf="blob.isDirectory" type="button" class="p-2 bd-highlight" data-bs-toggle="dropdown"
+                aria-expanded="false" style="padding: 0;">
+                <i class="fas fa-ellipsis-v"></i>
+              </div>
+              <ul class="dropdown-menu" id="folder-context" aria-labelledby="dropdownMenuButton1">
+                <li><a type="button" class="dropdown-item"><i class="fas fa-folder-open"></i>Open</a></li>
+                <li><a type="button" class="dropdown-item"><i class="fas fa-edit"></i>Rename</a></li>
+                <li><a type="button" class="dropdown-item"><i class="fas fa-info-circle"></i>Properties</a>
+                </li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a type="button" class="dropdown-item" (click)="DeleteFolder(blobs.name)"><i
+                      class="fas fa-trash"></i>Delete</a></li>
+              </ul>
+
+              <div *ngIf="!blob.isDirectory" type="button" class="p-2 bd-highlight" data-bs-toggle="dropdown"
+                aria-expanded="false" style="padding: 0;">
+                <i class="fas fa-ellipsis-v"></i>
+              </div>
+              <ul class="dropdown-menu" id="file-context" aria-labelledby="dropdownMenuButton1">
+                <li><a type="button" class="dropdown-item" (click)="RedirectToViewBlobComponent(blob.name)"><i
+                      class="fas fa-pen-square"></i>View</a>
+                </li>
+                <li><a type="button" class="dropdown-item" id="container-float-button" data-bs-toggle="offcanvas"
+                    data-bs-target="#renameBlobOffcanvas" aria-controls="renameBlobOffcanvas"
+                    (click)="GetFileNameToRename(blob.name)"><i class="fas fa-edit"></i>Rename</a></li>
+                <li><a type="button" class="dropdown-item" (click)="DownloadBlob(blob.name)"><i
+                      class="fas fa-download"></i>Download</a></li>
+                <li><a type="button" class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+                    aria-controls="offcanvasRight" (click)="GetBlobProperties(blob.name)"><i
+                      class="fas fa-info-circle"></i>Properties</a></li>
+                <li>
+                  <a type="button" class="dropdown-item" (click)="CreateView(blob.name)"><i
+                      class="fas fa-eye"></i>Create
+                    View</a>
+                </li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li *ngIf="blob.leaseState!=1"><a type="button" class="dropdown-item" (click)="DeleteBlob(blob.name)"><i
+                      class="fas fa-trash"></i>Delete</a></li>
+                <li *ngIf="blobs.leaseState==1"><a type="button" class="dropdown-item"
+                    (click)="UnlockFile(blob.name)"><i class="fas fa-lock"></i>Unlock File</a></li>
+                <li *ngIf="blobs.leaseState!=1 "><a type="button" class="dropdown-item" (click)="LockFile(blob.name)"><i
+                      class="fas fa-unlock"></i>Lock File</a></li>
+              </ul>
+            </td> -->
+            <!-- <td>
+                        <div type="button" class="p-2 bd-highlight" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </div>
+                        <ul class="dropdown-menu" id="container-context" aria-labelledby="dropdownMenuButton1">
+                            <li><a type="button" class="dropdown-item"
+                                    (click)="RedirectToBlobComponent(containers.name)"><i
+                                        class="fas fa-folder-open"></i>Open</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a type="button" class="dropdown-item" (click)="DeleteFileSystems(containers.name)"><i
+                                        class="fas fa-trash"></i>Delete</a></li>
+                        </ul>
+                    </td> -->
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-card>
+    <p-contextMenu #cm [model]="items"></p-contextMenu>
+
+
+    <!-- <p-card styleClass="p-card-shadow">
+      <p-table #dt dataKey="Voter_Id" [value]="containers" [(contextMenuSelection)]="selectedContainer"
+        [contextMenu]="cm" dataKey="code" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,25,50]"
+        [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [resizableColumns]="true" [autoLayout]="true" [globalFilterFields]="['name']"
+        styleClass="p-datatable-gridlines p-datatable-sm" [rowHover]="true">
+        <ng-template pTemplate="caption">
+          <div class="ui-helper-clearfix">
+            <div class="d-flex bd-highlight">
+              <div class="p-2 flex-grow-1 bd-highlight">
+                Containers
+              </div>
+              <div class="p-2 bd-highlight">
+                <div class="input-group input-group-sm">
+                  <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
+                  <input type="text" class="form-control shadow-none"
+                    (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search" aria-label="Search"
+                    aria-describedby="basic-addon1">
+                </div>
+              </div>
+              <div class="p-2 bd-highlight">
+                <button pRipple class="btn btn-primary btn-sm shadow-sm" (click)="GetFileSystems()">
+                  <i *ngIf="!GetFileSystems_loading" class="fas fa-sync-alt"></i>
+                  <i *ngIf="GetFileSystems_loading" class="fas fa-sync fa-spin"></i>
+                  Refresh
+                </button>
+              </div>
+              <div class="p-2 bd-highlight">
+                <button pRipple class="btn btn-primary btn-sm shadow-sm" id="container-float-button"
+                  data-bs-toggle="offcanvas" href="#createContainerOffcanvas" role="button"
+                  aria-controls="createContainerOffcanvas"><i class="fas fa-plus"
+                    style="margin-top: 0px; margin-bottom: 0px;"></i> Add
+                  Container</button>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th pSortableColumn="name">Containers<p-sortIcon field="name"></p-sortIcon>
+            </th>
+            <th pSortableColumn="properties.lastModified">Last Modified<p-sortIcon field="properties.lastModified">
+              </p-sortIcon>
+            </th>
+            <th pSortableColumn="properties.leaseStatus">Lease State<p-sortIcon field="properties.leaseStatus">
+              </p-sortIcon>
+            </th>
+            <th pSortableColumn="properties.publicAccess">Public Access <p-sortIcon field="properties.publicAccess">
+              </p-sortIcon>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-container>
+          <tr [pContextMenuRow]="container">
+            <td>{{container.name}}</td>
+            <td>
+              {{container.properties.lastModified | date}}</td>
+            <td>
+              {{container.properties.leaseStatus}}</td>
+            <td>
+              {{container.properties.publicAccess}}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-card> -->
+  </div>
+</body>
+
+</html>
+
+<!-- <div class="offcanvas offcanvas-end" tabindex="-1" id="createContainerOffcanvas" data-bs-scroll="true"
+  data-bs-backdrop="false" aria-labelledby="offcanvasLabel">
+  <div class="offcanvas-header">
+    <h3 class="offcanvas-title" id="offcanvasLabel">Create Container</h3>
+    <button *ngIf="!createFileSystems_loading" type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+      aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <form [formGroup]="createFileSystemForm" (ngSubmit)="OnSubmit()">
+      <div class="mb-3">
+        <input type="text" placeholder="Container Name" formControlName="FileSystem"
+          class="form-control form-control-sm shadow-none"
+          [ngClass]="{ 'is-invalid': f.FileSystem.touched && f.FileSystem.errors }" />
+      </div>
+      <div class="mb-3">
+        <button id="register" pRipple class="btn btn-sm btn-primary shadow-none"
+          [disabled]="!createFileSystemForm.valid" style="width: 100%;">
+          <div *ngIf="createFileSystems_loading" class="spinner-grow text-light"
+            style="width: 1rem; height: 1rem; padding: 0px;" role="status"></div>
+          <div *ngIf="!createFileSystems_loading">Submit</div>
+        </button>
+      </div>
+    </form>
+  </div>
+</div> -->
+
+<!-- <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog> -->
+
+
+<p-dialog header="{{fileName}}" [(visible)]="displayBlobDataModal" [modal]="true" [baseZIndex]="100000000000"
+  [draggable]="true" [resizable]="true" [style]="{width: '75vw'}">
+
+  <p-table [columns]="cols" [value]="arraylist" [paginator]="true" [rows]="10" [totalRecords]="totalRecords"
+    styleClass="p-datatable-sm p-datatable-gridlines" responsiveLayout="scroll">
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th *ngFor="let col of columns">
+          {{col.header}}
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+      <tr>
+        <td *ngFor="let col of columns">
+          {{rowData[col.field]}}
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="paginatorleft">
+      <p-button (click)="DownloadBlob(selectedBlob)" type="button" icon="pi pi-arrow-circle-down"
+        styleClass="p-button-text">
+      </p-button>
+    </ng-template>
+  </p-table>
+</p-dialog>
+
+<p-dialog header="Rename" [(visible)]="displayRenameModal" [modal]="true" [baseZIndex]="10000" [draggable]="true"
+  [resizable]="true" [style]="{width: '30vw'}">
+  <form [formGroup]="renameBlobForm" (ngSubmit)="OnSubmitRenameBlob()">
+    <div class="input-group mb-3">
+      <input title="Old Blob Name" type="text" value="{{old_blob_name}}"
+        class="form-control form-control-sm shadow-none" disabled readonly />
+      <span class="input-group-text" id="basic-addon1">.{{old_blob_name_ext}}</span>
+    </div>
+    <div class="input-group mb-3">
+      <input type="text" placeholder="New File Name" formControlName="Path_Blob_New"
+        class="form-control form-control-sm shadow-none"
+        [ngClass]="{ 'is-invalid': g.Path_Blob_New.touched && g.Path_Blob_New.errors }" />
+      <span class="input-group-text" id="basic-addon2">.{{old_blob_name_ext}}</span>
+    </div>
+    <div class="mb-3">
+      <button id="register" class="btn btn-primary shadow-none" [disabled]="!renameBlobForm.valid" style="width: 100%;">
+        <div *ngIf="renameBlobForm_loading" class="spinner-grow text-light"
+          style="width: 1rem; height: 1rem; padding: 0px;" role="status"></div>
+        <div *ngIf="!renameBlobForm_loading">Rename</div>
+      </button>
+    </div>
+  </form>
+</p-dialog>
+
+<p-dialog header="Properties" [(visible)]="displayPropertiesModal" [modal]="true" [baseZIndex]="10000"
+  [draggable]="true" [resizable]="true" [style]="{width: '40vw'}">
+  <div class="row" *ngIf="GetBlobProperties_loading">
+    <div class="col d-flex justify-content-center">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!GetBlobProperties_loading">
+    <div class="row">
+      <div class="col">
+        <div>acceptRanges</div>
+      </div>
+      <div class="col-1">
+        <div>:</div>
+      </div>
+      <div class="col">
+        <div>{{acceptRanges}}</div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div>Access Tier</div>
+      </div>
+      <div class="col-1">
+        <div>:</div>
+      </div>
+      <div class="col">
+        <div>{{accessTier}}</div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div>Content Length</div>
+      </div>
+      <div class="col-1">
+        <div>:</div>
+      </div>
+      <div class="col">
+        <div>{{contentLength}}</div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div>Content Type</div>
+      </div>
+      <div class="col-1">
+        <div>:</div>
+      </div>
+      <div class="col">
+        <div>{{contentType}}</div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div>Created On</div>
+      </div>
+      <div class="col-1">
+        <div>:</div>
+      </div>
+      <div class="col">
+        <div>{{createdOn | date}}</div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div>Last Modified</div>
+      </div>
+      <div class="col-1">
+        <div>:</div>
+      </div>
+      <div class="col">
+        <div>{{lastModified | date}}</div>
+      </div>
+    </div>
+  </div>
+</p-dialog>
+
+<p-dialog header="Upload" [(visible)]="displayUploadModal" [modal]="true" [baseZIndex]="10000" [draggable]="false"
+  [resizable]="false" [style]="{width: '60vw'}">
+  <div class="row mb-3">
+    <div class="col">
+      <input type="file" #file multiple placeholder="Choose file" (change)="UploadFiles(file.files)"
+        style="display:none;">
+      <button type="button" class="btn btn-success" (click)="file.click()" style="width: 100%;">Upload
+        File</button>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col">
+      <p-progressBar *ngIf="uploadFile_loading" [value]="progress"></p-progressBar>
+    </div>
+  </div>
+</p-dialog>
+
+
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>

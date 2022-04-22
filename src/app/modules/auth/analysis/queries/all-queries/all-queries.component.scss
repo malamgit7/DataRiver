@@ -1,0 +1,13 @@
+body {
+  background: transparent;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  min-height: calc(100vh - 56px);
+}
+
+:host ::ng-deep .scheduled {
+  background-color: rgba(0, 0, 0, .15) !important;
+}
+.card {
+  font-family: "Exo 2", sans-serif;
+}

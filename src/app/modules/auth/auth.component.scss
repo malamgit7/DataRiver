@@ -1,0 +1,28 @@
+html,
+body {
+  // background: #C8BFE7;
+  background: #21667c;
+  min-height: calc(100vh - 56px);
+}
+
+.wrapper {
+  display: flex;
+  margin-top: 56px;
+}
+
+.wrapper .sidebar {
+  width: 3.4rem;
+  left: 0;
+  min-height: calc(100vh - 56px);
+  position: fixed;
+  overflow-y: auto;
+  z-index: 999999;
+  box-shadow: 3px 0 5px -2px #888;
+}
+
+.wrapper .content {
+  margin-left: 3.4rem;
+  width: calc(100vw - 3.4rem);
+  min-height: calc(100vh - 56px);
+  transition: ease-in-out 0.5s;
+}

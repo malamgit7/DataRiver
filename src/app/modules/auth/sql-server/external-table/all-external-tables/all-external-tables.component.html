@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <p-card>
+
+      <p-table #dt [value]="ExternalTables" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,25,50]"
+        [showCurrentPageReport]="true" [rowHover]="true" [autoLayout]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [resizableColumns]="true"
+        [autoLayout]="true" responsiveLayout="scroll" [globalFilterFields]="['tableName', 'createdate', 'modifydate']"
+        styleClass="p-datatable-gridlines p-datatable-sm">
+        <ng-template pTemplate="caption">
+          <div class="d-flex">
+            <div class="me-2">
+              <div class="input-group">
+                <select aria-label="Connection String" (change)="onSelectConnectionString($event)"
+                  class="form-control form-control-sm shadow-none" formControlName="ConnectionStringId">
+                  <option value={{default_select}} selected>Select Connection...</option>
+                  <option value={{connectionString.connectionStringId}}
+                    *ngFor="let connectionString of connectionStrings">
+                    {{connectionString.connectionName}}
+                  </option>
+                </select>
+                <div class="input-group-text" *ngIf="connectionString_loading">
+                  <div class="spinner-grow spinner-grow-sm text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="me-2">
+              <input class="form-control form-control-sm" type="text" value="{{databaseName}}"
+                aria-label=".form-control-sm example" disabled>
+            </div>
+            <div class="me-2">
+              <button type="button" pRipple class="btn btn-primary btn-sm shadow-sm" (click)="getExternalTable()">
+                <i *ngIf="!externalTable_loading" class="fas fa-sync-alt"></i>
+                <i *ngIf="externalTable_loading" class="fas fa-sync fa-spin"></i>
+                Refresh
+              </button>
+            </div>
+            <div class="flex-grow-1">
+              <button class="btn btn-sm btn-primary" routerLink="../create-external-table"><i class="fas fa-plus"></i>
+                Create
+                External
+                Table</button>
+            </div>
+            <div class="bd-highlight">
+              <div class="input-group input-group-sm">
+                <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
+                <input (input)="dt.filterGlobal($event.target.value, 'contains')" type="text"
+                  class="form-control shadow-none" placeholder="Search" aria-label="Search"
+                  aria-describedby="basic-addon1">
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th pSortableColumn="tableName">Name <p-sortIcon field="tableName"></p-sortIcon>
+            </th>
+            <th pSortableColumn="createdate">Created Date <p-sortIcon field="createdate"></p-sortIcon>
+            </th>
+            <th pSortableColumn="modifydate">Modify Date <p-sortIcon field="modifydate"></p-sortIcon>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-ExternalTable>
+          <tr>
+            <td>{{ExternalTable.tableName}}</td>
+            <td>{{ExternalTable.createdate | date:'medium'}}</td>
+            <td>{{ExternalTable.modifydate | date:'medium'}}</td>
+          </tr>
+        </ng-template>
+
+      </p-table>
+    </p-card>
+
+  </div>
+</body>
+
+</html>

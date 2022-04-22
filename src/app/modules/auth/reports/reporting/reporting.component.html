@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row gx-2 gy-2">
+        <div class="col-sm-3">
+          <form [formGroup]="runCustomQueryform">
+            <div class="row gx-2">
+              <div class="col-sm-3">
+                <button type="submit" class="btn btn-light btn-sm w-100" (click)="onSubmitRunCustomQuery()"
+                  [disabled]="runCustomQueryform.invalid">
+                  <div *ngIf="!runcustomQueryForm_loading"><i class="fas fa-play" style="color: green;"></i></div>
+                  <div *ngIf="runcustomQueryForm_loading" class="spinner-border spinner-border-sm" style="color: green;"
+                    role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </button>
+              </div>
+              <div class="col-sm-3">
+                <div class="btn-group w-100">
+                  <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <i class="fas fa-save" style="color: black;"></i>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <button class="dropdown-item btn btn-sm btn-light shadow-none w-100"
+                        (click)="clieckedOnSave();save()" [disabled]="runCustomQueryform.invalid"> <i
+                          class="fas fa-save me-2" style="color: black;"></i>Save</button>
+                    </li>
+                    <li>
+                      <button class="dropdown-item btn btn-sm btn-light shadow-none w-100"
+                        (click)="clieckedOnSaveAs();save()" [disabled]="runCustomQueryform.invalid">
+                        <i class="fas fa-copy me-2" style="color: black;"></i>Save As</button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <button class="btn btn-sm btn-light w-100" (click)="resetRunCustomQueryForm($event)"><i
+                    class="fas fa-redo-alt" style="color: red;"></i></button>
+              </div>
+              <div class="col-sm-3">
+                <button class="btn btn-sm btn-light shadow w-100" (click)="showAllQueriesDialog()"><i
+                    class="far fa-chart-bar" style="color: blue;"></i></button>
+              </div>
+            </div>
+            <div class="row mt-2" *ngIf="selectedWorkspace">
+              <div class="col-sm-12 d-flex">
+                <div class="input-group input-group-sm me-auto">
+                  <input type="text" formControlName="CustomQueryName"
+                    [value]="runCustomQueryform.get('CustomQueryName')!.value" class="form-control shadow-none"
+                    placeholder="Workspace name" aria-label="Workspace name" aria-describedby="button-addon2">
+                  <button class="btn btn-secondary shadow-none" (click)="setValidatorToWorkspaceName()" type="button"
+                    id="button-addon2">
+                    <i class="fas fa-pen"></i>
+                  </button>
+                </div>
+                <button class="btn btn-sm btn-light shadow-sm ms-2" (click)="instantSave()">
+                  <div *ngIf="!saveCustomQuery_loading"><i class="far fa-save"></i></div>
+                  <div *ngIf="saveCustomQuery_loading" class="spinner-border spinner-border-sm text-primary"
+                    role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </button>
+              </div>
+            </div>
+            <div class="accordion" id="accordionPanelsStayOpenExample">
+              <div class="accordion-item">
+                <div class="accordion-header" id="panelsStayOpen-headingOne">
+                  <button class="accordion-button shadow-none py-1 px-2" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                    aria-controls="panelsStayOpen-collapseOne">
+                    Dataset Selection <span class="required">*</span>
+                  </button>
+                </div>
+                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
+                  aria-labelledby="panelsStayOpen-headingOne">
+                  <div class="accordion-body px-2">
+                    <div class="mb-2">
+                      <select class="form-select form-select-sm shadow-none" aria-label="Default select example"
+                        formControlName="ConnectionStringId" (change)="onSelectConnectionString($event)"
+                        [ngClass]="{ 'is-invalid': f['ConnectionStringId'].touched && f['ConnectionStringId'].errors }">
+                        <option value={{default_select}} selected>Select Connection...</option>
+                        <option value={{connectionString.connectionStringId}}
+                          *ngFor="let connectionString of connectionStrings">
+                          {{connectionString.connectionName}}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="mb-0">
+                      <select class="form-select form-select-sm shadow-none" aria-label="Default select example"
+                        formControlName="TableName" (change)="onSelectTable($event)"
+                        [ngClass]="{ 'is-invalid': f['TableName'].touched && f['TableName'].errors }">
+                        <option value={{default_select}} selected>Select table...</option>
+                        <optgroup label="Tables" *ngIf="tables.length>=1">
+                          <option value="{{table.tableName}}" *ngFor="let table of tables">{{table.tableName}}
+                          </option>
+                        </optgroup>
+                        <optgroup label="External Tables" *ngIf="externalTables.length>=1">
+                          <option value="{{table.tableName}}" *ngFor="let table of externalTables">
+                            {{table.tableName}}
+                          </option>
+                        </optgroup>
+                        <optgroup label="Views" *ngIf="viewTables.length>=1">
+                          <option value="{{table.tableName}}" *ngFor="let table of viewTables">{{table.tableName}}
+                          </option>
+                        </optgroup>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <div class="accordion-header" id="panelsStayOpen-headingTwo">
+                  <button class="accordion-button shadow-none py-1 px-2" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true"
+                    aria-controls="panelsStayOpen-collapseTwo">
+                    <div class="me-2">Metrics<span class="required">*</span></div>
+                    ({{runCustomQueryform.get('Functions')?.length}})
+                  </button>
+                </div>
+                <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show"
+                  aria-labelledby="panelsStayOpen-headingTwo">
+                  <div class="accordion-body px-2 py-0">
+                    <div formArrayName="Functions">
+                      <div *ngFor="let function of runCustomQueryform.get('Functions')?.controls; let i=index"
+                        [formGroupName]="i">
+                        <div class="input-group input-group-sm dropend mb-2">
+                          <button class="btn btn-outline-danger shadow-none" type="button"
+                            (click)="removeFunction(i)"><i class="fas fa-trash-alt"></i></button>
+                          <input type="text" id="iField" class="form-control shadow-none" [ngModel]="iFieldFunction[i]"
+                            [ngModelOptions]="{standalone: true}" aria-label="Text input with dropdown button" readonly>
+                          <button type="button" #functionspop="bs-popover"
+                            class="btn btn-default btn-secondary dropdown-toggle shadow-none" [popover]="popTemplate"
+                            placement="auto"> </button>
+                        </div>
+                        <ng-template #popTemplate>
+                          <div class="mb-2">
+                            <select id="exampleFormControlInput1" class="form-select form-select-sm shadow-none"
+                              formControlName="ColumnName" aria-label=".form-select-sm example"
+                              [ngClass]="{ 'is-invalid': function.get('ColumnName').touched && function.get('ColumnName').errors }">
+                              <option value="{{default_select}}" selected>Select column...</option>
+                              <option value="{{table_name.columN_NAME}}" *ngFor="let table_name of Tablemetadata">
+                                {{table_name.columN_NAME}}
+                                ({{table_name.datA_TYPE}})
+                              </option>
+                            </select>
+                          </div>
+                          <div class="mb-2">
+                            <select id="exampleFormControlInput2" class="form-select form-select-sm shadow-none"
+                              formControlName="Function" aria-label=".form-select-sm example"
+                              [ngClass]="{ 'is-invalid': function.get('Function').touched && function.get('Function').errors }">
+                              <option value="{{default_select}}" selected>Select function...</option>
+                              <option value="COUNT()">COUNT(*)</option>
+                              <option value="SUM()">SUM()</option>
+                              <option value="AVG()">AVG()</option>
+                              <option value="MIN()">MIN()</option>
+                              <option value="MAX()">MAX()</option>
+                            </select>
+                          </div>
+                          <div class="d-flex mb-0">
+                            <button type="button" class="btn btn-sm btn-primary shadow-none me-auto"
+                              (click)="[onConfirmFunction(i), functionspop.hide()]"
+                              [disabled]="!function.get('ColumnName').value || !function.get('Function').value">Save</button>
+                            <button type="button" class="btn btn-sm btn-warning shadow-none"
+                              (click)="functionspop.hide()">Cancel</button>
+                          </div>
+                        </ng-template>
+                      </div>
+                    </div>
+                    <div class="d-flex">
+                      <button class="btn btn-sm shadow-none ms-auto" (click)="addFunctions()"><i
+                          class="fas fa-plus"></i></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <div class="accordion-header" id="panelsStayOpen-headingThree">
+                  <button class="accordion-button shadow-none py-1 px-2" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="true"
+                    aria-controls="panelsStayOpen-collapseThree">
+                    <div class="me-2">Filter By</div>
+                    ({{runCustomQueryform.get('FilterBy')?.length}})
+                  </button>
+                </div>
+                <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse show"
+                  aria-labelledby="panelsStayOpen-headingThree">
+                  <div class="accordion-body px-2 py-0">
+                    <div formArrayName="FilterBy">
+                      <div *ngFor="let function of runCustomQueryform.get('FilterBy')?.controls; let i=index"
+                        [formGroupName]="i">
+                        <div class="input-group input-group-sm dropend mb-2">
+                          <button class="btn btn-outline-danger shadow-none" type="button"
+                            (click)="removeFilterBy(i)"><i class="fas fa-trash-alt"></i></button>
+                          <input type="text" id="iField" class="form-control shadow-none" [ngModel]="iFieldFilterBy[i]"
+                            [ngModelOptions]="{standalone: true}" aria-label="Text input with dropdown button" readonly>
+                          <button type="button" #filterBypop="bs-popover"
+                            class="btn btn-default btn-secondary dropdown-toggle shadow-none"
+                            [popover]="popTemplateFilterBy" placement="right"> </button>
+                        </div>
+                        <ng-template #popTemplateFilterBy>
+                          <div class="mb-3">
+                            <select id="exampleFormControlInput1" class="form-select form-select-sm shadow-none"
+                              formControlName="ColumnName" aria-label=".form-select-sm example">
+                              <option value="{{default_select}}" selected>Select column...</option>
+                              <option value="{{table_name.columN_NAME}}" *ngFor="let table_name of Tablemetadata">
+                                {{table_name.columN_NAME}}
+                                ({{table_name.datA_TYPE}})
+                              </option>
+                            </select>
+                          </div>
+                          <div class="mb-3">
+                            <select id="exampleFormControlInput2" class="form-select form-select-sm shadow-none"
+                              formControlName="FilterOperator" aria-label=".form-select-sm example">
+                              <option value="{{default_select}}" selected>Select Operator...</option>
+
+                              <optgroup label="Comparison operator">
+                                <option value="=">Equal (=)</option>
+                                <option value="<>">Not Equal (<>)</option>
+                                <option value=">">Greater than (>)</option>
+                                <option value="<">Less than (<)< /option>
+                                <option value=">=">Greater than or equal
+                                  (>=)</option>
+                                <option value="<=">Less than or equal (<=)< /option>
+                              </optgroup>
+                              <optgroup label="Logical/Special Operators">
+                                <option value="IN">IN</option>
+                                <option value="NOT IN">NOT IN</option>
+                                <option value="IS NULL">IS NULL</option>
+                                <option value="IS NOT NULL">IS NOT NULL</option>
+                                <option value="BETWEEN">BETWEEN</option>
+                                <option value="NOT BETWEEN">NOT BETWEEN</option>
+                                <option value="LIKE">LIKE</option>
+                              </optgroup>
+
+                            </select>
+                          </div>
+                          <div class="mb-3">
+                            <input type="text" class="form-control form-control-sm shadow-none"
+                              placeholder="Filter value" aria-label="Text input with dropdown button"
+                              formControlName="FilterValue">
+                          </div>
+                          <div class="d-flex mb-0">
+                            <button type="button" class="btn btn-sm btn-primary shadow-none me-auto"
+                              (click)="[onConfirmFilterBy(i),filterBypop.hide()]"
+                              [disabled]="!function.get('ColumnName').value || !function.get('FilterOperator').value || !function.get('FilterValue').value">Save</button>
+                            <button type="button" class="btn btn-sm btn-warning  shadow-none"
+                              (click)="filterBypop.hide()">Cancel</button>
+                          </div>
+                        </ng-template>
+                      </div>
+                    </div>
+                    <div class="d-flex">
+                      <label for="exampleFormControlInput1" class="form-label me-auto"></label>
+                      <button class="btn btn-sm shadow-none" (click)="addFilterBy()"><i
+                          class="fas fa-plus"></i></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <div class="accordion-header" id="panelsStayOpen-headingFour">
+                  <button class="accordion-button shadow-none py-1 px-2" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="true"
+                    aria-controls="panelsStayOpen-collapseFour">
+                    <div class="me-2">Group By<span class="required">*</span></div>
+                    ({{runCustomQueryform.get('GroupBy')?.length}})
+                  </button>
+                </div>
+                <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse show"
+                  aria-labelledby="panelsStayOpen-headingFour">
+                  <div class="accordion-body px-2 py-0">
+                    <div formArrayName="GroupBy">
+                      <div *ngFor="let function of runCustomQueryform.get('GroupBy')?.controls; let i=index"
+                        [formGroupName]="i">
+                        <div class="input-group input-group-sm dropend mb-2">
+                          <button class="btn btn-outline-danger shadow-none" type="button" (click)="removeGroupBy(i)"><i
+                              class="fas fa-trash-alt"></i></button>
+                          <select class="form-select form-select-sm shadow-none" aria-label=".form-select-sm example"
+                            formControlName="ColumnName"
+                            [ngClass]="{ 'is-invalid': function.get('ColumnName').touched && function.get('ColumnName').errors }">
+                            <option value="{{default_select}}" selected>Select column...</option>
+                            <option value="{{table_name.columN_NAME}}" *ngFor="let table_name of Tablemetadata">
+                              {{table_name.columN_NAME}}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="d-flex">
+                      <label for="exampleFormControlInput1" class="form-label me-auto"></label>
+                      <button class="btn btn-sm shadow-none" (click)="addGroupBy()"><i class="fas fa-plus"></i></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <div class="accordion-header" id="panelsStayOpen-headingFive">
+                  <button class="accordion-button shadow-none py-1 px-2" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="true"
+                    aria-controls="panelsStayOpen-collapseFive">
+                    <div class="me-2">Sort By</div> ({{runCustomQueryform.get('SortBy')?.length}})
+                  </button>
+                </div>
+                <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse show"
+                  aria-labelledby="panelsStayOpen-headingFive">
+                  <div class="accordion-body px-2 py-0">
+                    <div formArrayName="SortBy">
+                      <div *ngFor="let function of runCustomQueryform.get('SortBy')?.controls; let i=index"
+                        [formGroupName]="i">
+                        <div class="input-group input-group-sm dropend mb-2">
+                          <button class="btn btn-outline-danger shadow-none" type="button" (click)="removeSortBy(i)"><i
+                              class="fas fa-trash-alt"></i></button>
+                          <input type="text" id="iField" class="form-control shadow-none" [ngModel]="iFieldSortBy[i]"
+                            [ngModelOptions]="{standalone: true}" aria-label="Text input with dropdown button" readonly>
+                          <button type="button" #sortBypop="bs-popover"
+                            class="btn btn-default btn-secondary dropdown-toggle shadow-none"
+                            [popover]="popTemplateSortBy" placement="right"> </button>
+                        </div>
+                        <ng-template #popTemplateSortBy>
+                          <div class="mb-3">
+                            <select id="exampleFormControlInput1" class="form-select form-select-sm shadow-none"
+                              formControlName="ColumnName" aria-label=".form-select-sm example">
+                              <option value="{{default_select}}" selected>Select column...</option>
+                              <option value="{{table_name.columN_NAME}}" *ngFor="let table_name of Tablemetadata">
+                                {{table_name.columN_NAME}}
+                                ({{table_name.datA_TYPE}})
+                              </option>
+                            </select>
+                          </div>
+                          <div class="mb-3">
+                            <select id="exampleFormControlInput2" class="form-select form-select-sm shadow-none"
+                              formControlName="SortType" aria-label=".form-select-sm example">
+                              <option value="{{default_select}}" selected>Select Sort type...</option>
+                              <option value="ASC">ASC</option>
+                              <option value="DESC">DESC</option>
+                            </select>
+                          </div>
+                          <div class="d-flex">
+                            <button type="button" class="btn btn-sm btn-primary shadow-none me-auto"
+                              (click)="[onConfirmSortBy(i), sortBypop.hide()]"
+                              [disabled]="!function.get('ColumnName').value || !function.get('SortType').value">Save</button>
+                            <button type="button" class="btn btn-sm btn-warning  shadow-none"
+                              (click)="sortBypop.hide()">Cancel</button>
+                          </div>
+                        </ng-template>
+                      </div>
+                    </div>
+                    <div class="d-flex">
+                      <label for="exampleFormControlInput1" class="form-label me-auto"></label>
+                      <button class="btn btn-sm shadow-none" (click)="addSortBy()"><i class="fas fa-plus"></i></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-sm-9">
+          <div class="row gx-2 gy-2 mb-2" *ngIf="isError">
+            <div class="col-sm-12">
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <div>{{error_message}}</div>
+                <button (click)="isError=false" type="button" class="btn-close" data-bs-dismiss="alert"
+                  aria-label="Close"></button>
+              </div>
+            </div>
+          </div>
+          <div class="row row-cols-2 gx-2 gy-2 mb-2" *ngIf="resultData.length>=1">
+            <div class="col">
+              <div class="card">
+                <div class="card-header d-flex" [ngClass]="{'text-dark bg-info':chartNumber==1}">
+                  <div class="me-auto">{{runCustomQueryform.controls.ChartName1.value}}</div>
+                  <button class="btn btn-sm btn-primary shadow-sm" (click)="showDialog(1)"><i
+                      class="fas fa-filter"></i></button>
+                </div>
+                <div class="card-body p-2">
+                  <p-chart *ngIf="isLineChart1" type="line" [data]="chartData1"></p-chart>
+                  <p-chart *ngIf="isBarChart1" type="bar" [data]="chartData1"></p-chart>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card">
+                <div class="card-header d-flex" [ngClass]="{'text-dark bg-info':chartNumber==2}">
+                  <div class="me-auto">{{runCustomQueryform.controls.ChartName2.value}}</div>
+                  <button class="btn btn-sm btn-primary shadow-sm" (click)="showDialog(2)">Configs</button>
+                </div>
+                <div class="card-body p-2">
+                  <p-chart *ngIf="isLineChart2" type="line" [data]="chartData2"></p-chart>
+                  <p-chart *ngIf="isBarChart2" type="bar" [data]="chartData2"></p-chart>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card">
+                <div class="card-header d-flex" [ngClass]="{'text-dark bg-info':chartNumber==3}">
+                  <div class="me-auto">{{runCustomQueryform.controls.ChartName3.value}}</div>
+                  <button class="btn btn-sm btn-primary shadow-sm" (click)="showDialog(3)">Configs</button>
+                </div>
+                <div class="card-body p-2">
+                  <p-chart *ngIf="isLineChart3" type="line" [data]="chartData3"></p-chart>
+                  <p-chart *ngIf="isBarChart3" type="bar" [data]="chartData3"></p-chart>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card">
+                <div class="card-header d-flex" [ngClass]="{'text-dark bg-info':chartNumber==4}">
+                  <div class="me-auto">{{runCustomQueryform.controls.ChartName4.value}}</div>
+                  <button class="btn btn-sm btn-primary shadow-sm" (click)="showDialog(4)">Configs</button>
+                </div>
+                <div class="card-body p-2">
+                  <p-chart *ngIf="isLineChart4" type="line" [data]="chartData4"></p-chart>
+                  <p-chart *ngIf="isBarChart4" type="bar" [data]="chartData4"></p-chart>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row gx-2 gy-2 mb-2">
+            <div class="col-sm-12">
+              <div *ngIf="resultData.length>=1" class="card">
+                <div class="card-body">
+                  <p-table #dt [columns]="cols" [value]="resultData" styleClass="p-datatable-sm" [rowHover]="true"
+                    responsiveLayout="scroll" [globalFilterFields]="['{{filterFields}}']">
+                    <ng-template pTemplate="caption">
+                      <div class="d-flex ">
+                        <div class="flex-grow-1">
+                          Dataset
+                        </div>
+                        <div class="bd-highlight me-0">
+                          <button class="btn btn-sm btn-outline-primary shadow-sm" (click)="dt.exportCSV()"><i
+                              class="fas fa-file-download me-1"></i>CSV</button>
+                        </div>
+                        <!-- <div class="bd-highlight">
+                          <div class="input-group input-group-sm">
+                            <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
+                            <input (input)="dt.filterGlobal($event.target.value, 'contains')" type="text"
+                              class="form-control shadow-none" placeholder="Search" aria-label="Search"
+                              aria-describedby="basic-addon1">
+                          </div>
+                        </div> -->
+                      </div>
+                    </ng-template>
+                    <ng-template pTemplate="header" let-columns>
+                      <tr>
+                        <th *ngFor="let col of columns" pSortableColumn="{{col.header}}">
+                          {{col.header}} <p-sortIcon field="{{col.header}}"></p-sortIcon>
+                        </th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-columns="columns">
+                      <tr>
+                        <td *ngFor="let col of columns">
+                          {{rowData[col.field]}}
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
+
+<p-confirmPopup></p-confirmPopup>
+
+<p-dialog header="Configs" [(visible)]="display" [modal]="true" [style]="{width: '30vw'}" (onHide)="onHideDialog()"
+  styleClass="pDialog">
+  <div class="mb-2 row">
+    <label for="charttitle" class="col-sm-3 col-form-label">Title</label>
+    <div class="col-sm-9">
+      <input #chart_name class="form-control form-control-sm shadow-none" id="charttitle" type="text"
+        placeholder="Chart Name" [ngModel]="runCustomQueryform.get('ChartName'+chartNumber)?.value"
+        aria-label="chart-name">
+    </div>
+  </div>
+  <div class="row mb-2">
+    <label for="chartsubtitle" class="col-sm-3 col-form-label">Sub Title</label>
+    <div class="col-sm-9">
+      <input #chart_sub_name class="form-control form-control-sm shadow-none" id="chartsubtitle" type="text"
+        placeholder="Sub Title" aria-label="chart-name" disabled>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <label for="xaxis" class="col-sm-3 col-form-label">X-Axis</label>
+    <div class="col-sm-9">
+      <select #xAxis [ngModel]="runCustomQueryform.get('xAxis'+chartNumber)?.value"
+        class="form-select form-select-sm shadow-none" id="xaxis" aria-label=".form-select-sm example">
+        <option value="{{default_select}}" selected>X-Axis/Attributes</option>
+        <option value="{{item}}" *ngFor="let item of xAxisItems">
+          {{item}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="row mb-2">
+    <label for="yaxis" class="col-sm-3 col-form-label">Y-Axis</label>
+    <div class="col-sm-9">
+      <select #yAxis [ngModel]="runCustomQueryform.get('yAxis'+chartNumber)?.value"
+        class="form-select form-select-sm shadow-none" id="yaxis" aria-label=".form-select-sm example">
+        <option value="{{default_select}}" selected>Y-Axis/Metrices</option>
+        <option *ngFor="let item of yAxisItems" value="{{item}}">{{item}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="row mb-2">
+    <label for="charttype" class="col-sm-3 col-form-label">Chart Type</label>
+    <div class="col-sm-9">
+      <select #chartType [ngModel]="runCustomQueryform.get('ChartType'+chartNumber)?.value"
+        class="form-select form-select-sm shadow-none" id="charttype" aria-label="charttype">
+        <option value="{{default_select}}" selected>Select Chart type</option>
+        <option *ngIf="resultData.length>=1" value="1">Line Chart</option>
+        <option *ngIf="resultData.length>=1" value="2">Bar Chart</option>
+      </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-112">
+      <button class="btn btn-sm btn-primary"
+        (click)="createChart(chartNumber, chart_name.value, chartType.value, xAxis.value, yAxis.value )">Generate
+        chart</button>
+    </div>
+  </div>
+</p-dialog>
+
+<p-dialog header="Save Chart" [(visible)]="displaySaveQuery" [modal]="true" [style]="{width: '25vw'}"
+  (onHide)="onHideSaveQueryDialog(); removeValidatorToWorkspaceName()">
+  <form [formGroup]="runCustomQueryform">
+    <div class="row mb-2">
+      <div class="col-sm-12">
+        <input formControlName="CustomQueryName" [value]="runCustomQueryform.get('CustomQueryName')!.value"
+          class="form-control form-control-sm shadow-sm" type="text" placeholder="Name" aria-label="name">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12 d-flex">
+        <button *ngIf="isSave" class="btn btn-sm btn-success shadow-sm w-100" (click)="saveChartData()"
+          [disabled]="runCustomQueryform.invalid">
+          <div *ngIf="!saveCustomQuery_loading"><i class="fas fa-save me-2"></i>Save</div>
+          <div *ngIf="saveCustomQuery_loading" class="spinner-border spinner-border-sm text-light" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </button>
+
+        <button *ngIf="isSaveAs" class="btn btn-sm btn-success shadow-sm w-100" (click)="saveAsChartData()"
+          [disabled]="runCustomQueryform.invalid">
+          <div *ngIf="!saveCustomQuery_loading"><i class="fas fa-copy me-2"></i>Save As</div>
+          <div *ngIf="saveCustomQuery_loading" class="spinner-border spinner-border-sm text-light" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </button>
+      </div>
+    </div>
+  </form>
+</p-dialog>
+
+<p-dialog position="center" header="Workspaces" [(visible)]="displayAllQueries" [modal]="true"
+  [style]="{width: '92%', height: '82%'}" [baseZIndex]="10000" [draggable]="false" [resizable]="true"
+  (onHide)="onHideAllQueriesDialog()">
+  <p-table #dt [value]="allWorkSpaces" responsiveLayout="scroll" [resizableColumns]="true" sortMode="multiple"
+    styleClass="p-datatable-gridlines" columnResizeMode="expand" [rowHover]="true"
+    [globalFilterFields]="['customQueryName','tableName','addedBy','addedDate', 'updatedBy', 'updatedDate']">
+    <ng-template pTemplate="caption">
+      <div class="d-flex">
+        <div class="me-auto">In total there are {{allWorkSpaces ? allWorkSpaces.length : 0 }} workspaces.</div>
+        <div class="ms-auto">
+          <input class="form-control form-control-sm shadow-none" type="text" placeholder="Search" aria-label="searcch"
+            (input)="dt.filterGlobal($event.target.value, 'contains')">
+        </div>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th pResizableColumn pSortableColumn="customQueryName">Workspace <p-sortIcon field="customQueryName">
+          </p-sortIcon>
+        </th>
+        <th pResizableColumn pSortableColumn="tableName">Table <p-sortIcon field="tableName"></p-sortIcon>
+        </th>
+        <th pResizableColumn pSortableColumn="addedBy">Added By <p-sortIcon field="addedBy"></p-sortIcon>
+        </th>
+        <th pResizableColumn pSortableColumn="addedDate">Added Date <p-sortIcon field="addedDate"></p-sortIcon>
+        </th>
+        <th pResizableColumn pSortableColumn="updatedBy">Updated By <p-sortIcon field="updatedBy"></p-sortIcon>
+        </th>
+        <th pResizableColumn pSortableColumn="updatedDate">Updated Date <p-sortIcon field="updatedDate"></p-sortIcon>
+        </th>
+        <th> </th>
+        <!-- <th>Delete
+        </th> -->
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-allWorkSpace>
+      <tr>
+        <td>{{allWorkSpace.customQueryName}}</td>
+        <td>{{allWorkSpace.tableName}}</td>
+        <td>{{allWorkSpace.addedBy}}</td>
+        <td>{{allWorkSpace.addedDate? (allWorkSpace.addedDate+'Z'| date:'short'): null}}</td>
+        <td>{{allWorkSpace.updatedBy}}</td>
+        <td>{{allWorkSpace.updatedDate? (allWorkSpace.updatedDate+'Z'| date:'short'):null}}</td>
+        <td>
+          <button type="button" class="btn btn-sm btn-info shadow-sm me-3"
+            (click)="SetCustomQueryToEdit(allWorkSpace.customQueryId)"><i class="far fa-edit"></i></button>
+          <button class="btn btn-sm btn-outline-danger shadow-sm"
+            (click)="DeleteCustomQuery(allWorkSpace.customQueryId, $event)"> <i class="fas fa-trash-alt"></i> </button>
+        </td>
+        <!-- <td>
+          <button class="btn btn-sm btn-outline-danger shadow-sm"
+            (click)="DeleteCustomQuery(allWorkSpace.customQueryId, $event)"> <i class="fas fa-trash-alt"></i> </button>
+        </td> -->
+      </tr>
+    </ng-template>
+  </p-table>
+</p-dialog>

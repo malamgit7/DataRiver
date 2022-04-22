@@ -1,0 +1,20 @@
+body {
+    background: transparent;
+    padding: 1rem;
+}
+.card {
+    border: 2px solid white;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+
+.card #container-context-menu-spinner {
+    position: absolute;
+    top: 1.7rem;
+    right: 1.3rem;
+}
+.offcanvas {
+    margin-top: 52px;
+    min-height: calc(100vh - (56px + 2rem));
+    width: 20rem;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}

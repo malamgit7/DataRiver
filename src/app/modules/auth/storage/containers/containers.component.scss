@@ -1,0 +1,41 @@
+body {
+    background: transparent;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    min-height: calc(100vh - 56px);
+    font-family: "Exo 2", sans-serif;
+  }
+  
+  .card {
+    border: 2px solid white;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    font-family: "Exo 2", sans-serif;
+  }
+  
+  .card #container-context-menu-spinner {
+    position: absolute;
+    top: 1.7rem;
+    right: 1.3rem;
+    font-family: "Exo 2", sans-serif;
+  }
+  
+  .offcanvas {
+    margin-top: 56px;
+    min-height: calc(100vh - 56px);
+    width: 20rem;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    font-family: "Exo 2", sans-serif;
+  }
+  
+  #container-context .fas {
+    width: 16px;
+    height: 16px;
+    margin-right: 1rem;
+    font-family: "Exo 2", sans-serif;
+  }
+  
+  :host ::ng-deep button {
+    margin-right: 0.5em;
+    font-family: "Exo 2", sans-serif;
+  }
+  

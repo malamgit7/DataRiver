@@ -1,0 +1,15 @@
+body {
+  background: transparent;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  min-height: calc(100vh - 56px);
+  width: 100%;
+}
+
+.card {
+  font-family: "Exo 2", sans-serif;
+}
+
+#pie-chart-parent {
+  display: grid;
+}

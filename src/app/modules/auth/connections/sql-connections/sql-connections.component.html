@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="card mb-2" style="background: whitesmoke;">
+      <div class="card-body p-2">
+        <div class="d-flex bd-highlight">
+          <div class="flex-grow-1 bd-highlight">
+            <strong>SQL Server Connection Strings</strong>
+          </div>
+          <div class="bd-highlight">
+            <button type="button" class="btn btn-sm btn-primary shadow-sm" data-bs-toggle="offcanvas"
+              data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><i class="fas fa-plus"></i> New
+              Connection</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="connection-strings" *ngFor="let sqlConnectionString of sqlConnectionStrings" [@fadeInOut]>
+      <div class="row">
+        <div class="col">
+          <div #conn class="card mb-2">
+            <div class="card-body d-flex p-2">
+              <div><i class="fas fa-project-diagram me-2"></i> {{sqlConnectionString.connectionName}}</div>
+              <div class="vr mx-2"></div>
+              <div> <strong>{{sqlConnectionString.databaseName}}</strong></div>
+              <div class="vr mx-2"></div>
+              <div class="flex-grow-1">{{sqlConnectionString.serverName}}</div>
+              <button title="Edit" class="btn btn-sm btn-warning border-0 shadow-sm me-3"
+                (click)="SetValueToEdit(sqlConnectionString)" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><i class="fas fa-pen"></i></button>
+
+              <button title="Delete" (click)="DeleteSqlConnectionString(sqlConnectionString)"
+                class="btn btn-sm btn-danger border-0 shadow-sm"><i class="far fa-trash-alt"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" data-bs-scroll="true" data-bs-backdrop="false"
+  aria-labelledby="offcanvasRightLabel">
+  <div class="offcanvas-header d-flex">
+    <div class="flex-grow-1"></div>
+    <button (click)="ResetForm()" type="button" class="btn-close text-reset shadow-none" data-bs-dismiss="offcanvas"
+      aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <form [formGroup]="sqlConnectionStringForm">
+      <div class="mb-3">
+        <select class="form-select form-select-sm shadow-none" formControlName="ConnectionTypeNumber"
+          aria-label=".form-select-sm example"
+          [ngClass]="{ 'is-invalid': f.ConnectionTypeNumber.touched && f.ConnectionTypeNumber.errors }">
+          <option value="{{default_select}}" selected>Select connection type...</option>
+          <option value="{{connectionType.connectionTypeNumber}}" *ngFor="let connectionType of connectionTypes">
+            {{connectionType.connectionTypeName}}</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <input type="text" placeholder="Connection Name" formControlName="ConnectionName"
+          class="form-control form-control-sm shadow-none"
+          [ngClass]="{ 'is-invalid': f.ConnectionName.touched && f.ConnectionName.errors }" />
+      </div>
+      <div class="mb-3">
+        <input type="text" placeholder="Server Name" formControlName="ServerName"
+          class="form-control form-control-sm shadow-none"
+          [ngClass]="{ 'is-invalid': f.ServerName.touched && f.ServerName.errors }" />
+      </div>
+      <div class="mb-3">
+        <input type="text" placeholder="Database Name" formControlName="DatabaseName"
+          class="form-control form-control-sm shadow-none"
+          [ngClass]="{ 'is-invalid': f.DatabaseName.touched && f.DatabaseName.errors }" />
+      </div>
+      <div class="mb-3">
+        <input type="text" placeholder="Username" formControlName="Username"
+          class="form-control form-control-sm shadow-none"
+          [ngClass]="{ 'is-invalid': f.Username.touched && f.Username.errors }" />
+      </div>
+      <div class="input-group mb-3">
+        <input [type]="fieldToggleService.fieldTextType ? 'text' : 'password'" placeholder="Password"
+          formControlName="Password" class="form-control form-control-sm shadow-none"
+          [ngClass]="{ 'is-invalid': f.Password.touched && f.Password.errors }" />
+        <span (click)="fieldToggleService.toggleFieldTextType()" class="input-group-text" id="basic-addon1">
+          <i class="fas" [ngClass]="{
+            'fa-eye-slash': !fieldToggleService.fieldTextType,
+            'fa-eye': fieldToggleService.fieldTextType
+          }" style="width: 1rem;"></i>
+        </span>
+      </div>
+
+      <div class="mb-3">
+        <div class="d-flex bd-highlight">
+          <div class="flex-grow-1 bd-highlight">
+            <button type="button" class="btn btn-sm btn-primary shadow-sm" (click)="onSubmitSqlConnectionStringForm()"
+              [disabled]="!sqlConnectionStringForm.valid">Save</button>
+          </div>
+          <div class="bd-highlight">
+            <button type="button" class="btn btn-sm btn-info shadow-sm" (click)=" onSubmitTestSqlConnectionStringForm()"
+              [disabled]="!sqlConnectionStringForm.valid">Test</button>
+          </div>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>

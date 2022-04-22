@@ -1,0 +1,23 @@
+<div class="d-flex flex-column justify-content-center align-items-center" id="sidebar">
+
+  <div pTooltip="Reports" (click)="getSidebarState()">
+    <a routerLink="./reports" routerLinkActive="active-link" class="nav-link"><i class="fas fa-chart-line"></i>
+    </a>
+  </div>
+  <div pTooltip="Storage" (click)="getSidebarState()">
+    <a routerLink="./storage" routerLinkActive="active-link" class="nav-link"><i class="fas fa-box"></i>
+    </a>
+  </div>
+  <div pTooltip="SQL Server" (click)="getSidebarState()">
+    <a routerLink="./sql-server" routerLinkActive="active-link" class="nav-link"><i class="fas fa-database"></i>
+    </a>
+  </div>
+  <div pTooltip="Analysis" (click)="getSidebarState()">
+    <a routerLink="./analysis" routerLinkActive="active-link" class="nav-link"><i class="fas fa-stream"></i>
+    </a>
+  </div>
+  <div pTooltip="Connection Manager" class="mb-auto" (click)="getSidebarState()">
+    <a routerLink="./connections" routerLinkActive="active-link" class="nav-link"><i class="fas fa-link"></i>
+    </a>
+  </div>
+</div>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <p-card styleClass="p-card-shadow">
+      <p-table #dt [columns]="cols" [value]="queryResults" selectionMode="multiple" [(selection)]="selectedResults"
+        [resizableColumns]="true" styleClass="p-datatable-gridlines p-datatable-sm" [rowHover]="true" [paginator]="true"
+        [rows]="10" [rowsPerPageOptions]="[10,25,50]"
+        [globalFilterFields]="['queryName','queryDescription','querySQL','addedBy', 'addedDate', 'updatedBy', 'updatedDate']">
+        <ng-template pTemplate="caption">
+          <div class="ui-helper-clearfix">
+            <div class="d-flex bd-highlight">
+              <div class="p-2 flex-grow-1 bd-highlight">
+                Queriy Status
+              </div>
+              <div class="p-2 bd-highlight">
+                <div class="input-group input-group-sm">
+                  <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
+                  <input type="text" class="form-control shadow-none"
+                    (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search" aria-label="Search"
+                    aria-describedby="basic-addon1">
+                </div>
+              </div>
+              <div class="p-2 bd-highlight">
+                <div class="dropdown">
+                  <button class="btn btn-sm btn-secondary shadow-sm dropdown-toggle" type="button"
+                    id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    Download
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a type="button" class="dropdown-item" (click)="exportExcel()"><i class="far fa-file-excel"></i>
+                        Excel</a></li>
+                    <li><a type="button" class="dropdown-item" (click)="dt.exportCSV()"><i class="fas fa-file-csv"></i>
+                        CSV</a></li>
+                    <li><a type="button" class="dropdown-item" (click)="dt.exportCSV({selectionOnly:true})"><i
+                          class="fas fa-file-csv"></i>
+                        Selected CSV</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="p-2 bd-highlight">
+                <button type="button" class="btn btn-sm btn-secondary shadow-sm" (click)="back()">
+                  <i class="fas fa-arrow-left"></i> Back
+                </button>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th pResizableColumn pSortableColumn="queryName">Name <p-sortIcon field="queryName"></p-sortIcon>
+            </th>
+            <th pResizableColumn pSortableColumn="queryDescription">Description <p-sortIcon field="queryDescription">
+              </p-sortIcon>
+            </th>
+            <th pResizableColumn pSortableColumn="querySQL">SQL <p-sortIcon field="querySQL"></p-sortIcon>
+            </th>
+            <th pResizableColumn pSortableColumn="databaseName">Database <p-sortIcon field="databaseName"></p-sortIcon>
+            </th>
+            <th pResizableColumn pSortableColumn="queryOutput">Status <p-sortIcon field="queryOutput"></p-sortIcon>
+            </th>
+            <th pResizableColumn pSortableColumn="executedBy">Executed By <p-sortIcon field="executedBy"></p-sortIcon>
+            </th>
+            <th pResizableColumn pSortableColumn="queryExecutionEndDateTime">Execution Time <p-sortIcon
+                field="queryExecutionEndDateTime"></p-sortIcon>
+            </th>
+            <th pResizableColumn pSortableColumn="addedBy">Created By <p-sortIcon field="addedBy"></p-sortIcon>
+            </th>
+            <th pResizableColumn pSortableColumn="addedDate">Created Date <p-sortIcon field="addedDate"></p-sortIcon>
+            </th>
+
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-result>
+          <tr [pSelectableRow]="rowData">
+            <td class="text-truncate">{{result.queryName}}</td>
+            <td class="text-truncate">{{result.queryDescription}}</td>
+            <td class="text-truncate">{{result.querySQL}}</td>
+            <td class="text-truncate">{{result.databaseName}}</td>
+            <td class="text-truncate">{{result.queryOutput}}</td>
+            <td class="text-truncate">{{result.executedBy}}</td>
+            <td class="text-truncate">{{result.queryExecutionEndDateTime | date:'medium'}}</td>
+            <td class="text-truncate">{{result.addedBy}}</td>
+            <td class="text-truncate">{{result.addedDate | date:'medium'}}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-card>
+  </div>
+</body>
+
+</html>

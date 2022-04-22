@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <form [formGroup]="createTableForm">
+
+      <div id="form_data" class="row gx-2 gy-2 mb-2">
+        <div class="col-sm-4">
+          <div class="card">
+            <div class="card-header p-2 d-flex">
+              <div class="me-auto">Connection String</div>
+              <div>1</div>
+            </div>
+            <div class="card-body p-2">
+              <div class="mb-2">
+                <div class="input-group">
+                  <select aria-label="Connection String" class="form-select form-select-sm shadow-none text-truncate"
+                    (change)="onSelectConnectionString($event)" formControlName="ConnectionStringId">
+                    <option value={{default_select}} selected>Select Connection...</option>
+                    <option [value]="connectionString.connectionStringId"
+                      *ngFor="let connectionString of connectionStrings">
+                      {{connectionString.connectionName}}
+                    </option>
+                  </select>
+                  <button *ngIf="selectedDatabaseName!=''" class="btn btn-sm btn-outline-secondary shadow-none"
+                    type="button">{{selectedDatabaseName}}</button>
+                </div>
+
+              </div>
+              <div class="mb-0">
+                <div class="input-group">
+                  <input type="file" #file class="form-control form-control-sm shadow-none"
+                    accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                    id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload"
+                    [disabled]="!tableTypeSelected">
+                  <button class="btn btn-sm btn-outline-secondary shadow-none" type="button"
+                    (click)="onSubmitCreateFileAndTableSchemaForm(file.files)" id="inputGroupFileAddon04"
+                    [disabled]="!tableTypeSelected">
+                    <div *ngIf="!generateSchema_loading">Create Schema</div>
+                    <div *ngIf="generateSchema_loading" class="spinner-grow spinner-grow-sm text-primary" role="status">
+                      <span class="visually-hidden">Creating...</span>
+                    </div>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="card">
+            <div class="card-header d-flex p-2">
+              <div class="form-check form-check-inline me-auto">
+                <input class="form-check-input" type="radio" name="tabletype" id="tabletype1" value="new"
+                  (change)="onSelectTableType($event)">
+                <label class="form-check-label" for="tabletype1">
+                  New Table
+                </label>
+              </div>
+              <div>2.a</div>
+            </div>
+            <div class="card-body p-2">
+              <div class="row mb-2">
+                <div class="col-sm-12">
+                  <select class="form-select form-select-sm shadow-none" aria-label="Schema" formControlName="Schema">
+                    <option value={{default_select}} selected>Select Schema...</option>
+                    <option [value]="schemaName" *ngFor="let schemaName of schemaNames">{{schemaName}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="input-group">
+                    <input type="text" class="form-control form-control-sm shadow-none" id="tableName"
+                      formControlName="NewTableName" placeholder="New Table Name"
+                      (keyup.enter)="CheckTableAvailability()">
+                    <button (click)="CheckTableAvailability()" type="button"
+                      class="btn btn-sm btn-outline-secondary shadow-none">
+                      <div *ngIf="!checkTableAvailability_loading">Check Availability </div>
+                      <div *ngIf="checkTableAvailability_loading" class="spinner-grow spinner-grow-sm text-primary"
+                        role="status">
+                        <span class="visually-hidden">Checking...</span>
+                      </div>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="card">
+            <div class="card-header d-flex p-2">
+              <div class="form-check form-check-inline me-auto">
+                <input class="form-check-input" type="radio" name="tabletype" id="tabletype2" value="existing"
+                  (change)="onSelectTableType($event)">
+                <label class="form-check-label" for="tabletype2">
+                  Existing Table
+                </label>
+              </div>
+              <div>2.b</div>
+            </div>
+            <div class="card-body p-2">
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="input-group mb-2">
+                    <select class="form-select form-select-sm shadow-none" aria-label="Schema"
+                      formControlName="OldTableName">
+                      <option value={{default_select}} selected>Select Table...</option>
+                      <option [value]="tableName.tableName" *ngFor="let tableName of tableNames">{{tableName.tableName}}
+                      </option>
+                    </select>
+                    <button type="button" class="btn btn-sm btn-outline-secondary shadow-none"
+                      (click)="CreateTableSchema()" [disabled]="false">
+                      <div *ngIf="!tableSchema_loading">Preview Schema</div>
+                      <div *ngIf="tableSchema_loading" class="spinner-grow spinner-grow-sm text-primary" role="status">
+                        <span class="visually-hidden">Checking...</span>
+                      </div>
+                    </button>
+                  </div>
+                  <div class="mb-0">
+                    <select class="form-select form-select-sm shadow-none" formControlName="AppendData"
+                      aria-label="Append Mode">
+                      <option value={{default_select_for_append_type}} selected>Select Mode...</option>
+                      <option [value]="true">Append Data</option>
+                      <option [value]="false">Truncate & Load Data</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="showAlert" class="alert alert-{{alert_type}} alert-dismissible d-flex" role="alert">
+        <div>{{alert_message}}<button *ngIf="showViewButton" (click)="previewLoadedData()" type="button"
+            class="btn btn-sm btn-info shadow-none ms-2">Preview Loaded Data</button>
+        </div>
+        <button (click)="showAlert=false" type="button" class="btn-close shadow-none" data-bs-dismiss="alert"
+          aria-label="Close"></button>
+      </div>
+
+      <div class="row mb-2">
+        <div class="col-sm-12">
+          <div class="card" *ngIf="(tableSchema.length>=1 && tableSchema_show)">
+            <div class="card-header d-flex p-2">
+              <div class="me-auto">Table Schema</div>
+              <button (click)="DismissTableSchema()" class="btn-close shadow-none"></button>
+            </div>
+            <div class="card-body p-2">
+              <table class="table table-bordered table-sm table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">Column Name</th>
+                    <th scope="col">Column Type</th>
+                    <th scope="col">DataType</th>
+                    <th scope="col">Is Not Null</th>
+                    <th scope="col">Is Primary Key</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let schema of tableSchema">
+                    <th>{{schema.tableColumnName}}</th>
+                    <td>{{schema.tableColumnType}}</td>
+                    <td>{{schema.tableColumnDataType}}</td>
+                    <td>{{schema.is_Not_Null}}</td>
+                    <td>{{schema.is_Primary_Key}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="card" *ngIf="fileAndTableSchema.length>=1">
+            <div class="card-body p-2">
+              <div class="table-responsive-md">
+                <table class="table table-sm align-middle table-bordered">
+                  <thead>
+                    <tr>
+                      <th colspan="1">
+                        <button class="btn btn-sm btn-info shadow-sm w-100" (click)="SurpriseQuotes()"><i
+                            class="fab fa-superpowers"></i></button>
+                      </th>
+                      <th colspan="2" class="file_schema">File Schema</th>
+                      <th colspan="2" class="table_schema">Table Schema</th>
+                      <th colspan="1">
+                        <button type="button" class="btn btn-sm btn-primary shadow-sm w-100"
+                          (click)="onSubmitCreateTableForm()" [disabled]="!createTableForm.valid">
+                          <div *ngIf="!createTable_loading"><i class="fas fa-angle-double-up me-1"></i> Load Data</div>
+                          <div *ngIf="createTable_loading" class="spinner-grow spinner-grow-sm text-warning"
+                            role="status">
+                            <span class="visually-hidden">Checking...</span>
+                          </div>
+                        </button>
+                      </th>
+                      <th colspan="1">
+                        <button (click)="resetForm()" class="btn btn-sm btn-warning shadow-sm w-100">
+                          <i class="fas fa-times me-1"></i>Reset
+                        </button>
+                      </th>
+                    </tr>
+                    <tr>
+                      <th scope="col">Sl. No.</th>
+                      <th scope="col">Column Name</th>
+                      <th scope="col">Data Type</th>
+                      <th scope="col">Column Name</th>
+                      <th scope="col">Data Type</th>
+                      <th scope="col">Primary Key</th>
+                      <th scope="col">Not Null</th>
+                    </tr>
+                  </thead>
+                  <tbody formArrayName="FieldArray"
+                    *ngFor="let FieldArray of FieldArrayControls.controls; let i = index">
+                    <tr [formGroupName]="i">
+                      <th>{{i+1}}</th>
+                      <td>
+                        <input type="text" class="form-control form-control-sm shadow-none"
+                          placeholder="File Column Name" formControlName="FileColumnName">
+                      </td>
+                      <td>
+                        <input type="text" class="form-control form-control-sm shadow-none"
+                          placeholder="File Column Data Type" formControlName="FileColumnDataType">
+                      </td>
+                      <td>
+                        <input type="text" class="form-control form-control-sm shadow-none"
+                          placeholder="Table Column Name" formControlName="TableColumnName">
+                      </td>
+                      <td>
+                        <input type="text" class="form-control form-control-sm shadow-none"
+                          placeholder="Table Column Data Type" formControlName="TableColumnDataType">
+                      </td>
+                      <td>
+                        <div class="form-check">
+                          <input (change)="onSelectPrimaryKeyCheckBox($event, i)" title="Primary Key"
+                            class="form-check-input shadow-none" type="checkbox" id="allownull"
+                            formControlName="Is_Primary_Key" value="true">
+                        </div>
+                      </td>
+                      <td>
+                        <div class="form-check">
+                          <input title="Primary Key" class="form-check-input shadow-none" type="checkbox" id="allownull"
+                            formControlName="Is_Not_Null" value="true">
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</body>
+
+</html>
+
+<p-dialog [(visible)]="displayBlobDataModal" [modal]="true" [baseZIndex]="100000000000" [draggable]="true"
+  [resizable]="true" [style]="{width: '75vw'}">
+
+  <p-table [columns]="cols" [value]="previewedData" [paginator]="true" [rows]="10" [totalRecords]="previewedData.length"
+    styleClass="p-datatable-sm p-datatable-gridlines" responsiveLayout="scroll">
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th *ngFor="let col of columns">
+          {{col.header}}
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+      <tr>
+        <td *ngFor="let col of columns">
+          {{rowData[col.field]}}
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="paginatorleft">
+      <p-button (click)="DownloadBlob(selectedBlob)" type="button" icon="pi pi-arrow-circle-down"
+        styleClass="p-button-text">
+      </p-button>
+    </ng-template>
+  </p-table>
+</p-dialog>

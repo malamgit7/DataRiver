@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="row mb-2 gx-2">
+      <div class="col-2">
+        <div class="card shadow">
+          <div class="card-body p-0">
+            <select (change)="onSelectDateRange($event)" class="form-select form-select-sm shadow-sm"
+              aria-label="Default select example">
+              <option selected>Select date range...</option>
+              <option *ngFor="let dropdown of dropdowns" value="{{dropdown.value}}">{{dropdown.name}}</option>
+              <option value="9">Custom Range</option>
+            </select>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-2">
+        <div class="card shadow">
+          <div class="card-body p-0">
+            <select (change)="onSelectBucketType($event)" class="form-select form-select-sm shadow-sm"
+              aria-label="Default select example">
+              <option selected>Select bucket...</option>
+              <option *ngFor="let buc of bucket" value="{{buc.value}}">{{buc.name}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="col-2">
+        <div class="card shadow">
+          <div class="card-body p-0">
+            <select (change)="onSelectChartType($event)" class="form-select form-select-sm shadow-sm"
+              aria-label="Default select example">
+              <option selected>Select chart type...</option>
+              <option *ngIf="(charts && bucket.length>=1)" value="1">Line</option>
+              <option *ngIf="(charts && bucket.length>=1)" value="2">Bar</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="col-1"></div>
+      <div class="col-5">
+      </div>
+    </div>
+    <div class="card shadow" *ngIf="(dateRangeSelected && bucketSelected && chartSelected)">
+      <div class="card-body">
+        <div class="row d-flex justify-content-center">
+          <div class="col-sm-11">
+            <p-chart *ngIf="isLineChart" type="line" [data]="lineData" [options]="lineOptions"></p-chart>
+            <p-chart *ngIf="isBarChart" type="bar" [data]="barData" [options]="barOptions"></p-chart>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+
+</html>

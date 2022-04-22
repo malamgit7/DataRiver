@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <form [formGroup]="reviewProfileForm" (ngSubmit)="onSubmitReviewProfileForm()">
+      <div class="card mb-3">
+        <div class="card-header">Profile Review</div>
+        <div class="card-body">
+          <div class="row g-3">
+
+            <div class="col-sm-3">
+              <label class="form-label">Connection</label>
+              <select (change)="onSelectConnectionString($event)" class="form-select form-select-sm shadow-none"
+                aria-label="Connection String">
+                <option value={{default_select}} selected>Select Connection..</option>
+                <option value="{{connectionString.connectionStringId}}"
+                  *ngFor="let connectionString of connectionStrings, let i = index">
+                  {{connectionString.connectionName}}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-sm-2">
+              <label class="form-label">Database</label>
+              <input class="form-control form-control-sm" type="text" value="{{databaseName}}"
+                aria-label=".form-control-sm example" disabled>
+            </div>
+
+            <div class="col-sm-2">
+              <label class="form-label">Table Type</label>
+              <select (change)="onSelectTableType($event)" class="form-select form-select-sm shadow-none"
+                aria-label=".form-select-sm example">
+                <option selected>Select Table Type...</option>
+                <option *ngIf="Tables.length>=1" value='1'>Tables</option>
+                <option *ngIf="externalTables.length>=1" value='2'>External Table</option>
+              </select>
+            </div>
+
+            <div class="col-sm-3">
+              <label class="form-label">Tables</label>
+              <select (change)="onSelectExternalTable($event)" formControlName="ExternalTableName"
+                class="form-select form-select-sm shadow-none" aria-label="ExternalTable Name">
+                <option value={{default_select}} selected>Select Table...</option>
+                <option value="{{allTable.tableName}}" *ngFor="let allTable of allTables">
+                  {{allTable.tableName}}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-sm-2">
+              <label class="form-label">Profiled Date</label>
+              <select formControlName="ProfiledDate" class="form-select form-select-sm shadow-none"
+                aria-label="Profiled Date">
+                <option value={{default_select}} selected>Select Date...</option>
+                <option value="{{profiledDate}}" *ngFor="let profiledDate of profiledDates">
+                  {{profiledDate | date:'medium'}}
+                </option>
+              </select>
+            </div>
+
+          </div>
+        </div>
+        <div class="d-flex card-footer">
+          <div class="me-auto"></div>
+          <div class="me-2 d-flex align-items-center">
+            <div *ngIf="connectionString_loading || Table_loading || externalTables_loading|| allTables_loading"
+              class="spinner-grow spinner-grow-sm text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-sm me-2 shadow-sm" [disabled]="!reviewProfileForm.valid">
+            <div *ngIf="!reviewProfileForm_loading"><i class="fas fa-chevron-circle-down"></i> Get Profile</div>
+            <div *ngIf="reviewProfileForm_loading" class="spinner-grow spinner-grow-sm text-warning" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </button>
+          <button type="reset" class="btn btn-warning btn-sm shadow-sm" (click)="ResetreviewProfileForm()"><i
+              class="fas fa-broom"></i> Reset</button>
+        </div>
+      </div>
+    </form>
+
+    <div *ngIf="profiles.length>=1">
+      <div class="card">
+        <div class="card-header">Profiled Output</div>
+        <div class="card-body">
+          <table class="table table-bordered pb-0">
+            <thead>
+              <tr>
+                <th class="text-center" scope="col">Database</th>
+                <th class="text-center" scope="col">Schema</th>
+                <th class="text-center" scope="col">Table</th>
+                <th class="text-center" scope="col">Count</th>
+                <th class="text-center" scope="col">Profiled By</th>
+                <th class="text-center" scope="col">Profiled Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-center">{{profile_database_name}}</td>
+                <td class="text-center">{{profile_schema_name}}</td>
+                <td class="text-center">{{profile_table_name}}</td>
+                <td class="text-center">{{profile_total_count | number}}</td>
+                <td class="text-center">{{profile_added_by}}</td>
+                <td class="text-center">{{profile_date | date:'medium'}}</td>
+              </tr>
+            </tbody>
+          </table>
+          <p-table #dt [value]="profiles" [resizableColumns]="true" styleClass="p-datatable-gridlines p-datatable-sm"
+            [rowHover]="true" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,25,50]"
+            [globalFilterFields]="['columN_NAME','datA_TYPE','counT_DISTINCT','counT_NULL', 'perC_NULL', 'counT_BLANK', 'perC_BLANK', 'maX_LEN', 'miN_LEN', 'maX_VALUE', 'miN_VALUE']">
+            <ng-template pTemplate="caption">
+              <div class="ui-helper-clearfix">
+                <div class="d-flex bd-highlight">
+                  <div class="p-2 flex-grow-1 bd-highlight">
+                    Queries
+                  </div>
+                  <div class="p-2 bd-highlight">
+                    <div class="input-group input-group-sm">
+                      <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
+                      <input type="text" class="form-control shadow-none"
+                        (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search"
+                        aria-label="Search" aria-describedby="basic-addon1">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th pResizableColumn pSortableColumn="columN_NAME">Column<p-sortIcon field="columN_NAME"></p-sortIcon>
+                </th>
+                <th pResizableColumn pSortableColumn="datA_TYPE">Data Type <p-sortIcon field="datA_TYPE">
+                  </p-sortIcon>
+                </th>
+                <th pResizableColumn pSortableColumn="counT_DISTINCT">Distinct <p-sortIcon field="counT_DISTINCT">
+                  </p-sortIcon>
+                </th>
+                <th pResizableColumn pSortableColumn="counT_NULL">Null <p-sortIcon field="counT_NULL"></p-sortIcon>
+                </th>
+
+                <th pResizableColumn pSortableColumn="perC_NULL">Null % <p-sortIcon field="perC_NULL">
+                  </p-sortIcon>
+                </th>
+                <th pResizableColumn pSortableColumn="counT_BLANK">Blank <p-sortIcon field="counT_BLANK"></p-sortIcon>
+                </th>
+                <th pResizableColumn pSortableColumn="perC_BLANK">Blank % <p-sortIcon field="perC_BLANK">
+                  </p-sortIcon>
+                </th>
+                <th pResizableColumn pSortableColumn="maX_LEN">Max Length <p-sortIcon field="maX_LEN"></p-sortIcon>
+                </th>
+                <th pResizableColumn pSortableColumn="miN_LEN">Min Length <p-sortIcon field="miN_LEN"></p-sortIcon>
+                </th>
+                <th pResizableColumn pSortableColumn="maX_VALUE">Max Value <p-sortIcon field="maX_VALUE">
+                  </p-sortIcon>
+                </th>
+                <th pResizableColumn pSortableColumn="miN_VALUE">Min Value <p-sortIcon field="maX_VALUE">
+                  </p-sortIcon>
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-profile>
+              <tr>
+                <td class="text-truncate">{{profile.columN_NAME}}</td>
+                <td class="text-truncate">{{profile.datA_TYPE}}</td>
+                <td class="text-truncate">{{profile.counT_DISTINCT | number}}</td>
+                <td class="text-truncate">{{profile.counT_NULL | number}}</td>
+                <td>{{profile.perC_NULL}} <small *ngIf="profile.perC_NULL>0">%</small> </td>
+                <td class="text-truncate">{{profile.counT_BLANK | number}}
+                </td>
+                <td>{{profile.perC_BLANK}} <small *ngIf="profile.perC_BLANK>0">%</small></td>
+                <td class="text-truncate">{{profile.maX_LEN | number}}</td>
+                <td class="text-truncate">{{profile.miN_LEN | number}}</td>
+                <td class="text-truncate">{{profile.maX_VALUE}}</td>
+                <td class="text-truncate">{{profile.miN_VALUE}}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+
+</html>

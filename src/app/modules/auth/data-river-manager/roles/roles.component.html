@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Role</th>
+                <th>description</th>
+                <th>id</th>
+                <th>isEnabled</th>
+                <th>origin</th>
+                <th>value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let role of roles">
+                <th>{{role.displayName}}</th>
+                <td>{{role.description}}</td>
+                <td>{{role.id}}</td>
+                <td>{{role.isEnabled}}</td>
+                <th>{{role.origin}}</th>
+                <td>{{role.value}}</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>

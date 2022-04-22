@@ -1,0 +1,35 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+  <div class="container-fluid">
+    <button title="Toggle" type="button" class="btn btn-sm btn-primary rounded-circle shadow-sm me-3"
+      style="width: 35px; height: 35px;" aria-label="Toggle Button" (click)="sidebarService.toggleSideNav()">
+      <i *ngIf="!sidebarService.hideSideNav" class="fas fa-angle-left fa-lg"></i>
+      <i *ngIf="sidebarService.hideSideNav" class="fas fa-angle-left fa-lg fa-flip-horizontal"></i>
+    </button>
+    <a class="navbar-brand mb-0 h1" href="#">
+      <img src="assets/logo.png" class="me-2" alt="" width="38" height="28">
+      iDataverse</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item dropdown">
+          <a title="Profile" type="button" class="nav-link dropdown-toggle" id="navbarDropdown2" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="far fa-user-circle"></i> {{userName}}
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end bg-light shadow" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">{{userEmail}}</a></li>
+            <li><a class="dropdown-item" href="#">{{userRole}}</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item" href="#" (click)="logout()">Log Out</a></li>
+          </ul>
+
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

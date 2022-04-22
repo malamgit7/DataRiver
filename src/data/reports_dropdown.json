@@ -1,0 +1,93 @@
+[{
+    "name": "Today",
+    "value": 1,
+    "bucket": [{
+      "name": "Daily",
+      "value": 1
+    }]
+  },
+  {
+    "name": "Yesterday",
+    "value": 2,
+    "bucket": [{
+      "name": "Daily",
+      "value": 1
+    }]
+  },
+  {
+    "name": "This Week",
+    "value": 3,
+    "bucket": [{
+      "name": "Daily",
+      "value": 1
+    }]
+  },
+  {
+    "name": "Last Week",
+    "value": 4,
+    "bucket": [{
+      "name": "Daily",
+      "value": 1
+    }]
+  },
+  {
+    "name": "This Month",
+    "value": 5,
+    "bucket": [{
+        "name": "Daily",
+        "value": 1
+      },
+      {
+        "name": "Weekly",
+        "value": 2
+      }
+    ]
+  },
+  {
+    "name": "Last Month",
+    "value": 6,
+    "bucket": [{
+        "name": "Daily",
+        "value": 1
+      },
+      {
+        "name": "Weekly",
+        "value": 2
+      }
+    ]
+  },
+  {
+    "name": "This Quarter",
+    "value": 7,
+    "bucket": [{
+        "name": "Daily",
+        "value": 1
+      },
+      {
+        "name": "Weekly",
+        "value": 2
+      },
+      {
+        "name": "Monthly",
+        "value": 3
+      }
+    ]
+  },
+  {
+    "name": "Last Quarter",
+    "value": 8,
+    "bucket": [{
+        "name": "Daily",
+        "value": 1
+      },
+      {
+        "name": "Weekly",
+        "value": 2
+      },
+      {
+        "name": "Monthly",
+        "value": 3
+      }
+    ]
+  }
+]
