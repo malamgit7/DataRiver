@@ -163,6 +163,7 @@ export class ReportingComponent implements OnInit {
       GroupBy: this.formBuilder.array([], Validators.required),
       SortBy: this.formBuilder.array([]),
       FilterBy: this.formBuilder.array([]),
+      ChartInfo: this.formBuilder.array([]),
       ChartName1: [''],
       ChartName2: [''],
       ChartName3: [''],
@@ -305,11 +306,11 @@ export class ReportingComponent implements OnInit {
   }
   //#endregion
 
-  //#region Chart Data Controller
-  get ChartData(): FormArray {
-    return this.runCustomQueryform.get('ChartData') as FormArray;
+  //#region ChartInfo Controller
+  get ChartInfo(): FormArray {
+    return this.runCustomQueryform.get('ChartInfo') as FormArray;
   }
-  newChartData(): FormGroup {
+  newChartInfo(): FormGroup {
     return this.formBuilder.group({
       Id: null,
       ChartType: ['', Validators.required],
@@ -319,11 +320,11 @@ export class ReportingComponent implements OnInit {
     });
   }
 
-  addChartData() {
-    this.ChartData.push(this.newChartData());
+  addChartInfo() {
+    this.ChartInfo.push(this.newChartInfo());
   }
-  removeChartData(i: number) {
-    this.ChartData.removeAt(i);
+  removeChartInfo(i: number) {
+    this.ChartInfo.removeAt(i);
   }
   //#endregion
 
