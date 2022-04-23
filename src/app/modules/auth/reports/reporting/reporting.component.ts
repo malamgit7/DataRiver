@@ -316,8 +316,8 @@ export class ReportingComponent implements OnInit {
       ChartName: ['', Validators.required],
       Title: ['', Validators.required],
       SubTitle: ['', Validators.required],
-      xAxisLabel: ['', Validators.required],
-      yAxisLabel: ['', Validators.required],
+      ChartXAxis: ['', Validators.required],
+      ChartYAxis: ['', Validators.required],
       ChartType: ['', Validators.required],
       LineDatasetlabel: ['', Validators.required],
       LineDatasetBackgroundColor: ['#42A5F5', Validators.required],
@@ -1033,5 +1033,12 @@ export class ReportingComponent implements OnInit {
       this.removeValidatorToWorkspaceName();
     }
   }
+
+
+  onSelectChartType(event: Event) {
+    var chartType = (<HTMLInputElement>event.target).value;
+    console.log(chartType);
+  }
+
 
 }
