@@ -313,10 +313,14 @@ export class ReportingComponent implements OnInit {
   newChartInfo(): FormGroup {
     return this.formBuilder.group({
       Id: null,
-      ChartType: ['', Validators.required],
       ChartName: ['', Validators.required],
-      xAxis: ['', Validators.required],
-      yAxis: ['', Validators.required],
+      Title: ['', Validators.required],
+      SubTitle: ['', Validators.required],
+      xAxisLabel: ['', Validators.required],
+      yAxisLabel: ['', Validators.required],
+      ChartType: ['', Validators.required],
+      LineDatasetlabel: ['', Validators.required],
+      LineDatasetBackgroundColor: ['#42A5F5', Validators.required],
     });
   }
 
