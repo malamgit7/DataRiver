@@ -45,8 +45,8 @@
                   <i class="fas fa-copy" style="color: black;"></i></button>
               </div>
               <div class="col-sm-4">
-                <!-- [disabled]="runCustomQueryform.invalid || resultData.length>=1" -->
-                <button class="btn btn-sm btn-light shadow w-100" (click)="addChartInfo()"><i
+                <button class="btn btn-sm btn-light shadow w-100"
+                  [disabled]="runCustomQueryform.invalid && resultData.length<1" (click)="addChartInfo()"><i
                     class="fas fa-plus-square"></i></button>
               </div>
             </div>
@@ -422,13 +422,8 @@
                               <div class="col-sm-12">
                                 <select class="form-select form-select-sm shadow-none" formControlName="ChartXAxis"
                                   aria-label="y-axis/Attribute">
-                                  <option value="{{default_select}}" selected>Select x-axis/Metrice...</option>
-                                  <option value="bar">Column one</option>
-                                  <option value="doughnut">Column Two</option>
-                                  <option value="line">Column Three</option>
-                                  <option value="polarArea">Column Four</option>
-                                  <option value="pie">Column Five</option>
-                                  <option value="radar">Column Six</option>
+                                  <option value="{{default_select}}" selected>Select x-axis/labels...</option>
+                                  <option *ngFor="let key of datasetKeys" value="{{key}}">{{key}}</option>
                                 </select>
                               </div>
                             </div>
@@ -436,18 +431,15 @@
                               <div class="col-sm-7">
                                 <select class="form-select form-select-sm shadow-none" formControlName="ChartYAxis"
                                   aria-label="y-axis/Attribute">
-                                  <option value="{{default_select}}" selected>Select y-axis/Attribute...</option>
-                                  <option value="bar">Column one</option>
-                                  <option value="doughnut">Column Two</option>
-                                  <option value="line">Column Three</option>
-                                  <option value="polarArea">Column Four</option>
-                                  <option value="pie">Column Five</option>
-                                  <option value="radar">Column Six</option>
+                                  <option value="{{default_select}}" selected>Select y-axis/data...</option>
+                                  <option *ngFor="let key of datasetKeys" value="{{key}}">
+                                    {{key}}
+                                  </option>
                                 </select>
                               </div>
                               <div class="col-sm-5">
                                 <select class="form-select form-select-sm shadow-none"
-                                  aria-label=".form-select-sm example">
+                                  formControlName="ChartYAxisFunction" aria-label=".form-select-sm example">
                                   <option value="{{default_select}}" selected>Select function...</option>
                                   <option value="COUNT">COUNT()</option>
                                   <option value="SUM">SUM()</option>
@@ -461,8 +453,9 @@
                               <div class="col-sm-12">
                                 <div class="input-group input-group-sm">
                                   <select class="form-select form-select-sm shadow-none"
-                                    (change)="onSelectChartType($event)" aria-label=".form-select-sm example">
-                                    <option [value]="default_select" selected>Select chart type...</option>
+                                    (change)="onSelectChartType($event)" aria-label=".form-select-sm example"
+                                    formControlName="ChartType">
+                                    <option value="{{default_select}}" selected>Select chart type...</option>
                                     <option value="bar">Bar</option>
                                     <option value="pie">Pie</option>
                                     <option value="line">Line</option>
@@ -471,7 +464,7 @@
                                     <option value="polarArea">Polar Area</option>
                                   </select>
                                   <button class="btn btn-outline-secondary shadow-none" type="button"
-                                    data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Button</button>
+                                    data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Configs</button>
                                 </div>
                               </div>
                             </div>
@@ -571,17 +564,6 @@
                               </div>
                             </div> -->
 
-                            <!-- <div class="row gx-2 gy-2 mb-2">
-                              <div class="col-sm-10">
-                                <input class="form-control form-control-sm" type="text" placeholder="Chart Title"
-                                  aria-label="Chart Title">
-                              </div>
-                              <div class="col-sm-2">
-                                <input type="color" class="form-control form-control-sm form-control-color w-100 p-0"
-                                  id="exampleColorInput" value="#42A5F5">
-                              </div>
-                            </div> -->
-
                           </div>
                         </div>
                       </div>
@@ -597,7 +579,62 @@
                               aria-label="Close"></button>
                           </div>
                           <div class="modal-body">
-                            All chart related configs are here.
+
+                            <div class="row gx-2 gy-2 mb-2">
+                              <div class="col-sm-8">
+                                <label for="BarDatasetsLabel" class="form-label">Dataset Label</label>
+                                <input id="BarDatasetsLabel" class="form-control form-control-sm shadow-none"
+                                  type="text" placeholder="Dataset Label" formControlName="BarDatasetsLabel"
+                                  aria-label="Dataset Label">
+                              </div>
+                              <div class="col-sm-4">
+                                <label for="BarDatasetsBackgroundColor" class="form-label">Dataset BG Color</label>
+                                <input type="color" id="BarDatasetsBackgroundColor"
+                                  class="form-control form-control-sm form-control-color shadow-none w-100 p-0"
+                                  formControlName="BarDatasetsBackgroundColor">
+                              </div>
+                            </div>
+
+                            <div class="row gx-2 gy-2 mb-2">
+                              <div class="col-sm-12">
+                                <label for="BarOptionsPluginsLegendLabelsColor" class="form-label">Legend Labels
+                                  Color</label>
+                                <input type="color" id="BarOptionsPluginsLegendLabelsColor"
+                                  class="form-control form-control-sm form-control-color shadow-none w-100 p-0"
+                                  formControlName="BarOptionsPluginsLegendLabelsColor">
+                              </div>
+                            </div>
+
+                            <div class="row gx-2 gy-2 mb-2">
+                              <div class="col-sm-6">
+                                <label for="BarOptionsScalesXTicksColor" class="form-label">Scales X Ticks Color</label>
+                                <input type="color" id="BarOptionsScalesXTicksColor"
+                                  class="form-control form-control-sm form-control-color shadow-none w-100 p-0"
+                                  formControlName="BarOptionsScalesXTicksColor">
+                              </div>
+                              <div class="col-sm-6">
+                                <label for="BarOptionsScalesXTicksGrid" class="form-label">Scales X Ticks Grid</label>
+                                <input type="color" id="BarOptionsScalesXTicksGrid"
+                                  class="form-control form-control-sm form-control-color shadow-none w-100 p-0"
+                                  formControlName="BarOptionsScalesXTicksGrid">
+                              </div>
+                            </div>
+
+                            <div class="row gx-2 gy-2 mb-2">
+                              <div class="col-sm-6">
+                                <label for="BarOptionsScalesYTicksColor" class="form-label">Scales Y Ticks Color</label>
+                                <input type="color" id="BarOptionsScalesYTicksColor"
+                                  class="form-control form-control-sm form-control-color shadow-none w-100 p-0"
+                                  formControlName="BarOptionsScalesYTicksColor">
+                              </div>
+                              <div class="col-sm-6">
+                                <label for="BarOptionsScalesYTicksGrid" class="form-label">Scales Y Ticks Grid</label>
+                                <input type="color" id="BarOptionsScalesYTicksGrid"
+                                  class="form-control form-control-sm form-control-color shadow-none w-100 p-0"
+                                  formControlName="BarOptionsScalesYTicksGrid">
+                              </div>
+                            </div>
+
                           </div>
                         </div>
                       </div>
@@ -861,3 +898,13 @@
     </ng-template>
   </p-table>
 </p-dialog>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+  <div class="offcanvas-header">
+    <h5 id="offcanvasRightLabel">Offcanvas right</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    ...
+  </div>
+</div>

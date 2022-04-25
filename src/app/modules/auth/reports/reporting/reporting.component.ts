@@ -112,6 +112,10 @@ export class ReportingComponent implements OnInit {
   allWorkSpaces: any[] = [];
   //#endregion
 
+  //#region For SQL on Dataset
+  datasetKeys: any[] = []
+  //#endregion
+
   constructor(
     private formBuilder: FormBuilder,
     private bridgeManagerService: BridgeManagerService,
@@ -310,6 +314,7 @@ export class ReportingComponent implements OnInit {
   get ChartInfo(): FormArray {
     return this.runCustomQueryform.get('ChartInfo') as FormArray;
   }
+
   newChartInfo(): FormGroup {
     return this.formBuilder.group({
       Id: null,
@@ -318,9 +323,19 @@ export class ReportingComponent implements OnInit {
       SubTitle: ['', Validators.required],
       ChartXAxis: ['', Validators.required],
       ChartYAxis: ['', Validators.required],
+      ChartYAxisFunction: ['', Validators.required],
       ChartType: ['', Validators.required],
-      LineDatasetlabel: ['', Validators.required],
-      LineDatasetBackgroundColor: ['#42A5F5', Validators.required],
+
+      BarDatasetsLabel: ['', Validators.required],
+      BarDatasetsBackgroundColor: ['#42A5F5', Validators.required],
+      BarOptionsPluginsLegendLabelsColor: ['#495057', Validators.required],
+      BarOptionsScalesXTicksColor: ['#495057', Validators.required],
+      BarOptionsScalesXTicksGrid: ['#ebedef', Validators.required],
+      BarOptionsScalesYTicksColor: ['#495057', Validators.required],
+      BarOptionsScalesYTicksGrid: ['#ebedef', Validators.required],
+
+      // LineDatasetlabel: ['', Validators.required],
+      // LineDatasetBackgroundColor: ['#42A5F5', Validators.required],
     });
   }
 
@@ -346,7 +361,7 @@ export class ReportingComponent implements OnInit {
     }
     this.reportsService.ExecuteCustomeQuery(this.runCustomQueryform.value).subscribe(
       (res: any) => {
-        console.log(res);
+        this.getDatasetKeys(res[0]);
         this.chartdataService.updateData(res);
         this.resultData = res;
         if (this.selectedWorkspacedata != null) {
@@ -1034,10 +1049,14 @@ export class ReportingComponent implements OnInit {
     }
   }
 
+  // This iregion is for new dashboar
 
   onSelectChartType(event: Event) {
     var chartType = (<HTMLInputElement>event.target).value;
-    console.log(chartType);
+  }
+
+  getDatasetKeys(data: any) {
+    this.datasetKeys = Object.keys(data);
   }
 
 
