@@ -45,8 +45,8 @@
                   <i class="fas fa-copy" style="color: black;"></i></button>
               </div>
               <div class="col-sm-4">
-                <button class="btn btn-sm btn-light shadow w-100"
-                  [disabled]="runCustomQueryform.invalid && resultData.length<1" (click)="addChartInfo()"><i
+                <!-- [disabled]="runCustomQueryform.invalid && resultData.length<1" -->
+                <button class="btn btn-sm btn-light shadow w-100" (click)="addChartInfo()"><i
                     class="fas fa-plus-square"></i></button>
               </div>
             </div>
@@ -395,7 +395,7 @@
                     <div class="modal fade" id="exampleModalToggle" data-bs-backdrop="static" data-bs-keyboard="false"
                       tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                        <div class="modal-content">
+                        <div class="modal-content" style="background-color: #E5E5E5;">
                           <div class="modal-header py-2">
                             <div class="modal-title" id="exampleModalToggleLabel">Chart Configs</div>
                             <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"
@@ -453,7 +453,7 @@
                               <div class="col-sm-12">
                                 <div class="input-group input-group-sm">
                                   <select class="form-select form-select-sm shadow-none"
-                                    (change)="onSelectChartType($event)" aria-label=".form-select-sm example"
+                                    (change)="onSelectChartType(i,$event)" aria-label=".form-select-sm example"
                                     formControlName="ChartType">
                                     <option value="{{default_select}}" selected>Select chart type...</option>
                                     <option value="bar">Bar</option>
@@ -464,106 +464,11 @@
                                     <option value="polarArea">Polar Area</option>
                                   </select>
                                   <button class="btn btn-outline-secondary shadow-none" type="button"
-                                    data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Configs</button>
+                                    data-bs-target="#exampleModalToggle2" data-bs-toggle="modal"
+                                    [disabled]="!function.get('ChartType').value">Configs</button>
                                 </div>
                               </div>
                             </div>
-
-                            <!-- <div class="row gx-2 gy-2 mb-2">
-                              <div class="col-sm-12 d-flex justify-content-between">
-                                <div class="form-check form-check-inline">
-                                  <input class="form-check-input" value="{{default_select}}" type="radio"
-                                    (change)="onSelectChartType($event)" name="flexRadioDefault" id="flexRadioDefault1"
-                                    checked>
-                                  <label class="form-check-label" for="flexRadioDefault1"> <i class="fas fa-ban"></i>
-                                  </label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                  <input class="form-check-input" value="line" (change)="onSelectChartType($event)"
-                                    formControlName="ChartType" type="radio" name="flexRadioDefault"
-                                    id="flexRadioDefault2">
-                                  <label class="form-check-label" for="flexRadioDefault2"> <i
-                                      class="fas fa-chart-line"></i>
-                                  </label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                  <input class="form-check-input" value="bar" (change)="onSelectChartType($event)"
-                                    formControlName="ChartType" type="radio" name="flexRadioDefault"
-                                    id="flexRadioDefault2">
-                                  <label class="form-check-label" for="flexRadioDefault2"> <i
-                                      class="fas fa-chart-bar"></i>
-                                  </label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                  <input class="form-check-input" value="pie" (change)="onSelectChartType($event)"
-                                    formControlName="ChartType" type="radio" name="flexRadioDefault"
-                                    id="flexRadioDefault2">
-                                  <label class="form-check-label" for="flexRadioDefault2"> <i
-                                      class="fas fa-chart-pie"></i>
-                                  </label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                  <input class="form-check-input" value="doughnut" (change)="onSelectChartType($event)"
-                                    formControlName="ChartType" type="radio" name="flexRadioDefault"
-                                    id="flexRadioDefault2">
-                                  <label class="form-check-label" for="flexRadioDefault2"><i
-                                      class="fas fa-circle-notch"></i>
-                                  </label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                  <input class="form-check-input" value="radar" (change)="onSelectChartType($event)"
-                                    formControlName="ChartType" type="radio" name="flexRadioDefault"
-                                    id="flexRadioDefault2">
-                                  <label class="form-check-label" for="flexRadioDefault2"> <i
-                                      class="fab fa-canadian-maple-leaf"></i>
-                                  </label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                  <input class="form-check-input" value="polarArea" (change)="onSelectChartType($event)"
-                                    formControlName="ChartType" type="radio" name="flexRadioDefault"
-                                    id="flexRadioDefault2">
-                                  <label class="form-check-label" for="flexRadioDefault2"><i class="fas fa-igloo"></i>
-                                  </label>
-                                </div>
-                              </div>
-                            </div> -->
-
-                            <!-- <div class="row gx-2 gy-2 mb-2">
-                              <div class="col-sm-12 d-flex justify-content-between">
-                                <div>
-                                  <input type="radio" class="btn-check" id="btn-check-1" checked autocomplete="off">
-                                  <label class="btn shadow" for="btn-check-1"
-                                    [ngClass]="{'bg-light text-dark': true}"><i class="fas fa-ban"></i></label>
-                                </div>
-                                <div>
-                                  <input type="radio" class="btn-check" id="btn-check-2" autocomplete="off">
-                                  <label class="btn shadow" for="btn-check-2"><i class="fas fa-chart-line"></i></label>
-                                </div>
-                                <div>
-                                  <input type="radio" class="btn-check" id="btn-check-3" autocomplete="off">
-                                  <label class="btn shadow" for="btn-check-3"><i class="fas fa-chart-bar"></i></label>
-                                </div>
-                                <div>
-                                  <input type="radio" class="btn-check" id="btn-check-4" autocomplete="off">
-                                  <label class="btn shadow" for="btn-check-4"><i class="fas fa-chart-pie"></i></label>
-                                </div>
-                                <div>
-                                  <input type="radio" class="btn-check" id="btn-check-5" autocomplete="off">
-                                  <label class="btn shadow" for="btn-check-5"><i
-                                      class="fas fa-circle-notch"></i></label>
-                                </div>
-                                <div>
-                                  <input type="radio" class="btn-check" id="btn-check-6" autocomplete="off">
-                                  <label class="btn shadow" for="btn-check-6"><i
-                                      class="fab fa-canadian-maple-leaf"></i></label>
-                                </div>
-                                <div>
-                                  <input type="radio" class="btn-check" id="btn-check-7" autocomplete="off">
-                                  <label class="btn shadow" for="btn-check-7"><i class="fas fa-igloo"></i></label>
-                                </div>
-                              </div>
-                            </div> -->
-
                           </div>
                         </div>
                       </div>
@@ -572,69 +477,91 @@
                     <div class="modal fade" id="exampleModalToggle2" data-bs-backdrop="static" data-bs-keyboard="false"
                       tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                        <div class="modal-content">
+                        <div class="modal-content" style="background-color: #E5E5E5;">
                           <div class="modal-header py-2">
-                            <div class="modal-title" id="exampleModalToggleLabel2">Pie Chart Configs</div>
+                            <div class="modal-title" id="exampleModalToggleLabel2"> {{function.get('ChartType').value |
+                              titlecase}} Chart Configs
+                            </div>
                             <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"
                               aria-label="Close"></button>
                           </div>
-                          <div class="modal-body">
-
+                          <div class="modal-body py-2">
                             <div class="row gx-2 gy-2 mb-2">
-                              <div class="col-sm-8">
+                              <div class="col-sm-6">
                                 <label for="BarDatasetsLabel" class="form-label">Dataset Label</label>
+                              </div>
+                              <div class="col-sm-6">
                                 <input id="BarDatasetsLabel" class="form-control form-control-sm shadow-none"
                                   type="text" placeholder="Dataset Label" formControlName="BarDatasetsLabel"
                                   aria-label="Dataset Label">
                               </div>
-                              <div class="col-sm-4">
+                            </div>
+                            <div class="row gx-2 gy-2 mb-2">
+                              <div class="col-sm-6">
                                 <label for="BarDatasetsBackgroundColor" class="form-label">Dataset BG Color</label>
+                              </div>
+                              <div class="col-sm-6">
                                 <input type="color" id="BarDatasetsBackgroundColor"
-                                  class="form-control form-control-sm form-control-color shadow-none w-100 p-0"
+                                  class="form-control form-control-color shadow-none w-100 p-0"
                                   formControlName="BarDatasetsBackgroundColor">
                               </div>
                             </div>
-
                             <div class="row gx-2 gy-2 mb-2">
-                              <div class="col-sm-12">
+                              <div class="col-sm-6">
                                 <label for="BarOptionsPluginsLegendLabelsColor" class="form-label">Legend Labels
                                   Color</label>
+                              </div>
+                              <div class="col-sm-6">
                                 <input type="color" id="BarOptionsPluginsLegendLabelsColor"
-                                  class="form-control form-control-sm form-control-color shadow-none w-100 p-0"
+                                  class="form-control form-control-color shadow-none w-100 p-0"
                                   formControlName="BarOptionsPluginsLegendLabelsColor">
                               </div>
                             </div>
-
                             <div class="row gx-2 gy-2 mb-2">
                               <div class="col-sm-6">
                                 <label for="BarOptionsScalesXTicksColor" class="form-label">Scales X Ticks Color</label>
-                                <input type="color" id="BarOptionsScalesXTicksColor"
-                                  class="form-control form-control-sm form-control-color shadow-none w-100 p-0"
-                                  formControlName="BarOptionsScalesXTicksColor">
                               </div>
                               <div class="col-sm-6">
+                                <input type="color" id="BarOptionsScalesXTicksColor"
+                                  class="form-control form-control-color shadow-none w-100 p-0"
+                                  formControlName="BarOptionsScalesXTicksColor">
+                              </div>
+                            </div>
+                            <div class="row gx-2 gy-2 mb-2">
+                              <div class="col-sm-6">
                                 <label for="BarOptionsScalesXTicksGrid" class="form-label">Scales X Ticks Grid</label>
+                              </div>
+                              <div class="col-sm-6">
                                 <input type="color" id="BarOptionsScalesXTicksGrid"
-                                  class="form-control form-control-sm form-control-color shadow-none w-100 p-0"
+                                  class="form-control form-control-color shadow-none w-100 p-0"
                                   formControlName="BarOptionsScalesXTicksGrid">
                               </div>
                             </div>
-
                             <div class="row gx-2 gy-2 mb-2">
                               <div class="col-sm-6">
                                 <label for="BarOptionsScalesYTicksColor" class="form-label">Scales Y Ticks Color</label>
-                                <input type="color" id="BarOptionsScalesYTicksColor"
-                                  class="form-control form-control-sm form-control-color shadow-none w-100 p-0"
-                                  formControlName="BarOptionsScalesYTicksColor">
                               </div>
                               <div class="col-sm-6">
+                                <input type="color" id="BarOptionsScalesYTicksColor"
+                                  class="form-control form-control-color shadow-none w-100 p-0"
+                                  formControlName="BarOptionsScalesYTicksColor">
+                              </div>
+                            </div>
+                            <div class="row gx-2 gy-2">
+                              <div class="col-sm-6">
                                 <label for="BarOptionsScalesYTicksGrid" class="form-label">Scales Y Ticks Grid</label>
+                              </div>
+                              <div class="col-sm-6">
                                 <input type="color" id="BarOptionsScalesYTicksGrid"
-                                  class="form-control form-control-sm form-control-color shadow-none w-100 p-0"
+                                  class="form-control form-control-color shadow-none w-100 p-0"
                                   formControlName="BarOptionsScalesYTicksGrid">
                               </div>
                             </div>
-
+                          </div>
+                          <div class="modal-footer py-2">
+                            <button type="button" class="btn btn-sm btn-secondary shadow-none"
+                              data-bs-dismiss="modal">Save &
+                              Close</button>
                           </div>
                         </div>
                       </div>

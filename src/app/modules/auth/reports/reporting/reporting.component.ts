@@ -326,16 +326,16 @@ export class ReportingComponent implements OnInit {
       ChartYAxisFunction: ['', Validators.required],
       ChartType: ['', Validators.required],
 
-      BarDatasetsLabel: ['', Validators.required],
-      BarDatasetsBackgroundColor: ['#42A5F5', Validators.required],
-      BarOptionsPluginsLegendLabelsColor: ['#495057', Validators.required],
-      BarOptionsScalesXTicksColor: ['#495057', Validators.required],
-      BarOptionsScalesXTicksGrid: ['#ebedef', Validators.required],
-      BarOptionsScalesYTicksColor: ['#495057', Validators.required],
-      BarOptionsScalesYTicksGrid: ['#ebedef', Validators.required],
+      BarDatasetsLabel: [{ value: '', disabled: true }, Validators.required],
+      BarDatasetsBackgroundColor: [{ value: '#42A5F5', disabled: true }, Validators.required],
+      BarOptionsPluginsLegendLabelsColor: [{ value: '#495057', disabled: true }, Validators.required],
+      BarOptionsScalesXTicksColor: [{ value: '#495057', disabled: true }, Validators.required],
+      BarOptionsScalesXTicksGrid: [{ value: '#ebedef', disabled: true }, Validators.required],
+      BarOptionsScalesYTicksColor: [{ value: '#495057', disabled: true }, Validators.required],
+      BarOptionsScalesYTicksGrid: [{ value: '#ebedef', disabled: true }, Validators.required],
 
-      // LineDatasetlabel: ['', Validators.required],
-      // LineDatasetBackgroundColor: ['#42A5F5', Validators.required],
+      FinalChartData: ['', Validators.required],
+      FinalChartOptions: ['', Validators.required]
     });
   }
 
@@ -1051,12 +1051,45 @@ export class ReportingComponent implements OnInit {
 
   // This iregion is for new dashboar
 
-  onSelectChartType(event: Event) {
+  onSelectChartType(i: number, event: Event) {
     var chartType = (<HTMLInputElement>event.target).value;
+    if (chartType == 'bar') {
+      var chartInfo = this.runCustomQueryform.get('ChartInfo') as FormArray;
+      chartInfo.at(i).get('BarDatasetsLabel')!.enable();
+      chartInfo.at(i).get('BarDatasetsLabel')!.setValidators([Validators.required]);
+      chartInfo.at(i).get('BarDatasetsLabel')!.updateValueAndValidity();
+    }
+    else if (chartType == 'pie') {
+
+    }
+    else if (chartType == 'line') {
+
+    }
+    else if (chartType == 'radar') {
+
+    }
+    else if (chartType == 'doughnut') {
+
+    }
+    else if (chartType == 'polarArea') {
+
+    }
   }
 
   getDatasetKeys(data: any) {
     this.datasetKeys = Object.keys(data);
+  }
+
+  onConfirmChartsConfig(chartInfoId: number, chartType: string) {
+    var chartInfo = this.runCustomQueryform.get('ChartInfo') as FormArray
+    var chartInfoData = chartInfo.controls[chartInfoId].value;
+    if (chartInfoData.ChartType == 'line') {
+      this.createChart(chartInfoId, chartInfoData.ChartName, chartInfoData.ChartType, chartInfoData.xAxis, chartInfoData.yAxis);
+    }
+    else {
+      this.createChart(chartInfoId, chartInfoData.ChartName, chartInfoData.ChartType, chartInfoData.xAxis, chartInfoData.yAxis);
+    }
+
   }
 
 
