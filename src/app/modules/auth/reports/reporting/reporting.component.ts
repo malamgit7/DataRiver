@@ -312,8 +312,7 @@ export class ReportingComponent implements OnInit {
   }
   //#endregion
 
-
-  //#region 
+  //#region ChartInfo
   get ChartInfo(): FormArray {
     return this.runCustomQueryform.get('ChartInfo') as FormArray;
   }
@@ -345,7 +344,6 @@ export class ReportingComponent implements OnInit {
     this.ChartInfo.removeAt(i);
   }
   //#endregion
-
 
   //#region ChartYAxisInfo Controller
   ChartYAxisInfo(chartInfoIndex: number): FormArray {
@@ -1101,7 +1099,6 @@ export class ReportingComponent implements OnInit {
       chartInfo.at(i).get('LineBarOptionsScalesYTicksColor')!.enable(); chartInfo.at(i).get('LineBarOptionsScalesYTicksColor')!.setValidators([Validators.required]); chartInfo.at(i).get('LineBarOptionsScalesYTicksColor')!.updateValueAndValidity();
       chartInfo.at(i).get('LineBarOptionsScalesYTicksGrid')!.enable(); chartInfo.at(i).get('LineBarOptionsScalesYTicksGrid')!.setValidators([Validators.required]); chartInfo.at(i).get('LineBarOptionsScalesYTicksGrid')!.updateValueAndValidity();
     }
-
     else if (chartType == 'radar') {
 
     }
@@ -1111,6 +1108,23 @@ export class ReportingComponent implements OnInit {
     else if (chartType == 'polarArea') {
 
     }
+  }
+
+  onSelectChartYAxisInfo(chartInfoIndex: number, chartYAxisInfoIndex: number, chartType: string) {
+    var _x = runc
+    // var chartYAxisInfo = (<HTMLInputElement>event.target).value;
+    // var chartInfo = this.runCustomQueryform.get('ChartInfo') as FormArray;
+
+    // if (chartYAxisInfo == 'single') {
+    //   chartInfo.at(i).get('LineBarPieOptionsPluginsLegendLabelsColor')!.enable(); chartInfo.at(i).get('LineBarPieOptionsPluginsLegendLabelsColor')!.setValidators([Validators.required]); chartInfo.at(i).get('LineBarPieOptionsPluginsLegendLabelsColor')!.updateValueAndValidity();
+    //   chartInfo.at(i).get('LineBarOptionsScalesXTicksColor')!.enable(); chartInfo.at(i).get('LineBarOptionsScalesXTicksColor')!.setValidators([Validators.required]); chartInfo.at(i).get('LineBarOptionsScalesXTicksColor')!.updateValueAndValidity();
+    //   chartInfo.at(i).get('LineBarOptionsScalesXTicksGrid')!.enable(); chartInfo.at(i).get('LineBarOptionsScalesXTicksGrid')!.setValidators([Validators.required]); chartInfo.at(i).get('LineBarOptionsScalesXTicksGrid')!.updateValueAndValidity();
+    //   chartInfo.at(i).get('LineBarOptionsScalesYTicksColor')!.enable(); chartInfo.at(i).get('LineBarOptionsScalesYTicksColor')!.setValidators([Validators.required]); chartInfo.at(i).get('LineBarOptionsScalesYTicksColor')!.updateValueAndValidity();
+    //   chartInfo.at(i).get('LineBarOptionsScalesYTicksGrid')!.enable(); chartInfo.at(i).get('LineBarOptionsScalesYTicksGrid')!.setValidators([Validators.required]); chartInfo.at(i).get('LineBarOptionsScalesYTicksGrid')!.updateValueAndValidity();
+    // }
+    // else if (chartYAxisInfo == 'multiple') {
+    //   chartInfo.at(i).get('LineBarPieOptionsPluginsLegendLabelsColor')!.enable(); chartInfo.at(i).get('LineBarPieOptionsPluginsLegendLabelsColor')!.setValidators([Validators.required]); chartInfo.at(i).get('LineBarPieOptionsPluginsLegendLabelsColor')!.updateValueAndValidity();
+    // }
   }
 
   getDatasetKeys(data: any) {
