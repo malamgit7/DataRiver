@@ -168,6 +168,7 @@ export class ReportingComponent implements OnInit {
       SortBy: this.formBuilder.array([]),
       FilterBy: this.formBuilder.array([]),
       ChartInfo: this.formBuilder.array([]),
+
       ChartName1: [''],
       ChartName2: [''],
       ChartName3: [''],
@@ -184,6 +185,7 @@ export class ReportingComponent implements OnInit {
       ChartType2: [''],
       ChartType3: [''],
       ChartType4: [''],
+
       AddedBy: this.userName,
       AddedDate: this.todayDate,
       UpdatedBy: this.userName,
@@ -326,13 +328,16 @@ export class ReportingComponent implements OnInit {
       ChartYAxisFunction: ['', Validators.required],
       ChartType: ['', Validators.required],
 
-      BarDatasetsLabel: [{ value: '', disabled: true }, Validators.required],
-      BarDatasetsBackgroundColor: [{ value: '#42A5F5', disabled: true }, Validators.required],
-      BarOptionsPluginsLegendLabelsColor: [{ value: '#495057', disabled: true }, Validators.required],
-      BarOptionsScalesXTicksColor: [{ value: '#495057', disabled: true }, Validators.required],
-      BarOptionsScalesXTicksGrid: [{ value: '#ebedef', disabled: true }, Validators.required],
-      BarOptionsScalesYTicksColor: [{ value: '#495057', disabled: true }, Validators.required],
-      BarOptionsScalesYTicksGrid: [{ value: '#ebedef', disabled: true }, Validators.required],
+      LineBarDatasetsLabel: [{ value: '', disabled: true }, Validators.required],   // Done
+      BarDatasetsBackgroundColor: [{ value: '#42A5F5', disabled: true }, Validators.required],    // Done
+      LineDatasetsFill: [{ value: false, disabled: true }, Validators.required],   // Done
+      LineDatasetsBorderColor: [{ value: '#42A5F5', disabled: true }, Validators.required],    // Done
+      LineDatasetsTension: [{ value: 0.4, disabled: true }, Validators.required],  // Done
+      LineBarPieOptionsPluginsLegendLabelsColor: [{ value: '#495057', disabled: true }, Validators.required],   // Done
+      LineBarOptionsScalesXTicksColor: [{ value: '#495057', disabled: true }, Validators.required],   // Done
+      LineBarOptionsScalesXTicksGrid: [{ value: '#EBEDEF', disabled: true }, Validators.required],    // Done
+      LineBarOptionsScalesYTicksColor: [{ value: '#495057', disabled: true }, Validators.required],   // Done
+      LineBarOptionsScalesYTicksGrid: [{ value: '#EBEDEF', disabled: true }, Validators.required],    // Done
 
       FinalChartData: ['', Validators.required],
       FinalChartOptions: ['', Validators.required]
@@ -347,6 +352,7 @@ export class ReportingComponent implements OnInit {
   }
   //#endregion
 
+  //#region 
   onSubmitRunCustomQuery() {
     this.runcustomQueryForm_loading = true;
     this.xAxisItems = []
@@ -1048,23 +1054,55 @@ export class ReportingComponent implements OnInit {
       this.removeValidatorToWorkspaceName();
     }
   }
+  //#endregion
 
   // This iregion is for new dashboar
 
   onSelectChartType(i: number, event: Event) {
     var chartType = (<HTMLInputElement>event.target).value;
+    var chartInfo = this.runCustomQueryform.get('ChartInfo') as FormArray;
+
     if (chartType == 'bar') {
-      var chartInfo = this.runCustomQueryform.get('ChartInfo') as FormArray;
-      chartInfo.at(i).get('BarDatasetsLabel')!.enable();
-      chartInfo.at(i).get('BarDatasetsLabel')!.setValidators([Validators.required]);
-      chartInfo.at(i).get('BarDatasetsLabel')!.updateValueAndValidity();
+      chartInfo.at(i).get('LineBarDatasetsLabel')!.enable(); chartInfo.at(i).get('LineBarDatasetsLabel')!.setValidators([Validators.required]); chartInfo.at(i).get('LineBarDatasetsLabel')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarDatasetsBackgroundColor')!.enable(); chartInfo.at(i).get('BarDatasetsBackgroundColor')!.setValidators([Validators.required]); chartInfo.at(i).get('BarDatasetsBackgroundColor')!.updateValueAndValidity();
+
+      chartInfo.at(i).get('LineBarPieOptionsPluginsLegendLabelsColor')!.enable(); chartInfo.at(i).get('LineBarPieOptionsPluginsLegendLabelsColor')!.setValidators([Validators.required]); chartInfo.at(i).get('LineBarPieOptionsPluginsLegendLabelsColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('LineBarOptionsScalesXTicksColor')!.enable(); chartInfo.at(i).get('LineBarOptionsScalesXTicksColor')!.setValidators([Validators.required]); chartInfo.at(i).get('LineBarOptionsScalesXTicksColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('LineBarOptionsScalesXTicksGrid')!.enable(); chartInfo.at(i).get('LineBarOptionsScalesXTicksGrid')!.setValidators([Validators.required]); chartInfo.at(i).get('LineBarOptionsScalesXTicksGrid')!.updateValueAndValidity();
+      chartInfo.at(i).get('LineBarOptionsScalesYTicksColor')!.enable(); chartInfo.at(i).get('LineBarOptionsScalesYTicksColor')!.setValidators([Validators.required]); chartInfo.at(i).get('LineBarOptionsScalesYTicksColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('LineBarOptionsScalesYTicksGrid')!.enable(); chartInfo.at(i).get('LineBarOptionsScalesYTicksGrid')!.setValidators([Validators.required]); chartInfo.at(i).get('LineBarOptionsScalesYTicksGrid')!.updateValueAndValidity();
+
+      chartInfo.at(i).get('LineDatasetsFill')!.disable(); chartInfo.at(i).get('LineDatasetsFill')!.clearValidators(); chartInfo.at(i).get('LineDatasetsFill')!.updateValueAndValidity();
+      chartInfo.at(i).get('LineDatasetsBorderColor')!.disable(); chartInfo.at(i).get('LineDatasetsBorderColor')!.clearValidators(); chartInfo.at(i).get('LineDatasetsBorderColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('LineDatasetsTension')!.disable(); chartInfo.at(i).get('LineDatasetsTension')!.clearValidators(); chartInfo.at(i).get('LineDatasetsTension')!.updateValueAndValidity();
     }
     else if (chartType == 'pie') {
+      chartInfo.at(i).get('LineBarPieOptionsPluginsLegendLabelsColor')!.enable(); chartInfo.at(i).get('LineBarPieOptionsPluginsLegendLabelsColor')!.setValidators([Validators.required]); chartInfo.at(i).get('LineBarPieOptionsPluginsLegendLabelsColor')!.updateValueAndValidity();
 
+      chartInfo.at(i).get('BarDatasetsBackgroundColor')!.disable(); chartInfo.at(i).get('BarDatasetsBackgroundColor')!.clearValidators(); chartInfo.at(i).get('BarDatasetsBackgroundColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('LineBarDatasetsLabel')!.disable(); chartInfo.at(i).get('LineBarDatasetsLabel')!.clearValidators(); chartInfo.at(i).get('LineBarDatasetsLabel')!.updateValueAndValidity();
+      chartInfo.at(i).get('LineBarOptionsScalesXTicksColor')!.disable(); chartInfo.at(i).get('LineBarOptionsScalesXTicksColor')!.clearValidators(); chartInfo.at(i).get('LineBarOptionsScalesXTicksColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('LineBarOptionsScalesXTicksGrid')!.disable(); chartInfo.at(i).get('LineBarOptionsScalesXTicksGrid')!.clearValidators(); chartInfo.at(i).get('LineBarOptionsScalesXTicksGrid')!.updateValueAndValidity();
+      chartInfo.at(i).get('LineBarOptionsScalesYTicksColor')!.disable(); chartInfo.at(i).get('LineBarOptionsScalesYTicksColor')!.clearValidators(); chartInfo.at(i).get('LineBarOptionsScalesYTicksColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('LineBarOptionsScalesYTicksGrid')!.disable(); chartInfo.at(i).get('LineBarOptionsScalesYTicksGrid')!.clearValidators(); chartInfo.at(i).get('LineBarOptionsScalesYTicksGrid')!.updateValueAndValidity();
+      chartInfo.at(i).get('LineDatasetsFill')!.disable(); chartInfo.at(i).get('LineDatasetsFill')!.clearValidators(); chartInfo.at(i).get('LineDatasetsFill')!.updateValueAndValidity();
+      chartInfo.at(i).get('LineDatasetsBorderColor')!.disable(); chartInfo.at(i).get('LineDatasetsBorderColor')!.clearValidators(); chartInfo.at(i).get('LineDatasetsBorderColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('LineDatasetsTension')!.disable(); chartInfo.at(i).get('LineDatasetsTension')!.clearValidators(); chartInfo.at(i).get('LineDatasetsTension')!.updateValueAndValidity();
     }
     else if (chartType == 'line') {
+      chartInfo.at(i).get('LineDatasetsFill')!.enable(); chartInfo.at(i).get('LineDatasetsFill')!.setValidators([Validators.required]); chartInfo.at(i).get('LineDatasetsFill')!.updateValueAndValidity();
+      chartInfo.at(i).get('LineDatasetsBorderColor')!.enable(); chartInfo.at(i).get('LineDatasetsBorderColor')!.setValidators([Validators.required]); chartInfo.at(i).get('LineDatasetsBorderColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('LineDatasetsTension')!.enable(); chartInfo.at(i).get('LineDatasetsTension')!.setValidators([Validators.required]); chartInfo.at(i).get('LineDatasetsTension')!.updateValueAndValidity();
+      chartInfo.at(i).get('LineBarDatasetsLabel')!.enable(); chartInfo.at(i).get('LineBarDatasetsLabel')!.setValidators([Validators.required]); chartInfo.at(i).get('LineBarDatasetsLabel')!.updateValueAndValidity();
+      chartInfo.at(i).get('LineBarPieOptionsPluginsLegendLabelsColor')!.enable(); chartInfo.at(i).get('LineBarPieOptionsPluginsLegendLabelsColor')!.setValidators([Validators.required]); chartInfo.at(i).get('LineBarPieOptionsPluginsLegendLabelsColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('LineBarOptionsScalesXTicksColor')!.enable(); chartInfo.at(i).get('LineBarOptionsScalesXTicksColor')!.setValidators([Validators.required]); chartInfo.at(i).get('LineBarOptionsScalesXTicksColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('LineBarOptionsScalesXTicksGrid')!.enable(); chartInfo.at(i).get('LineBarOptionsScalesXTicksGrid')!.setValidators([Validators.required]); chartInfo.at(i).get('LineBarOptionsScalesXTicksGrid')!.updateValueAndValidity();
+      chartInfo.at(i).get('LineBarOptionsScalesYTicksColor')!.enable(); chartInfo.at(i).get('LineBarOptionsScalesYTicksColor')!.setValidators([Validators.required]); chartInfo.at(i).get('LineBarOptionsScalesYTicksColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('LineBarOptionsScalesYTicksGrid')!.enable(); chartInfo.at(i).get('LineBarOptionsScalesYTicksGrid')!.setValidators([Validators.required]); chartInfo.at(i).get('LineBarOptionsScalesYTicksGrid')!.updateValueAndValidity();
 
+      chartInfo.at(i).get('BarDatasetsBackgroundColor')!.disable(); chartInfo.at(i).get('BarDatasetsBackgroundColor')!.clearValidators(); chartInfo.at(i).get('BarDatasetsBackgroundColor')!.updateValueAndValidity();
     }
+
     else if (chartType == 'radar') {
 
     }
