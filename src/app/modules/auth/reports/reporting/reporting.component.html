@@ -485,11 +485,13 @@
                                       </div>
                                       <div class="col-sm-1">
                                         <button type="button" class="btn btn-sm btn-success shadow-none"
-                                          data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                                          (click)="onSelectChartYAxisInfo(i,j, function.get('ChartType').value)"
+                                          onSelectChartType data-bs-toggle="modal" data-bs-target="#staticBackdrop"
                                           [disabled]="!(func.get('ChartYAxis').value && func.get('ChartYAxisFunction').value)"><i
                                             class="fas fa-filter"></i></button>
                                       </div>
                                     </div>
+
                                     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
                                       data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
                                       aria-hidden="true">
@@ -504,7 +506,8 @@
                                               aria-label="Close"></button>
                                           </div>
                                           <div class="modal-body">
-                                            <div class="row gx-2 gy-2 mb-2">
+                                            <div class="row gx-2 gy-2 mb-2"
+                                              [hidden]="func.get('LineBarDatasetsLabel').disabled">
                                               <div class="col-sm-6">
                                                 <label for="LineBarDatasetsLabel" class="form-label">Dataset
                                                   Label</label>
@@ -550,7 +553,7 @@
                                                 <div class="ms-auto">{{func.get('LineDatasetsFill').value}}</div>
                                               </div>
                                             </div>
-                                            <div class="row gx-2 gy-2"
+                                            <div class="row gx-2 gy-2 mb-2"
                                               [hidden]="func.get('LineDatasetsTension').disabled">
                                               <div class="col-sm-6">
                                                 <label class="form-label" for="LineDatasetsTension">Line Datasets
@@ -591,6 +594,7 @@
                                         </div>
                                       </div>
                                     </div>
+
                                   </div>
                                 </div>
                               </div>
