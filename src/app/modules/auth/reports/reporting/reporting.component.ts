@@ -162,6 +162,27 @@ export class ReportingComponent implements OnInit {
     this.basicOptions = {
       indexAxis: 'x',
       plugins: {
+        title: {
+          display: true,
+          text: 'Custom Chart Title',
+          color: 'white',
+          position: 'top',
+          align: 'start',
+          font: {
+            size: 20
+          },
+          padding: {
+            top: 5,
+            bottom: 5
+          }
+        },
+        subtitle: {
+          display: true,
+          text: 'Custom Chart Subtitle',
+          color: 'white',
+          position: 'top',
+          align: 'start',
+        },
         tooltips: {
           mode: 'index',
           intersect: false
@@ -178,7 +199,10 @@ export class ReportingComponent implements OnInit {
           title: {
             color: 'white',
             display: true,
-            text: 'X - Axis'
+            text: 'X - Axis',
+            font: {
+              size: 20
+            }
           },
           ticks: {
             color: 'white'
@@ -192,7 +216,10 @@ export class ReportingComponent implements OnInit {
           title: {
             color: 'white',
             display: true,
-            text: 'Y -Axis'
+            text: 'Y -Axis',
+            font: {
+              size: 20
+            }
           },
           ticks: {
             color: 'white'
