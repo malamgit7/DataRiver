@@ -166,25 +166,32 @@ export class ReportingComponent implements OnInit {
           display: true,
           text: 'Custom Chart Title',
           color: 'white',
-          position: 'top',
-          align: 'start',
+          position: 'top',  // top, bottom, left, right
+          align: 'center',  //start, center, end
           font: {
             size: 20
           },
           padding: {
-            top: 5,
-            bottom: 5
+            top: 0,
+            bottom: 0
           }
         },
         subtitle: {
           display: true,
           text: 'Custom Chart Subtitle',
           color: 'white',
-          position: 'top',
-          align: 'start',
+          position: 'top',  // top, bottom, left, right
+          align: 'center',  //start, center, end
+          font: {
+            size: 15
+          },
+          padding: {
+            top: 0,
+            bottom: 0
+          }
         },
         tooltips: {
-          mode: 'index',
+          mode: 'index',  //point,nearest,index,dataset, x, y
           intersect: false
         },
         legend: {
