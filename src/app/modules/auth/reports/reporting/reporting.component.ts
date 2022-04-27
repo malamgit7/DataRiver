@@ -169,7 +169,7 @@ export class ReportingComponent implements OnInit {
       ]
     };
     this.barOptions = {
-      indexAxis: 'x',
+      indexAxis: 'y',
       plugins: {
         title: {
           display: true,
@@ -211,7 +211,7 @@ export class ReportingComponent implements OnInit {
       },
       scales: {
         x: {
-          stacked: true,
+          stacked: false,
           title: {
             color: 'white',
             display: true,
@@ -228,7 +228,7 @@ export class ReportingComponent implements OnInit {
           }
         },
         y: {
-          stacked: true,
+          stacked: false,
           title: {
             color: 'white',
             display: true,
@@ -254,7 +254,7 @@ export class ReportingComponent implements OnInit {
           data: [65, 59, 80, 81, 56, 55, 40],
           fill: false,
           borderDash: [0, 0],
-          tension: .4,
+          tension: 0,
           borderColor: '#42A5F5',
           backgroundColor: 'rgba(255,167,38,0.2)'
         },
@@ -262,7 +262,7 @@ export class ReportingComponent implements OnInit {
           label: 'Second Dataset',
           data: [28, 48, 40, 19, 86, 27, 90],
           fill: false,
-          borderDash: [1, 3],
+          borderDash: [5, 5],
           tension: .4,
           borderColor: '#66BB6A',
           backgroundColor: 'rgba(255,167,38,0.2)'
@@ -483,7 +483,7 @@ export class ReportingComponent implements OnInit {
           pointBorderColor: '#fff',
           pointHoverBackgroundColor: '#fff',
           pointHoverBorderColor: 'rgba(179,181,198,1)',
-          data: [65, 59, 90, 81, 56, 55, 40]
+          data: [65, 59, 90, 81, 56, 55, 400]
         },
         {
           label: 'My Second dataset',
