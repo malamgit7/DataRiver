@@ -116,9 +116,11 @@ export class ReportingComponent implements OnInit {
   datasetKeys: any[] = []
   //#endregion
 
-  basicData: any;
+  barData: any;
+  barOptions: any;
 
-  basicOptions: any;
+  lineData: any
+  lineOptions: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -144,7 +146,7 @@ export class ReportingComponent implements OnInit {
   ngOnInit(): void {
 
     //#region 
-    this.basicData = {
+    this.barData = {
       labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
       datasets: [
         {
@@ -159,7 +161,7 @@ export class ReportingComponent implements OnInit {
         }
       ]
     };
-    this.basicOptions = {
+    this.barOptions = {
       indexAxis: 'x',
       plugins: {
         title: {
@@ -202,7 +204,7 @@ export class ReportingComponent implements OnInit {
       },
       scales: {
         x: {
-          stacked: false,
+          stacked: true,
           title: {
             color: 'white',
             display: true,
@@ -219,7 +221,7 @@ export class ReportingComponent implements OnInit {
           }
         },
         y: {
-          stacked: false,
+          stacked: true,
           title: {
             color: 'white',
             display: true,
@@ -237,6 +239,114 @@ export class ReportingComponent implements OnInit {
         }
       }
     };
+    this.lineData = {
+      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      datasets: [
+        {
+          label: 'First Dataset',
+          data: [65, 59, 80, 81, 56, 55, 40],
+          fill: false,
+          borderDash: [0, 0],
+          tension: .4,
+          borderColor: '#42A5F5',
+          backgroundColor: 'rgba(255,167,38,0.2)'
+        },
+        {
+          label: 'Second Dataset',
+          data: [28, 48, 40, 19, 86, 27, 90],
+          fill: false,
+          borderDash: [1, 3],
+          tension: .4,
+          borderColor: '#66BB6A',
+          backgroundColor: 'rgba(255,167,38,0.2)'
+        },
+        {
+          label: 'Third Dataset',
+          data: [12, 51, 62, 33, 21, 62, 45],
+          fill: true,
+          borderDash: [0, 0],
+          tension: .4,
+          borderColor: '#FFA726',
+          backgroundColor: 'rgba(255,167,38,0.2)'
+        }
+      ]
+    }
+    this.lineOptions = {
+      indexAxis: 'x',
+      plugins: {
+        title: {
+          display: true,
+          text: 'Custom Chart Title',
+          color: 'white',
+          position: 'top',  // top, bottom, left, right
+          align: 'center',  //start, center, end
+          font: {
+            size: 20
+          },
+          padding: {
+            top: 0,
+            bottom: 0
+          }
+        },
+        subtitle: {
+          display: true,
+          text: 'Custom Chart Subtitle',
+          color: 'white',
+          position: 'top',  // top, bottom, left, right
+          align: 'center',  //start, center, end
+          font: {
+            size: 15
+          },
+          padding: {
+            top: 0,
+            bottom: 0
+          }
+        },
+        tooltips: {
+          mode: 'index',  //point,nearest,index,dataset, x, y
+          intersect: false
+        },
+        legend: {
+          labels: {
+            color: 'white'
+          }
+        }
+      },
+      scales: {
+        x: {
+          title: {
+            color: 'white',
+            display: true,
+            text: 'X - Axis',
+            font: {
+              size: 20
+            }
+          },
+          ticks: {
+            color: 'white'
+          },
+          grid: {
+            color: 'white'
+          }
+        },
+        y: {
+          title: {
+            color: 'white',
+            display: true,
+            text: 'Y -Axis',
+            font: {
+              size: 20
+            }
+          },
+          ticks: {
+            color: 'white'
+          },
+          grid: {
+            color: 'white'
+          }
+        }
+      }
+    }
     //#endregion
 
     this.userName = this.msalAuthenticationService.userName();

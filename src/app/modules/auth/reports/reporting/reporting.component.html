@@ -363,7 +363,8 @@
           </form>
         </div>
         <div class="col-sm-9">
-          <p-chart type="bar" [data]="basicData" [options]="basicOptions"></p-chart>
+          <p-chart type="bar" [data]="barData" [options]="barOptions"></p-chart>
+          <p-chart type="line" [data]="lineData" [options]="lineOptions"></p-chart>
           <div class="row gx-2 gy-2 mb-2" *ngIf="isError">
             <div class="col-sm-12">
               <div class="alert alert-danger alert-dismissible fade show" role="alert">
