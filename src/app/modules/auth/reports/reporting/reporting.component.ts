@@ -122,6 +122,12 @@ export class ReportingComponent implements OnInit {
   lineOptions: any;
   pieData: any
   pieOptions: any
+  doughnutData: any
+  doughnutOptions: any
+  radarData: any
+  radarOptions: any
+  polarAreaData: any
+  polarAreaOptions: any
 
   constructor(
     private formBuilder: FormBuilder,
@@ -402,6 +408,218 @@ export class ReportingComponent implements OnInit {
         },
         legend: {
           labels: {
+            color: 'white'
+          }
+        }
+      }
+    }
+    this.doughnutData = {
+      labels: ['A', 'B', 'C'],
+      datasets: [
+        {
+          data: [300, 50, 100],
+          backgroundColor: [
+            "#FF6384",
+            "#36A2EB",
+            "#FFCE56"
+          ],
+          hoverBackgroundColor: [
+            "#FF6384",
+            "#36A2EB",
+            "#FFCE56"
+          ]
+        }
+      ]
+    }
+    this.doughnutOptions = {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Custom Chart Title',
+          color: 'white',
+          position: 'top',  // top, bottom, left, right
+          align: 'center',  //start, center, end
+          font: {
+            size: 20
+          },
+          padding: {
+            top: 0,
+            bottom: 0
+          }
+        },
+        subtitle: {
+          display: true,
+          text: 'Custom Chart Subtitle',
+          color: 'white',
+          position: 'top',  // top, bottom, left, right
+          align: 'center',  //start, center, end
+          font: {
+            size: 15
+          },
+          padding: {
+            top: 0,
+            bottom: 0
+          }
+        },
+        tooltips: {
+          mode: 'index',  //point,nearest,index,dataset, x, y
+          intersect: false
+        },
+        legend: {
+          labels: {
+            color: 'white'
+          }
+        }
+      }
+    }
+    this.radarData = {
+      labels: ['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Running'],
+      datasets: [
+        {
+          label: 'My First dataset',
+          backgroundColor: 'rgba(179,181,198,0.2)',
+          borderColor: 'rgba(179,181,198,1)',
+          pointBackgroundColor: 'rgba(179,181,198,1)',
+          pointBorderColor: '#fff',
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: 'rgba(179,181,198,1)',
+          data: [65, 59, 90, 81, 56, 55, 40]
+        },
+        {
+          label: 'My Second dataset',
+          backgroundColor: 'rgba(255,99,132,0.2)',
+          borderColor: 'rgba(255,99,132,1)',
+          pointBackgroundColor: 'rgba(255,99,132,1)',
+          pointBorderColor: '#fff',
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: 'rgba(255,99,132,1)',
+          data: [28, 48, 40, 19, 96, 27, 100]
+        }
+      ]
+    }
+    this.radarOptions = {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Custom Chart Title',
+          color: 'white',
+          position: 'top',  // top, bottom, left, right
+          align: 'center',  //start, center, end
+          font: {
+            size: 20
+          },
+          padding: {
+            top: 0,
+            bottom: 0
+          }
+        },
+        subtitle: {
+          display: true,
+          text: 'Custom Chart Subtitle',
+          color: 'white',
+          position: 'top',  // top, bottom, left, right
+          align: 'center',  //start, center, end
+          font: {
+            size: 15
+          },
+          padding: {
+            top: 0,
+            bottom: 0
+          }
+        },
+        tooltips: {
+          mode: 'index',  //point,nearest,index,dataset, x, y
+          intersect: false
+        },
+        legend: {
+          labels: {
+            color: 'white'
+          }
+        }
+      },
+      scales: {
+        r: {
+          pointLabels: {
+            color: 'white',
+          },
+          grid: {
+            color: 'white',
+          },
+          angleLines: {
+            color: 'white'
+          }
+        }
+      }
+    }
+    this.polarAreaData = {
+      datasets: [{
+        data: [
+          11,
+          16,
+          7,
+          3,
+          14
+        ],
+        backgroundColor: [
+          "#42A5F5",
+          "#66BB6A",
+          "#FFA726",
+          "#26C6DA",
+          "#7E57C2"
+        ],
+        label: 'My dataset'
+      }],
+      labels: [
+        "Red",
+        "Green",
+        "Yellow",
+        "Grey",
+        "Blue"
+      ]
+    }
+    this.polarAreaOptions = {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Custom Chart Title',
+          color: 'white',
+          position: 'top',  // top, bottom, left, right
+          align: 'center',  //start, center, end
+          font: {
+            size: 20
+          },
+          padding: {
+            top: 0,
+            bottom: 0
+          }
+        },
+        subtitle: {
+          display: true,
+          text: 'Custom Chart Subtitle',
+          color: 'white',
+          position: 'top',  // top, bottom, left, right
+          align: 'center',  //start, center, end
+          font: {
+            size: 15
+          },
+          padding: {
+            top: 0,
+            bottom: 0
+          }
+        },
+        tooltips: {
+          mode: 'index',  //point,nearest,index,dataset, x, y
+          intersect: false
+        },
+        legend: {
+          labels: {
+            color: 'white'
+          }
+        }
+      },
+      scales: {
+        r: {
+          grid: {
             color: 'white'
           }
         }
