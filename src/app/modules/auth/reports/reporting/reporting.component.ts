@@ -103,9 +103,9 @@ export class ReportingComponent implements OnInit {
   ispieChart4: boolean = false;
   isDoughnutChart4: boolean = false;
 
-  display: boolean = false;
   chartNumber: number = 0
 
+  display: boolean = false;
   displaySaveQuery: boolean = false;
   displayAllQueries: boolean = false;
 
@@ -142,6 +142,8 @@ export class ReportingComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    //#region 
     this.basicData = {
       labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
       datasets: [
@@ -158,42 +160,51 @@ export class ReportingComponent implements OnInit {
       ]
     };
     this.basicOptions = {
+      indexAxis: 'x',
       plugins: {
+        tooltips: {
+          mode: 'index',
+          intersect: false
+        },
         legend: {
           labels: {
-            color: '#495057'
+            color: 'white'
           }
         }
       },
       scales: {
         x: {
+          stacked: false,
           title: {
             color: 'white',
             display: true,
-            text: 'Month'
+            text: 'X - Axis'
           },
           ticks: {
-            color: '#495057'
+            color: 'white'
           },
           grid: {
-            color: '#ebedef'
+            color: 'white'
           }
         },
         y: {
+          stacked: false,
           title: {
             color: 'white',
             display: true,
-            text: 'Y -Axis Label'
+            text: 'Y -Axis'
           },
           ticks: {
-            color: '#495057'
+            color: 'white'
           },
           grid: {
-            color: '#ebedef'
+            color: 'white'
           }
         }
       }
     };
+    //#endregion
+
     this.userName = this.msalAuthenticationService.userName();
     this.GetSqlConnectionStrings()
     this.GetAllCustomQuery()
@@ -378,7 +389,10 @@ export class ReportingComponent implements OnInit {
       ChartName: ['', Validators.required],
       Title: ['', Validators.required],
       SubTitle: ['', Validators.required],
+
       ChartType: ['', Validators.required],
+      LineBarChartXAxisLabel: ['', Validators.required],
+      LineBarChartYAxisLabel: ['', Validators.required],
 
       ChartXAxis: ['', Validators.required],
       ChartYAxisInfo: this.formBuilder.array([]),
@@ -410,11 +424,27 @@ export class ReportingComponent implements OnInit {
       Id: null,
       ChartYAxis: ['', Validators.required],
       ChartYAxisFunction: ['', Validators.required],
-      LineBarDatasetsLabel: [{ value: '', disabled: true }, Validators.required],   // Done
-      BarDatasetsBackgroundColor: [{ value: '#42A5F5', disabled: true }, Validators.required],    // Done
-      LineDatasetsFill: [{ value: false, disabled: true }, Validators.required],   // Done
-      LineDatasetsBorderColor: [{ value: '#42A5F5', disabled: true }, Validators.required],    // Done
-      LineDatasetsTension: [{ value: 0.4, disabled: true }, Validators.required],  // Done
+
+      BarDatasetsLabel: ['', Validators.required],
+      BarDatasetsBackgroundColor: [{ value: '#42A5F5', disabled: false }, Validators.required],
+      BarOptionsPluginsLegendLabelsColor: [{ value: '#495057', disabled: true }, Validators.required],
+      BarOptionsScalesXTitleColor: [{ value: '#495057', disabled: true }, Validators.required],
+      BarOptionsScalesXTitleText: [{ value: '', disabled: true }, Validators.required],
+      BarOptionsScalesXTicksColor: [{ value: '#495057', disabled: true }, Validators.required],
+      BarOptionsScalesXGridColor: [{ value: '#495057', disabled: true }, Validators.required],
+      BarOptionsScalesYTitleColor: [{ value: '#495057', disabled: true }, Validators.required],
+      BarOptionsScalesYTitleText: [{ value: '', disabled: true }, Validators.required],
+      BarOptionsScalesYTicksColor: [{ value: '#495057', disabled: true }, Validators.required],
+      BarOptionsScalesYGridColor: [{ value: '#495057', disabled: true }, Validators.required],
+
+
+
+      LineBarDatasetsLabel: [{ value: '', disabled: false }, Validators.required],   // Done
+      LineDatasetsFill: [{ value: false, disabled: false }, Validators.required],   // Done
+      LineDatasetsBorderColor: [{ value: '#42A5F5', disabled: false }, Validators.required],    // Done
+      LineDatasetsTension: [{ value: 0.4, disabled: false }, Validators.required],  // Done
+
+
     });
   }
   addChartYAxisInfo(chartInfoIndex: number) {
@@ -1129,6 +1159,7 @@ export class ReportingComponent implements OnInit {
   }
   //#endregion
 
+
   onSelectChartType(i: number, event: Event) {
     var chartType = (<HTMLInputElement>event.target).value;
     var chartInfo = this.runCustomQueryform.get('ChartInfo') as FormArray;
@@ -1197,6 +1228,10 @@ export class ReportingComponent implements OnInit {
 
   getDatasetKeys(data: any) {
     this.datasetKeys = Object.keys(data);
+  }
+
+  testConsole() {
+    console.log(this.runCustomQueryform.value);
   }
 
 }
