@@ -118,9 +118,10 @@ export class ReportingComponent implements OnInit {
 
   barData: any;
   barOptions: any;
-
   lineData: any
   lineOptions: any;
+  pieData: any
+  pieOptions: any
 
   constructor(
     private formBuilder: FormBuilder,
@@ -342,6 +343,65 @@ export class ReportingComponent implements OnInit {
             color: 'white'
           },
           grid: {
+            color: 'white'
+          }
+        }
+      }
+    }
+    this.pieData = {
+      labels: ['A', 'B', 'C'],
+      datasets: [
+        {
+          data: [300, 50, 100],
+          backgroundColor: [
+            "#42A5F5",
+            "#66BB6A",
+            "#FFA726"
+          ],
+          hoverBackgroundColor: [
+            "#64B5F6",
+            "#81C784",
+            "#FFB74D"
+          ]
+        }
+      ]
+    }
+    this.pieOptions = {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Custom Chart Title',
+          color: 'white',
+          position: 'top',  // top, bottom, left, right
+          align: 'center',  //start, center, end
+          font: {
+            size: 20
+          },
+          padding: {
+            top: 0,
+            bottom: 0
+          }
+        },
+        subtitle: {
+          display: true,
+          text: 'Custom Chart Subtitle',
+          color: 'white',
+          position: 'top',  // top, bottom, left, right
+          align: 'center',  //start, center, end
+          font: {
+            size: 15
+          },
+          padding: {
+            top: 0,
+            bottom: 0
+          }
+        },
+        tooltips: {
+          mode: 'index',  //point,nearest,index,dataset, x, y
+          intersect: false
+        },
+        legend: {
+          labels: {
             color: 'white'
           }
         }
