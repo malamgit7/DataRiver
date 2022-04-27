@@ -363,6 +363,7 @@
           </form>
         </div>
         <div class="col-sm-9">
+          <p-chart type="bar" [data]="basicData" [options]="basicOptions"></p-chart>
           <div class="row gx-2 gy-2 mb-2" *ngIf="isError">
             <div class="col-sm-12">
               <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -372,7 +373,6 @@
               </div>
             </div>
           </div>
-
           <div class="row gx-2 gy-2 mb-2">
             <div class="col-sm-12">
               <form [formGroup]="runCustomQueryform">
@@ -712,8 +712,6 @@
               </form>
             </div>
           </div>
-
-
           <div class="row row-cols-2 gx-2 gy-2 mb-2" *ngIf="resultData.length>=1">
             <div class="col">
               <div class="card">

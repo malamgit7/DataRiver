@@ -116,6 +116,10 @@ export class ReportingComponent implements OnInit {
   datasetKeys: any[] = []
   //#endregion
 
+  basicData: any;
+
+  basicOptions: any;
+
   constructor(
     private formBuilder: FormBuilder,
     private bridgeManagerService: BridgeManagerService,
@@ -138,6 +142,58 @@ export class ReportingComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.basicData = {
+      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      datasets: [
+        {
+          label: 'My First dataset',
+          backgroundColor: '#42A5F5',
+          data: [65, 59, 80, 81, 56, 55, 40]
+        },
+        {
+          label: 'My Second dataset',
+          backgroundColor: '#FFA726',
+          data: [28, 48, 40, 19, 86, 27, 90]
+        }
+      ]
+    };
+    this.basicOptions = {
+      plugins: {
+        legend: {
+          labels: {
+            color: '#495057'
+          }
+        }
+      },
+      scales: {
+        x: {
+          title: {
+            color: 'white',
+            display: true,
+            text: 'Month'
+          },
+          ticks: {
+            color: '#495057'
+          },
+          grid: {
+            color: '#ebedef'
+          }
+        },
+        y: {
+          title: {
+            color: 'white',
+            display: true,
+            text: 'Y -Axis Label'
+          },
+          ticks: {
+            color: '#495057'
+          },
+          grid: {
+            color: '#ebedef'
+          }
+        }
+      }
+    };
     this.userName = this.msalAuthenticationService.userName();
     this.GetSqlConnectionStrings()
     this.GetAllCustomQuery()
