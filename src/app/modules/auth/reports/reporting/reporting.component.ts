@@ -811,6 +811,7 @@ export class ReportingComponent implements OnInit {
       ChartName: ['', Validators.required],
       ChartType: ['', Validators.required],
 
+      //#region 
       OptionsPluginsTitleDisplay: [{ value: true, disabled: true }, Validators.required],
       OptionsPluginsTitleText: [{ value: '', disabled: true }, Validators.required],
       OptionsPluginsTitleColor: [{ value: '#495057', disabled: true }, Validators.required],
@@ -828,10 +829,11 @@ export class ReportingComponent implements OnInit {
       OptionsPluginsSubtitleFonSize: [{ value: 15, disabled: true }, Validators.required],
       OptionsPluginsSubtitlePaddingTop: [{ value: 0, disabled: true }, Validators.required],
       OptionsPluginsSubtitlePaddingBottom: [{ value: 0, disabled: true }, Validators.required],
-      OptionsPluginsTooltipsMode: [{ value: 'index', disabled: true }, Validators.required], //point,nearest,index,dataset, x, y
-      OptionsPluginsTooltipsIntersect: [{ value: false, disabled: true }, Validators.required], //point,nearest,index,dataset, x, y
-      OptionsPluginsLegendLabelsColor: [{ value: '#495057', disabled: true }, Validators.required],
 
+      OptionsPluginsTooltipsMode: [{ value: 'index', disabled: true }, Validators.required], //point,nearest,index,dataset, x, y
+      OptionsPluginsTooltipsIntersect: [{ value: false, disabled: true }, Validators.required],
+      OptionsPluginsLegendLabelsColor: [{ value: '#495057', disabled: true }, Validators.required],
+      //#endregion
 
 
 

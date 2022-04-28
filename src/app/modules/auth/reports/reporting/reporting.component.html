@@ -400,10 +400,8 @@
                         </div>
                       </div>
                       <p-overlayPanel [showTransitionOptions]="'100ms'" [hideTransitionOptions]="'100ms'" #op
-                        [showCloseIcon]="true" [dismissable]="false" [style]="{width: '700px'}">
-
-                        <ng-template pTemplate>
-
+                        [showCloseIcon]="true" [dismissable]="false" [style]="{width: '800px'}">
+                        <p-scrollPanel [style]="{width: '100%', height: '400px'}" styleClass="custombar2">
                           <div class="row gx-2 gy-2 mb-2">
                             <div class="col-sm-6">
                               <label for="chartname" class="form-label">Name</label>
@@ -449,7 +447,7 @@
                           </div>
                           <div class="row gx-2 gy-2 mb-2">
                             <div class="col-sm-3">
-                              <label for="OptionsPluginsTitleFonSize" class="form-label">Title</label>
+                              <label for="OptionsPluginsTitleFonSize" class="form-label">Font Size</label>
                               <input class="form-control form-control-sm shadow-none"
                                 formControlName="OptionsPluginsTitleFonSize" id="OptionsPluginsTitleFonSize"
                                 type="number" min="5" max="25" placeholder="Font Size"
@@ -496,23 +494,24 @@
                               </select>
                             </div>
                             <div class="col-sm-3">
-                              <label for="OptionsPluginsTitleText" class="form-label">Title</label>
+                              <label for="OptionsPluginsSubtitleText" class="form-label">Subtitle</label>
                               <input class="form-control form-control-sm shadow-none"
-                                formControlName="OptionsPluginsTitleText" id="OptionsPluginsTitleText" type="text"
-                                placeholder="Title" aria-label="title">
+                                formControlName="OptionsPluginsSubtitleText" id="OptionsPluginsSubtitleText" type="text"
+                                placeholder="Subtitle" aria-label="Subtitle">
                             </div>
                             <div class="col-sm-3">
-                              <label for="OptionsPluginsTitlePosition" class="form-label">Position</label>
+                              <label for="OptionsPluginsSubtitlePosition" class="form-label">Position</label>
                               <select class="form-select form-select-sm shadow-none"
-                                formControlName="OptionsPluginsTitlePosition" aria-label="OptionsPluginsTitlePosition">
+                                formControlName="OptionsPluginsSubtitlePosition"
+                                aria-label="OptionsPluginsSubtitlePosition">
                                 <option value="top">Top</option>
                                 <option value="bottom">Bottom</option>
                               </select>
                             </div>
                             <div class="col-sm-3">
-                              <label for="OptionsPluginsTitleAlign" class="form-label">Align</label>
+                              <label for="OptionsPluginsSubtitleAlign" class="form-label">Align</label>
                               <select class="form-select form-select-sm shadow-none"
-                                formControlName="OptionsPluginsTitleAlign" aria-label="OptionsPluginsTitleAlign">
+                                formControlName="OptionsPluginsSubtitleAlign" aria-label="OptionsPluginsSubtitleAlign">
                                 <option value="start">Start</option>
                                 <option value="center">Center</option>
                                 <option value="end">End</option>
@@ -521,34 +520,34 @@
                           </div>
                           <div class="row gx-2 gy-2 mb-2">
                             <div class="col-sm-3">
-                              <label for="OptionsPluginsTitleFonSize" class="form-label">Title</label>
+                              <label for="OptionsPluginsTitleFonSize" class="form-label">Font Size</label>
                               <input class="form-control form-control-sm shadow-none"
                                 formControlName="OptionsPluginsTitleFonSize" id="OptionsPluginsTitleFonSize"
                                 type="number" min="5" max="25" placeholder="Font Size"
                                 aria-label="OptionsPluginsTitleFonSize">
                             </div>
                             <div class="col-sm-3">
-                              <label for="OptionsPluginsTitlePaddingTop" class="form-label">Padding Top</label>
+                              <label for="OptionsPluginsSubtitlePaddingTop" class="form-label">Padding Top</label>
                               <input class="form-control form-control-sm shadow-none"
-                                formControlName="OptionsPluginsTitlePaddingTop" id="OptionsPluginsTitlePaddingTop"
+                                formControlName="OptionsPluginsSubtitlePaddingTop" id="OptionsPluginsSubtitlePaddingTop"
                                 type="number" min="0" max="10" placeholder="Padding top"
-                                aria-label="OptionsPluginsTitlePaddingTop">
+                                aria-label="OptionsPluginsSubtitlePaddingTop">
                             </div>
                             <div class="col-sm-3">
-                              <label for="OptionsPluginsTitlePaddingBottom" class="form-label">Padding Bottom</label>
+                              <label for="OptionsPluginsSubtitlePaddingBottom" class="form-label">Padding Bottom</label>
                               <input class="form-control form-control-sm shadow-none"
-                                formControlName="OptionsPluginsTitlePaddingBottom" id="OptionsPluginsTitlePaddingBottom"
-                                type="number" min="0" max="10" placeholder="Padding bottom"
-                                aria-label="OptionsPluginsTitlePaddingBottom">
+                                formControlName="OptionsPluginsSubtitlePaddingBottom"
+                                id="OptionsPluginsSubtitlePaddingBottom" type="number" min="0" max="10"
+                                placeholder="Padding bottom" aria-label="OptionsPluginsSubtitlePaddingBottom">
                             </div>
                             <div class="col-sm-3">
-                              <label for="OptionsPluginsTitleColor" class="form-label">Text Color</label>
+                              <label for="OptionsPluginsSubtitleColor" class="form-label">Text Color</label>
                               <div class="input-group input-group-sm">
-                                <input type="color" formControlName="OptionsPluginsTitleColor"
-                                  id="OptionsPluginsTitleColor" class="form-control form-control-color shadow-none p-0"
-                                  title="Title color">
+                                <input type="color" formControlName="OptionsPluginsSubtitleColor"
+                                  id="OptionsPluginsSubtitleColor"
+                                  class="form-control form-control-color shadow-none p-0" title="Subitle color">
                                 <span class="input-group-text"
-                                  id="basic-addon2">{{function.get('OptionsPluginsTitleColor').value | uppercase
+                                  id="basic-addon2">{{function.get('OptionsPluginsSubtitleColor').value | uppercase
                                   }}</span>
                               </div>
 
@@ -556,7 +555,43 @@
                           </div>
 
                           <hr class="p-0">
-                          
+
+                          <div class="row gx-2 gy-2 mb-2">
+                            <div class="col-sm-3">
+                              <label for="OptionsPluginsTooltipsMode" class="form-label">Tooltips Mode</label>
+                              <select class="form-select form-select-sm shadow-none" id="OptionsPluginsTooltipsMode"
+                                formControlName="OptionsPluginsTooltipsMode" aria-label="OptionsPluginsTooltipsMode">
+                                <option value="point">Point</option>
+                                <option value="nearest">Nearest</option>
+                                <option value="index">Index</option>
+                                <option value="dataset">Dataset</option>
+                                <option value="x">X</option>
+                                <option value="y">Y</option>
+                              </select>
+                            </div>
+                            <div class="col-sm-3">
+                              <label for="OptionsPluginsTooltipsIntersect" class="form-label">Tooltips Intersect</label>
+                              <select class="form-select form-select-sm shadow-none"
+                                id="OptionsPluginsTooltipsIntersect" formControlName="OptionsPluginsTooltipsIntersect"
+                                aria-label="OptionsPluginsTooltipsIntersect">
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                              </select>
+                            </div>
+                            <div class="col-sm-3">
+                              <label for="OptionsPluginsLegendLabelsColor" class="form-label">Legend Label Color</label>
+                              <div class="input-group input-group-sm">
+                                <input type="color" formControlName="OptionsPluginsLegendLabelsColor"
+                                  id="OptionsPluginsLegendLabelsColor"
+                                  class="form-control form-control-color shadow-none p-0" title="Legend Label color">
+                                <span class="input-group-text"
+                                  id="basic-addon2">{{function.get('OptionsPluginsLegendLabelsColor').value | uppercase
+                                  }}</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <hr class="p-0">
 
                           <div class="row gx-2 gy-2 mb-2">
                             <div class="col-sm-4">
@@ -842,7 +877,7 @@
                               </div>
                             </div>
                           </div>
-                        </ng-template>
+                        </p-scrollPanel>
                       </p-overlayPanel>
                     </div>
                   </div>
