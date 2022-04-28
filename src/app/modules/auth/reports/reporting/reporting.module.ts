@@ -18,6 +18,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { ButtonModule } from 'primeng/button';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { ScrollPanelModule } from 'primeng/scrollpanel';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
     FormsModule,
     ConfirmPopupModule,
     ButtonModule,
-    OverlayPanelModule
+    OverlayPanelModule,
+    ScrollPanelModule
   ],
   providers: [ConfirmationService]
 })

@@ -809,21 +809,37 @@ export class ReportingComponent implements OnInit {
     return this.formBuilder.group({
       Id: null,
       ChartName: ['', Validators.required],
-      Title: ['', Validators.required],
-      SubTitle: ['', Validators.required],
-
       ChartType: ['', Validators.required],
-      LineBarChartXAxisLabel: ['', Validators.required],
-      LineBarChartYAxisLabel: ['', Validators.required],
+
+      OptionsPluginsTitleDisplay: [{ value: true, disabled: true }, Validators.required],
+      OptionsPluginsTitleText: [{ value: '', disabled: true }, Validators.required],
+      OptionsPluginsTitleColor: [{ value: '#495057', disabled: true }, Validators.required],
+      OptionsPluginsTitlePosition: [{ value: 'top', disabled: true }, Validators.required], // 'top' or 'bottom'
+      OptionsPluginsTitleAlign: [{ value: 'center', disabled: true }, Validators.required], //start, center, end
+      OptionsPluginsTitleFonSize: [{ value: 20, disabled: false }, Validators.required],
+      OptionsPluginsTitlePaddingTop: [{ value: 0, disabled: true }, Validators.required],
+      OptionsPluginsTitlePaddingBottom: [{ value: 0, disabled: true }, Validators.required],
+
+      OptionsPluginsSubtitleDisplay: [{ value: true, disabled: true }, Validators.required],
+      OptionsPluginsSubtitleText: [{ value: '', disabled: true }, Validators.required],
+      OptionsPluginsSubtitleColor: [{ value: '#495057', disabled: true }, Validators.required],
+      OptionsPluginsSubtitlePosition: [{ value: 'top', disabled: true }, Validators.required], // 'top' or 'bottom'
+      OptionsPluginsSubtitleAlign: [{ value: 'center', disabled: true }, Validators.required], //start, center, end
+      OptionsPluginsSubtitleFonSize: [{ value: 15, disabled: true }, Validators.required],
+      OptionsPluginsSubtitlePaddingTop: [{ value: 0, disabled: true }, Validators.required],
+      OptionsPluginsSubtitlePaddingBottom: [{ value: 0, disabled: true }, Validators.required],
+      OptionsPluginsTooltipsMode: [{ value: 'index', disabled: true }, Validators.required], //point,nearest,index,dataset, x, y
+      OptionsPluginsTooltipsIntersect: [{ value: false, disabled: true }, Validators.required], //point,nearest,index,dataset, x, y
+      OptionsPluginsLegendLabelsColor: [{ value: '#495057', disabled: true }, Validators.required],
+
+
+
+
+      BarOptionsIndexAxis: ['', Validators.required], // 'x' or 'y'
 
       ChartXAxis: ['', Validators.required],
       ChartYAxisInfo: this.formBuilder.array([]),
 
-      LineBarPieOptionsPluginsLegendLabelsColor: [{ value: '#495057', disabled: true }, Validators.required],   // Done
-      LineBarOptionsScalesXTicksColor: [{ value: '#495057', disabled: true }, Validators.required],   // Done
-      LineBarOptionsScalesXTicksGrid: [{ value: '#EBEDEF', disabled: true }, Validators.required],    // Done
-      LineBarOptionsScalesYTicksColor: [{ value: '#495057', disabled: true }, Validators.required],   // Done
-      LineBarOptionsScalesYTicksGrid: [{ value: '#EBEDEF', disabled: true }, Validators.required],    // Done
 
       FinalChartData: ['', Validators.required],
       FinalChartOptions: ['', Validators.required]
@@ -849,6 +865,7 @@ export class ReportingComponent implements OnInit {
 
       BarDatasetsLabel: ['', Validators.required],
       BarDatasetsBackgroundColor: [{ value: '#42A5F5', disabled: false }, Validators.required],
+
       BarOptionsPluginsLegendLabelsColor: [{ value: '#495057', disabled: true }, Validators.required],
       BarOptionsScalesXTitleColor: [{ value: '#495057', disabled: true }, Validators.required],
       BarOptionsScalesXTitleText: [{ value: '', disabled: true }, Validators.required],
@@ -1584,6 +1601,7 @@ export class ReportingComponent implements OnInit {
 
   onSelectChartType(i: number, event: Event) {
     var chartType = (<HTMLInputElement>event.target).value;
+    console.log(chartType);
     var chartInfo = this.runCustomQueryform.get('ChartInfo') as FormArray;
 
     if (chartType == 'bar') {
