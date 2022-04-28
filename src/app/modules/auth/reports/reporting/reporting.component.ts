@@ -835,8 +835,6 @@ export class ReportingComponent implements OnInit {
       OptionsPluginsLegendLabelsColor: [{ value: '#495057', disabled: true }, Validators.required],
       //#endregion
 
-
-
       BarOptionsIndexAxis: ['', Validators.required], // 'x' or 'y'
 
       ChartXAxis: ['', Validators.required],
