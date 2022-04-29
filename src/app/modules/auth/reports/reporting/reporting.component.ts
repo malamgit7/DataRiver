@@ -178,7 +178,9 @@ export class ReportingComponent implements OnInit {
           position: 'top',  // top, bottom, left, right
           align: 'center',  //start, center, end
           font: {
-            size: 20
+            size: 20,
+            style: 'normal',  // normal, italic, oblique, initial, inherit
+            weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
           },
           padding: {
             top: 0,
@@ -192,7 +194,9 @@ export class ReportingComponent implements OnInit {
           position: 'top',  // top, bottom, left, right
           align: 'center',  //start, center, end
           font: {
-            size: 15
+            size: 15,
+            style: 'normal',  // normal, italic, oblique, initial, inherit
+            weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
           },
           padding: {
             top: 0,
@@ -217,7 +221,9 @@ export class ReportingComponent implements OnInit {
             display: true,
             text: 'X - Axis',
             font: {
-              size: 20
+              size: 20,
+              style: 'normal',  // normal, italic, oblique, initial, inherit
+              weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
             }
           },
           ticks: {
@@ -234,7 +240,9 @@ export class ReportingComponent implements OnInit {
             display: true,
             text: 'Y -Axis',
             font: {
-              size: 20
+              size: 20,
+              style: 'normal',  // normal, italic, oblique, initial, inherit
+              weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
             }
           },
           ticks: {
@@ -288,7 +296,9 @@ export class ReportingComponent implements OnInit {
           position: 'top',  // top, bottom, left, right
           align: 'center',  //start, center, end
           font: {
-            size: 20
+            size: 20,
+            style: 'normal',  // normal, italic, oblique, initial, inherit
+            weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
           },
           padding: {
             top: 0,
@@ -302,7 +312,9 @@ export class ReportingComponent implements OnInit {
           position: 'top',  // top, bottom, left, right
           align: 'center',  //start, center, end
           font: {
-            size: 15
+            size: 15,
+            style: 'normal',  // normal, italic, oblique, initial, inherit
+            weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
           },
           padding: {
             top: 0,
@@ -326,7 +338,9 @@ export class ReportingComponent implements OnInit {
             display: true,
             text: 'X - Axis',
             font: {
-              size: 20
+              size: 20,
+              style: 'normal',  // normal, italic, oblique, initial, inherit
+              weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
             }
           },
           ticks: {
@@ -342,7 +356,9 @@ export class ReportingComponent implements OnInit {
             display: true,
             text: 'Y -Axis',
             font: {
-              size: 20
+              size: 20,
+              style: 'normal',  // normal, italic, oblique, initial, inherit
+              weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
             }
           },
           ticks: {
@@ -812,27 +828,34 @@ export class ReportingComponent implements OnInit {
       ChartType: ['', Validators.required],
 
       //#region 
-      OptionsPluginsTitleDisplay: [{ value: true, disabled: true }, Validators.required],
-      OptionsPluginsTitleText: [{ value: '', disabled: true }, Validators.required],
-      OptionsPluginsTitleColor: [{ value: '#495057', disabled: true }, Validators.required],
-      OptionsPluginsTitlePosition: [{ value: 'top', disabled: true }, Validators.required], // 'top' or 'bottom'
-      OptionsPluginsTitleAlign: [{ value: 'center', disabled: true }, Validators.required], //start, center, end
-      OptionsPluginsTitleFonSize: [{ value: 20, disabled: false }, Validators.required],
-      OptionsPluginsTitlePaddingTop: [{ value: 0, disabled: true }, Validators.required],
-      OptionsPluginsTitlePaddingBottom: [{ value: 0, disabled: true }, Validators.required],
+      OptionsPluginsTitleDisplay: [{ value: true, disabled: false }, Validators.required],
+      OptionsPluginsTitleText: [{ value: '', disabled: false }, Validators.required],
+      OptionsPluginsTitleColor: [{ value: '#495057', disabled: false }, Validators.required],
+      OptionsPluginsTitlePosition: [{ value: 'top', disabled: false }, Validators.required], // 'top' or 'bottom'
+      OptionsPluginsTitleAlign: [{ value: 'center', disabled: false }, Validators.required], //start, center, end
+      OptionsPluginsTitleFontSize: [{ value: 20, disabled: false }, Validators.required],
 
-      OptionsPluginsSubtitleDisplay: [{ value: true, disabled: true }, Validators.required],
-      OptionsPluginsSubtitleText: [{ value: '', disabled: true }, Validators.required],
-      OptionsPluginsSubtitleColor: [{ value: '#495057', disabled: true }, Validators.required],
-      OptionsPluginsSubtitlePosition: [{ value: 'top', disabled: true }, Validators.required], // 'top' or 'bottom'
-      OptionsPluginsSubtitleAlign: [{ value: 'center', disabled: true }, Validators.required], //start, center, end
-      OptionsPluginsSubtitleFonSize: [{ value: 15, disabled: true }, Validators.required],
-      OptionsPluginsSubtitlePaddingTop: [{ value: 0, disabled: true }, Validators.required],
-      OptionsPluginsSubtitlePaddingBottom: [{ value: 0, disabled: true }, Validators.required],
+      OptionsPluginsTitleFontStyle: [{ value: 20, disabled: false }, Validators.required], // normal, italic, oblique, initial, inherit
+      OptionsPluginsTitleFontWeight: [{ value: 20, disabled: false }, Validators.required],  // normal, bold, bolder, lighter, initial, inherit
 
-      OptionsPluginsTooltipsMode: [{ value: 'index', disabled: true }, Validators.required], //point,nearest,index,dataset, x, y
-      OptionsPluginsTooltipsIntersect: [{ value: false, disabled: true }, Validators.required],
-      OptionsPluginsLegendLabelsColor: [{ value: '#495057', disabled: true }, Validators.required],
+      OptionsPluginsTitlePaddingTop: [{ value: 0, disabled: false }, Validators.required],
+      OptionsPluginsTitlePaddingBottom: [{ value: 0, disabled: false }, Validators.required],
+
+      // style: 'normal',  // normal, italic, oblique, initial, inherit
+      // weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
+
+      OptionsPluginsSubtitleDisplay: [{ value: true, disabled: false }, Validators.required],
+      OptionsPluginsSubtitleText: [{ value: '', disabled: false }, Validators.required],
+      OptionsPluginsSubtitleColor: [{ value: '#495057', disabled: false }, Validators.required],
+      OptionsPluginsSubtitlePosition: [{ value: 'top', disabled: false }, Validators.required], // 'top' or 'bottom'
+      OptionsPluginsSubtitleAlign: [{ value: 'center', disabled: false }, Validators.required], //start, center, end
+      OptionsPluginsSubtitleFonSize: [{ value: 15, disabled: false }, Validators.required],
+      OptionsPluginsSubtitlePaddingTop: [{ value: 0, disabled: false }, Validators.required],
+      OptionsPluginsSubtitlePaddingBottom: [{ value: 0, disabled: false }, Validators.required],
+
+      OptionsPluginsTooltipsMode: [{ value: 'index', disabled: false }, Validators.required], //point,nearest,index,dataset, x, y
+      OptionsPluginsTooltipsIntersect: [{ value: false, disabled: false }, Validators.required],
+      OptionsPluginsLegendLabelsColor: [{ value: '#495057', disabled: false }, Validators.required],
       //#endregion
 
       BarOptionsIndexAxis: ['', Validators.required], // 'x' or 'y'
