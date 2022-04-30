@@ -401,30 +401,17 @@
                       </div>
                       <p-overlayPanel [showTransitionOptions]="'100ms'" [hideTransitionOptions]="'100ms'" #op
                         [showCloseIcon]="true" [dismissable]="false" [style]="{width: '650px'}">
-                        <p-scrollPanel [style]="{width: '100%', height: '400px', background:'transparent'}"
+                        <p-scrollPanel [style]="{width: '100%', height: '290px', background:'transparent'}"
                           styleClass="custombar2">
-                          <div class="accordion" id="accordionPanelsStayOpenExample1">
-                            <div class="accordion-item">
-                              <div class="accordion-header shadow-none p-0" id="panelsStayOpen-headingOne1">
-                                <button class="accordion-button shadow-none p-2" type="button" data-bs-toggle="collapse"
-                                  data-bs-target="#panelsStayOpen-collapseOne1" aria-expanded="true"
-                                  aria-controls="panelsStayOpen-collapseOne1">
-                                  Chart Name
-                                </button>
-                              </div>
-                              <div id="panelsStayOpen-collapseOne1" class="accordion-collapse collapse show"
-                                aria-labelledby="panelsStayOpen-headingOne1">
-                                <div class="accordion-body p-2">
-                                  <div class="row gx-2 gy-2">
-                                    <div class="col-sm-4">
-                                      <!-- <label for="chartname" class="form-label">Name</label> -->
-                                      <input class="form-control form-control-sm shadow-none" id="chartname"
-                                        formControlName="ChartName" type="text" placeholder="Name" aria-label="name">
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
+                          <div class="row gx-2 gy-2 mb-2">
+                            <div class="col-sm-4">
+                              <label for="chartname" class="form-label">Name</label>
+                              <input class="form-control form-control-sm shadow-none" id="chartname"
+                                formControlName="ChartName" type="text" placeholder="Name" aria-label="name">
                             </div>
+                          </div>
+
+                          <div class="accordion" id="accordionPanelsStayOpenExample1">
                             <div class="accordion-item">
                               <div class="accordion-header p-0" id="panelsStayOpen-headingTwo1">
                                 <button class="accordion-button collapsed shadow-none p-2" type="button"
@@ -735,287 +722,222 @@
                             <div class="col-sm-4">
                               <select class="form-select form-select-sm shadow-none" aria-label="chart type"
                                 (change)="onSelectChartType(i, $event)">
-                                <option value="{{default_select}}" selected>Chart type...</option>
+                                <option value='{"chartType":null}' selected>Chart type...</option>
                                 <optgroup label="Bar Charts">
-                                  <option value="{'bar':['x', false]}">Vertical Linear</option>
-                                  <option value="horizontal">Horizontal Linear</option>
-                                  <option value="stacked">Vertical Stacked</option>
-                                  <option value="stacked">Horizontal Stacked</option>
+                                  <option value='{"chartType":"bar", "indexAxis":"x", "stacked":false}'>Vertical Linear
+                                  </option>
+                                  <option value='{"chartType":"bar", "indexAxis":"y", "stacked":false}'>Horizontal
+                                    Linear</option>
+                                  <option value='{"chartType":"bar", "indexAxis":"x", "stacked":true}'>Vertical Stacked
+                                  </option>
+                                  <option value='{"chartType":"bar", "indexAxis":"y", "stacked":true}'>Horizontal
+                                    Stacked</option>
                                 </optgroup>
-                                <option value="line">Line</option>
-                                <option value="pie">Pie</option>
-                                <option value="radar">Radar</option>
-                                <option value="doughnut">Doughnut</option>
-                                <option value="polarArea">Polar Area</option>
+                                <option value='{"chartType":"line"}'>Line</option>
+                                <option value='{"chartType":"pie"}'>Pie</option>
+                                <option value='{"chartType":"radar"}'>Radar</option>
+                                <option value='{"chartType":"doughnut"}'>Doughnut</option>
+                                <option value='{"chartType":"polarArea"}'>Polar Area</option>
                               </select>
                             </div>
 
                           </div>
-                          <div class="row gx-2 gy-2 mb-2">
-                            <div class="col-sm-4">
-                              <input class="form-control form-control-sm shadow-none" type="text"
-                                placeholder="X-Axis Label" aria-label="x-Axis Label">
-                            </div>
-                            <div class="col-sm-4">
-                              <input class="form-control form-control-sm shadow-none" type="text"
-                                placeholder="Y-Axis Label" aria-label="x-Axis Label">
-                            </div>
-                          </div>
-                          <div class="row gx-2 gy-2 mb-2">
-                            <div class="col-sm-4">
-                              <select class="form-select form-select-sm shadow-none" formControlName="ChartXAxis"
-                                aria-label="x-axis/Attribute">
-                                <option value="{{default_select}}" selected>Select x-axis/labels...</option>
-                                <option *ngFor="let key of datasetKeys" value="{{key}}">{{key}}</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div class="row gx-2 gy-2 mb-2">
-                            <div class="col-sm-12 d-flex">
-                              <div class="me-auto">Y-Axis</div>
-                              <button class="btn btn-sm shadow-none" (click)="addChartYAxisInfo(i)"><i
-                                  class="fas fa-plus"></i></button>
-                            </div>
-                          </div>
-                          <div class="row gx-2 gy-2 mb-2">
-                            <div class="col-sm-12">
-                              <div formArrayName="ChartYAxisInfo">
-                                <div *ngFor="let func of ChartYAxisInfo(i).controls; let j=index" [formGroupName]="j">
+
+                          <div class="accordion" id="accordionPanelsStayOpenExample2" *ngIf="chartTypeSelected">
+                            <div class="accordion-item">
+                              <div class="accordion-header shadow-none p-0" id="panelsStayOpen-headingOne2">
+                                <button class="accordion-button collapsed shadow-none p-2" type="button"
+                                  data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne2"
+                                  aria-expanded="false" aria-controls="panelsStayOpen-collapseOne2">
+                                  Chart Options
+                                </button>
+                              </div>
+                              <div id="panelsStayOpen-collapseOne2" class="accordion-collapse collapse"
+                                aria-labelledby="panelsStayOpen-headingOne">
+                                <div class="accordion-body p-2">
                                   <div class="row gx-2 gy-2 mb-2">
-                                    <div class="col-sm-4">
-                                      <select class="form-select form-select-sm shadow-none"
-                                        formControlName="ChartYAxis" aria-label="y-axis/Attribute">
-                                        <option value="{{default_select}}" selected>Select y-axis/data...</option>
-                                        <option *ngFor="let key of datasetKeys" value="{{key}}">
-                                          {{key}}
-                                        </option>
-                                      </select>
+                                    <div class="col-sm-4"
+                                      [hidden]="function.get('BarLineOptionsScalesXYTitleDisplay').disabled">
+                                      <label for="BarLineOptionsScalesXYTitleDisplay" class="form-label">Show Axis
+                                        Title</label>
+                                      <div class="row">
+                                        <div class="col-sm-12 d-flex">
+                                          <div class="form-check form-switch me-3">
+                                            <input class="form-check-input " type="checkbox" role="switch"
+                                              id="BarLineOptionsScalesXYTitleDisplay"
+                                              formControlName="BarLineOptionsScalesXYTitleDisplay">
+                                          </div>
+                                          <div>
+                                            {{function.get('BarLineOptionsScalesXYTitleDisplay').value==true?'Yes':'No'}}
+                                          </div>
+                                        </div>
+                                      </div>
                                     </div>
-                                    <div class="col-sm-4">
-                                      <select class="form-select form-select-sm shadow-none"
-                                        formControlName="ChartYAxisFunction" aria-label=".form-select-sm example">
-                                        <option value="{{default_select}}" selected>Select function...</option>
-                                        <option value="COUNT">COUNT()</option>
-                                        <option value="SUM">SUM()</option>
-                                        <option value="AVG">AVG()</option>
-                                        <option value="MIN">MIN()</option>
-                                        <option value="MAX">MAX()</option>
-                                      </select>
+                                    <div class="col-sm-4"
+                                      [hidden]="function.get('BarLineOptionsScalesXTitleText').disabled">
+                                      <label for="BarLineOptionsScalesXTitleText" class="form-label">X-Axis Text</label>
+                                      <input class="form-control form-control-sm shadow-none"
+                                        formControlName="BarLineOptionsScalesXTitleText"
+                                        id="BarLineOptionsScalesXTitleText" type="text" placeholder="X-Axis Text"
+                                        aria-label="X-Axis Title">
                                     </div>
-                                    <div class="col-sm-4 d-flex">
-                                      <button class="btn btn-sm me-auto shadow-none" type="button"
-                                        (click)="op1.toggle($event)" id="button-addon2"><i
-                                          class="fas fa-filter"></i></button>
-                                      <button type="button" class="btn btn-sm shadow-none ms-auto"
-                                        (click)="removeChartYAxisInfo(i, j)"><i
-                                          class="fas fa-trash-alt text-danger"></i></button>
+                                    <div class="col-sm-4"
+                                      [hidden]="function.get('BarLineOptionsScalesYTitleText').disabled">
+                                      <label for="BarLineOptionsScalesYTitleText" class="form-label">Y-Axis Text</label>
+                                      <input class="form-control form-control-sm shadow-none"
+                                        formControlName="BarLineOptionsScalesYTitleText"
+                                        id="BarLineOptionsScalesYTitleText" type="text" placeholder="Y-Axis Text"
+                                        aria-label="Y-Axis Text">
                                     </div>
                                   </div>
-                                  <p-overlayPanel [showTransitionOptions]="'100ms'" [hideTransitionOptions]="'100ms'"
-                                    #op1 [showCloseIcon]="true" [dismissable]="false" [style]="{width: '400px'}">
-                                    <ng-template pTemplate>
-                                      <div class="row gx-2 gy-2 mb-2">
-                                        <div class="col-sm-12">
-                                          <input id="LineBarDatasetsLabel"
-                                            class="form-control form-control-sm shadow-sm" type="text"
-                                            placeholder="Dataset Label" formControlName="LineBarDatasetsLabel"
-                                            aria-label="Dataset Label">
-                                        </div>
-                                      </div>
-                                      <div class="row gx-2 gy-2 mb-2">
-                                        <div class="col-sm-12">
-                                          <input type="color" id="BarDatasetsBackgroundColor"
-                                            class="form-control form-control-color shadow-sm p-0"
-                                            formControlName="BarDatasetsBackgroundColor">
-                                        </div>
-                                      </div>
-                                      <div class="row gx-2 gy-2 mb-2">
-                                        <div class="col-sm-6">
-                                          <label class="form-check-label" for="LineDatasetsFill">Line Datasets
-                                            Fill</label>
-                                        </div>
-                                        <div class="col-sm-3">
-                                          <div class="form-check form-switch">
-                                            <input class="form-check-input shadow-sm" type="checkbox" role="switch"
-                                              id="LineDatasetsFill" formControlName="LineDatasetsFill">
-                                          </div>
-                                        </div>
-                                        <div class="col-sm-3 d-flex">
-                                          <div class="ms-auto">{{func.get('LineDatasetsFill').value}}</div>
-                                        </div>
-                                      </div>
-                                      <div class="row gx-2 gy-2">
-                                        <div class="col-sm-6">
-                                          <label class="form-label" for="LineDatasetsTension">Line Datasets
-                                            Tension</label>
-                                        </div>
-                                        <div class="col-sm-3">
-                                          <input id="LineDatasetsTension" type="range" min="0.1" max="1" step="0.1"
-                                            formControlName="LineDatasetsTension">
-                                        </div>
-                                        <div class="col-sm-3 d-flex">
-                                          <div class="ms-auto">{{func.get('LineDatasetsTension').value}}</div>
-                                        </div>
-                                      </div>
-                                      <div class="row gx-2 gy-2 mb-2">
-                                        <div class="col-sm-6">
-                                          <label class="form-check-label" for="LineDatasetsBorderColor">Datasets
-                                            Border
-                                            Color</label>
-                                        </div>
-                                        <div class="col-sm-3">
-                                          <input type="color" id="LineDatasetsBorderColor"
-                                            class="form-control form-control-color shadow-sm p-0"
-                                            formControlName="LineDatasetsBorderColor">
-                                        </div>
-                                        <div class="col-sm-3 d-flex">
-                                          <div class="ms-auto">{{func.get('LineDatasetsBorderColor').value |
-                                            uppercase}}
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </ng-template>
-                                  </p-overlayPanel>
-
-
-
-                                  <!-- <div class="row gx-2 gy-2 mb-2">
-                                    <div class="col-sm-1">
-                                      <button type="button" class="btn btn-sm btn-danger shadow-none"
-                                        (click)="removeChartYAxisInfo(i, j)"><i class="fas fa-trash-alt"></i></button>
+                                  <div class="row gx-2 gy-2 mb-2">
+                                    <div class="col-sm-4"
+                                      [hidden]="function.get('BarLineOptionsScalesXYTitleFontSize').disabled">
+                                      <label for="BarLineOptionsScalesXYTitleFontSize" class="form-label">Axis Font Size
+                                        {{function.get('BarLineOptionsScalesXYTitleFontSize').value}}</label>
+                                      <input id="BarLineOptionsScalesXYTitleFontSize"
+                                        formControlName="BarLineOptionsScalesXYTitleFontSize" type="range" min="5"
+                                        max="25" step="1" style="width: 100%;">
                                     </div>
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-4"
+                                      [hidden]="function.get('BarLineOptionsScalesXYTitleFontStyle').disabled">
+                                      <label for="BarLineOptionsScalesXYTitleFontStyle" class="form-label">Axis Font
+                                        Style</label>
                                       <select class="form-select form-select-sm shadow-none"
-                                        formControlName="ChartYAxis" aria-label="y-axis/Attribute">
-                                        <option value="{{default_select}}" selected>Select y-axis/data...</option>
-                                        <option *ngFor="let key of datasetKeys" value="{{key}}">
-                                          {{key}}
-                                        </option>
+                                        id="BarLineOptionsScalesXYTitleFontStyle"
+                                        formControlName="BarLineOptionsScalesXYTitleFontStyle"
+                                        aria-label="BarLineOptionsScalesXYTitleFontStyle">
+                                        <option value="normal" style="font-style: normal;">Normal</option>
+                                        <option value="italic" style="font-style: italic;">Italic</option>
+                                        <option value="oblique" style="font-style: oblique;">Oblique</option>
+                                        <option value="initial" style="font-style: initial;">Initial</option>
+                                        <option value="inherit" style="font-style: inherit;">Inherit</option>
                                       </select>
                                     </div>
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-4"
+                                      [hidden]="function.get('BarLineOptionsScalesXYTitleFontWeight').disabled">
+                                      <label for="BarLineOptionsScalesXYTitleFontWeight" class="form-label">Axis Font
+                                        Weight</label>
                                       <select class="form-select form-select-sm shadow-none"
-                                        formControlName="ChartYAxisFunction" aria-label=".form-select-sm example">
-                                        <option value="{{default_select}}" selected>Select function...</option>
-                                        <option value="COUNT">COUNT()</option>
-                                        <option value="SUM">SUM()</option>
-                                        <option value="AVG">AVG()</option>
-                                        <option value="MIN">MIN()</option>
-                                        <option value="MAX">MAX()</option>
+                                        id="BarLineOptionsScalesXYTitleFontWeight"
+                                        formControlName="BarLineOptionsScalesXYTitleFontWeight"
+                                        aria-label="BarLineOptionsScalesXYTitleFontWeight">
+                                        <option value="normal" style="font-weight: normal;">Normal</option>
+                                        <option value="bold" style="font-weight: bold;">Bold</option>
+                                        <option value="bolder" style="font-weight: bolder;">Bolder</option>
+                                        <option value="lighter" style="font-weight: lighter;">Lighter</option>
+                                        <option value="initial" style="font-weight: initial;">Initial</option>
+                                        <option value="inherit" style="font-weight: inherit;">Inherit</option>
                                       </select>
-                                    </div>
-                                    <div class="col-sm-1">
-                                      <button type="button" class="btn btn-sm btn-success shadow-none"
-                                        data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-                                        [disabled]="!(func.get('ChartYAxis').value && func.get('ChartYAxisFunction').value)"><i
-                                          class="fas fa-filter"></i></button>
                                     </div>
                                   </div>
-                                  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
-                                    data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
-                                    aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                                      <div class="modal-content">
-                                        <div class="modal-header">
-                                          <div class="modal-title" id="staticBackdropLabel">
-                                            {{func.get('ChartYAxisFunction').value}}
-                                            ({{func.get('ChartYAxis').value}})
+                                  <div class="row gx-2 gy-2 mb-2">
+                                    <div class="col-sm-4"
+                                      [hidden]="function.get('BarLineOptionsScalesXYTitleColor').disabled">
+                                      <label for="BarLineOptionsScalesXYTitleColor" class="form-label">Axis Title Color
+                                      </label>
+                                      <div class="row">
+                                        <div class="col-sm-12 d-flex">
+                                          <input type="color" formControlName="BarLineOptionsScalesXYTitleColor"
+                                            id="BarLineOptionsScalesXYTitleColor"
+                                            class="form-control form-control-color shadow-sm p-0 me-auto"
+                                            title="Axis Title color">
+                                          <div>
+                                            {{function.get('BarLineOptionsScalesXYTitleColor').value | uppercase }}
                                           </div>
-                                          <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                          <div class="row gx-2 gy-2 mb-2">
-                                            <div class="col-sm-6">
-                                              <label for="LineBarDatasetsLabel" class="form-label">Dataset
-                                                Label</label>
-                                            </div>
-                                            <div class="col-sm-6">
-                                              <input id="LineBarDatasetsLabel"
-                                                class="form-control form-control-sm shadow-sm" type="text"
-                                                placeholder="Dataset Label" formControlName="LineBarDatasetsLabel"
-                                                aria-label="Dataset Label">
-                                            </div>
-                                          </div>
-                                          <div class="row gx-2 gy-2 mb-2"
-                                            [hidden]="func.get('BarDatasetsBackgroundColor').disabled">
-                                            <div class="col-sm-6">
-                                              <label for="BarDatasetsBackgroundColor" class="form-label">Dataset BG
-                                                Color</label>
-                                            </div>
-                                            <div class="col-sm-3">
-                                              <input type="color" id="BarDatasetsBackgroundColor"
-                                                class="form-control form-control-color shadow-sm p-0"
-                                                formControlName="BarDatasetsBackgroundColor">
-                                            </div>
-                                            <div class="col-sm-3 d-flex">
-                                              <div class="ms-auto">{{func.get('BarDatasetsBackgroundColor').value
-                                                | uppercase}}
-                                              </div>
-                                            </div>
-                                          </div>
-                                          <div class="row gx-2 gy-2 mb-2"
-                                            [hidden]="func.get('LineDatasetsFill').disabled">
-                                            <div class="col-sm-6">
-                                              <label class="form-check-label" for="LineDatasetsFill">Line Datasets
-                                                Fill</label>
-                                            </div>
-                                            <div class="col-sm-3">
-                                              <div class="form-check form-switch">
-                                                <input class="form-check-input shadow-sm" type="checkbox" role="switch"
-                                                  id="LineDatasetsFill" formControlName="LineDatasetsFill">
-                                              </div>
-                                            </div>
-                                            <div class="col-sm-3 d-flex">
-                                              <div class="ms-auto">{{func.get('LineDatasetsFill').value}}</div>
-                                            </div>
-                                          </div>
-                                          <div class="row gx-2 gy-2"
-                                            [hidden]="func.get('LineDatasetsTension').disabled">
-                                            <div class="col-sm-6">
-                                              <label class="form-label" for="LineDatasetsTension">Line Datasets
-                                                Tension</label>
-                                            </div>
-                                            <div class="col-sm-3">
-                                              <input id="LineDatasetsTension" type="range" min="0.1" max="1" step="0.1"
-                                                formControlName="LineDatasetsTension">
-                                            </div>
-                                            <div class="col-sm-3 d-flex">
-                                              <div class="ms-auto">{{func.get('LineDatasetsTension').value}}</div>
-                                            </div>
-                                          </div>
-                                          <div class="row gx-2 gy-2 mb-2"
-                                            [hidden]="func.get('LineDatasetsBorderColor').disabled">
-                                            <div class="col-sm-6">
-                                              <label class="form-check-label" for="LineDatasetsBorderColor">Datasets
-                                                Border
-                                                Color</label>
-                                            </div>
-                                            <div class="col-sm-3">
-                                              <input type="color" id="LineDatasetsBorderColor"
-                                                class="form-control form-control-color shadow-sm p-0"
-                                                formControlName="LineDatasetsBorderColor">
-                                            </div>
-                                            <div class="col-sm-3 d-flex">
-                                              <div class="ms-auto">{{func.get('LineDatasetsBorderColor').value |
-                                                uppercase}}
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                          <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Close</button>
-                                          <button type="button" class="btn btn-primary">Understood</button>
                                         </div>
                                       </div>
                                     </div>
-                                  </div> -->
-
+                                    <div class="col-sm-4"
+                                      [hidden]="function.get('BarLineOptionsScalesXYTicksColor').disabled">
+                                      <label for="BarLineOptionsScalesXYTicksColor" class="form-label">XY Ticks Color
+                                      </label>
+                                      <div class="row">
+                                        <div class="col-sm-12 d-flex">
+                                          <input type="color" formControlName="BarLineOptionsScalesXYTicksColor"
+                                            id="BarLineOptionsScalesXYTicksColor"
+                                            class="form-control form-control-color shadow-sm p-0 me-auto"
+                                            title="Ticks color">
+                                          <div>
+                                            {{function.get('BarLineOptionsScalesXYTicksColor').value | uppercase }}
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-sm-4"
+                                      [hidden]="function.get('BarLineOptionsScalesXYGridColor').disabled">
+                                      <label for="BarLineOptionsScalesXYGridColor" class="form-label">Grid Color
+                                      </label>
+                                      <div class="row">
+                                        <div class="col-sm-12 d-flex">
+                                          <input type="color" formControlName="BarLineOptionsScalesXYGridColor"
+                                            id="BarLineOptionsScalesXYGridColor"
+                                            class="form-control form-control-color shadow-sm p-0 me-auto"
+                                            title="Grid color">
+                                          <div>
+                                            {{function.get('BarLineOptionsScalesXYGridColor').value | uppercase }}
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="row gx-2 gy-2 mb-2">
+                                    <div class="col-sm-4"
+                                      [hidden]="function.get('RadarPolarareaOptionsScalesRGridColor').disabled">
+                                      <label for="RadarPolarareaOptionsScalesRGridColor" class="form-label">Grid Color
+                                      </label>
+                                      <div class="row">
+                                        <div class="col-sm-12 d-flex">
+                                          <input type="color" formControlName="RadarPolarareaOptionsScalesRGridColor"
+                                            id="RadarPolarareaOptionsScalesRGridColor"
+                                            class="form-control form-control-color shadow-sm p-0 me-auto"
+                                            title="Grid color">
+                                          <div>
+                                            {{function.get('RadarPolarareaOptionsScalesRGridColor').value | uppercase }}
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-sm-4"
+                                      [hidden]="function.get('RadarOptionsScalesRPointlabelsColor').disabled">
+                                      <label for="RadarOptionsScalesRPointlabelsColor" class="form-label">Pont lable
+                                        Color
+                                      </label>
+                                      <div class="row">
+                                        <div class="col-sm-12 d-flex">
+                                          <input type="color" formControlName="RadarOptionsScalesRPointlabelsColor"
+                                            id="RadarOptionsScalesRPointlabelsColor"
+                                            class="form-control form-control-color shadow-sm p-0 me-auto"
+                                            title="Ticks color">
+                                          <div>
+                                            {{function.get('RadarOptionsScalesRPointlabelsColor').value | uppercase }}
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-sm-4"
+                                      [hidden]="function.get('RadarOptionsScalesRAnglelinesColor').disabled">
+                                      <label for="RadarOptionsScalesRAnglelinesColor" class="form-label">Angle Line
+                                        Color
+                                      </label>
+                                      <div class="row">
+                                        <div class="col-sm-12 d-flex">
+                                          <input type="color" formControlName="RadarOptionsScalesRAnglelinesColor"
+                                            id="RadarOptionsScalesRAnglelinesColor"
+                                            class="form-control form-control-color shadow-sm p-0 me-auto"
+                                            title="Angle line color">
+                                          <div>
+                                            {{function.get('RadarOptionsScalesRAnglelinesColor').value | uppercase }}
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
                             </div>
                           </div>
+
                         </p-scrollPanel>
                       </p-overlayPanel>
                     </div>
