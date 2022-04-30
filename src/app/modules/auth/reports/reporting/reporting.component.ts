@@ -835,8 +835,8 @@ export class ReportingComponent implements OnInit {
       OptionsPluginsTitleAlign: [{ value: 'center', disabled: false }, Validators.required], //start, center, end
       OptionsPluginsTitleFontSize: [{ value: 20, disabled: false }, Validators.required],
 
-      OptionsPluginsTitleFontStyle: [{ value: 20, disabled: false }, Validators.required], // normal, italic, oblique, initial, inherit
-      OptionsPluginsTitleFontWeight: [{ value: 20, disabled: false }, Validators.required],  // normal, bold, bolder, lighter, initial, inherit
+      OptionsPluginsTitleFontStyle: [{ value: 'normal', disabled: false }, Validators.required], // normal, italic, oblique, initial, inherit
+      OptionsPluginsTitleFontWeight: [{ value: 'normal', disabled: false }, Validators.required],  // normal, bold, bolder, lighter, initial, inherit
 
       OptionsPluginsTitlePaddingTop: [{ value: 0, disabled: false }, Validators.required],
       OptionsPluginsTitlePaddingBottom: [{ value: 0, disabled: false }, Validators.required],
@@ -849,7 +849,11 @@ export class ReportingComponent implements OnInit {
       OptionsPluginsSubtitleColor: [{ value: '#495057', disabled: false }, Validators.required],
       OptionsPluginsSubtitlePosition: [{ value: 'top', disabled: false }, Validators.required], // 'top' or 'bottom'
       OptionsPluginsSubtitleAlign: [{ value: 'center', disabled: false }, Validators.required], //start, center, end
-      OptionsPluginsSubtitleFonSize: [{ value: 15, disabled: false }, Validators.required],
+      OptionsPluginsSubtitleFontSize: [{ value: 15, disabled: false }, Validators.required],
+
+      OptionsPluginsSubtitleFontStyle: [{ value: '', disabled: false }, Validators.required], // normal, italic, oblique, initial, inherit
+      OptionsPluginsSubtitleFontWeight: [{ value: '', disabled: false }, Validators.required],  // normal, bold, bolder, lighter, initial, inherit
+
       OptionsPluginsSubtitlePaddingTop: [{ value: 0, disabled: false }, Validators.required],
       OptionsPluginsSubtitlePaddingBottom: [{ value: 0, disabled: false }, Validators.required],
 

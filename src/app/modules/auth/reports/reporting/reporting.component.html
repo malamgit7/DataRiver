@@ -363,7 +363,7 @@
           </form>
         </div>
         <div class="col-sm-9">
-          <p-chart type="bar" [data]="barData" [options]="barOptions"></p-chart>
+          <!-- <p-chart type="bar" [data]="barData" [options]="barOptions"></p-chart> -->
           <!-- <p-chart type="line" [data]="lineData" [options]="lineOptions"></p-chart> -->
           <!-- <p-chart type="pie" [data]="pieData" [options]="pieOptions"></p-chart> -->
           <!-- <p-chart type="doughnut" [data]="doughnutData" [options]="doughnutOptions"></p-chart> -->
@@ -400,7 +400,7 @@
                         </div>
                       </div>
                       <p-overlayPanel [showTransitionOptions]="'100ms'" [hideTransitionOptions]="'100ms'" #op
-                        [showCloseIcon]="true" [dismissable]="false" [style]="{width: '800px'}">
+                        [showCloseIcon]="true" [dismissable]="false" [style]="{width: '650px'}">
                         <p-scrollPanel [style]="{width: '100%', height: '400px', background:'transparent'}"
                           styleClass="custombar2">
 
@@ -417,7 +417,7 @@
                                 aria-labelledby="panelsStayOpen-headingOne1">
                                 <div class="accordion-body p-2">
                                   <div class="row gx-2 gy-2">
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-4">
                                       <!-- <label for="chartname" class="form-label">Name</label> -->
                                       <input class="form-control form-control-sm shadow-none" id="chartname"
                                         formControlName="ChartName" type="text" placeholder="Name" aria-label="name">
@@ -438,7 +438,7 @@
                                 aria-labelledby="panelsStayOpen-headingTwo1">
                                 <div class="accordion-body p-2">
                                   <div class="row gx-2 gy-2 mb-2">
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-4">
                                       <label for="OptionsPluginsTitleDisplay" class="form-label">Show Title</label>
                                       <div class="row">
                                         <div class="col-sm-12 d-flex">
@@ -452,13 +452,15 @@
                                         </div>
                                       </div>
                                     </div>
-                                    <div class="col-sm-3">
+                                  </div>
+                                  <div class="row gx-2 gy-2 mb-2">
+                                    <div class="col-sm-4">
                                       <label for="OptionsPluginsTitleText" class="form-label">Title</label>
                                       <input class="form-control form-control-sm shadow-none"
                                         formControlName="OptionsPluginsTitleText" id="OptionsPluginsTitleText"
                                         type="text" placeholder="Title" aria-label="title">
                                     </div>
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-4">
                                       <label for="OptionsPluginsTitlePosition" class="form-label">Position</label>
                                       <select class="form-select form-select-sm shadow-none"
                                         formControlName="OptionsPluginsTitlePosition"
@@ -467,7 +469,7 @@
                                         <option value="bottom">Bottom</option>
                                       </select>
                                     </div>
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-4">
                                       <label for="OptionsPluginsTitleAlign" class="form-label">Align</label>
                                       <select class="form-select form-select-sm shadow-none"
                                         formControlName="OptionsPluginsTitleAlign"
@@ -479,28 +481,33 @@
                                     </div>
                                   </div>
                                   <div class="row gx-2 gy-2 mb-2">
-                                    <div class="col-sm-3">
-                                      <label for="OptionsPluginsTitleFontSize" class="form-label">Font Size
-                                        {{function.get('OptionsPluginsTitleFontSize').value}}</label>
-                                      <input id="OptionsPluginsTitleFontSize"
-                                        formControlName="OptionsPluginsTitleFontSize" type="range" min="5" max="25"
-                                        step="1">
+                                    <div class="col-sm-4">
+                                      <label for="OptionsPluginsTitleFontStyle" class="form-label">Font Style</label>
+                                      <select class="form-select form-select-sm shadow-none"
+                                        id="OptionsPluginsTitleFontStyle" formControlName="OptionsPluginsTitleFontStyle"
+                                        aria-label="OptionsPluginsTitleFontStyle">
+                                        <option value="normal" style="font-style: normal;">Normal</option>
+                                        <option value="italic" style="font-style: italic;">Italic</option>
+                                        <option value="oblique" style="font-style: oblique;">Oblique</option>
+                                        <option value="initial" style="font-style: initial;">Initial</option>
+                                        <option value="inherit" style="font-style: inherit;">Inherit</option>
+                                      </select>
                                     </div>
-                                    <div class="col-sm-3">
-                                      <label for="OptionsPluginsTitlePaddingTop" class="form-label">Padding Top
-                                        {{function.get('OptionsPluginsTitlePaddingTop').value}}</label>
-                                      <input id="OptionsPluginsTitlePaddingTop"
-                                        formControlName="OptionsPluginsTitlePaddingTop" type="range" min="0" max="10"
-                                        step="1">
+                                    <div class="col-sm-4">
+                                      <label for="OptionsPluginsTitleFontWeight" class="form-label">Font Weight</label>
+                                      <select class="form-select form-select-sm shadow-none"
+                                        id="OptionsPluginsTitleFontWeight"
+                                        formControlName="OptionsPluginsTitleFontWeight"
+                                        aria-label="OptionsPluginsTitleFontWeight">
+                                        <option value="normal" style="font-weight: normal;">Normal</option>
+                                        <option value="bold" style="font-weight: bold;">Bold</option>
+                                        <option value="bolder" style="font-weight: bolder;">Bolder</option>
+                                        <option value="lighter" style="font-weight: lighter;">Lighter</option>
+                                        <option value="initial" style="font-weight: initial;">Initial</option>
+                                        <option value="inherit" style="font-weight: inherit;">Inherit</option>
+                                      </select>
                                     </div>
-                                    <div class="col-sm-3">
-                                      <label for="OptionsPluginsTitlePaddingBottom" class="form-label">Padding
-                                        Bottom {{function.get('OptionsPluginsTitlePaddingBottom').value}}</label>
-                                      <input id="OptionsPluginsTitlePaddingBottom"
-                                        formControlName="OptionsPluginsTitlePaddingBottom" type="range" min="0" max="10"
-                                        step="1">
-                                    </div>
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-4">
                                       <label for="OptionsPluginsTitleColor" class="form-label">Text Color
                                       </label>
                                       <div class="row">
@@ -514,6 +521,29 @@
                                           </div>
                                         </div>
                                       </div>
+                                    </div>
+                                  </div>
+                                  <div class="row gx-2 gy-2 mb-2">
+                                    <div class="col-sm-4">
+                                      <label for="OptionsPluginsTitleFontSize" class="form-label">Font Size
+                                        {{function.get('OptionsPluginsTitleFontSize').value}}</label>
+                                      <input id="OptionsPluginsTitleFontSize"
+                                        formControlName="OptionsPluginsTitleFontSize" type="range" min="5" max="25"
+                                        step="1" style="width: 100%;">
+                                    </div>
+                                    <div class="col-sm-4">
+                                      <label for="OptionsPluginsTitlePaddingTop" class="form-label">Padding Top
+                                        {{function.get('OptionsPluginsTitlePaddingTop').value}}</label>
+                                      <input id="OptionsPluginsTitlePaddingTop"
+                                        formControlName="OptionsPluginsTitlePaddingTop" type="range" min="0" max="10"
+                                        step="1" style="width: 100%;">
+                                    </div>
+                                    <div class="col-sm-4">
+                                      <label for="OptionsPluginsTitlePaddingBottom" class="form-label">Padding
+                                        Bottom {{function.get('OptionsPluginsTitlePaddingBottom').value}}</label>
+                                      <input id="OptionsPluginsTitlePaddingBottom"
+                                        formControlName="OptionsPluginsTitlePaddingBottom" type="range" min="0" max="10"
+                                        step="1" style="width: 100%;">
                                     </div>
                                   </div>
                                 </div>
@@ -574,10 +604,10 @@
                                   </div>
                                   <div class="row gx-2 gy-2 mb-2">
                                     <div class="col-sm-3">
-                                      <label for="OptionsPluginsSubtitleFonSize" class="form-label">Font Size
-                                        {{function.get('OptionsPluginsSubtitleFonSize').value}}</label>
-                                      <input id="OptionsPluginsSubtitleFonSize"
-                                        formControlName="OptionsPluginsSubtitleFonSize" type="range" min="2" max="20"
+                                      <label for="OptionsPluginsSubtitleFontSize" class="form-label">Font Size
+                                        {{function.get('OptionsPluginsSubtitleFontSize').value}}</label>
+                                      <input id="OptionsPluginsSubtitleFontSize"
+                                        formControlName="OptionsPluginsSubtitleFontSize" type="range" min="2" max="20"
                                         step="1">
                                     </div>
                                     <div class="col-sm-3">
@@ -687,14 +717,12 @@
                               </select>
                             </div>
                             <div class="col-sm-4">
-                              <input class="form-control form-control-sm shadow-none"
-                                formControlName="LineBarChartXAxisLabel" type="text" placeholder="X-Axis Label"
-                                aria-label="x-Axis Label">
+                              <input class="form-control form-control-sm shadow-none" type="text"
+                                placeholder="X-Axis Label" aria-label="x-Axis Label">
                             </div>
                             <div class="col-sm-4">
-                              <input class="form-control form-control-sm shadow-none"
-                                formControlName="LineBarChartYAxisLabel" type="text" placeholder="Y-Axis Label"
-                                aria-label="x-Axis Label">
+                              <input class="form-control form-control-sm shadow-none" type="text"
+                                placeholder="Y-Axis Label" aria-label="x-Axis Label">
                             </div>
                           </div>
                           <div class="row gx-2 gy-2 mb-2">
