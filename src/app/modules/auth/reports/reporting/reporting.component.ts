@@ -169,7 +169,7 @@ export class ReportingComponent implements OnInit {
       ]
     };
     this.barOptions = {
-      indexAxis: 'y',
+      indexAxis: 'x',
       plugins: {
         title: {
           display: true,
@@ -397,7 +397,9 @@ export class ReportingComponent implements OnInit {
           position: 'top',  // top, bottom, left, right
           align: 'center',  //start, center, end
           font: {
-            size: 20
+            size: 20,
+            style: 'normal',  // normal, italic, oblique, initial, inherit
+            weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
           },
           padding: {
             top: 0,
@@ -411,7 +413,9 @@ export class ReportingComponent implements OnInit {
           position: 'top',  // top, bottom, left, right
           align: 'center',  //start, center, end
           font: {
-            size: 15
+            size: 15,
+            style: 'normal',  // normal, italic, oblique, initial, inherit
+            weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
           },
           padding: {
             top: 0,
@@ -456,7 +460,9 @@ export class ReportingComponent implements OnInit {
           position: 'top',  // top, bottom, left, right
           align: 'center',  //start, center, end
           font: {
-            size: 20
+            size: 20,
+            style: 'normal',  // normal, italic, oblique, initial, inherit
+            weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
           },
           padding: {
             top: 0,
@@ -470,7 +476,9 @@ export class ReportingComponent implements OnInit {
           position: 'top',  // top, bottom, left, right
           align: 'center',  //start, center, end
           font: {
-            size: 15
+            size: 15,
+            style: 'normal',  // normal, italic, oblique, initial, inherit
+            weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
           },
           padding: {
             top: 0,
@@ -522,7 +530,9 @@ export class ReportingComponent implements OnInit {
           position: 'top',  // top, bottom, left, right
           align: 'center',  //start, center, end
           font: {
-            size: 20
+            size: 20,
+            style: 'normal',  // normal, italic, oblique, initial, inherit
+            weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
           },
           padding: {
             top: 0,
@@ -536,7 +546,9 @@ export class ReportingComponent implements OnInit {
           position: 'top',  // top, bottom, left, right
           align: 'center',  //start, center, end
           font: {
-            size: 15
+            size: 15,
+            style: 'normal',  // normal, italic, oblique, initial, inherit
+            weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
           },
           padding: {
             top: 0,
@@ -602,7 +614,9 @@ export class ReportingComponent implements OnInit {
           position: 'top',  // top, bottom, left, right
           align: 'center',  //start, center, end
           font: {
-            size: 20
+            size: 20,
+            style: 'normal',  // normal, italic, oblique, initial, inherit
+            weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
           },
           padding: {
             top: 0,
@@ -616,7 +630,9 @@ export class ReportingComponent implements OnInit {
           position: 'top',  // top, bottom, left, right
           align: 'center',  //start, center, end
           font: {
-            size: 15
+            size: 15,
+            style: 'normal',  // normal, italic, oblique, initial, inherit
+            weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
           },
           padding: {
             top: 0,
@@ -827,22 +843,17 @@ export class ReportingComponent implements OnInit {
       ChartName: ['', Validators.required],
       ChartType: ['', Validators.required],
 
-      //#region 
+      //#region Plugins All Charts
       OptionsPluginsTitleDisplay: [{ value: true, disabled: false }, Validators.required],
       OptionsPluginsTitleText: [{ value: '', disabled: false }, Validators.required],
       OptionsPluginsTitleColor: [{ value: '#495057', disabled: false }, Validators.required],
       OptionsPluginsTitlePosition: [{ value: 'top', disabled: false }, Validators.required], // 'top' or 'bottom'
       OptionsPluginsTitleAlign: [{ value: 'center', disabled: false }, Validators.required], //start, center, end
       OptionsPluginsTitleFontSize: [{ value: 20, disabled: false }, Validators.required],
-
       OptionsPluginsTitleFontStyle: [{ value: 'normal', disabled: false }, Validators.required], // normal, italic, oblique, initial, inherit
       OptionsPluginsTitleFontWeight: [{ value: 'normal', disabled: false }, Validators.required],  // normal, bold, bolder, lighter, initial, inherit
-
       OptionsPluginsTitlePaddingTop: [{ value: 0, disabled: false }, Validators.required],
       OptionsPluginsTitlePaddingBottom: [{ value: 0, disabled: false }, Validators.required],
-
-      // style: 'normal',  // normal, italic, oblique, initial, inherit
-      // weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
 
       OptionsPluginsSubtitleDisplay: [{ value: true, disabled: false }, Validators.required],
       OptionsPluginsSubtitleText: [{ value: '', disabled: false }, Validators.required],
@@ -850,10 +861,8 @@ export class ReportingComponent implements OnInit {
       OptionsPluginsSubtitlePosition: [{ value: 'top', disabled: false }, Validators.required], // 'top' or 'bottom'
       OptionsPluginsSubtitleAlign: [{ value: 'center', disabled: false }, Validators.required], //start, center, end
       OptionsPluginsSubtitleFontSize: [{ value: 15, disabled: false }, Validators.required],
-
-      OptionsPluginsSubtitleFontStyle: [{ value: '', disabled: false }, Validators.required], // normal, italic, oblique, initial, inherit
-      OptionsPluginsSubtitleFontWeight: [{ value: '', disabled: false }, Validators.required],  // normal, bold, bolder, lighter, initial, inherit
-
+      OptionsPluginsSubtitleFontStyle: [{ value: 'normal', disabled: false }, Validators.required], // normal, italic, oblique, initial, inherit
+      OptionsPluginsSubtitleFontWeight: [{ value: 'normal', disabled: false }, Validators.required],  // normal, bold, bolder, lighter, initial, inherit
       OptionsPluginsSubtitlePaddingTop: [{ value: 0, disabled: false }, Validators.required],
       OptionsPluginsSubtitlePaddingBottom: [{ value: 0, disabled: false }, Validators.required],
 
@@ -862,7 +871,26 @@ export class ReportingComponent implements OnInit {
       OptionsPluginsLegendLabelsColor: [{ value: '#495057', disabled: false }, Validators.required],
       //#endregion
 
-      BarOptionsIndexAxis: ['', Validators.required], // 'x' or 'y'
+      //#region Scales Bar and Line
+      BarOptionsIndexAxis: ['x', Validators.required], // 'x' for vertical bar or 'y' for horizontal bar
+      BarOptionsScalesXYStacked: [{ value: false, disabled: false }, Validators.required],
+
+      BarLineOptionsScalesXYTitleDisplay: [{ value: true, disabled: false }, Validators.required],
+      BarLineOptionsScalesXYTitleColor: [{ value: '#495057', disabled: false }, Validators.required],
+      BarLineOptionsScalesXYTitleFontSize: [{ value: 20, disabled: false }, Validators.required],
+      BarLineOptionsScalesXYTitleFontStyle: [{ value: 'normal', disabled: false }, Validators.required], // normal, italic, oblique, initial, inherit
+      BarLineOptionsScalesXYTitleFontWeight: [{ value: 'normal', disabled: false }, Validators.required],  // normal, bold, bolder, lighter, initial, inherit
+      BarLineOptionsScalesXYTicksColor: [{ value: '#495057', disabled: false }, Validators.required],
+      BarLineOptionsScalesXYGridColor: [{ value: '#495057', disabled: false }, Validators.required],
+      BarLineOptionsScalesXTitleText: [{ value: '', disabled: false }, Validators.required],
+      BarLineOptionsScalesYTitleText: [{ value: '', disabled: false }, Validators.required],
+      //#endregion
+
+      //#region Scales Radar and Polararea(last one)
+      RadarOptionsScalesRPointlabelsColor: [{ value: '#495057', disabled: false }, Validators.required],
+      RadarOptionsScalesRAnglelinesColor: [{ value: '#495057', disabled: false }, Validators.required],
+      RadarPolarareaOptionsScalesRGridColor: [{ value: '#495057', disabled: false }, Validators.required],
+      //#endregion
 
       ChartXAxis: ['', Validators.required],
       ChartYAxisInfo: this.formBuilder.array([]),
@@ -1630,13 +1658,16 @@ export class ReportingComponent implements OnInit {
     var chartType = (<HTMLInputElement>event.target).value;
     console.log(chartType);
     var chartInfo = this.runCustomQueryform.get('ChartInfo') as FormArray;
+    if (chartType == null) {
+
+    }
 
     if (chartType == 'bar') {
-      chartInfo.at(i).get('LineBarPieOptionsPluginsLegendLabelsColor')!.enable(); chartInfo.at(i).get('LineBarPieOptionsPluginsLegendLabelsColor')!.setValidators([Validators.required]); chartInfo.at(i).get('LineBarPieOptionsPluginsLegendLabelsColor')!.updateValueAndValidity();
-      chartInfo.at(i).get('LineBarOptionsScalesXTicksColor')!.enable(); chartInfo.at(i).get('LineBarOptionsScalesXTicksColor')!.setValidators([Validators.required]); chartInfo.at(i).get('LineBarOptionsScalesXTicksColor')!.updateValueAndValidity();
-      chartInfo.at(i).get('LineBarOptionsScalesXTicksGrid')!.enable(); chartInfo.at(i).get('LineBarOptionsScalesXTicksGrid')!.setValidators([Validators.required]); chartInfo.at(i).get('LineBarOptionsScalesXTicksGrid')!.updateValueAndValidity();
-      chartInfo.at(i).get('LineBarOptionsScalesYTicksColor')!.enable(); chartInfo.at(i).get('LineBarOptionsScalesYTicksColor')!.setValidators([Validators.required]); chartInfo.at(i).get('LineBarOptionsScalesYTicksColor')!.updateValueAndValidity();
-      chartInfo.at(i).get('LineBarOptionsScalesYTicksGrid')!.enable(); chartInfo.at(i).get('LineBarOptionsScalesYTicksGrid')!.setValidators([Validators.required]); chartInfo.at(i).get('LineBarOptionsScalesYTicksGrid')!.updateValueAndValidity();
+      // chartInfo.at(i).get('LineBarPieOptionsPluginsLegendLabelsColor')!.enable(); chartInfo.at(i).get('LineBarPieOptionsPluginsLegendLabelsColor')!.setValidators([Validators.required]); chartInfo.at(i).get('LineBarPieOptionsPluginsLegendLabelsColor')!.updateValueAndValidity();
+      // chartInfo.at(i).get('LineBarOptionsScalesXTicksColor')!.enable(); chartInfo.at(i).get('LineBarOptionsScalesXTicksColor')!.setValidators([Validators.required]); chartInfo.at(i).get('LineBarOptionsScalesXTicksColor')!.updateValueAndValidity();
+      // chartInfo.at(i).get('LineBarOptionsScalesXTicksGrid')!.enable(); chartInfo.at(i).get('LineBarOptionsScalesXTicksGrid')!.setValidators([Validators.required]); chartInfo.at(i).get('LineBarOptionsScalesXTicksGrid')!.updateValueAndValidity();
+      // chartInfo.at(i).get('LineBarOptionsScalesYTicksColor')!.enable(); chartInfo.at(i).get('LineBarOptionsScalesYTicksColor')!.setValidators([Validators.required]); chartInfo.at(i).get('LineBarOptionsScalesYTicksColor')!.updateValueAndValidity();
+      // chartInfo.at(i).get('LineBarOptionsScalesYTicksGrid')!.enable(); chartInfo.at(i).get('LineBarOptionsScalesYTicksGrid')!.setValidators([Validators.required]); chartInfo.at(i).get('LineBarOptionsScalesYTicksGrid')!.updateValueAndValidity();
     }
     else if (chartType == 'pie') {
       chartInfo.at(i).get('LineBarPieOptionsPluginsLegendLabelsColor')!.enable(); chartInfo.at(i).get('LineBarPieOptionsPluginsLegendLabelsColor')!.setValidators([Validators.required]); chartInfo.at(i).get('LineBarPieOptionsPluginsLegendLabelsColor')!.updateValueAndValidity();

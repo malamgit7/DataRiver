@@ -66,11 +66,11 @@ button {
 .p-scrollpanel {
 
   &.custombar2 {
-    overflow-y: hidden !important;
+    overflow-y: scroll;
 
-    .p-scrollpanel-wrapper {
-      border-right: 9px solid var(--layer-1);
-      border-bottom: 9px solid var(--layer-1);
-    }
+    // .p-scrollpanel-wrapper {
+    //   border-right: 9px solid var(--layer-1);
+    //   border-bottom: 9px solid var(--layer-1);
+    // }
   }
 }
