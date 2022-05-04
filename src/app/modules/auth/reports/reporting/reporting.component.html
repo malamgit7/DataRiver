@@ -400,35 +400,34 @@
                         </div>
                       </div>
                       <p-overlayPanel [showTransitionOptions]="'100ms'" [hideTransitionOptions]="'100ms'" #op
-                        [showCloseIcon]="true" [dismissable]="false" [style]="{width: '650px'}">
-                        <p-scrollPanel [style]="{width: '100%', height: '290px', background:'transparent'}"
-                          styleClass="custombar2">
+                        [showCloseIcon]="true" [dismissable]="false" [style]="{width: '450px'}">
+                        <p-scrollPanel [style]="{width: '100%', height: '350px'}" styleClass="custombar2">
                           <div class="row gx-2 gy-2 mb-2">
-                            <div class="col-sm-4">
-                              <label for="chartname" class="form-label">Name</label>
-                              <input class="form-control form-control-sm shadow-none" id="chartname"
-                                formControlName="ChartName" type="text" placeholder="Name" aria-label="name">
+                            <div class="col-sm-12">
+                              <!-- <label for="chartname" class="form-label">Name</label> -->
+                              <input class="form-control shadow-sm" id="chartname" formControlName="ChartName"
+                                type="text" placeholder="Name" aria-label="name">
                             </div>
                           </div>
-
-                          <div class="accordion" id="accordionPanelsStayOpenExample1">
-                            <div class="accordion-item">
-                              <div class="accordion-header p-0" id="panelsStayOpen-headingTwo1">
-                                <button class="accordion-button collapsed shadow-none p-2" type="button"
-                                  data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo1"
-                                  aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo1">
-                                  Title
-                                </button>
+                          <div class="row gx-2 gy-2 mb-2">
+                            <div class="col-sm-6 d-flex">
+                              <div class="card w-100">
+                                <div class="card-body p-2 d-flex">
+                                  <div class="me-auto">Title</div>
+                                  <i type="button" class="fas fa-filter" (click)="title.toggle($event)"></i>
+                                </div>
                               </div>
-                              <div id="panelsStayOpen-collapseTwo1" class="accordion-collapse collapse"
-                                aria-labelledby="panelsStayOpen-headingTwo1">
-                                <div class="accordion-body p-2">
+                              <p-overlayPanel #title [showCloseIcon]="true" [dismissable]="false"
+                                [style]="{width: '400px'}">
+                                <p-scrollPanel [style]="{width: '100%', height: '375px'}" styleClass="custombar2">
                                   <div class="row gx-2 gy-2 mb-2">
-                                    <div class="col-sm-4">
-                                      <label for="OptionsPluginsTitleDisplay" class="form-label">Show Title</label>
+                                    <div class="col-sm-5">
+                                      <label class="form-label">Show Title</label>
+                                    </div>
+                                    <div class="col-sm-7">
                                       <div class="row">
                                         <div class="col-sm-12 d-flex">
-                                          <div class="form-check form-switch me-3">
+                                          <div class="form-check form-switch me-2">
                                             <input class="form-check-input " type="checkbox" role="switch"
                                               id="OptionsPluginsTitleDisplay"
                                               formControlName="OptionsPluginsTitleDisplay">
@@ -440,14 +439,20 @@
                                     </div>
                                   </div>
                                   <div class="row gx-2 gy-2 mb-2">
-                                    <div class="col-sm-4">
-                                      <label for="OptionsPluginsTitleText" class="form-label">Title</label>
-                                      <input class="form-control form-control-sm shadow-none"
+                                    <div class="col-sm-5">
+                                      <label class="form-label">Title</label>
+                                    </div>
+                                    <div class="col-sm-7">
+                                      <input class="form-control form-control-sm shadow-none w-100"
                                         formControlName="OptionsPluginsTitleText" id="OptionsPluginsTitleText"
                                         type="text" placeholder="Title" aria-label="title">
                                     </div>
-                                    <div class="col-sm-4">
-                                      <label for="OptionsPluginsTitlePosition" class="form-label">Position</label>
+                                  </div>
+                                  <div class="row gx-2 gy-2 mb-2">
+                                    <div class="col-sm-5">
+                                      <label class="form-label">Position</label>
+                                    </div>
+                                    <div class="col-sm-7">
                                       <select class="form-select form-select-sm shadow-none"
                                         formControlName="OptionsPluginsTitlePosition"
                                         aria-label="OptionsPluginsTitlePosition">
@@ -455,8 +460,12 @@
                                         <option value="bottom">Bottom</option>
                                       </select>
                                     </div>
-                                    <div class="col-sm-4">
-                                      <label for="OptionsPluginsTitleAlign" class="form-label">Align</label>
+                                  </div>
+                                  <div class="row gx-2 gy-2 mb-2">
+                                    <div class="col-sm-5">
+                                      <label class="form-label">Align</label>
+                                    </div>
+                                    <div class="col-sm-7">
                                       <select class="form-select form-select-sm shadow-none"
                                         formControlName="OptionsPluginsTitleAlign"
                                         aria-label="OptionsPluginsTitleAlign">
@@ -467,8 +476,10 @@
                                     </div>
                                   </div>
                                   <div class="row gx-2 gy-2 mb-2">
-                                    <div class="col-sm-4">
-                                      <label for="OptionsPluginsTitleFontStyle" class="form-label">Font Style</label>
+                                    <div class="col-sm-5">
+                                      <label class="form-label">Font Style</label>
+                                    </div>
+                                    <div class="col-sm-7">
                                       <select class="form-select form-select-sm shadow-none"
                                         id="OptionsPluginsTitleFontStyle" formControlName="OptionsPluginsTitleFontStyle"
                                         aria-label="OptionsPluginsTitleFontStyle">
@@ -479,8 +490,12 @@
                                         <option value="inherit" style="font-style: inherit;">Inherit</option>
                                       </select>
                                     </div>
-                                    <div class="col-sm-4">
-                                      <label for="OptionsPluginsTitleFontWeight" class="form-label">Font Weight</label>
+                                  </div>
+                                  <div class="row gx-2 gy-2 mb-2">
+                                    <div class="col-sm-5">
+                                      <label class="form-label">Font Weight</label>
+                                    </div>
+                                    <div class="col-sm-7">
                                       <select class="form-select form-select-sm shadow-none"
                                         id="OptionsPluginsTitleFontWeight"
                                         formControlName="OptionsPluginsTitleFontWeight"
@@ -493,14 +508,18 @@
                                         <option value="inherit" style="font-weight: inherit;">Inherit</option>
                                       </select>
                                     </div>
-                                    <div class="col-sm-4">
-                                      <label for="OptionsPluginsTitleColor" class="form-label">Text Color
+                                  </div>
+                                  <div class="row gx-2 gy-2 mb-2">
+                                    <div class="col-sm-5">
+                                      <label class="form-label">Text Color
                                       </label>
+                                    </div>
+                                    <div class="col-sm-7">
                                       <div class="row">
                                         <div class="col-sm-12 d-flex">
                                           <input type="color" formControlName="OptionsPluginsTitleColor"
                                             id="OptionsPluginsTitleColor"
-                                            class="form-control form-control-color shadow-sm p-0 me-auto"
+                                            class="form-control form-control-color shadow-sm p-0 me-2"
                                             title="Title color">
                                           <div>
                                             {{function.get('OptionsPluginsTitleColor').value | uppercase }}
@@ -510,49 +529,60 @@
                                     </div>
                                   </div>
                                   <div class="row gx-2 gy-2 mb-2">
-                                    <div class="col-sm-4">
-                                      <label for="OptionsPluginsTitleFontSize" class="form-label">Font Size
+                                    <div class="col-sm-5">
+                                      <label class="form-label">Font Size
                                         {{function.get('OptionsPluginsTitleFontSize').value}}</label>
+                                    </div>
+                                    <div class="col-sm-7">
                                       <input id="OptionsPluginsTitleFontSize"
                                         formControlName="OptionsPluginsTitleFontSize" type="range" min="5" max="25"
                                         step="1" style="width: 100%;">
                                     </div>
-                                    <div class="col-sm-4">
-                                      <label for="OptionsPluginsTitlePaddingTop" class="form-label">Padding Top
+                                  </div>
+                                  <div class="row gx-2 gy-2 mb-2">
+                                    <div class="col-sm-5">
+                                      <label class="form-label">Padding Top
                                         {{function.get('OptionsPluginsTitlePaddingTop').value}}</label>
+                                    </div>
+                                    <div class="col-sm-7">
                                       <input id="OptionsPluginsTitlePaddingTop"
                                         formControlName="OptionsPluginsTitlePaddingTop" type="range" min="0" max="10"
                                         step="1" style="width: 100%;">
                                     </div>
-                                    <div class="col-sm-4">
-                                      <label for="OptionsPluginsTitlePaddingBottom" class="form-label">Padding
+                                  </div>
+                                  <div class="row gx-2 gy-2 mb-2">
+                                    <div class="col-sm-5">
+                                      <label class="form-label">Padding
                                         Bottom {{function.get('OptionsPluginsTitlePaddingBottom').value}}</label>
+                                    </div>
+                                    <div class="col-sm-7">
                                       <input id="OptionsPluginsTitlePaddingBottom"
                                         formControlName="OptionsPluginsTitlePaddingBottom" type="range" min="0" max="10"
                                         step="1" style="width: 100%;">
                                     </div>
                                   </div>
+                                </p-scrollPanel>
+                              </p-overlayPanel>
+                            </div>
+                            <div class="col-sm-6 d-flex">
+                              <div class="card w-100">
+                                <div class="card-body p-2 d-flex">
+                                  <div class="me-auto">Subtitle</div>
+                                  <i type="button" class="fas fa-filter" (click)="subtitle.toggle($event)"></i>
                                 </div>
                               </div>
-                            </div>
-                            <div class="accordion-item">
-                              <div class="accordion-header p-0" id="panelsStayOpen-headingThree1">
-                                <button class="accordion-button collapsed p-2 shadow-none" type="button"
-                                  data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree1"
-                                  aria-expanded="false" aria-controls="panelsStayOpen-collapseThree1">
-                                  Subtitle
-                                </button>
-                              </div>
-                              <div id="panelsStayOpen-collapseThree1" class="accordion-collapse collapse"
-                                aria-labelledby="panelsStayOpen-headingThree1">
-                                <div class="accordion-body p-2">
+                              <p-overlayPanel #subtitle [showCloseIcon]="true" [dismissable]="false"
+                                [style]="{width: '400px'}">
+                                <p-scrollPanel [style]="{width: '100%', height: '375px'}" styleClass="custombar2">
                                   <div class="row gx-2 gy-2 mb-2">
-                                    <div class="col-sm-4">
-                                      <label for="OptionsPluginsSubtitleDisplay" class="form-label">Show
+                                    <div class="col-sm-5">
+                                      <label class="form-label">Show
                                         Subtitle</label>
+                                    </div>
+                                    <div class="col-sm-7">
                                       <div class="row">
                                         <div class="col-sm-12 d-flex">
-                                          <div class="form-check form-switch me-3">
+                                          <div class="form-check form-switch me-2">
                                             <input class="form-check-input " type="checkbox" role="switch"
                                               id="OptionsPluginsSubtitleDisplay"
                                               formControlName="OptionsPluginsSubtitleDisplay">
@@ -562,17 +592,22 @@
                                         </div>
                                       </div>
                                     </div>
-
                                   </div>
                                   <div class="row gx-2 gy-2 mb-2">
-                                    <div class="col-sm-4">
-                                      <label for="OptionsPluginsSubtitleText" class="form-label">Subtitle</label>
+                                    <div class="col-sm-5">
+                                      <label class="form-label">Subtitle</label>
+                                    </div>
+                                    <div class="col-sm-7">
                                       <input class="form-control form-control-sm shadow-none"
                                         formControlName="OptionsPluginsSubtitleText" id="OptionsPluginsSubtitleText"
                                         type="text" placeholder="Subtitle" aria-label="Subtitle">
                                     </div>
-                                    <div class="col-sm-4">
-                                      <label for="OptionsPluginsSubtitlePosition" class="form-label">Position</label>
+                                  </div>
+                                  <div class="row gx-2 gy-2 mb-2">
+                                    <div class="col-sm-5">
+                                      <label class="form-label">Position</label>
+                                    </div>
+                                    <div class="col-sm-7">
                                       <select class="form-select form-select-sm shadow-none"
                                         formControlName="OptionsPluginsSubtitlePosition"
                                         aria-label="OptionsPluginsSubtitlePosition">
@@ -580,8 +615,12 @@
                                         <option value="bottom">Bottom</option>
                                       </select>
                                     </div>
-                                    <div class="col-sm-4">
-                                      <label for="OptionsPluginsSubtitleAlign" class="form-label">Align</label>
+                                  </div>
+                                  <div class="row gx-2 gy-2 mb-2">
+                                    <div class="col-sm-5">
+                                      <label class="form-label">Align</label>
+                                    </div>
+                                    <div class="col-sm-7">
                                       <select class="form-select form-select-sm shadow-none"
                                         formControlName="OptionsPluginsSubtitleAlign"
                                         aria-label="OptionsPluginsSubtitleAlign">
@@ -592,8 +631,10 @@
                                     </div>
                                   </div>
                                   <div class="row gx-2 gy-2 mb-2">
-                                    <div class="col-sm-4">
-                                      <label for="OptionsPluginsSubtitleFontStyle" class="form-label">Font Style</label>
+                                    <div class="col-sm-5">
+                                      <label class="form-label">Font Style</label>
+                                    </div>
+                                    <div class="col-sm-7">
                                       <select class="form-select form-select-sm shadow-none"
                                         id="OptionsPluginsSubtitleFontStyle"
                                         formControlName="OptionsPluginsSubtitleFontStyle"
@@ -605,9 +646,13 @@
                                         <option value="inherit" style="font-style: inherit;">Inherit</option>
                                       </select>
                                     </div>
-                                    <div class="col-sm-4">
-                                      <label for="OptionsPluginsSubtitleFontWeight" class="form-label">Font
+                                  </div>
+                                  <div class="row gx-2 gy-2 mb-2">
+                                    <div class="col-sm-5">
+                                      <label class="form-label">Font
                                         Weight</label>
+                                    </div>
+                                    <div class="col-sm-7">
                                       <select class="form-select form-select-sm shadow-none"
                                         id="OptionsPluginsSubtitleFontWeight"
                                         formControlName="OptionsPluginsSubtitleFontWeight"
@@ -620,8 +665,12 @@
                                         <option value="inherit" style="font-weight: inherit;">Inherit</option>
                                       </select>
                                     </div>
-                                    <div class="col-sm-4">
-                                      <label for="OptionsPluginsSubtitleColor" class="form-label">Text Color</label>
+                                  </div>
+                                  <div class="row gx-2 gy-2 mb-2">
+                                    <div class="col-sm-5">
+                                      <label class="form-label">Text Color</label>
+                                    </div>
+                                    <div class="col-sm-7">
                                       <div class="row">
                                         <div class="col-sm-12 d-flex">
                                           <input type="color" formControlName="OptionsPluginsSubtitleColor"
@@ -636,46 +685,58 @@
                                     </div>
                                   </div>
                                   <div class="row gx-2 gy-2 mb-2">
-                                    <div class="col-sm-4">
-                                      <label for="OptionsPluginsSubtitleFontSize" class="form-label">Font Size
+                                    <div class="col-sm-5">
+                                      <label class="form-label">Font Size
                                         {{function.get('OptionsPluginsSubtitleFontSize').value}}</label>
+                                    </div>
+                                    <div class="col-sm-7">
                                       <input id="OptionsPluginsSubtitleFontSize"
                                         formControlName="OptionsPluginsSubtitleFontSize" type="range" min="2" max="20"
                                         step="1" style="width: 100%;">
                                     </div>
-                                    <div class="col-sm-4">
+                                  </div>
+                                  <div class="row gx-2 gy-2 mb-2">
+                                    <div class="col-sm-5">
                                       <label for="OptionsPluginsSubtitlePaddingTop" class="form-label">Padding
                                         Top {{function.get('OptionsPluginsSubtitlePaddingTop').value}}</label>
+                                    </div>
+                                    <div class="col-sm-7">
                                       <input id="OptionsPluginsSubtitlePaddingTop"
                                         formControlName="OptionsPluginsSubtitlePaddingTop" type="range" min="0" max="10"
                                         step="1" style="width: 100%;">
                                     </div>
-                                    <div class="col-sm-4">
+                                  </div>
+                                  <div class="row gx-2 gy-2 mb-2">
+                                    <div class="col-sm-5">
                                       <label for="OptionsPluginsSubtitlePaddingBottom" class="form-label">Padding
                                         Bottom {{function.get('OptionsPluginsSubtitlePaddingBottom').value}}</label>
+                                    </div>
+                                    <div class="col-sm-7">
                                       <input id="OptionsPluginsSubtitlePaddingBottom"
                                         formControlName="OptionsPluginsSubtitlePaddingBottom" type="range" min="0"
                                         max="10" step="1" style="width: 100%;">
                                     </div>
-
                                   </div>
+                                </p-scrollPanel>
+                              </p-overlayPanel>
+                            </div>
+                          </div>
+                          <div class="row gx-2 gy-2 mb-2">
+                            <div class="col-sm-6">
+                              <div class="card w-100">
+                                <div class="card-body p-2 d-flex">
+                                  <div class="me-auto">Tooltips & Legends</div>
+                                  <i type="button" class="fas fa-filter" (click)="tooltip.toggle($event)"></i>
                                 </div>
                               </div>
-                            </div>
-                            <div class="accordion-item">
-                              <div class="accordion-header p-0" id="panelsStayOpen-headingFour1">
-                                <button class="accordion-button collapsed p-2 shadow-none" type="button"
-                                  data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour1"
-                                  aria-expanded="false" aria-controls="panelsStayOpen-collapseFour1">
-                                  Tooltips & Legends
-                                </button>
-                              </div>
-                              <div id="panelsStayOpen-collapseFour1" class="accordion-collapse collapse"
-                                aria-labelledby="panelsStayOpen-headingFour1">
-                                <div class="accordion-body p-2">
+                              <p-overlayPanel #tooltip [showCloseIcon]="true" [dismissable]="false"
+                                [style]="{width: '400px'}">
+                                <p-scrollPanel [style]="{width: '100%', height: '115px'}" styleClass="custombar2">
                                   <div class="row gx-2 gy-2 mb-2">
-                                    <div class="col-sm-4">
-                                      <label for="OptionsPluginsTooltipsMode" class="form-label">Tooltips Mode</label>
+                                    <div class="col-sm-5">
+                                      <label class="form-label">Tooltips Mode</label>
+                                    </div>
+                                    <div class="col-sm-7">
                                       <select class="form-select form-select-sm shadow-none"
                                         id="OptionsPluginsTooltipsMode" formControlName="OptionsPluginsTooltipsMode"
                                         aria-label="OptionsPluginsTooltipsMode">
@@ -687,9 +748,13 @@
                                         <option value="y">Y</option>
                                       </select>
                                     </div>
-                                    <div class="col-sm-4">
-                                      <label for="OptionsPluginsTooltipsIntersect" class="form-label">Tooltips
+                                  </div>
+                                  <div class="row gx-2 gy-2 mb-2">
+                                    <div class="col-sm-5">
+                                      <label class="form-label">Tooltips
                                         Intersect</label>
+                                    </div>
+                                    <div class="col-sm-7">
                                       <select class="form-select form-select-sm shadow-none"
                                         id="OptionsPluginsTooltipsIntersect"
                                         formControlName="OptionsPluginsTooltipsIntersect"
@@ -698,14 +763,18 @@
                                         <option value="false">No</option>
                                       </select>
                                     </div>
-                                    <div class="col-sm-4">
-                                      <label for="OptionsPluginsLegendLabelsColor" class="form-label">Legend Label
+                                  </div>
+                                  <div class="row gx-2 gy-2 mb-2">
+                                    <div class="col-sm-5">
+                                      <label class="form-label">Legend Label
                                         Color</label>
+                                    </div>
+                                    <div class="col-sm-7">
                                       <div class="row">
                                         <div class="col-sm-12 d-flex">
                                           <input type="color" formControlName="OptionsPluginsLegendLabelsColor"
                                             id="OptionsPluginsLegendLabelsColor"
-                                            class="form-control form-control-color shadow-none p-0 me-auto"
+                                            class="form-control form-control-color shadow-none p-0 me-2"
                                             title="Legend Label color">
                                           <div>{{function.get('OptionsPluginsLegendLabelsColor').value | uppercase }}
                                           </div>
@@ -713,14 +782,11 @@
                                       </div>
                                     </div>
                                   </div>
-                                </div>
-                              </div>
+                                </p-scrollPanel>
+                              </p-overlayPanel>
                             </div>
-                          </div>
-
-                          <div class="row gx-2 gy-2 mb-2">
-                            <div class="col-sm-4">
-                              <select class="form-select form-select-sm shadow-none" aria-label="chart type"
+                            <div class="col-sm-6">
+                              <select class="form-select shadow-sm" aria-label="chart type"
                                 (change)="onSelectChartType(i, $event)">
                                 <option value='{"chartType":null}' selected>Chart type...</option>
                                 <optgroup label="Bar Charts">
@@ -740,29 +806,28 @@
                                 <option value='{"chartType":"polarArea"}'>Polar Area</option>
                               </select>
                             </div>
-
                           </div>
-
-                          <div class="accordion" id="accordionPanelsStayOpenExample2" *ngIf="chartTypeSelected">
-                            <div class="accordion-item">
-                              <div class="accordion-header shadow-none p-0" id="panelsStayOpen-headingOne2">
-                                <button class="accordion-button collapsed shadow-none p-2" type="button"
-                                  data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne2"
-                                  aria-expanded="false" aria-controls="panelsStayOpen-collapseOne2">
-                                  Chart Options
-                                </button>
+                          <div class="row gx-2 gy-2 mb-2">
+                            <div class="col-sm-6" *ngIf="chartTypeSelected">
+                              <div class="card w-100">
+                                <div class="card-body p-2 d-flex">
+                                  <div class="me-auto">Chart Options</div>
+                                  <i type="button" class="fas fa-filter" (click)="chartoptions.toggle($event)"></i>
+                                </div>
                               </div>
-                              <div id="panelsStayOpen-collapseOne2" class="accordion-collapse collapse"
-                                aria-labelledby="panelsStayOpen-headingOne">
-                                <div class="accordion-body p-2">
-                                  <div class="row gx-2 gy-2 mb-2">
-                                    <div class="col-sm-4"
-                                      [hidden]="function.get('BarLineOptionsScalesXYTitleDisplay').disabled">
-                                      <label for="BarLineOptionsScalesXYTitleDisplay" class="form-label">Show Axis
+                              <p-overlayPanel #chartoptions [showCloseIcon]="true" [dismissable]="false"
+                                [style]="{width: '400px'}">
+                                <p-scrollPanel [style]="{width: '100%', height: '350px'}" styleClass="custombar2">
+                                  <div class="row gx-2 gy-2 mb-2"
+                                    [hidden]="function.get('BarLineOptionsScalesXYTitleDisplay').disabled">
+                                    <div class="col-sm-5">
+                                      <label class="form-label">Show Axis
                                         Title</label>
+                                    </div>
+                                    <div class="col-sm-7">
                                       <div class="row">
                                         <div class="col-sm-12 d-flex">
-                                          <div class="form-check form-switch me-3">
+                                          <div class="form-check form-switch me-2">
                                             <input class="form-check-input " type="checkbox" role="switch"
                                               id="BarLineOptionsScalesXYTitleDisplay"
                                               formControlName="BarLineOptionsScalesXYTitleDisplay">
@@ -773,36 +838,50 @@
                                         </div>
                                       </div>
                                     </div>
-                                    <div class="col-sm-4"
-                                      [hidden]="function.get('BarLineOptionsScalesXTitleText').disabled">
-                                      <label for="BarLineOptionsScalesXTitleText" class="form-label">X-Axis Text</label>
+                                  </div>
+                                  <div class="row gx-2 gy-2 mb-2"
+                                    [hidden]="function.get('BarLineOptionsScalesXTitleText').disabled">
+                                    <div class="col-sm-5">
+                                      <label class="form-label">X-Axis Text</label>
+                                    </div>
+                                    <div class="col-sm-7">
                                       <input class="form-control form-control-sm shadow-none"
                                         formControlName="BarLineOptionsScalesXTitleText"
                                         id="BarLineOptionsScalesXTitleText" type="text" placeholder="X-Axis Text"
                                         aria-label="X-Axis Title">
                                     </div>
-                                    <div class="col-sm-4"
-                                      [hidden]="function.get('BarLineOptionsScalesYTitleText').disabled">
-                                      <label for="BarLineOptionsScalesYTitleText" class="form-label">Y-Axis Text</label>
+                                  </div>
+                                  <div class="row gx-2 gy-2 mb-2"
+                                    [hidden]="function.get('BarLineOptionsScalesYTitleText').disabled">
+                                    <div class="col-sm-5">
+                                      <label class="form-label">Y-Axis Text</label>
+                                    </div>
+                                    <div class="col-sm-7">
                                       <input class="form-control form-control-sm shadow-none"
                                         formControlName="BarLineOptionsScalesYTitleText"
                                         id="BarLineOptionsScalesYTitleText" type="text" placeholder="Y-Axis Text"
                                         aria-label="Y-Axis Text">
                                     </div>
                                   </div>
-                                  <div class="row gx-2 gy-2 mb-2">
-                                    <div class="col-sm-4"
-                                      [hidden]="function.get('BarLineOptionsScalesXYTitleFontSize').disabled">
+                                  <div class="row gx-2 gy-2 mb-2"
+                                    [hidden]="function.get('BarLineOptionsScalesXYTitleFontSize').disabled">
+                                    <div class="col-sm-5">
                                       <label for="BarLineOptionsScalesXYTitleFontSize" class="form-label">Axis Font Size
                                         {{function.get('BarLineOptionsScalesXYTitleFontSize').value}}</label>
+                                    </div>
+                                    <div class="col-sm-7">
                                       <input id="BarLineOptionsScalesXYTitleFontSize"
                                         formControlName="BarLineOptionsScalesXYTitleFontSize" type="range" min="5"
                                         max="25" step="1" style="width: 100%;">
                                     </div>
-                                    <div class="col-sm-4"
-                                      [hidden]="function.get('BarLineOptionsScalesXYTitleFontStyle').disabled">
-                                      <label for="BarLineOptionsScalesXYTitleFontStyle" class="form-label">Axis Font
+                                  </div>
+                                  <div class="row gx-2 gy-2 mb-2"
+                                    [hidden]="function.get('BarLineOptionsScalesXYTitleFontStyle').disabled">
+                                    <div class="col-sm-5">
+                                      <label class="form-label">Axis Font
                                         Style</label>
+                                    </div>
+                                    <div class="col-sm-7">
                                       <select class="form-select form-select-sm shadow-none"
                                         id="BarLineOptionsScalesXYTitleFontStyle"
                                         formControlName="BarLineOptionsScalesXYTitleFontStyle"
@@ -814,10 +893,14 @@
                                         <option value="inherit" style="font-style: inherit;">Inherit</option>
                                       </select>
                                     </div>
-                                    <div class="col-sm-4"
-                                      [hidden]="function.get('BarLineOptionsScalesXYTitleFontWeight').disabled">
-                                      <label for="BarLineOptionsScalesXYTitleFontWeight" class="form-label">Axis Font
+                                  </div>
+                                  <div class="row gx-2 gy-2 mb-2"
+                                    [hidden]="function.get('BarLineOptionsScalesXYTitleFontWeight').disabled">
+                                    <div class="col-sm-5">
+                                      <label class="form-label">Axis Font
                                         Weight</label>
+                                    </div>
+                                    <div class="col-sm-7">
                                       <select class="form-select form-select-sm shadow-none"
                                         id="BarLineOptionsScalesXYTitleFontWeight"
                                         formControlName="BarLineOptionsScalesXYTitleFontWeight"
@@ -831,16 +914,18 @@
                                       </select>
                                     </div>
                                   </div>
-                                  <div class="row gx-2 gy-2 mb-2">
-                                    <div class="col-sm-4"
-                                      [hidden]="function.get('BarLineOptionsScalesXYTitleColor').disabled">
-                                      <label for="BarLineOptionsScalesXYTitleColor" class="form-label">Axis Title Color
+                                  <div class="row gx-2 gy-2 mb-2"
+                                    [hidden]="function.get('BarLineOptionsScalesXYTitleColor').disabled">
+                                    <div class="col-sm-5">
+                                      <label class="form-label">Axis Title Color
                                       </label>
+                                    </div>
+                                    <div class="col-sm-7">
                                       <div class="row">
                                         <div class="col-sm-12 d-flex">
                                           <input type="color" formControlName="BarLineOptionsScalesXYTitleColor"
                                             id="BarLineOptionsScalesXYTitleColor"
-                                            class="form-control form-control-color shadow-sm p-0 me-auto"
+                                            class="form-control form-control-color shadow-sm p-0 me-2"
                                             title="Axis Title color">
                                           <div>
                                             {{function.get('BarLineOptionsScalesXYTitleColor').value | uppercase }}
@@ -848,15 +933,19 @@
                                         </div>
                                       </div>
                                     </div>
-                                    <div class="col-sm-4"
-                                      [hidden]="function.get('BarLineOptionsScalesXYTicksColor').disabled">
-                                      <label for="BarLineOptionsScalesXYTicksColor" class="form-label">XY Ticks Color
+                                  </div>
+                                  <div class="row gx-2 gy-2 mb-2"
+                                    [hidden]="function.get('BarLineOptionsScalesXYTicksColor').disabled">
+                                    <div class="col-sm-5">
+                                      <label class="form-label">XY Ticks Color
                                       </label>
+                                    </div>
+                                    <div class="col-sm-7">
                                       <div class="row">
                                         <div class="col-sm-12 d-flex">
                                           <input type="color" formControlName="BarLineOptionsScalesXYTicksColor"
                                             id="BarLineOptionsScalesXYTicksColor"
-                                            class="form-control form-control-color shadow-sm p-0 me-auto"
+                                            class="form-control form-control-color shadow-sm p-0 me-2"
                                             title="Ticks color">
                                           <div>
                                             {{function.get('BarLineOptionsScalesXYTicksColor').value | uppercase }}
@@ -864,15 +953,19 @@
                                         </div>
                                       </div>
                                     </div>
-                                    <div class="col-sm-4"
-                                      [hidden]="function.get('BarLineOptionsScalesXYGridColor').disabled">
-                                      <label for="BarLineOptionsScalesXYGridColor" class="form-label">Grid Color
+                                  </div>
+                                  <div class="row gx-2 gy-2 mb-2"
+                                    [hidden]="function.get('BarLineOptionsScalesXYGridColor').disabled">
+                                    <div class="col-sm-5">
+                                      <label class="form-label">Grid Color
                                       </label>
+                                    </div>
+                                    <div class="col-sm-7">
                                       <div class="row">
                                         <div class="col-sm-12 d-flex">
                                           <input type="color" formControlName="BarLineOptionsScalesXYGridColor"
                                             id="BarLineOptionsScalesXYGridColor"
-                                            class="form-control form-control-color shadow-sm p-0 me-auto"
+                                            class="form-control form-control-color shadow-sm p-0 me-2"
                                             title="Grid color">
                                           <div>
                                             {{function.get('BarLineOptionsScalesXYGridColor').value | uppercase }}
@@ -881,16 +974,18 @@
                                       </div>
                                     </div>
                                   </div>
-                                  <div class="row gx-2 gy-2 mb-2">
-                                    <div class="col-sm-4"
-                                      [hidden]="function.get('RadarPolarareaOptionsScalesRGridColor').disabled">
-                                      <label for="RadarPolarareaOptionsScalesRGridColor" class="form-label">Grid Color
+                                  <div class="row gx-2 gy-2 mb-2"
+                                    [hidden]="function.get('RadarPolarareaOptionsScalesRGridColor').disabled">
+                                    <div class="col-sm-5">
+                                      <label class="form-label">Grid Color
                                       </label>
+                                    </div>
+                                    <div class="col-sm-7">
                                       <div class="row">
                                         <div class="col-sm-12 d-flex">
                                           <input type="color" formControlName="RadarPolarareaOptionsScalesRGridColor"
                                             id="RadarPolarareaOptionsScalesRGridColor"
-                                            class="form-control form-control-color shadow-sm p-0 me-auto"
+                                            class="form-control form-control-color shadow-sm p-0 me-2"
                                             title="Grid color">
                                           <div>
                                             {{function.get('RadarPolarareaOptionsScalesRGridColor').value | uppercase }}
@@ -898,16 +993,20 @@
                                         </div>
                                       </div>
                                     </div>
-                                    <div class="col-sm-4"
-                                      [hidden]="function.get('RadarOptionsScalesRPointlabelsColor').disabled">
-                                      <label for="RadarOptionsScalesRPointlabelsColor" class="form-label">Pont lable
+                                  </div>
+                                  <div class="row gx-2 gy-2 mb-2"
+                                    [hidden]="function.get('RadarOptionsScalesRPointlabelsColor').disabled">
+                                    <div class="col-sm-5">
+                                      <label class="form-label">Point Lable
                                         Color
                                       </label>
+                                    </div>
+                                    <div class="col-sm-7">
                                       <div class="row">
                                         <div class="col-sm-12 d-flex">
                                           <input type="color" formControlName="RadarOptionsScalesRPointlabelsColor"
                                             id="RadarOptionsScalesRPointlabelsColor"
-                                            class="form-control form-control-color shadow-sm p-0 me-auto"
+                                            class="form-control form-control-color shadow-sm p-0 me-2"
                                             title="Ticks color">
                                           <div>
                                             {{function.get('RadarOptionsScalesRPointlabelsColor').value | uppercase }}
@@ -915,11 +1014,15 @@
                                         </div>
                                       </div>
                                     </div>
-                                    <div class="col-sm-4"
-                                      [hidden]="function.get('RadarOptionsScalesRAnglelinesColor').disabled">
-                                      <label for="RadarOptionsScalesRAnglelinesColor" class="form-label">Angle Line
+                                  </div>
+                                  <div class="row gx-2 gy-2"
+                                    [hidden]="function.get('RadarOptionsScalesRAnglelinesColor').disabled">
+                                    <div class="col-sm-5">
+                                      <label class="form-label">Angle Line
                                         Color
                                       </label>
+                                    </div>
+                                    <div class="col-sm-7">
                                       <div class="row">
                                         <div class="col-sm-12 d-flex">
                                           <input type="color" formControlName="RadarOptionsScalesRAnglelinesColor"
@@ -933,10 +1036,27 @@
                                       </div>
                                     </div>
                                   </div>
-                                </div>
-                              </div>
+                                </p-scrollPanel>
+                              </p-overlayPanel>
+                            </div>
+                            <div class="col-sm-6">
+                              <select class="form-select shadow-none" formControlName="ChartXAxis"
+                                aria-label="x-axis/Attribute">
+                                <option value="{{default_select}}" selected>Select x-axis/labels...</option>
+                                <option *ngFor="let key of datasetKeys" value="{{key}}">{{key}}</option>
+                              </select>
                             </div>
                           </div>
+
+                          <div class="d-flex bd-highlight">
+                            <div>Y-Axis</div>
+                            <div class="mx-2 flex-grow-1">
+                              <hr style="border-top: 2px solid grey;">
+                            </div>
+                            <div> <i class="fas fa-plus"></i></div>
+                          </div>
+
+                          <!-- Here goese Y axis -->
 
                         </p-scrollPanel>
                       </p-overlayPanel>
