@@ -405,8 +405,31 @@
                           <div class="row gx-2 gy-2 mb-2">
                             <div class="col-sm-12">
                               <!-- <label for="chartname" class="form-label">Name</label> -->
-                              <input class="form-control shadow-sm" id="chartname" formControlName="ChartName"
-                                type="text" placeholder="Name" aria-label="name">
+                              <input class="form-control" id="chartname" formControlName="ChartName" type="text"
+                                placeholder="Name" aria-label="name">
+                            </div>
+                          </div>
+                          <div class="row gx-2 gy-2 mb-2">
+                            <div class="col-sm-12">
+                              <select class="form-select shadow-sm" aria-label="chart type"
+                                (change)="onSelectChartType(i, $event)">
+                                <option value='{"chartType":null}' selected>Chart type...</option>
+                                <optgroup label="Bar Charts">
+                                  <option value='{"chartType":"bar", "indexAxis":"x", "stacked":false}'>Vertical Linear
+                                  </option>
+                                  <option value='{"chartType":"bar", "indexAxis":"y", "stacked":false}'>Horizontal
+                                    Linear</option>
+                                  <option value='{"chartType":"bar", "indexAxis":"x", "stacked":true}'>Vertical Stacked
+                                  </option>
+                                  <option value='{"chartType":"bar", "indexAxis":"y", "stacked":true}'>Horizontal
+                                    Stacked</option>
+                                </optgroup>
+                                <option value='{"chartType":"line"}'>Line</option>
+                                <option value='{"chartType":"pie"}'>Pie</option>
+                                <option value='{"chartType":"radar"}'>Radar</option>
+                                <option value='{"chartType":"doughnut"}'>Doughnut</option>
+                                <option value='{"chartType":"polarArea"}'>Polar Area</option>
+                              </select>
                             </div>
                           </div>
                           <div class="row gx-2 gy-2 mb-2">
@@ -414,7 +437,7 @@
                               <div class="card w-100">
                                 <div class="card-body p-2 d-flex">
                                   <div class="me-auto">Title</div>
-                                  <i type="button" class="fas fa-filter" (click)="title.toggle($event)"></i>
+                                  <i type="button" class="fas fa-cogs" (click)="title.toggle($event)"></i>
                                 </div>
                               </div>
                               <p-overlayPanel #title [showCloseIcon]="true" [dismissable]="false"
@@ -568,7 +591,7 @@
                               <div class="card w-100">
                                 <div class="card-body p-2 d-flex">
                                   <div class="me-auto">Subtitle</div>
-                                  <i type="button" class="fas fa-filter" (click)="subtitle.toggle($event)"></i>
+                                  <i type="button" class="fas fa-cogs" (click)="subtitle.toggle($event)"></i>
                                 </div>
                               </div>
                               <p-overlayPanel #subtitle [showCloseIcon]="true" [dismissable]="false"
@@ -726,7 +749,7 @@
                               <div class="card w-100">
                                 <div class="card-body p-2 d-flex">
                                   <div class="me-auto">Tooltips & Legends</div>
-                                  <i type="button" class="fas fa-filter" (click)="tooltip.toggle($event)"></i>
+                                  <i type="button" class="fas fa-cogs" (click)="tooltip.toggle($event)"></i>
                                 </div>
                               </div>
                               <p-overlayPanel #tooltip [showCloseIcon]="true" [dismissable]="false"
@@ -786,33 +809,10 @@
                               </p-overlayPanel>
                             </div>
                             <div class="col-sm-6">
-                              <select class="form-select shadow-sm" aria-label="chart type"
-                                (change)="onSelectChartType(i, $event)">
-                                <option value='{"chartType":null}' selected>Chart type...</option>
-                                <optgroup label="Bar Charts">
-                                  <option value='{"chartType":"bar", "indexAxis":"x", "stacked":false}'>Vertical Linear
-                                  </option>
-                                  <option value='{"chartType":"bar", "indexAxis":"y", "stacked":false}'>Horizontal
-                                    Linear</option>
-                                  <option value='{"chartType":"bar", "indexAxis":"x", "stacked":true}'>Vertical Stacked
-                                  </option>
-                                  <option value='{"chartType":"bar", "indexAxis":"y", "stacked":true}'>Horizontal
-                                    Stacked</option>
-                                </optgroup>
-                                <option value='{"chartType":"line"}'>Line</option>
-                                <option value='{"chartType":"pie"}'>Pie</option>
-                                <option value='{"chartType":"radar"}'>Radar</option>
-                                <option value='{"chartType":"doughnut"}'>Doughnut</option>
-                                <option value='{"chartType":"polarArea"}'>Polar Area</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div class="row gx-2 gy-2 mb-2">
-                            <div class="col-sm-6" *ngIf="chartTypeSelected">
                               <div class="card w-100">
                                 <div class="card-body p-2 d-flex">
                                   <div class="me-auto">Chart Options</div>
-                                  <i type="button" class="fas fa-filter" (click)="chartoptions.toggle($event)"></i>
+                                  <i type="button" class="fas fa-cogs" (click)="chartoptions.toggle($event)"></i>
                                 </div>
                               </div>
                               <p-overlayPanel #chartoptions [showCloseIcon]="true" [dismissable]="false"
@@ -1039,7 +1039,12 @@
                                 </p-scrollPanel>
                               </p-overlayPanel>
                             </div>
-                            <div class="col-sm-6">
+                          </div>
+
+                          <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+
+                          <div class="row gx-2 gy-2 mb-2">
+                            <div class="col-sm-12">
                               <select class="form-select shadow-none" formControlName="ChartXAxis"
                                 aria-label="x-axis/Attribute">
                                 <option value="{{default_select}}" selected>Select x-axis/labels...</option>
@@ -1047,16 +1052,256 @@
                               </select>
                             </div>
                           </div>
-
-                          <div class="d-flex bd-highlight">
-                            <div>Y-Axis</div>
-                            <div class="mx-2 flex-grow-1">
-                              <hr style="border-top: 2px solid grey;">
+                          <div class="row gx-2 gy-2 mb-2">
+                            <div class="col-sm-12 d-flex">
+                              <button class="btn btn-sm btn-primary shadow-sm me-auto ms-0"
+                                (click)="addChartYAxisInfo(i)">
+                                <i class="fas fa-plus"></i>
+                              </button>
                             </div>
-                            <div> <i class="fas fa-plus"></i></div>
                           </div>
 
-                          <!-- Here goese Y axis -->
+                          <div class="row gx-2 gy-2 mb-2">
+                            <div class="col-sm-12">
+                              <div formArrayName="ChartYAxisInfo">
+                                <div *ngFor="let func of ChartYAxisInfo(i).controls; let j=index" [formGroupName]="j">
+                                  <div class="row gx-2 gy-2 mb-2">
+                                    <div class="col-sm-4">
+                                      <select class="form-select form-select-sm shadow-none"
+                                        formControlName="ChartYAxis" aria-label="y-axis/Attribute">
+                                        <option value="{{default_select}}" selected>Select y-axis/data...</option>
+                                        <option *ngFor="let key of datasetKeys" value="{{key}}">
+                                          {{key}}
+                                        </option>
+                                      </select>
+                                    </div>
+                                    <div class="col-sm-4">
+                                      <select class="form-select form-select-sm shadow-none"
+                                        formControlName="ChartYAxisFunction" aria-label=".form-select-sm example">
+                                        <option value="{{default_select}}" selected>Select function...</option>
+                                        <option value="COUNT">COUNT()</option>
+                                        <option value="SUM">SUM()</option>
+                                        <option value="AVG">AVG()</option>
+                                        <option value="MIN">MIN()</option>
+                                        <option value="MAX">MAX()</option>
+                                      </select>
+                                    </div>
+                                    <div class="col-sm-4 d-flex">
+                                      <button class="btn btn-sm me-auto shadow-none" type="button"
+                                        (click)="op1.toggle($event)" id="button-addon2"><i
+                                          class="fas fa-filter"></i></button>
+                                      <button type="button" class="btn btn-sm shadow-none ms-auto"
+                                        (click)="removeChartYAxisInfo(i, j)"><i
+                                          class="fas fa-trash-alt text-danger"></i></button>
+                                    </div>
+                                  </div>
+                                  <p-overlayPanel [showTransitionOptions]="'100ms'" [hideTransitionOptions]="'100ms'"
+                                    #op1 [showCloseIcon]="true" [dismissable]="false" [style]="{width: '400px'}">
+                                    <ng-template pTemplate>
+                                      <div class="row gx-2 gy-2 mb-2">
+                                        <div class="col-sm-12">
+                                          <input id="LineBarDatasetsLabel"
+                                            class="form-control form-control-sm shadow-sm" type="text"
+                                            placeholder="Dataset Label" formControlName="LineBarDatasetsLabel"
+                                            aria-label="Dataset Label">
+                                        </div>
+                                      </div>
+                                      <div class="row gx-2 gy-2 mb-2">
+                                        <div class="col-sm-12">
+                                          <input type="color" id="BarDatasetsBackgroundColor"
+                                            class="form-control form-control-color shadow-sm p-0"
+                                            formControlName="BarDatasetsBackgroundColor">
+                                        </div>
+                                      </div>
+                                      <div class="row gx-2 gy-2 mb-2">
+                                        <div class="col-sm-6">
+                                          <label class="form-check-label" for="LineDatasetsFill">Line Datasets
+                                            Fill</label>
+                                        </div>
+                                        <div class="col-sm-3">
+                                          <div class="form-check form-switch">
+                                            <input class="form-check-input shadow-sm" type="checkbox" role="switch"
+                                              id="LineDatasetsFill" formControlName="LineDatasetsFill">
+                                          </div>
+                                        </div>
+                                        <div class="col-sm-3 d-flex">
+                                          <div class="ms-auto">{{func.get('LineDatasetsFill').value}}</div>
+                                        </div>
+                                      </div>
+                                      <div class="row gx-2 gy-2">
+                                        <div class="col-sm-6">
+                                          <label class="form-label" for="LineDatasetsTension">Line Datasets
+                                            Tension</label>
+                                        </div>
+                                        <div class="col-sm-3">
+                                          <input id="LineDatasetsTension" type="range" min="0.1" max="1" step="0.1"
+                                            formControlName="LineDatasetsTension">
+                                        </div>
+                                        <div class="col-sm-3 d-flex">
+                                          <div class="ms-auto">{{func.get('LineDatasetsTension').value}}</div>
+                                        </div>
+                                      </div>
+                                      <div class="row gx-2 gy-2 mb-2">
+                                        <div class="col-sm-6">
+                                          <label class="form-check-label" for="LineDatasetsBorderColor">Datasets
+                                            Border
+                                            Color</label>
+                                        </div>
+                                        <div class="col-sm-3">
+                                          <input type="color" id="LineDatasetsBorderColor"
+                                            class="form-control form-control-color shadow-sm p-0"
+                                            formControlName="LineDatasetsBorderColor">
+                                        </div>
+                                        <div class="col-sm-3 d-flex">
+                                          <div class="ms-auto">{{func.get('LineDatasetsBorderColor').value |
+                                            uppercase}}
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </ng-template>
+                                  </p-overlayPanel>
+
+
+
+                                  <!-- <div class="row gx-2 gy-2 mb-2">
+                                    <div class="col-sm-1">
+                                      <button type="button" class="btn btn-sm btn-danger shadow-none"
+                                        (click)="removeChartYAxisInfo(i, j)"><i class="fas fa-trash-alt"></i></button>
+                                    </div>
+                                    <div class="col-sm-5">
+                                      <select class="form-select form-select-sm shadow-none"
+                                        formControlName="ChartYAxis" aria-label="y-axis/Attribute">
+                                        <option value="{{default_select}}" selected>Select y-axis/data...</option>
+                                        <option *ngFor="let key of datasetKeys" value="{{key}}">
+                                          {{key}}
+                                        </option>
+                                      </select>
+                                    </div>
+                                    <div class="col-sm-5">
+                                      <select class="form-select form-select-sm shadow-none"
+                                        formControlName="ChartYAxisFunction" aria-label=".form-select-sm example">
+                                        <option value="{{default_select}}" selected>Select function...</option>
+                                        <option value="COUNT">COUNT()</option>
+                                        <option value="SUM">SUM()</option>
+                                        <option value="AVG">AVG()</option>
+                                        <option value="MIN">MIN()</option>
+                                        <option value="MAX">MAX()</option>
+                                      </select>
+                                    </div>
+                                    <div class="col-sm-1">
+                                      <button type="button" class="btn btn-sm btn-success shadow-none"
+                                        data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                                        [disabled]="!(func.get('ChartYAxis').value && func.get('ChartYAxisFunction').value)"><i
+                                          class="fas fa-filter"></i></button>
+                                    </div>
+                                  </div>
+                                  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
+                                    data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <div class="modal-title" id="staticBackdropLabel">
+                                            {{func.get('ChartYAxisFunction').value}}
+                                            ({{func.get('ChartYAxis').value}})
+                                          </div>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                          <div class="row gx-2 gy-2 mb-2">
+                                            <div class="col-sm-6">
+                                              <label for="LineBarDatasetsLabel" class="form-label">Dataset
+                                                Label</label>
+                                            </div>
+                                            <div class="col-sm-6">
+                                              <input id="LineBarDatasetsLabel"
+                                                class="form-control form-control-sm shadow-sm" type="text"
+                                                placeholder="Dataset Label" formControlName="LineBarDatasetsLabel"
+                                                aria-label="Dataset Label">
+                                            </div>
+                                          </div>
+                                          <div class="row gx-2 gy-2 mb-2"
+                                            [hidden]="func.get('BarDatasetsBackgroundColor').disabled">
+                                            <div class="col-sm-6">
+                                              <label for="BarDatasetsBackgroundColor" class="form-label">Dataset BG
+                                                Color</label>
+                                            </div>
+                                            <div class="col-sm-3">
+                                              <input type="color" id="BarDatasetsBackgroundColor"
+                                                class="form-control form-control-color shadow-sm p-0"
+                                                formControlName="BarDatasetsBackgroundColor">
+                                            </div>
+                                            <div class="col-sm-3 d-flex">
+                                              <div class="ms-auto">{{func.get('BarDatasetsBackgroundColor').value
+                                                | uppercase}}
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="row gx-2 gy-2 mb-2"
+                                            [hidden]="func.get('LineDatasetsFill').disabled">
+                                            <div class="col-sm-6">
+                                              <label class="form-check-label" for="LineDatasetsFill">Line Datasets
+                                                Fill</label>
+                                            </div>
+                                            <div class="col-sm-3">
+                                              <div class="form-check form-switch">
+                                                <input class="form-check-input shadow-sm" type="checkbox" role="switch"
+                                                  id="LineDatasetsFill" formControlName="LineDatasetsFill">
+                                              </div>
+                                            </div>
+                                            <div class="col-sm-3 d-flex">
+                                              <div class="ms-auto">{{func.get('LineDatasetsFill').value}}</div>
+                                            </div>
+                                          </div>
+                                          <div class="row gx-2 gy-2"
+                                            [hidden]="func.get('LineDatasetsTension').disabled">
+                                            <div class="col-sm-6">
+                                              <label class="form-label" for="LineDatasetsTension">Line Datasets
+                                                Tension</label>
+                                            </div>
+                                            <div class="col-sm-3">
+                                              <input id="LineDatasetsTension" type="range" min="0.1" max="1" step="0.1"
+                                                formControlName="LineDatasetsTension">
+                                            </div>
+                                            <div class="col-sm-3 d-flex">
+                                              <div class="ms-auto">{{func.get('LineDatasetsTension').value}}</div>
+                                            </div>
+                                          </div>
+                                          <div class="row gx-2 gy-2 mb-2"
+                                            [hidden]="func.get('LineDatasetsBorderColor').disabled">
+                                            <div class="col-sm-6">
+                                              <label class="form-check-label" for="LineDatasetsBorderColor">Datasets
+                                                Border
+                                                Color</label>
+                                            </div>
+                                            <div class="col-sm-3">
+                                              <input type="color" id="LineDatasetsBorderColor"
+                                                class="form-control form-control-color shadow-sm p-0"
+                                                formControlName="LineDatasetsBorderColor">
+                                            </div>
+                                            <div class="col-sm-3 d-flex">
+                                              <div class="ms-auto">{{func.get('LineDatasetsBorderColor').value |
+                                                uppercase}}
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                          <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                          <button type="button" class="btn btn-primary">Understood</button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div> -->
+
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+
 
                         </p-scrollPanel>
                       </p-overlayPanel>
