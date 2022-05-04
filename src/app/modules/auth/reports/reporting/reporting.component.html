@@ -1044,19 +1044,17 @@
                           <hr style="height:2px;border-width:0;color:gray;background-color:gray">
 
                           <div class="row gx-2 gy-2 mb-2">
-                            <div class="col-sm-12">
-                              <select class="form-select shadow-none" formControlName="ChartXAxis"
+                            <div class="col-sm-9">
+                              <select class="form-select form-select-sm shadow-none" formControlName="ChartXAxis"
                                 aria-label="x-axis/Attribute">
                                 <option value="{{default_select}}" selected>Select x-axis/labels...</option>
                                 <option *ngFor="let key of datasetKeys" value="{{key}}">{{key}}</option>
                               </select>
                             </div>
-                          </div>
-                          <div class="row gx-2 gy-2 mb-2">
-                            <div class="col-sm-12 d-flex">
-                              <button class="btn btn-sm btn-primary shadow-sm me-auto ms-0"
+                            <div class="col-sm-3">
+                              <button class="btn btn-sm btn-primary shadow-sm me-auto ms-"
                                 (click)="addChartYAxisInfo(i)">
-                                <i class="fas fa-plus"></i>
+                                Add Y-Axis
                               </button>
                             </div>
                           </div>
@@ -1066,30 +1064,30 @@
                               <div formArrayName="ChartYAxisInfo">
                                 <div *ngFor="let func of ChartYAxisInfo(i).controls; let j=index" [formGroupName]="j">
                                   <div class="row gx-2 gy-2 mb-2">
-                                    <div class="col-sm-4">
-                                      <select class="form-select form-select-sm shadow-none"
-                                        formControlName="ChartYAxis" aria-label="y-axis/Attribute">
-                                        <option value="{{default_select}}" selected>Select y-axis/data...</option>
-                                        <option *ngFor="let key of datasetKeys" value="{{key}}">
-                                          {{key}}
-                                        </option>
-                                      </select>
+                                    <div class="col-sm-11">
+                                      <div class="input-group">
+                                        <select class="form-select form-select-sm shadow-sm"
+                                          formControlName="ChartYAxis" aria-label="y-axis/Attribute">
+                                          <option value="{{default_select}}" selected>Select y-axis/data...</option>
+                                          <option *ngFor="let key of datasetKeys" value="{{key}}">
+                                            {{key}}
+                                          </option>
+                                        </select>
+                                        <select class="form-select form-select-sm shadow-sm"
+                                          formControlName="ChartYAxisFunction" aria-label=".form-select-sm example">
+                                          <option value="{{default_select}}" selected>Select function...</option>
+                                          <option value="COUNT">COUNT()</option>
+                                          <option value="SUM">SUM()</option>
+                                          <option value="AVG">AVG()</option>
+                                          <option value="MIN">MIN()</option>
+                                          <option value="MAX">MAX()</option>
+                                        </select>
+                                        <button class="btn btn-sm btn-outline-secondary shadow-sm" type="button"
+                                          (click)="op1.toggle($event)" id="button-addon2"><i
+                                            class="fas fa-cogs"></i></button>
+                                      </div>
                                     </div>
-                                    <div class="col-sm-4">
-                                      <select class="form-select form-select-sm shadow-none"
-                                        formControlName="ChartYAxisFunction" aria-label=".form-select-sm example">
-                                        <option value="{{default_select}}" selected>Select function...</option>
-                                        <option value="COUNT">COUNT()</option>
-                                        <option value="SUM">SUM()</option>
-                                        <option value="AVG">AVG()</option>
-                                        <option value="MIN">MIN()</option>
-                                        <option value="MAX">MAX()</option>
-                                      </select>
-                                    </div>
-                                    <div class="col-sm-4 d-flex">
-                                      <button class="btn btn-sm me-auto shadow-none" type="button"
-                                        (click)="op1.toggle($event)" id="button-addon2"><i
-                                          class="fas fa-filter"></i></button>
+                                    <div class="col-sm-1">
                                       <button type="button" class="btn btn-sm shadow-none ms-auto"
                                         (click)="removeChartYAxisInfo(i, j)"><i
                                           class="fas fa-trash-alt text-danger"></i></button>
