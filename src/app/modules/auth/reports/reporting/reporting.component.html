@@ -401,17 +401,16 @@
                       </div>
                       <p-overlayPanel [showTransitionOptions]="'100ms'" [hideTransitionOptions]="'100ms'" #op
                         [showCloseIcon]="true" [dismissable]="false" [style]="{width: '450px'}">
-                        <p-scrollPanel [style]="{width: '100%', height: '350px'}" styleClass="custombar2">
+                        <p-scrollPanel [style]="{width: '100%', height: '360px'}" styleClass="custombar2">
                           <div class="row gx-2 gy-2 mb-2">
                             <div class="col-sm-12">
-                              <!-- <label for="chartname" class="form-label">Name</label> -->
-                              <input class="form-control" id="chartname" formControlName="ChartName" type="text"
-                                placeholder="Name" aria-label="name">
+                              <input class="form-control form-control-sm shadow-none" id="chartname"
+                                formControlName="ChartName" type="text" placeholder="Name" aria-label="name">
                             </div>
                           </div>
                           <div class="row gx-2 gy-2 mb-2">
                             <div class="col-sm-12">
-                              <select class="form-select shadow-sm" aria-label="chart type"
+                              <select class="form-select form-select-sm shadow-sm" aria-label="chart type"
                                 (change)="onSelectChartType(i, $event)">
                                 <option value='{"chartType":null}' selected>Chart type...</option>
                                 <optgroup label="Bar Charts">
@@ -1040,55 +1039,53 @@
                               </p-overlayPanel>
                             </div>
                           </div>
-
                           <hr style="height:2px;border-width:0;color:gray;background-color:gray">
-
                           <div class="row gx-2 gy-2 mb-2">
-                            <div class="col-sm-9">
+                            <div class="col-sm-6">
                               <select class="form-select form-select-sm shadow-none" formControlName="ChartXAxis"
                                 aria-label="x-axis/Attribute">
-                                <option value="{{default_select}}" selected>Select x-axis/labels...</option>
+                                <option value="{{default_select}}" selected>Select Attribute...</option>
                                 <option *ngFor="let key of datasetKeys" value="{{key}}">{{key}}</option>
                               </select>
                             </div>
-                            <div class="col-sm-3">
-                              <button class="btn btn-sm btn-primary shadow-sm me-auto ms-"
-                                (click)="addChartYAxisInfo(i)">
-                                Add Y-Axis
+                            <div class="col-sm-6">
+                              <button class="btn btn-sm btn-primary shadow-sm me-auto w-100"
+                                (click)="addChartYAxisInfo(i)"> <i class="fas fa-plus me-2"></i>
+                                Add Metrice
                               </button>
                             </div>
                           </div>
-
                           <div class="row gx-2 gy-2 mb-2">
                             <div class="col-sm-12">
                               <div formArrayName="ChartYAxisInfo">
                                 <div *ngFor="let func of ChartYAxisInfo(i).controls; let j=index" [formGroupName]="j">
                                   <div class="row gx-2 gy-2 mb-2">
-                                    <div class="col-sm-11">
+                                    <div class="col-sm-6">
+                                      <select class="form-select form-select-sm shadow-sm" formControlName="ChartYAxis"
+                                        aria-label="y-axis/Attribute">
+                                        <option value="{{default_select}}" selected>Select Metrice...</option>
+                                        <option *ngFor="let key of datasetKeys" value="{{key}}">
+                                          {{key}}
+                                        </option>
+                                      </select>
+                                    </div>
+                                    <div class="col-sm-6 d-flex">
                                       <div class="input-group">
                                         <select class="form-select form-select-sm shadow-sm"
-                                          formControlName="ChartYAxis" aria-label="y-axis/Attribute">
-                                          <option value="{{default_select}}" selected>Select y-axis/data...</option>
-                                          <option *ngFor="let key of datasetKeys" value="{{key}}">
-                                            {{key}}
-                                          </option>
-                                        </select>
-                                        <select class="form-select form-select-sm shadow-sm"
-                                          formControlName="ChartYAxisFunction" aria-label=".form-select-sm example">
-                                          <option value="{{default_select}}" selected>Select function...</option>
+                                          formControlName="ChartYAxisFunction" aria-label=".form-select-sm example"
+                                          style="width: 4rem;">
+                                          <option value="{{default_select}}" selected>Function...</option>
                                           <option value="COUNT">COUNT()</option>
                                           <option value="SUM">SUM()</option>
                                           <option value="AVG">AVG()</option>
                                           <option value="MIN">MIN()</option>
                                           <option value="MAX">MAX()</option>
                                         </select>
-                                        <button class="btn btn-sm btn-outline-secondary shadow-sm" type="button"
+                                        <button class="btn btn-sm btn-secondary shadow-sm" type="button"
                                           (click)="op1.toggle($event)" id="button-addon2"><i
                                             class="fas fa-cogs"></i></button>
                                       </div>
-                                    </div>
-                                    <div class="col-sm-1">
-                                      <button type="button" class="btn btn-sm shadow-none ms-auto"
+                                      <button type="button" class="btn btn-sm shadow-none ms-3"
                                         (click)="removeChartYAxisInfo(i, j)"><i
                                           class="fas fa-trash-alt text-danger"></i></button>
                                     </div>
@@ -1298,9 +1295,6 @@
                               </div>
                             </div>
                           </div>
-
-
-
                         </p-scrollPanel>
                       </p-overlayPanel>
                     </div>

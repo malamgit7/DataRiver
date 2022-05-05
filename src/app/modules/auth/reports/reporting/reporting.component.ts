@@ -897,7 +897,7 @@ export class ReportingComponent implements OnInit {
       RadarPolarareaOptionsScalesRGridColor: [{ value: '#495057', disabled: true }, Validators.required],
       //#endregion
 
-      ChartXAxis: [{ value: '', disabled: true }, Validators.required],
+      ChartXAxis: [{ value: '', disabled: false }, Validators.required],
       ChartYAxisInfo: this.formBuilder.array([]),
 
       FinalChartData: ['', Validators.required],
