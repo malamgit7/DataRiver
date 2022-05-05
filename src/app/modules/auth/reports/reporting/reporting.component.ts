@@ -130,6 +130,7 @@ export class ReportingComponent implements OnInit {
   polarAreaOptions: any
 
   chartTypeSelected: boolean = false;
+  lineDatasetsBorderDashRangeValues: number[] = [10, 20];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -922,27 +923,17 @@ export class ReportingComponent implements OnInit {
       ChartYAxis: ['', Validators.required],
       ChartYAxisFunction: ['', Validators.required],
 
-      BarDatasetsLabel: ['', Validators.required],
-      BarDatasetsBackgroundColor: [{ value: '#42A5F5', disabled: false }, Validators.required],
+      LineBarRadarPolarDatasetsLabel: [{ value: '', disabled: true }, Validators.required],
+      LineBarRadarDatasetsBackgroundColor: [{ value: '#42A5F5', disabled: true }, Validators.required],
 
-      BarOptionsPluginsLegendLabelsColor: [{ value: '#495057', disabled: true }, Validators.required],
-      BarOptionsScalesXTitleColor: [{ value: '#495057', disabled: true }, Validators.required],
-      BarOptionsScalesXTitleText: [{ value: '', disabled: true }, Validators.required],
-      BarOptionsScalesXTicksColor: [{ value: '#495057', disabled: true }, Validators.required],
-      BarOptionsScalesXGridColor: [{ value: '#495057', disabled: true }, Validators.required],
-      BarOptionsScalesYTitleColor: [{ value: '#495057', disabled: true }, Validators.required],
-      BarOptionsScalesYTitleText: [{ value: '', disabled: true }, Validators.required],
-      BarOptionsScalesYTicksColor: [{ value: '#495057', disabled: true }, Validators.required],
-      BarOptionsScalesYGridColor: [{ value: '#495057', disabled: true }, Validators.required],
-
-
-
-      LineBarDatasetsLabel: [{ value: '', disabled: false }, Validators.required],   // Done
-      LineDatasetsFill: [{ value: false, disabled: false }, Validators.required],   // Done
-      LineDatasetsBorderColor: [{ value: '#42A5F5', disabled: false }, Validators.required],    // Done
-      LineDatasetsTension: [{ value: 0.4, disabled: false }, Validators.required],  // Done
-
-
+      LineDatasetsFill: [{ value: false, disabled: true }, Validators.required],
+      LineDatasetsBorderDash: [{ value: [0, 0], disabled: true }, Validators.required],
+      LineDatasetsTension: [{ value: 0.4, disabled: true }, Validators.required],
+      LineRadarDatasetsBorderColor: [{ value: '#42A5F5', disabled: true }, Validators.required],
+      RadarDatasetsPointBackgroundColor: [{ value: '#42A5F5', disabled: true }, Validators.required],
+      RadarDatasetsPointBorderColor: [{ value: '#42A5F5', disabled: true }, Validators.required],
+      RadarDatsetsPointHoverBackgroundColor: [{ value: '#42A5F5', disabled: true }, Validators.required],
+      RadarDatasetsPointHoverBorderColor: [{ value: '#42A5F5', disabled: true }, Validators.required],
     });
   }
   addChartYAxisInfo(chartInfoIndex: number) {
@@ -1786,32 +1777,203 @@ export class ReportingComponent implements OnInit {
     }
   }
 
-  onSelectChartYAxisInfo(chartInfoIndex: number, chartYAxisInfoIndex: number, chartType: string) {
-    var _x = this.ChartInfo.at(chartInfoIndex).get('ChartYAxisInfo') as FormArray;
-    console.log(_x);
+  onChangeChartType(i: number, event: Event) {
+    var _chartTypeObject = JSON.parse((<HTMLInputElement>event.target).value);
+    var _chartType = _chartTypeObject.chartType;
+    var _x = this.ChartInfo.at(i).get('ChartYAxisInfo') as FormArray;
 
-    if (chartType == 'bar') {
-      _x.at(chartYAxisInfoIndex).get('LineBarDatasetsLabel')?.enable(); _x.at(chartYAxisInfoIndex).get('LineBarDatasetsLabel')?.setValidators([Validators.required]); _x.at(chartYAxisInfoIndex).get('LineBarDatasetsLabel')?.updateValueAndValidity();
-      _x.at(chartYAxisInfoIndex).get('BarDatasetsBackgroundColor')?.enable(); _x.at(chartYAxisInfoIndex).get('BarDatasetsBackgroundColor')?.setValidators([Validators.required]); _x.at(chartYAxisInfoIndex).get('BarDatasetsBackgroundColor')?.updateValueAndValidity();
+    for (var j = 0; j < _x.length; j++) {
+      if (_chartType == null) {
+        _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.disable(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.clearValidators(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.updateValueAndValidity();
+        _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.disable(); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.clearValidators(); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.updateValueAndValidity();
+        _x.at(j).get('LineDatasetsFill')?.disable(); _x.at(j).get('LineDatasetsFill')?.clearValidators(); _x.at(j).get('LineDatasetsFill')?.updateValueAndValidity();
+        _x.at(j).get('LineDatasetsBorderDash')?.disable(); _x.at(j).get('LineDatasetsBorderDash')?.clearValidators(); _x.at(j).get('LineDatasetsBorderDash')?.updateValueAndValidity();
+        _x.at(j).get('LineDatasetsTension')?.disable(); _x.at(j).get('LineDatasetsTension')?.clearValidators(); _x.at(j).get('LineDatasetsTension')?.updateValueAndValidity();
+        _x.at(j).get('LineRadarDatasetsBorderColor')?.disable(); _x.at(j).get('LineRadarDatasetsBorderColor')?.clearValidators(); _x.at(j).get('LineRadarDatasetsBorderColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatasetsPointBackgroundColor')?.disable(); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatasetsPointBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBorderColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.disable(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.updateValueAndValidity();
+      }
+      else if (_chartType == 'bar') {
+        console.log(_chartType)
+        _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.enable(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.setValidators([Validators.required]); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.updateValueAndValidity();
+        _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.enable(); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.setValidators([Validators.required]); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.updateValueAndValidity();
 
-      _x.at(chartYAxisInfoIndex).get('LineDatasetsFill')?.disable(); _x.at(chartYAxisInfoIndex).get('LineDatasetsFill')?.clearValidators(); _x.at(chartYAxisInfoIndex).get('LineDatasetsFill')?.updateValueAndValidity();
-      _x.at(chartYAxisInfoIndex).get('LineDatasetsBorderColor')?.disable(); _x.at(chartYAxisInfoIndex).get('LineDatasetsBorderColor')?.clearValidators(); _x.at(chartYAxisInfoIndex).get('LineDatasetsBorderColor')?.updateValueAndValidity();
-      _x.at(chartYAxisInfoIndex).get('LineDatasetsTension')?.disable(); _x.at(chartYAxisInfoIndex).get('LineDatasetsTension')?.clearValidators(); _x.at(chartYAxisInfoIndex).get('LineDatasetsTension')?.updateValueAndValidity();
+        _x.at(j).get('LineDatasetsFill')?.disable(); _x.at(j).get('LineDatasetsFill')?.clearValidators(); _x.at(j).get('LineDatasetsFill')?.updateValueAndValidity();
+        _x.at(j).get('LineDatasetsBorderDash')?.disable(); _x.at(j).get('LineDatasetsBorderDash')?.clearValidators(); _x.at(j).get('LineDatasetsBorderDash')?.updateValueAndValidity();
+        _x.at(j).get('LineDatasetsTension')?.disable(); _x.at(j).get('LineDatasetsTension')?.clearValidators(); _x.at(j).get('LineDatasetsTension')?.updateValueAndValidity();
+        _x.at(j).get('LineRadarDatasetsBorderColor')?.disable(); _x.at(j).get('LineRadarDatasetsBorderColor')?.clearValidators(); _x.at(j).get('LineRadarDatasetsBorderColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatasetsPointBackgroundColor')?.disable(); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatasetsPointBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBorderColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.disable(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.updateValueAndValidity();
+      }
+      else if (_chartType == 'line') {
+        _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.enable(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.setValidators([Validators.required]); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.updateValueAndValidity();
+        _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.enable(); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.setValidators([Validators.required]); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.updateValueAndValidity();
+        _x.at(j).get('LineDatasetsFill')?.enable(); _x.at(j).get('LineDatasetsFill')?.setValidators([Validators.required]); _x.at(j).get('LineDatasetsFill')?.updateValueAndValidity();
+        _x.at(j).get('LineDatasetsBorderDash')?.enable(); _x.at(j).get('LineDatasetsBorderDash')?.setValidators([Validators.required]); _x.at(j).get('LineDatasetsBorderDash')?.updateValueAndValidity();
+        _x.at(j).get('LineDatasetsTension')?.enable(); _x.at(j).get('LineDatasetsTension')?.setValidators([Validators.required]); _x.at(j).get('LineDatasetsTension')?.updateValueAndValidity();
+        _x.at(j).get('LineRadarDatasetsBorderColor')?.enable(); _x.at(j).get('LineRadarDatasetsBorderColor')?.setValidators([Validators.required]); _x.at(j).get('LineRadarDatasetsBorderColor')?.updateValueAndValidity();
+
+        _x.at(j).get('RadarDatasetsPointBackgroundColor')?.disable(); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatasetsPointBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBorderColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.disable(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.updateValueAndValidity();
+      }
+      else if (_chartType == 'pie') {
+        _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.disable(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.clearValidators(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.updateValueAndValidity();
+        _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.disable(); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.clearValidators(); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.updateValueAndValidity();
+        _x.at(j).get('LineDatasetsFill')?.disable(); _x.at(j).get('LineDatasetsFill')?.clearValidators(); _x.at(j).get('LineDatasetsFill')?.updateValueAndValidity();
+        _x.at(j).get('LineDatasetsBorderDash')?.disable(); _x.at(j).get('LineDatasetsBorderDash')?.clearValidators(); _x.at(j).get('LineDatasetsBorderDash')?.updateValueAndValidity();
+        _x.at(j).get('LineDatasetsTension')?.disable(); _x.at(j).get('LineDatasetsTension')?.clearValidators(); _x.at(j).get('LineDatasetsTension')?.updateValueAndValidity();
+        _x.at(j).get('LineRadarDatasetsBorderColor')?.disable(); _x.at(j).get('LineRadarDatasetsBorderColor')?.clearValidators(); _x.at(j).get('LineRadarDatasetsBorderColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatasetsPointBackgroundColor')?.disable(); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatasetsPointBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBorderColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.disable(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.updateValueAndValidity();
+      }
+      else if (_chartType == 'doughnut') {
+        _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.disable(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.clearValidators(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.updateValueAndValidity();
+        _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.disable(); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.clearValidators(); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.updateValueAndValidity();
+        _x.at(j).get('LineDatasetsFill')?.disable(); _x.at(j).get('LineDatasetsFill')?.clearValidators(); _x.at(j).get('LineDatasetsFill')?.updateValueAndValidity();
+        _x.at(j).get('LineDatasetsBorderDash')?.disable(); _x.at(j).get('LineDatasetsBorderDash')?.clearValidators(); _x.at(j).get('LineDatasetsBorderDash')?.updateValueAndValidity();
+        _x.at(j).get('LineDatasetsTension')?.disable(); _x.at(j).get('LineDatasetsTension')?.clearValidators(); _x.at(j).get('LineDatasetsTension')?.updateValueAndValidity();
+        _x.at(j).get('LineRadarDatasetsBorderColor')?.disable(); _x.at(j).get('LineRadarDatasetsBorderColor')?.clearValidators(); _x.at(j).get('LineRadarDatasetsBorderColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatasetsPointBackgroundColor')?.disable(); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatasetsPointBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBorderColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.disable(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.updateValueAndValidity();
+      }
+      else if (_chartType == 'radar') {
+        _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.enable(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.setValidators([Validators.required]); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.updateValueAndValidity();
+        _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.enable(); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.setValidators([Validators.required]); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.updateValueAndValidity()
+        _x.at(j).get('LineRadarDatasetsBorderColor')?.enable(); _x.at(j).get('LineRadarDatasetsBorderColor')?.setValidators([Validators.required]); _x.at(j).get('LineRadarDatasetsBorderColor')?.updateValueAndValidity()
+        _x.at(j).get('RadarDatasetsPointBackgroundColor')?.enable(); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.setValidators([Validators.required]); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.updateValueAndValidity()
+        _x.at(j).get('RadarDatasetsPointBorderColor')?.enable(); _x.at(j).get('RadarDatasetsPointBorderColor')?.setValidators([Validators.required]); _x.at(j).get('RadarDatasetsPointBorderColor')?.updateValueAndValidity()
+        _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.enable(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.setValidators([Validators.required]); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.updateValueAndValidity()
+        _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.enable(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.setValidators([Validators.required]); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.updateValueAndValidity()
+
+        _x.at(j).get('LineDatasetsFill')?.disable(); _x.at(j).get('LineDatasetsFill')?.clearValidators(); _x.at(j).get('LineDatasetsFill')?.updateValueAndValidity();
+        _x.at(j).get('LineDatasetsBorderDash')?.disable(); _x.at(j).get('LineDatasetsBorderDash')?.clearValidators(); _x.at(j).get('LineDatasetsBorderDash')?.updateValueAndValidity();
+        _x.at(j).get('LineDatasetsTension')?.disable(); _x.at(j).get('LineDatasetsTension')?.clearValidators(); _x.at(j).get('LineDatasetsTension')?.updateValueAndValidity();
+
+
+      }
+      else if (_chartType == 'polarArea') {
+        _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.enable(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.setValidators([Validators.required]); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.updateValueAndValidity();
+
+        _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.disable(); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.clearValidators(); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.updateValueAndValidity();
+        _x.at(j).get('LineDatasetsFill')?.disable(); _x.at(j).get('LineDatasetsFill')?.clearValidators(); _x.at(j).get('LineDatasetsFill')?.updateValueAndValidity();
+        _x.at(j).get('LineDatasetsBorderDash')?.disable(); _x.at(j).get('LineDatasetsBorderDash')?.clearValidators(); _x.at(j).get('LineDatasetsBorderDash')?.updateValueAndValidity();
+        _x.at(j).get('LineDatasetsTension')?.disable(); _x.at(j).get('LineDatasetsTension')?.clearValidators(); _x.at(j).get('LineDatasetsTension')?.updateValueAndValidity();
+        _x.at(j).get('LineRadarDatasetsBorderColor')?.disable(); _x.at(j).get('LineRadarDatasetsBorderColor')?.clearValidators(); _x.at(j).get('LineRadarDatasetsBorderColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatasetsPointBackgroundColor')?.disable(); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatasetsPointBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBorderColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.disable(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.updateValueAndValidity();
+      }
     }
-    else if (chartType == 'pie') {
-      _x.at(chartYAxisInfoIndex).get('LineBarDatasetsLabel')?.disable(); _x.at(chartYAxisInfoIndex).get('LineBarDatasetsLabel')?.clearValidators(); _x.at(chartYAxisInfoIndex).get('LineBarDatasetsLabel')?.updateValueAndValidity();
-      _x.at(chartYAxisInfoIndex).get('BarDatasetsBackgroundColor')?.disable(); _x.at(chartYAxisInfoIndex).get('BarDatasetsBackgroundColor')?.clearValidators(); _x.at(chartYAxisInfoIndex).get('BarDatasetsBackgroundColor')?.updateValueAndValidity();
-      _x.at(chartYAxisInfoIndex).get('LineDatasetsFill')?.disable(); _x.at(chartYAxisInfoIndex).get('LineDatasetsFill')?.clearValidators(); _x.at(chartYAxisInfoIndex).get('LineDatasetsFill')?.updateValueAndValidity();
-      _x.at(chartYAxisInfoIndex).get('LineDatasetsBorderColor')?.disable(); _x.at(chartYAxisInfoIndex).get('LineDatasetsBorderColor')?.clearValidators(); _x.at(chartYAxisInfoIndex).get('LineDatasetsBorderColor')?.updateValueAndValidity();
-      _x.at(chartYAxisInfoIndex).get('LineDatasetsTension')?.disable(); _x.at(chartYAxisInfoIndex).get('LineDatasetsTension')?.clearValidators(); _x.at(chartYAxisInfoIndex).get('LineDatasetsTension')?.updateValueAndValidity();
-    }
-    else if (chartType == 'line') {
-      _x.at(chartYAxisInfoIndex).get('LineBarDatasetsLabel')?.enable(); _x.at(chartYAxisInfoIndex).get('LineBarDatasetsLabel')?.setValidators([Validators.required]); _x.at(chartYAxisInfoIndex).get('LineBarDatasetsLabel')?.updateValueAndValidity();
-      _x.at(chartYAxisInfoIndex).get('LineDatasetsFill')?.enable(); _x.at(chartYAxisInfoIndex).get('LineDatasetsFill')?.setValidators([Validators.required]); _x.at(chartYAxisInfoIndex).get('LineDatasetsFill')?.updateValueAndValidity();
-      _x.at(chartYAxisInfoIndex).get('LineDatasetsBorderColor')?.enable(); _x.at(chartYAxisInfoIndex).get('LineDatasetsBorderColor')?.setValidators([Validators.required]); _x.at(chartYAxisInfoIndex).get('LineDatasetsBorderColor')?.updateValueAndValidity();
-      _x.at(chartYAxisInfoIndex).get('LineDatasetsTension')?.enable(); _x.at(chartYAxisInfoIndex).get('LineDatasetsTension')?.setValidators([Validators.required]); _x.at(chartYAxisInfoIndex).get('LineDatasetsTension')?.updateValueAndValidity();
+  }
 
-      _x.at(chartYAxisInfoIndex).get('BarDatasetsBackgroundColor')?.disable(); _x.at(chartYAxisInfoIndex).get('BarDatasetsBackgroundColor')?.clearValidators(); _x.at(chartYAxisInfoIndex).get('BarDatasetsBackgroundColor')?.updateValueAndValidity();
+  onClickChartType(i: number, chartTypeObject: any) {
+    var _chartTypeObject = JSON.parse(chartTypeObject);
+    var _chartType = _chartTypeObject.chartType;
+    var _x = this.ChartInfo.at(i).get('ChartYAxisInfo') as FormArray;
+
+    for (var j = 0; j < _x.length; j++) {
+      if (_chartType == null) {
+        _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.disable(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.clearValidators(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.updateValueAndValidity();
+        _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.disable(); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.clearValidators(); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.updateValueAndValidity();
+        _x.at(j).get('LineDatasetsFill')?.disable(); _x.at(j).get('LineDatasetsFill')?.clearValidators(); _x.at(j).get('LineDatasetsFill')?.updateValueAndValidity();
+        _x.at(j).get('LineDatasetsBorderDash')?.disable(); _x.at(j).get('LineDatasetsBorderDash')?.clearValidators(); _x.at(j).get('LineDatasetsBorderDash')?.updateValueAndValidity();
+        _x.at(j).get('LineDatasetsTension')?.disable(); _x.at(j).get('LineDatasetsTension')?.clearValidators(); _x.at(j).get('LineDatasetsTension')?.updateValueAndValidity();
+        _x.at(j).get('LineRadarDatasetsBorderColor')?.disable(); _x.at(j).get('LineRadarDatasetsBorderColor')?.clearValidators(); _x.at(j).get('LineRadarDatasetsBorderColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatasetsPointBackgroundColor')?.disable(); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatasetsPointBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBorderColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.disable(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.updateValueAndValidity();
+      }
+      else if (_chartType == 'bar') {
+        console.log(_chartType)
+        _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.enable(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.setValidators([Validators.required]); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.updateValueAndValidity();
+        _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.enable(); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.setValidators([Validators.required]); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.updateValueAndValidity();
+
+        _x.at(j).get('LineDatasetsFill')?.disable(); _x.at(j).get('LineDatasetsFill')?.clearValidators(); _x.at(j).get('LineDatasetsFill')?.updateValueAndValidity();
+        _x.at(j).get('LineDatasetsBorderDash')?.disable(); _x.at(j).get('LineDatasetsBorderDash')?.clearValidators(); _x.at(j).get('LineDatasetsBorderDash')?.updateValueAndValidity();
+        _x.at(j).get('LineDatasetsTension')?.disable(); _x.at(j).get('LineDatasetsTension')?.clearValidators(); _x.at(j).get('LineDatasetsTension')?.updateValueAndValidity();
+        _x.at(j).get('LineRadarDatasetsBorderColor')?.disable(); _x.at(j).get('LineRadarDatasetsBorderColor')?.clearValidators(); _x.at(j).get('LineRadarDatasetsBorderColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatasetsPointBackgroundColor')?.disable(); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatasetsPointBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBorderColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.disable(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.updateValueAndValidity();
+      }
+      else if (_chartType == 'line') {
+        _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.enable(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.setValidators([Validators.required]); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.updateValueAndValidity();
+        _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.enable(); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.setValidators([Validators.required]); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.updateValueAndValidity();
+        _x.at(j).get('LineDatasetsFill')?.enable(); _x.at(j).get('LineDatasetsFill')?.setValidators([Validators.required]); _x.at(j).get('LineDatasetsFill')?.updateValueAndValidity();
+        _x.at(j).get('LineDatasetsBorderDash')?.enable(); _x.at(j).get('LineDatasetsBorderDash')?.setValidators([Validators.required]); _x.at(j).get('LineDatasetsBorderDash')?.updateValueAndValidity();
+        _x.at(j).get('LineDatasetsTension')?.enable(); _x.at(j).get('LineDatasetsTension')?.setValidators([Validators.required]); _x.at(j).get('LineDatasetsTension')?.updateValueAndValidity();
+        _x.at(j).get('LineRadarDatasetsBorderColor')?.enable(); _x.at(j).get('LineRadarDatasetsBorderColor')?.setValidators([Validators.required]); _x.at(j).get('LineRadarDatasetsBorderColor')?.updateValueAndValidity();
+
+        _x.at(j).get('RadarDatasetsPointBackgroundColor')?.disable(); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatasetsPointBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBorderColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.disable(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.updateValueAndValidity();
+      }
+      else if (_chartType == 'pie') {
+        _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.disable(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.clearValidators(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.updateValueAndValidity();
+        _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.disable(); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.clearValidators(); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.updateValueAndValidity();
+        _x.at(j).get('LineDatasetsFill')?.disable(); _x.at(j).get('LineDatasetsFill')?.clearValidators(); _x.at(j).get('LineDatasetsFill')?.updateValueAndValidity();
+        _x.at(j).get('LineDatasetsBorderDash')?.disable(); _x.at(j).get('LineDatasetsBorderDash')?.clearValidators(); _x.at(j).get('LineDatasetsBorderDash')?.updateValueAndValidity();
+        _x.at(j).get('LineDatasetsTension')?.disable(); _x.at(j).get('LineDatasetsTension')?.clearValidators(); _x.at(j).get('LineDatasetsTension')?.updateValueAndValidity();
+        _x.at(j).get('LineRadarDatasetsBorderColor')?.disable(); _x.at(j).get('LineRadarDatasetsBorderColor')?.clearValidators(); _x.at(j).get('LineRadarDatasetsBorderColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatasetsPointBackgroundColor')?.disable(); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatasetsPointBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBorderColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.disable(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.updateValueAndValidity();
+      }
+      else if (_chartType == 'doughnut') {
+        _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.disable(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.clearValidators(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.updateValueAndValidity();
+        _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.disable(); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.clearValidators(); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.updateValueAndValidity();
+        _x.at(j).get('LineDatasetsFill')?.disable(); _x.at(j).get('LineDatasetsFill')?.clearValidators(); _x.at(j).get('LineDatasetsFill')?.updateValueAndValidity();
+        _x.at(j).get('LineDatasetsBorderDash')?.disable(); _x.at(j).get('LineDatasetsBorderDash')?.clearValidators(); _x.at(j).get('LineDatasetsBorderDash')?.updateValueAndValidity();
+        _x.at(j).get('LineDatasetsTension')?.disable(); _x.at(j).get('LineDatasetsTension')?.clearValidators(); _x.at(j).get('LineDatasetsTension')?.updateValueAndValidity();
+        _x.at(j).get('LineRadarDatasetsBorderColor')?.disable(); _x.at(j).get('LineRadarDatasetsBorderColor')?.clearValidators(); _x.at(j).get('LineRadarDatasetsBorderColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatasetsPointBackgroundColor')?.disable(); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatasetsPointBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBorderColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.disable(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.updateValueAndValidity();
+      }
+      else if (_chartType == 'radar') {
+        _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.enable(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.setValidators([Validators.required]); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.updateValueAndValidity();
+        _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.enable(); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.setValidators([Validators.required]); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.updateValueAndValidity()
+        _x.at(j).get('LineRadarDatasetsBorderColor')?.enable(); _x.at(j).get('LineRadarDatasetsBorderColor')?.setValidators([Validators.required]); _x.at(j).get('LineRadarDatasetsBorderColor')?.updateValueAndValidity()
+        _x.at(j).get('RadarDatasetsPointBackgroundColor')?.enable(); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.setValidators([Validators.required]); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.updateValueAndValidity()
+        _x.at(j).get('RadarDatasetsPointBorderColor')?.enable(); _x.at(j).get('RadarDatasetsPointBorderColor')?.setValidators([Validators.required]); _x.at(j).get('RadarDatasetsPointBorderColor')?.updateValueAndValidity()
+        _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.enable(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.setValidators([Validators.required]); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.updateValueAndValidity()
+        _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.enable(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.setValidators([Validators.required]); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.updateValueAndValidity()
+
+        _x.at(j).get('LineDatasetsFill')?.disable(); _x.at(j).get('LineDatasetsFill')?.clearValidators(); _x.at(j).get('LineDatasetsFill')?.updateValueAndValidity();
+        _x.at(j).get('LineDatasetsBorderDash')?.disable(); _x.at(j).get('LineDatasetsBorderDash')?.clearValidators(); _x.at(j).get('LineDatasetsBorderDash')?.updateValueAndValidity();
+        _x.at(j).get('LineDatasetsTension')?.disable(); _x.at(j).get('LineDatasetsTension')?.clearValidators(); _x.at(j).get('LineDatasetsTension')?.updateValueAndValidity();
+
+
+      }
+      else if (_chartType == 'polarArea') {
+        _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.enable(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.setValidators([Validators.required]); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.updateValueAndValidity();
+
+        _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.disable(); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.clearValidators(); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.updateValueAndValidity();
+        _x.at(j).get('LineDatasetsFill')?.disable(); _x.at(j).get('LineDatasetsFill')?.clearValidators(); _x.at(j).get('LineDatasetsFill')?.updateValueAndValidity();
+        _x.at(j).get('LineDatasetsBorderDash')?.disable(); _x.at(j).get('LineDatasetsBorderDash')?.clearValidators(); _x.at(j).get('LineDatasetsBorderDash')?.updateValueAndValidity();
+        _x.at(j).get('LineDatasetsTension')?.disable(); _x.at(j).get('LineDatasetsTension')?.clearValidators(); _x.at(j).get('LineDatasetsTension')?.updateValueAndValidity();
+        _x.at(j).get('LineRadarDatasetsBorderColor')?.disable(); _x.at(j).get('LineRadarDatasetsBorderColor')?.clearValidators(); _x.at(j).get('LineRadarDatasetsBorderColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatasetsPointBackgroundColor')?.disable(); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatasetsPointBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBorderColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.disable(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.updateValueAndValidity();
+        _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.updateValueAndValidity();
+      }
     }
   }
 

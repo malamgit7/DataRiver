@@ -19,6 +19,7 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { ButtonModule } from 'primeng/button';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
+import { SliderModule } from 'primeng/slider';
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
     ConfirmPopupModule,
     ButtonModule,
     OverlayPanelModule,
-    ScrollPanelModule
+    ScrollPanelModule,
+    SliderModule
   ],
   providers: [ConfirmationService]
 })
