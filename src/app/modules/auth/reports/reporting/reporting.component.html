@@ -46,7 +46,8 @@
               </div>
               <div class="col-sm-4">
                 <!-- [disabled]="runCustomQueryform.invalid && resultData.length<1" -->
-                <button class="btn btn-sm btn-light shadow w-100" (click)="addChartInfo()"><i
+                <button class="btn btn-sm btn-light shadow w-100" (click)="addChartInfo()"
+                  [disabled]="runCustomQueryform.invalid && resultData.length<1"><i
                     class="fas fa-plus-square"></i></button>
               </div>
             </div>
@@ -437,7 +438,11 @@
                               <div class="card w-100">
                                 <div class="card-body p-2 d-flex">
                                   <div class="me-auto">Title</div>
-                                  <i type="button" class="fas fa-cog" (click)="title.toggle($event)"></i>
+                                  <button class="btn btn-sm btn-primary py-0 px-2 shadow"
+                                    [disabled]="(!function.get('ChartType').value) || (function.get('ChartType').value==null)"
+                                    (click)="title.toggle($event)">
+                                    <i class="fas fa-cog"></i>
+                                  </button>
                                 </div>
                               </div>
                               <p-overlayPanel #title [showCloseIcon]="true" [dismissable]="false"
@@ -591,7 +596,11 @@
                               <div class="card w-100">
                                 <div class="card-body p-2 d-flex">
                                   <div class="me-auto">Subtitle</div>
-                                  <i type="button" class="fas fa-cog" (click)="subtitle.toggle($event)"></i>
+                                  <button class="btn btn-sm btn-primary py-0 px-2 shadow"
+                                    [disabled]="(!function.get('ChartType').value) || (function.get('ChartType').value==null)"
+                                    (click)="subtitle.toggle($event)">
+                                    <i class="fas fa-cog"></i>
+                                  </button>
                                 </div>
                               </div>
                               <p-overlayPanel #subtitle [showCloseIcon]="true" [dismissable]="false"
@@ -698,7 +707,7 @@
                                         <div class="col-sm-12 d-flex">
                                           <input type="color" formControlName="OptionsPluginsSubtitleColor"
                                             id="OptionsPluginsSubtitleColor"
-                                            class="form-control form-control-color shadow-sm p-0 me-auto"
+                                            class="form-control form-control-color shadow-sm p-0 me-2"
                                             title="Title color">
                                           <div>
                                             {{function.get('OptionsPluginsSubtitleColor').value | uppercase }}
@@ -749,7 +758,11 @@
                               <div class="card w-100">
                                 <div class="card-body p-2 d-flex">
                                   <div class="me-auto">Tooltips & Legends</div>
-                                  <i type="button" class="fas fa-cog" (click)="tooltip.toggle($event)"></i>
+                                  <button class="btn btn-sm btn-primary py-0 px-2 shadow"
+                                    [disabled]="(!function.get('ChartType').value) || (function.get('ChartType').value==null)"
+                                    (click)="tooltip.toggle($event)">
+                                    <i class="fas fa-cog"></i>
+                                  </button>
                                 </div>
                               </div>
                               <p-overlayPanel #tooltip [showCloseIcon]="true" [dismissable]="false"
@@ -812,7 +825,10 @@
                               <div class="card w-100">
                                 <div class="card-body p-2 d-flex">
                                   <div class="me-auto">Chart Options</div>
-                                  <i type="button" class="fas fa-cog" (click)="chartoptions.toggle($event)"></i>
+                                  <button class="btn btn-sm btn-primary py-0 px-2 shadow"
+                                    [disabled]="!function.get('ChartType').value" (click)="chartoptions.toggle($event)">
+                                    <i class="fas fa-cog"></i>
+                                  </button>
                                 </div>
                               </div>
                               <p-overlayPanel #chartoptions [showCloseIcon]="true" [dismissable]="false"
@@ -1051,6 +1067,7 @@
                             </div>
                             <div class="col-sm-6">
                               <button class="btn btn-sm btn-primary shadow-sm me-auto w-100"
+                                [disabled]="(!function.get('ChartType').value) || (function.get('ChartType').value==null)"
                                 (click)="addChartYAxisInfo(i); onClickChartType(i, function.get('ChartType').value )">
                                 <i class="fas fa-plus me-2"></i>
                                 Add Metrics
@@ -1093,7 +1110,7 @@
                                     </div>
                                   </div>
                                   <p-overlayPanel [showTransitionOptions]="'100ms'" [hideTransitionOptions]="'100ms'"
-                                    #op1 [showCloseIcon]="true" [dismissable]="false" [style]="{width: '500px'}">
+                                    #op1 [showCloseIcon]="true" [dismissable]="false" [style]="{width: '400px'}">
                                     <p-scrollPanel [style]="{width: '100%', height: '200px'}" styleClass="custombar2">
                                       <div class="row gx-2 gy-2 mb-2"
                                         [hidden]="func.get('LineBarRadarPolarDatasetsLabel').disabled">
@@ -1105,10 +1122,10 @@
                                       </div>
                                       <div class="row gx-2 gy-2 mb-2"
                                         [hidden]="func.get('LineBarRadarDatasetsBackgroundColor').disabled">
-                                        <div class="col-sm-5">
+                                        <div class="col-sm-7">
                                           <label class="form-label">Background Color</label>
                                         </div>
-                                        <div class="col-sm-7">
+                                        <div class="col-sm-5">
                                           <div class="row">
                                             <div class="col-sm-12 d-flex">
                                               <input type="color" id="BarDatasetsBackgroundColor"
@@ -1120,10 +1137,10 @@
                                         </div>
                                       </div>
                                       <div class="row gx-2 gy-2 mb-2" [hidden]="func.get('LineDatasetsFill').disabled">
-                                        <div class="col-sm-5">
+                                        <div class="col-sm-7">
                                           <label class="form-label">Fill Color</label>
                                         </div>
-                                        <div class="col-sm-7 d-flex">
+                                        <div class="col-sm-5 d-flex">
                                           <div class="form-check form-switch me-2">
                                             <input class="form-check-input " type="checkbox" role="switch"
                                               id="LineDatasetsFill" formControlName="LineDatasetsFill">
@@ -1132,7 +1149,8 @@
                                           </div>
                                         </div>
                                       </div>
-                                      <div class="row gx-2 gy-2 mb-2"
+
+                                      <!-- <div class="row gx-2 gy-2 mb-2"
                                         [hidden]="func.get('LineDatasetsBorderDash').disabled">
                                         <div class="col-sm-5">
                                           <label class="form-label">Line Border Dash</label>
@@ -1141,24 +1159,25 @@
                                           <p-slider formControlName="LineDatasetsBorderDash" [range]="true">
                                           </p-slider>
                                         </div>
-                                      </div>
+                                      </div> -->
+
                                       <div class="row gx-2 gy-2 mb-2"
                                         [hidden]="func.get('LineDatasetsTension').disabled">
-                                        <div class="col-sm-5">
+                                        <div class="col-sm-7">
                                           <label class="form-label">Line Tension
                                             {{func.get('LineDatasetsTension').value}}</label>
                                         </div>
-                                        <div class="col-sm-7">
+                                        <div class="col-sm-5">
                                           <input type="range" min="0.1" max="1" step="0.1"
                                             formControlName="LineDatasetsTension">
                                         </div>
                                       </div>
                                       <div class="row gx-2 gy-2 mb-2"
                                         [hidden]="func.get('LineRadarDatasetsBorderColor').disabled">
-                                        <div class="col-sm-5">
+                                        <div class="col-sm-7">
                                           <label class="form-label">Border Color</label>
                                         </div>
-                                        <div class="col-sm-7 d-flex">
+                                        <div class="col-sm-5 d-flex">
                                           <input type="color" class="form-control form-control-color shadow-sm p-0 me-3"
                                             formControlName="LineRadarDatasetsBorderColor">
                                           <div>{{func.get('LineRadarDatasetsBorderColor').value}}</div>
@@ -1166,10 +1185,10 @@
                                       </div>
                                       <div class="row gx-2 gy-2 mb-2"
                                         [hidden]="func.get('RadarDatasetsPointBackgroundColor').disabled">
-                                        <div class="col-sm-5">
+                                        <div class="col-sm-7">
                                           <label class="form-label">Poin BG Color</label>
                                         </div>
-                                        <div class="col-sm-7 d-flex">
+                                        <div class="col-sm-5 d-flex">
                                           <input type="color" class="form-control form-control-color shadow-sm p-0 me-3"
                                             formControlName="RadarDatasetsPointBackgroundColor">
                                           <div>{{func.get('RadarDatasetsPointBackgroundColor').value}}</div>
@@ -1177,10 +1196,10 @@
                                       </div>
                                       <div class="row gx-2 gy-2 mb-2"
                                         [hidden]="func.get('RadarDatasetsPointBorderColor').disabled">
-                                        <div class="col-sm-5">
+                                        <div class="col-sm-7">
                                           <label class="form-label">Poin Border Color</label>
                                         </div>
-                                        <div class="col-sm-7 d-flex">
+                                        <div class="col-sm-5 d-flex">
                                           <input type="color" class="form-control form-control-color shadow-sm p-0 me-3"
                                             formControlName="RadarDatasetsPointBorderColor">
                                           <div>{{func.get('RadarDatasetsPointBorderColor').value}}</div>
@@ -1188,10 +1207,10 @@
                                       </div>
                                       <div class="row gx-2 gy-2 mb-2"
                                         [hidden]="func.get('RadarDatsetsPointHoverBackgroundColor').disabled">
-                                        <div class="col-sm-5">
+                                        <div class="col-sm-7">
                                           <label class="form-label">Poin Hover BG Color</label>
                                         </div>
-                                        <div class="col-sm-7 d-flex">
+                                        <div class="col-sm-5 d-flex">
                                           <input type="color" class="form-control form-control-color shadow-sm p-0 me-3"
                                             formControlName="RadarDatsetsPointHoverBackgroundColor">
                                           <div>{{func.get('RadarDatsetsPointHoverBackgroundColor').value}}</div>
@@ -1199,10 +1218,10 @@
                                       </div>
                                       <div class="row gx-2 gy-2 mb-2"
                                         [hidden]="func.get('RadarDatasetsPointHoverBorderColor').disabled">
-                                        <div class="col-sm-5">
+                                        <div class="col-sm-7">
                                           <label class="form-label">Poin Hover Border Color</label>
                                         </div>
-                                        <div class="col-sm-7 d-flex">
+                                        <div class="col-sm-5 d-flex">
                                           <input type="color" class="form-control form-control-color shadow-sm p-0 me-3"
                                             formControlName="RadarDatasetsPointHoverBorderColor">
                                           <div>{{func.get('RadarDatasetsPointHoverBorderColor').value}}</div>
