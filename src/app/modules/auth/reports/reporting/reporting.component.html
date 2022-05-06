@@ -388,7 +388,7 @@
                         <div class="card-header py-0 d-flex">
                           <div class="card-title me-2">Card title</div>
                           <button type="button" class="btn btn-sm shadow-none py-0 me-auto"
-                            (click)="op.toggle($event)"><i class="fas fa-filter"></i></button>
+                            (click)="op.toggle($event)"><i class="fas fa-cogs"></i></button>
                           <button type="button" class="btn btn-sm shadow-none py-0" (click)="removeChartInfo(i)"
                             aria-label="Close"><i class="fas fa-times text-danger"></i></button>
                         </div>
@@ -411,7 +411,8 @@
                           <div class="row gx-2 gy-2 mb-2">
                             <div class="col-sm-12">
                               <select class="form-select form-select-sm shadow-sm" aria-label="chart type"
-                                formControlName="ChartType" (change)="onChangeChartType(i, $event)">
+                                formControlName="ChartType"
+                                (change)="onChangeChartType(i, $event); onSelectChartType(i, $event)">
                                 <option value='{"chartType":null}' selected>Chart type...</option>
                                 <optgroup label="Bar Charts">
                                   <option value='{"chartType":"bar", "indexAxis":"x", "stacked":false}'>Vertical Linear
@@ -436,7 +437,7 @@
                               <div class="card w-100">
                                 <div class="card-body p-2 d-flex">
                                   <div class="me-auto">Title</div>
-                                  <i type="button" class="fas fa-cogs" (click)="title.toggle($event)"></i>
+                                  <i type="button" class="fas fa-cog" (click)="title.toggle($event)"></i>
                                 </div>
                               </div>
                               <p-overlayPanel #title [showCloseIcon]="true" [dismissable]="false"
@@ -590,7 +591,7 @@
                               <div class="card w-100">
                                 <div class="card-body p-2 d-flex">
                                   <div class="me-auto">Subtitle</div>
-                                  <i type="button" class="fas fa-cogs" (click)="subtitle.toggle($event)"></i>
+                                  <i type="button" class="fas fa-cog" (click)="subtitle.toggle($event)"></i>
                                 </div>
                               </div>
                               <p-overlayPanel #subtitle [showCloseIcon]="true" [dismissable]="false"
@@ -748,7 +749,7 @@
                               <div class="card w-100">
                                 <div class="card-body p-2 d-flex">
                                   <div class="me-auto">Tooltips & Legends</div>
-                                  <i type="button" class="fas fa-cogs" (click)="tooltip.toggle($event)"></i>
+                                  <i type="button" class="fas fa-cog" (click)="tooltip.toggle($event)"></i>
                                 </div>
                               </div>
                               <p-overlayPanel #tooltip [showCloseIcon]="true" [dismissable]="false"
@@ -811,7 +812,7 @@
                               <div class="card w-100">
                                 <div class="card-body p-2 d-flex">
                                   <div class="me-auto">Chart Options</div>
-                                  <i type="button" class="fas fa-cogs" (click)="chartoptions.toggle($event)"></i>
+                                  <i type="button" class="fas fa-cog" (click)="chartoptions.toggle($event)"></i>
                                 </div>
                               </div>
                               <p-overlayPanel #chartoptions [showCloseIcon]="true" [dismissable]="false"
@@ -1052,7 +1053,7 @@
                               <button class="btn btn-sm btn-primary shadow-sm me-auto w-100"
                                 (click)="addChartYAxisInfo(i); onClickChartType(i, function.get('ChartType').value )">
                                 <i class="fas fa-plus me-2"></i>
-                                Add Metrice
+                                Add Metrics
                               </button>
                             </div>
                           </div>
@@ -1084,7 +1085,7 @@
                                         </select>
                                         <button class="btn btn-sm btn-secondary shadow-sm" type="button"
                                           (click)="op1.toggle($event)" id=" button-addon2"><i
-                                            class="fas fa-cogs"></i></button>
+                                            class="fas fa-cog"></i></button>
                                       </div>
                                       <button type="button" class="btn btn-sm shadow-none ms-3"
                                         (click)="removeChartYAxisInfo(i, j)"><i
@@ -1098,8 +1099,8 @@
                                         [hidden]="func.get('LineBarRadarPolarDatasetsLabel').disabled">
                                         <div class="col-sm-12">
                                           <input class="form-control form-control-sm shadow-sm" type="text"
-                                            placeholder="Dataset Label" formControlName="LineBarRadarPolarDatasetsLabel"
-                                            aria-label="Dataset Label">
+                                            placeholder="Metric Label" formControlName="LineBarRadarPolarDatasetsLabel"
+                                            aria-label="Metric Label">
                                         </div>
                                       </div>
                                       <div class="row gx-2 gy-2 mb-2"
