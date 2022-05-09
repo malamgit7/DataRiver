@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  // apiUrl: 'https://localhost:44397/api',
-  apiUrl: 'https://datariverapi.azurewebsites.net/api',
+  apiUrl: 'https://localhost:44397/api',
+  // apiUrl: 'https://datariverapi.azurewebsites.net/api',
   clientId: 'ee26429c-3bcd-4cea-b0fe-d3a1d4138150',
   authority: 'https://login.microsoftonline.com/01b8ec26-acec-4852-a6cd-d2f6b7a9b9da',
   redirectUri: 'http://localhost:4200/auth',

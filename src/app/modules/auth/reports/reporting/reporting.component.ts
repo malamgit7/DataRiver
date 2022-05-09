@@ -927,7 +927,7 @@ export class ReportingComponent implements OnInit {
       LineBarRadarDatasetsBackgroundColor: [{ value: '#42A5F5', disabled: true }, Validators.required],
 
       LineDatasetsFill: [{ value: false, disabled: true }, Validators.required],
-      LineDatasetsBorderDash: [{ value: [0, 0], disabled: true }, Validators.required],
+      LineDatasetsBorderDash: [{ value: "[0, 0]", disabled: true }, Validators.required],
       LineDatasetsTension: [{ value: 0.4, disabled: true }, Validators.required],
       LineRadarDatasetsBorderColor: [{ value: '#42A5F5', disabled: true }, Validators.required],
       RadarDatasetsPointBackgroundColor: [{ value: '#42A5F5', disabled: true }, Validators.required],
