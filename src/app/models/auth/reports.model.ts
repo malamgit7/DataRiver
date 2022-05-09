@@ -85,7 +85,7 @@ export class ChartYAxisInfo {
     LineBarRadarPolarDatasetsLabel!: string;
     LineBarRadarDatasetsBackgroundColor!: string;
     LineDatasetsFill!: boolean;
-    LineDatasetsBorderDash!: number[];  // [10, 5] This field needs to be an array of numbers
+    LineDatasetsBorderDash!: string;  // [10, 5] This field needs to be an array of numbers but string for now
     LineDatasetsTension!: number;
     LineRadarDatasetsBorderColor!: string;
     RadarDatasetsPointBackgroundColor!: string;
