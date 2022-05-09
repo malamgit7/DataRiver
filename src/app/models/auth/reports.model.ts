@@ -27,6 +27,73 @@ export class FilterBy {
     FilterValue!: string;
 }
 
+export class ChartInfo {
+    Id!: string;
+    ChartName!: string;
+    ChartType!: string;
+    OptionsPluginsTitleDisplay!: boolean;
+    OptionsPluginsTitleText!: string;
+    OptionsPluginsTitleColor!: string;
+    OptionsPluginsTitlePosition!: string;
+    OptionsPluginsTitleAlign!: string;
+    OptionsPluginsTitleFontSize!: number;
+    OptionsPluginsTitleFontStyle!: string;
+    OptionsPluginsTitleFontWeight!: string;
+    OptionsPluginsTitlePaddingTop!: number;
+    OptionsPluginsTitlePaddingBottom!: number;
+
+    OptionsPluginsSubtitleDisplay!: boolean;
+    OptionsPluginsSubtitleText!: string;
+    OptionsPluginsSubtitleColor!: string;
+    OptionsPluginsSubtitlePosition!: string;
+    OptionsPluginsSubtitleAlign!: string;
+    OptionsPluginsSubtitleFontSize!: number;
+    OptionsPluginsSubtitleFontStyle!: string;
+    OptionsPluginsSubtitleFontWeight!: string;
+    OptionsPluginsSubtitlePaddingTop!: number;
+    OptionsPluginsSubtitlePaddingBottom!: number;
+
+    BarOptionsIndexAxis!: string;
+    BarOptionsScalesXYStacked!: boolean;
+
+    BarLineOptionsScalesXYTitleDisplay!: boolean;
+    BarLineOptionsScalesXTitleText!: string;
+    BarLineOptionsScalesYTitleText!: string;
+
+    BarLineOptionsScalesXYTitleFontSize!: number;
+    BarLineOptionsScalesXYTitleFontStyle!: string;
+    BarLineOptionsScalesXYTitleFontWeight!: string;
+
+    BarLineOptionsScalesXYTitleColor!: string;
+    BarLineOptionsScalesXYTicksColor!: string;
+    BarLineOptionsScalesXYGridColor!: string;
+
+    RadarOptionsScalesRPointlabelsColor!: string;
+    RadarOptionsScalesRAnglelinesColor!: string;
+    RadarPolarareaOptionsScalesRGridColor!: string;
+
+    ChartXAxis!: string;
+    ChartYAxisInfo!: ChartYAxisInfo[];
+    FinalChartData!: string;
+    FinalChartOptions!: string;
+}
+
+export class ChartYAxisInfo {
+    Id!: string;
+    ChartYAxis!: string;
+    ChartYAxisFunction!: string;
+    LineBarRadarPolarDatasetsLabel!: string;
+    LineBarRadarDatasetsBackgroundColor!: string;
+    LineDatasetsFill!: boolean;
+    LineDatasetsBorderDash!: number[];  // [10, 5] This field needs to be an array of numbers
+    LineDatasetsTension!: number;
+    LineRadarDatasetsBorderColor!: string;
+    RadarDatasetsPointBackgroundColor!: string;
+    RadarDatasetsPointBorderColor!: string;
+    RadarDatsetsPointHoverBackgroundColor!: string;
+    RadarDatasetsPointHoverBorderColor!: string;
+}
+
 export class SaveCustomQueryBindingModel {
     CustomQueryId!: string;
     CconnectionStringId!: string;
@@ -36,6 +103,7 @@ export class SaveCustomQueryBindingModel {
     GroupBy!: GroupBy[];
     SortBy!: SortBy[];
     FilterBy!: FilterBy[];
+    ChartInfo!: ChartInfo[];
     ChartName1!: string;
     ChartName2!: string;
     ChartName3!: string;
