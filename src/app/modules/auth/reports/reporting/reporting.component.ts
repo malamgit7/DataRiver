@@ -7,7 +7,6 @@ import { ConfirmationService } from 'primeng/api';
 import { ChartdataService } from 'src/app/services/auth/chartdata.service';
 import { MsalAuthenticationService } from 'src/app/services/msal-authentication.service';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
 import { SideBarService } from 'src/app/services/side-bar.service';
 
 
