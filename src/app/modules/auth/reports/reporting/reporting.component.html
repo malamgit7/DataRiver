@@ -411,7 +411,7 @@
                           </div>
                           <div class="row gx-2 gy-2 mb-2">
                             <div class="col-sm-12">
-                              <select class="form-select form-select-sm shadow-sm" aria-label="chart type"
+                              <!-- <select class="form-select form-select-sm shadow-sm" aria-label="chart type"
                                 formControlName="ChartType"
                                 (change)="onChangeChartType(i, $event); onSelectChartType(i, $event)">
                                 <option value='{"chartType":null}' selected>Chart type...</option>
@@ -430,6 +430,17 @@
                                 <option value='{"chartType":"radar"}'>Radar</option>
                                 <option value='{"chartType":"doughnut"}'>Doughnut</option>
                                 <option value='{"chartType":"polarArea"}'>Polar Area</option>
+                              </select> -->
+                              <select class="form-select form-select-sm shadow-sm" aria-label="chart type"
+                                formControlName="ChartType"
+                                (change)="onChangeChartType(i, $event); onSelectChartType(i, $event)">
+                                <option value='{{default_select}}' selected>Chart type...</option>
+                                <option value='bar'>Bar</option>
+                                <option value='line'>Line</option>
+                                <option value='pie'>Pie</option>
+                                <option value='radar'>Radar</option>
+                                <option value='doughnut'>Doughnut</option>
+                                <option value='polarArea'>Polar Area</option>
                               </select>
                             </div>
                           </div>
@@ -834,6 +845,60 @@
                               <p-overlayPanel #chartoptions [showCloseIcon]="true" [dismissable]="false"
                                 [style]="{width: '400px'}">
                                 <p-scrollPanel [style]="{width: '100%', height: '350px'}" styleClass="custombar2">
+
+                                  <div class="row gx-2 gy-2 mb-2"
+                                    [hidden]="function.get('BarOptionsScalesXYStacked').disabled">
+                                    <div class="col-sm-5">
+                                      <label class="form-label">Is Stacked</label>
+                                    </div>
+                                    <div class="col-sm-7">
+                                      <div class="row">
+                                        <div class="col-sm-12 d-flex">
+                                          <div class="form-check form-switch me-2">
+                                            <input class="form-check-input " type="checkbox" role="switch"
+                                              id="BarOptionsScalesXYStacked"
+                                              formControlName="BarOptionsScalesXYStacked">
+                                          </div>
+                                          <div>
+                                            {{function.get('BarOptionsScalesXYStacked').value==true?'Yes':'No'}}
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="row gx-2 gy-2 mb-2"
+                                    [hidden]="function.get('BarOptionsIndexAxis').disabled">
+                                    <div class="col-sm-5">
+                                      <label class="form-label">Chart Orientation</label>
+                                    </div>
+                                    <div class="col-sm-7">
+                                      <div class="form-check form-check-inline">
+                                        <input class="form-check-input" formControlName="BarOptionsIndexAxis"
+                                          type="radio" id="inlineRadio1" value="x">
+                                        <label class="form-check-label" for="inlineRadio1">Vertical</label>
+                                      </div>
+                                      <div class="form-check form-check-inline">
+                                        <input class="form-check-input" formControlName="BarOptionsIndexAxis"
+                                          type="radio" id="inlineRadio2" value="y">
+                                        <label class="form-check-label" for="inlineRadio2">Horizontal</label>
+                                      </div>
+                                      <!-- <div class="row">
+                                        <div class="col-sm-12 d-flex">
+                                          <div class="form-check form-switch me-2">
+                                            <input class="form-check-input " type="checkbox" role="switch"
+                                              id="BarOptionsScalesXYStacked"
+                                              formControlName="BarOptionsScalesXYStacked">
+                                          </div>
+                                          <div>
+                                            {{function.get('BarOptionsScalesXYStacked').value==true?'Yes':'No'}}
+                                          </div>
+                                        </div>
+                                      </div> -->
+                                    </div>
+                                  </div>
+
+
                                   <div class="row gx-2 gy-2 mb-2"
                                     [hidden]="function.get('BarLineOptionsScalesXYTitleDisplay').disabled">
                                     <div class="col-sm-5">
