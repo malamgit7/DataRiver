@@ -1879,9 +1879,9 @@ export class ReportingComponent implements OnInit {
     }
   }
 
-  onClickChartType(i: number, chartTypeObject: any) {
-    var _chartTypeObject = JSON.parse(chartTypeObject);
-    var _chartType = _chartTypeObject.chartType;
+  onClickChartType(i: number, _chartType: any) {
+    // var _chartTypeObject = JSON.parse(chartTypeObject);
+    // var _chartType = _chartTypeObject.chartType;
     var _x = this.ChartInfo.at(i).get('ChartYAxisInfo') as FormArray;
 
     for (var j = 0; j < _x.length; j++) {
