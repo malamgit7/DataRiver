@@ -944,7 +944,7 @@ export class ReportingComponent implements OnInit {
   }
   //#endregion
 
-  //#region 
+
   onSubmitRunCustomQuery() {
     this.runcustomQueryForm_loading = true;
     this.xAxisItems = []
@@ -1393,8 +1393,7 @@ export class ReportingComponent implements OnInit {
     this.externalTables = [];
     this.viewTables = [];
     var data = this.allWorkSpaces.find(x => x.customQueryId == queryId);
-    console.log(data);
-    this.GetAllTables(data.connectionStringId);
+
     this.selectedWorkspacedata = data;
     this.selectedWorkspace = data.customQueryName;
 
@@ -1489,83 +1488,85 @@ export class ReportingComponent implements OnInit {
       })
       this.onConfirmFilterBy(index);
     });
-    data.chartinfo.forEach((element: any, index: number) => {
-      this.addChartInfo();
-      this.onClickChartType(index, element.chartType);
-      var chartinfo = this.runCustomQueryform.get('ChartInfo') as FormArray
-      chartinfo.controls[index].patchValue({
-        Id: element.id,
-        ChartName: element.chartName,
-        ChartType: element.chartType,
-        OptionsPluginsTitleDisplay: element.optionsPluginsTitleDisplay,
-        OptionsPluginsTitleText: element.optionsPluginsTitleText,
-        OptionsPluginsTitleColor: element.optionsPluginsTitleColor,
-        OptionsPluginsTitlePosition: element.optionsPluginsTitlePosition,
-        OptionsPluginsTitleAlign: element.optionsPluginsTitleAlign,
-        OptionsPluginsTitleFontSize: element.optionsPluginsTitleFontSize,
-        OptionsPluginsTitleFontStyle: element.optionsPluginsTitleFontStyle,
-        OptionsPluginsTitleFontWeight: element.optionsPluginsTitleFontWeight,
-        OptionsPluginsTitlePaddingTop: element.optionsPluginsTitlePaddingTop,
-        OptionsPluginsTitlePaddingBottom: element.optionsPluginsTitlePaddingBottom,
-        OptionsPluginsSubtitleDisplay: element.optionsPluginsSubtitleDisplay,
-        OptionsPluginsSubtitleText: element.optionsPluginsSubtitleText,
-        OptionsPluginsSubtitleColor: element.optionsPluginsSubtitleColor,
-        OptionsPluginsSubtitlePosition: element.optionsPluginsSubtitlePosition,
-        OptionsPluginsSubtitleAlign: element.optionsPluginsSubtitleAlign,
-        OptionsPluginsSubtitleFontSize: element.optionsPluginsSubtitleFontSize,
-        OptionsPluginsSubtitleFontStyle: element.optionsPluginsSubtitleFontStyle,
-        OptionsPluginsSubtitleFontWeight: element.optionsPluginsSubtitleFontWeight,
-        OptionsPluginsSubtitlePaddingTop: element.optionsPluginsSubtitlePaddingTop,
-        OptionsPluginsSubtitlePaddingBottom: element.optionsPluginsSubtitlePaddingBottom,
-        BarOptionsIndexAxis: element.barOptionsIndexAxis,
-        BarOptionsScalesXYStacked: element.barOptionsScalesXYStacked,
-        BarLineOptionsScalesXYTitleDisplay: element.barLineOptionsScalesXYTitleDisplay,
-        BarLineOptionsScalesXTitleText: element.barLineOptionsScalesXTitleText,
-        BarLineOptionsScalesYTitleText: element.barLineOptionsScalesYTitleText,
-        BarLineOptionsScalesXYTitleFontSize: element.barLineOptionsScalesXYTitleFontSize,
-        BarLineOptionsScalesXYTitleFontStyle: element.barLineOptionsScalesXYTitleFontStyle,
-        BarLineOptionsScalesXYTitleFontWeight: element.barLineOptionsScalesXYTitleFontWeight,
-        BarLineOptionsScalesXYTitleColor: element.barLineOptionsScalesXYTitleColor,
-        BarLineOptionsScalesXYTicksColor: element.barLineOptionsScalesXYTicksColor,
-        BarLineOptionsScalesXYGridColor: element.barLineOptionsScalesXYGridColor,
-        RadarOptionsScalesRPointlabelsColor: element.radarOptionsScalesRPointlabelsColor,
-        RadarOptionsScalesRAnglelinesColor: element.radarOptionsScalesRAnglelinesColor,
-        RadarPolarareaOptionsScalesRGridColor: element.radarPolarareaOptionsScalesRGridColor,
-        ChartXAxis: element.chartXAxis,
-        FinalChartData: element.finalChartData,
-        FinalChartOptions: element.finalChartOptions,
-      });
-      element.chartYAxisinfo.forEach((item: any, indexY: number) => {
-        this.addChartYAxisInfo(index)
-        var chartYAxisInfo = this.ChartInfo.at(index).get('ChartYAxisInfo') as FormArray;
-        chartYAxisInfo.controls[indexY].patchValue({
-          Id: item.id,
-          ChartYAxis: item.chartYAxis,
-          ChartYAxisFunction: item.chartYAxisFunction,
-          LineBarRadarPolarDatasetsLabel: item.lineBarRadarPolarDatasetsLabel,
-          LineBarRadarDatasetsBackgroundColor: item.lineBarRadarDatasetsBackgroundColor,
-          LineDatasetsFill: item.lineDatasetsFill,
-          LineDatasetsBorderDash: item.lineDatasetsBorderDash,
-          LineDatasetsTension: item.lineDatasetsTension,
-          LineRadarDatasetsBorderColor: item.lineRadarDatasetsBorderColor,
-          RadarDatasetsPointBackgroundColor: item.radarDatasetsPointBackgroundColor,
-          RadarDatasetsPointBorderColor: item.radarDatasetsPointBorderColor,
-          RadarDatsetsPointHoverBackgroundColor: item.radarDatsetsPointHoverBackgroundColor,
-          RadarDatasetsPointHoverBorderColor: item.radarDatsetsPointHoverBorderColor,
-        })
-      })
 
-    });
-
+    this.GetAllTables(data.connectionStringId);
     this.onSubmitRunCustomQuery()
     this.onHideAllQueriesDialog();
-    console.log(this.runCustomQueryform.value)
+
+    if (data.chartinfo.length >= 1) {
+      data.chartinfo.forEach((element: any, index: number) => {
+        this.addChartInfo();
+        var chartinfo = this.runCustomQueryform.get('ChartInfo') as FormArray
+        chartinfo.controls[index].patchValue({
+          Id: element.id != null ? element.id : null,
+          ChartName: element.chartName,
+          ChartType: element.chartType,
+          OptionsPluginsTitleDisplay: element.optionsPluginsTitleDisplay,
+          OptionsPluginsTitleText: element.optionsPluginsTitleText,
+          OptionsPluginsTitleColor: element.optionsPluginsTitleColor,
+          OptionsPluginsTitlePosition: element.optionsPluginsTitlePosition,
+          OptionsPluginsTitleAlign: element.optionsPluginsTitleAlign,
+          OptionsPluginsTitleFontSize: element.optionsPluginsTitleFontSize,
+          OptionsPluginsTitleFontStyle: element.optionsPluginsTitleFontStyle,
+          OptionsPluginsTitleFontWeight: element.optionsPluginsTitleFontWeight,
+          OptionsPluginsTitlePaddingTop: element.optionsPluginsTitlePaddingTop,
+          OptionsPluginsTitlePaddingBottom: element.optionsPluginsTitlePaddingBottom,
+          OptionsPluginsSubtitleDisplay: element.optionsPluginsSubtitleDisplay,
+          OptionsPluginsSubtitleText: element.optionsPluginsSubtitleText,
+          OptionsPluginsSubtitleColor: element.optionsPluginsSubtitleColor,
+          OptionsPluginsSubtitlePosition: element.optionsPluginsSubtitlePosition,
+          OptionsPluginsSubtitleAlign: element.optionsPluginsSubtitleAlign,
+          OptionsPluginsSubtitleFontSize: element.optionsPluginsSubtitleFontSize,
+          OptionsPluginsSubtitleFontStyle: element.optionsPluginsSubtitleFontStyle,
+          OptionsPluginsSubtitleFontWeight: element.optionsPluginsSubtitleFontWeight,
+          OptionsPluginsSubtitlePaddingTop: element.optionsPluginsSubtitlePaddingTop,
+          OptionsPluginsSubtitlePaddingBottom: element.optionsPluginsSubtitlePaddingBottom,
+          BarOptionsIndexAxis: element.barOptionsIndexAxis,
+          BarOptionsScalesXYStacked: element.barOptionsScalesXYStacked,
+          BarLineOptionsScalesXYTitleDisplay: element.barLineOptionsScalesXYTitleDisplay,
+          BarLineOptionsScalesXTitleText: element.barLineOptionsScalesXTitleText,
+          BarLineOptionsScalesYTitleText: element.barLineOptionsScalesYTitleText,
+          BarLineOptionsScalesXYTitleFontSize: element.barLineOptionsScalesXYTitleFontSize,
+          BarLineOptionsScalesXYTitleFontStyle: element.barLineOptionsScalesXYTitleFontStyle,
+          BarLineOptionsScalesXYTitleFontWeight: element.barLineOptionsScalesXYTitleFontWeight,
+          BarLineOptionsScalesXYTitleColor: element.barLineOptionsScalesXYTitleColor,
+          BarLineOptionsScalesXYTicksColor: element.barLineOptionsScalesXYTicksColor,
+          BarLineOptionsScalesXYGridColor: element.barLineOptionsScalesXYGridColor,
+          RadarOptionsScalesRPointlabelsColor: element.radarOptionsScalesRPointlabelsColor,
+          RadarOptionsScalesRAnglelinesColor: element.radarOptionsScalesRAnglelinesColor,
+          RadarPolarareaOptionsScalesRGridColor: element.radarPolarareaOptionsScalesRGridColor,
+          ChartXAxis: element.chartXAxis,
+          FinalChartData: element.finalChartData,
+          FinalChartOptions: element.finalChartOptions,
+        });
+        element.chartYAxisinfo.forEach((item: any, indexY: number) => {
+          this.addChartYAxisInfo(index)
+          var chartYAxisInfo = this.ChartInfo.at(index).get('ChartYAxisInfo') as FormArray;
+          chartYAxisInfo.controls[indexY].patchValue({
+            Id: item.id,
+            ChartYAxis: item.chartYAxis,
+            ChartYAxisFunction: item.chartYAxisFunction,
+            LineBarRadarPolarDatasetsLabel: item.lineBarRadarPolarDatasetsLabel,
+            LineBarRadarDatasetsBackgroundColor: item.lineBarRadarDatasetsBackgroundColor,
+            LineDatasetsFill: item.lineDatasetsFill,
+            LineDatasetsBorderDash: item.lineDatasetsBorderDash,
+            LineDatasetsTension: item.lineDatasetsTension,
+            LineRadarDatasetsBorderColor: item.lineRadarDatasetsBorderColor,
+            RadarDatasetsPointBackgroundColor: item.radarDatasetsPointBackgroundColor,
+            RadarDatasetsPointBorderColor: item.radarDatasetsPointBorderColor,
+            RadarDatsetsPointHoverBackgroundColor: item.radarDatsetsPointHoverBackgroundColor,
+            RadarDatasetsPointHoverBorderColor: item.radarDatsetsPointHoverBorderColor,
+          })
+        })
+        this.onClickChartType(index, element.chartType.toString());
+      });
+    }
   }
 
   SetCustomQueryDataAfterSave(data: any) {
     this.selectedWorkspacedata = data;
     this.selectedWorkspace = data.customQueryName;
-    this.GetAllTables(data.connectionStringId);
+
 
     //#region Set Table metadata
     this.Tablemetadata = [];
@@ -1656,59 +1657,79 @@ export class ReportingComponent implements OnInit {
       })
       this.onConfirmFilterBy(index);
     });
-    data.chartinfo.forEach((element: any, index: number) => {
-      this.addChartInfo();
-      this.onClickChartType(index, element.chartType);
-      var chartinfo = this.runCustomQueryform.get('ChartInfo') as FormArray
-      chartinfo.controls[index].patchValue({
-        Id: element.id,
-        ChartName: element.chartName,
-        ChartType: element.chartType,
-        OptionsPluginsTitleDisplay: element.optionsPluginsTitleDisplay,
-        OptionsPluginsTitleText: element.optionsPluginsTitleText,
-        OptionsPluginsTitleColor: element.optionsPluginsTitleColor,
-        OptionsPluginsTitlePosition: element.optionsPluginsTitlePosition,
-        OptionsPluginsTitleAlign: element.optionsPluginsTitleAlign,
-        OptionsPluginsTitleFontSize: element.optionsPluginsTitleFontSize,
-        OptionsPluginsTitleFontStyle: element.optionsPluginsTitleFontStyle,
-        OptionsPluginsTitleFontWeight: element.OptionsPluginsTitleFontWeight,
-        OptionsPluginsTitlePaddingTop: element.optionsPluginsTitlePaddingTop,
-        OptionsPluginsTitlePaddingBottom: element.optionsPluginsTitlePaddingBottom,
-        OptionsPluginsSubtitleDisplay: element.optionsPluginsSubtitleDisplay,
-        OptionsPluginsSubtitleText: element.optionsPluginsSubtitleText,
-        OptionsPluginsSubtitleColor: element.optionsPluginsSubtitleColor,
-        OptionsPluginsSubtitlePosition: element.optionsPluginsSubtitlePosition,
-        OptionsPluginsSubtitleAlign: element.optionsPluginsSubtitleAlign,
-        OptionsPluginsSubtitleFontSize: element.optionsPluginsSubtitleFontSize,
-        OptionsPluginsSubtitleFontStyle: element.optionsPluginsSubtitleFontStyle,
-        OptionsPluginsSubtitleFontWeight: element.optionsPluginsSubtitleFontWeight,
-        OptionsPluginsSubtitlePaddingTop: element.optionsPluginsSubtitlePaddingTop,
-        OptionsPluginsSubtitlePaddingBottom: element.optionsPluginsSubtitlePaddingBottom,
-        BarOptionsIndexAxis: element.barOptionsIndexAxis,
-        BarOptionsScalesXYStacked: element.barOptionsScalesXYStacked,
-        BarLineOptionsScalesXYTitleDisplay: element.barLineOptionsScalesXYTitleDisplay,
-        BarLineOptionsScalesXTitleText: element.barLineOptionsScalesXTitleText,
-        BarLineOptionsScalesYTitleText: element.barLineOptionsScalesYTitleText,
-        BarLineOptionsScalesXYTitleFontSize: element.barLineOptionsScalesXYTitleFontSize,
-        BarLineOptionsScalesXYTitleFontStyle: element.barLineOptionsScalesXYTitleFontStyle,
-        BarLineOptionsScalesXYTitleFontWeight: element.barLineOptionsScalesXYTitleFontWeight,
-        BarLineOptionsScalesXYTitleColor: element.barLineOptionsScalesXYTitleColor,
-        BarLineOptionsScalesXYTicksColor: element.barLineOptionsScalesXYTicksColor,
-        BarLineOptionsScalesXYGridColor: element.barLineOptionsScalesXYGridColor,
-        RadarOptionsScalesRPointlabelsColor: element.radarOptionsScalesRPointlabelsColor,
-        RadarOptionsScalesRAnglelinesColor: element.radarOptionsScalesRAnglelinesColor,
-        RadarPolarareaOptionsScalesRGridColor: element.radarPolarareaOptionsScalesRGridColor,
-        ChartXAxis: element.chartXAxis,
-        FinalChartData: element.finalChartData,
-        FinalChartOptions: element.finalChartOptions,
-
-        // need more code for ChartYAxisInfo
-      });
-    });
 
     //#endregion
+    this.GetAllTables(data.connectionStringId);
     this.onSubmitRunCustomQuery()
     this.onHideAllQueriesDialog();
+    if (data.chartinfo.length >= 1) {
+      data.chartinfo.forEach((element: any, index: number) => {
+        this.addChartInfo();
+        var chartinfo = this.runCustomQueryform.get('ChartInfo') as FormArray
+        chartinfo.controls[index].patchValue({
+          Id: element.id != null ? element.id : null,
+          ChartName: element.chartName,
+          ChartType: element.chartType,
+          OptionsPluginsTitleDisplay: element.optionsPluginsTitleDisplay,
+          OptionsPluginsTitleText: element.optionsPluginsTitleText,
+          OptionsPluginsTitleColor: element.optionsPluginsTitleColor,
+          OptionsPluginsTitlePosition: element.optionsPluginsTitlePosition,
+          OptionsPluginsTitleAlign: element.optionsPluginsTitleAlign,
+          OptionsPluginsTitleFontSize: element.optionsPluginsTitleFontSize,
+          OptionsPluginsTitleFontStyle: element.optionsPluginsTitleFontStyle,
+          OptionsPluginsTitleFontWeight: element.optionsPluginsTitleFontWeight,
+          OptionsPluginsTitlePaddingTop: element.optionsPluginsTitlePaddingTop,
+          OptionsPluginsTitlePaddingBottom: element.optionsPluginsTitlePaddingBottom,
+          OptionsPluginsSubtitleDisplay: element.optionsPluginsSubtitleDisplay,
+          OptionsPluginsSubtitleText: element.optionsPluginsSubtitleText,
+          OptionsPluginsSubtitleColor: element.optionsPluginsSubtitleColor,
+          OptionsPluginsSubtitlePosition: element.optionsPluginsSubtitlePosition,
+          OptionsPluginsSubtitleAlign: element.optionsPluginsSubtitleAlign,
+          OptionsPluginsSubtitleFontSize: element.optionsPluginsSubtitleFontSize,
+          OptionsPluginsSubtitleFontStyle: element.optionsPluginsSubtitleFontStyle,
+          OptionsPluginsSubtitleFontWeight: element.optionsPluginsSubtitleFontWeight,
+          OptionsPluginsSubtitlePaddingTop: element.optionsPluginsSubtitlePaddingTop,
+          OptionsPluginsSubtitlePaddingBottom: element.optionsPluginsSubtitlePaddingBottom,
+          BarOptionsIndexAxis: element.barOptionsIndexAxis,
+          BarOptionsScalesXYStacked: element.barOptionsScalesXYStacked,
+          BarLineOptionsScalesXYTitleDisplay: element.barLineOptionsScalesXYTitleDisplay,
+          BarLineOptionsScalesXTitleText: element.barLineOptionsScalesXTitleText,
+          BarLineOptionsScalesYTitleText: element.barLineOptionsScalesYTitleText,
+          BarLineOptionsScalesXYTitleFontSize: element.barLineOptionsScalesXYTitleFontSize,
+          BarLineOptionsScalesXYTitleFontStyle: element.barLineOptionsScalesXYTitleFontStyle,
+          BarLineOptionsScalesXYTitleFontWeight: element.barLineOptionsScalesXYTitleFontWeight,
+          BarLineOptionsScalesXYTitleColor: element.barLineOptionsScalesXYTitleColor,
+          BarLineOptionsScalesXYTicksColor: element.barLineOptionsScalesXYTicksColor,
+          BarLineOptionsScalesXYGridColor: element.barLineOptionsScalesXYGridColor,
+          RadarOptionsScalesRPointlabelsColor: element.radarOptionsScalesRPointlabelsColor,
+          RadarOptionsScalesRAnglelinesColor: element.radarOptionsScalesRAnglelinesColor,
+          RadarPolarareaOptionsScalesRGridColor: element.radarPolarareaOptionsScalesRGridColor,
+          ChartXAxis: element.chartXAxis,
+          FinalChartData: element.finalChartData,
+          FinalChartOptions: element.finalChartOptions,
+        });
+        element.chartYAxisinfo.forEach((item: any, indexY: number) => {
+          this.addChartYAxisInfo(index)
+          var chartYAxisInfo = this.ChartInfo.at(index).get('ChartYAxisInfo') as FormArray;
+          chartYAxisInfo.controls[indexY].patchValue({
+            Id: item.id,
+            ChartYAxis: item.chartYAxis,
+            ChartYAxisFunction: item.chartYAxisFunction,
+            LineBarRadarPolarDatasetsLabel: item.lineBarRadarPolarDatasetsLabel,
+            LineBarRadarDatasetsBackgroundColor: item.lineBarRadarDatasetsBackgroundColor,
+            LineDatasetsFill: item.lineDatasetsFill,
+            LineDatasetsBorderDash: item.lineDatasetsBorderDash,
+            LineDatasetsTension: item.lineDatasetsTension,
+            LineRadarDatasetsBorderColor: item.lineRadarDatasetsBorderColor,
+            RadarDatasetsPointBackgroundColor: item.radarDatasetsPointBackgroundColor,
+            RadarDatasetsPointBorderColor: item.radarDatasetsPointBorderColor,
+            RadarDatsetsPointHoverBackgroundColor: item.radarDatsetsPointHoverBackgroundColor,
+            RadarDatasetsPointHoverBorderColor: item.radarDatsetsPointHoverBorderColor,
+          })
+        })
+        this.onClickChartType(index, element.chartType.toString());
+      });
+    }
   }
 
   renderSavedCharts() {
@@ -2002,7 +2023,7 @@ export class ReportingComponent implements OnInit {
     // var _chartTypeObject = JSON.parse(chartTypeObject);
     // var _chartType = _chartTypeObject.chartType;
     var _x = this.ChartInfo.at(i).get('ChartYAxisInfo') as FormArray;
-
+    console.log(i, _chartType)
     for (var j = 0; j < _x.length; j++) {
       if (_chartType == null) {
         _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.disable(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.clearValidators(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.updateValueAndValidity();
@@ -2015,9 +2036,10 @@ export class ReportingComponent implements OnInit {
         _x.at(j).get('RadarDatasetsPointBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBorderColor')?.updateValueAndValidity();
         _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.disable(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.updateValueAndValidity();
         _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.updateValueAndValidity();
+
+        console.log(_x.value)
       }
       else if (_chartType == 'bar') {
-        console.log(_chartType)
         _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.enable(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.setValidators([Validators.required]); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.updateValueAndValidity();
         _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.enable(); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.setValidators([Validators.required]); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.updateValueAndValidity();
 
@@ -2029,6 +2051,8 @@ export class ReportingComponent implements OnInit {
         _x.at(j).get('RadarDatasetsPointBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBorderColor')?.updateValueAndValidity();
         _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.disable(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.updateValueAndValidity();
         _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.updateValueAndValidity();
+
+        console.log(_x.value)
       }
       else if (_chartType == 'line') {
         _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.enable(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.setValidators([Validators.required]); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.updateValueAndValidity();
@@ -2042,6 +2066,8 @@ export class ReportingComponent implements OnInit {
         _x.at(j).get('RadarDatasetsPointBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBorderColor')?.updateValueAndValidity();
         _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.disable(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.updateValueAndValidity();
         _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.updateValueAndValidity();
+
+        console.log(_x.value)
       }
       else if (_chartType == 'pie') {
         _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.disable(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.clearValidators(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.updateValueAndValidity();
@@ -2054,6 +2080,8 @@ export class ReportingComponent implements OnInit {
         _x.at(j).get('RadarDatasetsPointBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBorderColor')?.updateValueAndValidity();
         _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.disable(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.updateValueAndValidity();
         _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.updateValueAndValidity();
+
+        console.log(_x.value)
       }
       else if (_chartType == 'doughnut') {
         _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.disable(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.clearValidators(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.updateValueAndValidity();
@@ -2066,6 +2094,8 @@ export class ReportingComponent implements OnInit {
         _x.at(j).get('RadarDatasetsPointBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBorderColor')?.updateValueAndValidity();
         _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.disable(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.updateValueAndValidity();
         _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.updateValueAndValidity();
+
+        console.log(_x.value)
       }
       else if (_chartType == 'radar') {
         _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.enable(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.setValidators([Validators.required]); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.updateValueAndValidity();
@@ -2080,7 +2110,7 @@ export class ReportingComponent implements OnInit {
         _x.at(j).get('LineDatasetsBorderDash')?.disable(); _x.at(j).get('LineDatasetsBorderDash')?.clearValidators(); _x.at(j).get('LineDatasetsBorderDash')?.updateValueAndValidity();
         _x.at(j).get('LineDatasetsTension')?.disable(); _x.at(j).get('LineDatasetsTension')?.clearValidators(); _x.at(j).get('LineDatasetsTension')?.updateValueAndValidity();
 
-
+        console.log(_x.value)
       }
       else if (_chartType == 'polarArea') {
         _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.enable(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.setValidators([Validators.required]); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.updateValueAndValidity();
@@ -2094,6 +2124,8 @@ export class ReportingComponent implements OnInit {
         _x.at(j).get('RadarDatasetsPointBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBorderColor')?.updateValueAndValidity();
         _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.disable(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.updateValueAndValidity();
         _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.updateValueAndValidity();
+
+        console.log(_x.value)
       }
     }
   }

@@ -387,7 +387,8 @@
                     <div [formGroupName]="i">
                       <div class="card mb-2" style="resize:horizontal;">
                         <div class="card-header py-0 d-flex">
-                          <div class="card-title me-2">Card title</div>
+                          <div class="card-title me-2">{{!function.get('ChartName').value? "Chart "+(i+1):
+                            function.get('ChartName').value}}</div>
                           <button type="button" class="btn btn-sm shadow-none py-0 me-auto"
                             (click)="op.toggle($event)"><i class="fas fa-cogs"></i></button>
                           <button type="button" class="btn btn-sm shadow-none py-0" (click)="removeChartInfo(i)"
@@ -1531,8 +1532,6 @@
         <th pResizableColumn pSortableColumn="updatedDate">Updated Date <p-sortIcon field="updatedDate"></p-sortIcon>
         </th>
         <th> </th>
-        <!-- <th>Delete
-        </th> -->
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-allWorkSpace>
@@ -1549,10 +1548,6 @@
           <button class="btn btn-sm btn-outline-danger shadow-sm"
             (click)="DeleteCustomQuery(allWorkSpace.customQueryId, $event)"> <i class="fas fa-trash-alt"></i> </button>
         </td>
-        <!-- <td>
-          <button class="btn btn-sm btn-outline-danger shadow-sm"
-            (click)="DeleteCustomQuery(allWorkSpace.customQueryId, $event)"> <i class="fas fa-trash-alt"></i> </button>
-        </td> -->
       </tr>
     </ng-template>
   </p-table>
