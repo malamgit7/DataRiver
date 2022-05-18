@@ -155,107 +155,107 @@ export class ReportingComponent implements OnInit {
   ngOnInit(): void {
 
     //#region 
-    this.barData = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-      datasets: [
-        {
-          label: 'My First dataset',
-          backgroundColor: '#42A5F5',
-          data: [65, 59, 80, 81, 56, 55, 40]
-        },
-        {
-          label: 'My Second dataset',
-          backgroundColor: '#FFA726',
-          data: [28, 48, 40, 19, 86, 27, 90]
-        }
-      ]
-    };
-    this.barOptions = {
-      indexAxis: 'x',
-      plugins: {
-        title: {
-          display: true,
-          text: 'Custom Chart Title',
-          color: 'white',
-          position: 'top',  // top, bottom, left, right
-          align: 'center',  //start, center, end
-          font: {
-            size: 20,
-            style: 'normal',  // normal, italic, oblique, initial, inherit
-            weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
-          },
-          padding: {
-            top: 0,
-            bottom: 0
-          }
-        },
-        subtitle: {
-          display: true,
-          text: 'Custom Chart Subtitle',
-          color: 'white',
-          position: 'top',  // top, bottom, left, right
-          align: 'center',  //start, center, end
-          font: {
-            size: 15,
-            style: 'normal',  // normal, italic, oblique, initial, inherit
-            weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
-          },
-          padding: {
-            top: 0,
-            bottom: 0
-          }
-        },
-        tooltips: {
-          mode: 'index',  //point,nearest,index,dataset, x, y
-          intersect: false
-        },
-        legend: {
-          labels: {
-            color: 'white'
-          }
-        }
-      },
-      scales: {
-        x: {
-          stacked: false,
-          title: {
-            color: 'white',
-            display: true,
-            text: 'X - Axis',
-            font: {
-              size: 20,
-              style: 'normal',  // normal, italic, oblique, initial, inherit
-              weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
-            }
-          },
-          ticks: {
-            color: 'white'
-          },
-          grid: {
-            color: 'white'
-          }
-        },
-        y: {
-          stacked: false,
-          title: {
-            color: 'white',
-            display: true,
-            text: 'Y -Axis',
-            font: {
-              size: 20,
-              style: 'normal',  // normal, italic, oblique, initial, inherit
-              weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
-            }
-          },
-          ticks: {
-            color: 'white'
-          },
-          grid: {
-            color: 'white'
-          }
-        }
-      }
-    };
+    // this.barData = {
+    //   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    //   datasets: [
+    //     {
+    //       label: 'My First dataset',
+    //       backgroundColor: '#42A5F5',
+    //       data: [65, 59, 80, 81, 56, 55, 40]
+    //     },
+    //     {
+    //       label: 'My Second dataset',
+    //       backgroundColor: '#FFA726',
+    //       data: [28, 48, 40, 19, 86, 27, 90]
+    //     }
+    //   ]
+    // };
+    // this.barOptions = {
+    //   indexAxis: 'x',
+    //   plugins: {
+    //     title: {
+    //       display: true,
+    //       text: 'Custom Chart Title',
+    //       color: 'white',
+    //       position: 'top',  // top, bottom, left, right
+    //       align: 'center',  //start, center, end
+    //       font: {
+    //         size: 20,
+    //         style: 'normal',  // normal, italic, oblique, initial, inherit
+    //         weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
+    //       },
+    //       padding: {
+    //         top: 0,
+    //         bottom: 0
+    //       }
+    //     },
+    //     subtitle: {
+    //       display: true,
+    //       text: 'Custom Chart Subtitle',
+    //       color: 'white',
+    //       position: 'top',  // top, bottom, left, right
+    //       align: 'center',  //start, center, end
+    //       font: {
+    //         size: 15,
+    //         style: 'normal',  // normal, italic, oblique, initial, inherit
+    //         weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
+    //       },
+    //       padding: {
+    //         top: 0,
+    //         bottom: 0
+    //       }
+    //     },
+    //     tooltips: {
+    //       mode: 'index',  //point,nearest,index,dataset, x, y
+    //       intersect: false
+    //     },
+    //     legend: {
+    //       labels: {
+    //         color: 'white'
+    //       }
+    //     }
+    //   },
+    //   scales: {
+    //     x: {
+    //       stacked: false,
+    //       title: {
+    //         color: 'white',
+    //         display: true,
+    //         text: 'X - Axis',
+    //         font: {
+    //           size: 20,
+    //           style: 'normal',  // normal, italic, oblique, initial, inherit
+    //           weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
+    //         }
+    //       },
+    //       ticks: {
+    //         color: 'white'
+    //       },
+    //       grid: {
+    //         color: 'white'
+    //       }
+    //     },
+    //     y: {
+    //       stacked: false,
+    //       title: {
+    //         color: 'white',
+    //         display: true,
+    //         text: 'Y -Axis',
+    //         font: {
+    //           size: 20,
+    //           style: 'normal',  // normal, italic, oblique, initial, inherit
+    //           weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
+    //         }
+    //       },
+    //       ticks: {
+    //         color: 'white'
+    //       },
+    //       grid: {
+    //         color: 'white'
+    //       }
+    //     }
+    //   }
+    // };
     this.lineData = {
       labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
       datasets: [
@@ -900,8 +900,8 @@ export class ReportingComponent implements OnInit {
       ChartXAxis: [{ value: '', disabled: false }, Validators.required],
       ChartYAxisInfo: this.formBuilder.array([]),
 
-      FinalChartData: [JSON.stringify(this.barData), Validators.required],
-      FinalChartOptions: [JSON.stringify(this.barOptions), Validators.required]
+      FinalChartData: ['', Validators.required],
+      FinalChartOptions: ['', Validators.required]
     });
   }
   addChartInfo() {
@@ -2134,13 +2134,9 @@ export class ReportingComponent implements OnInit {
     this.datasetKeys = Object.keys(data);
   }
 
-  testConsole() {
-    console.log(this.runCustomQueryform.value);
-  }
-
-  parseJson(str: string): any {
-    console.log(JSON.parse(str));
-    return JSON.parse(JSON.stringify(str));
+  parseJson(strData: any): any {
+    // console.log(JSON.parse(strData));
+    return JSON.parse(strData);
   }
 
   // This is chart generation region
@@ -2152,8 +2148,8 @@ export class ReportingComponent implements OnInit {
       window.alert('Please select a chart type');
     }
     else if (chartType == 'bar') {
-      this.BuildBarData(chartInfo.value)
-      this.BuildBarOptions(chartInfo.value)
+      this.BuildBarData(chartInfo.value, chartNumber)
+      this.BuildBarOptions(chartInfo.value, chartNumber)
     }
     else if (chartType == 'line') {
       this.BuildLineData(chartInfo.value)
@@ -2176,80 +2172,83 @@ export class ReportingComponent implements OnInit {
       this.BuildPieOptions(chartInfo.value)
     }
   }
-  // ------------------------- Some Region -------------------------//
 
-  BuildBarData(chartInfo: any) {
-    this.GetXAndYAxisArray(chartInfo)
-    this.barData = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-      datasets: [
-        {
-          label: 'My First dataset',
-          backgroundColor: '#42A5F5',
-          data: [65, 59, 80, 81, 56, 55, 40]
-        },
-        {
-          label: 'My Second dataset',
-          backgroundColor: '#FFA726',
-          data: [28, 48, 40, 19, 86, 27, 90]
-        }
-      ]
-    };
+  BuildBarData(chartInfo: any, chartNumber: number) {
+    var _barData: any
+    var xandyaxisarraydata = this.GetXAndYAxisArray(chartInfo)
+    var _datasets: any = [];
+    chartInfo.ChartYAxisInfo.forEach((element: any, i: number) => {
+      _datasets.push({
+        label: element.LineBarRadarPolarDatasetsLabel,
+        backgroundColor: element.LineBarRadarDatasetsBackgroundColor,
+        data: xandyaxisarraydata.datasetsData[i]
+      })
+    })
+    _barData = {
+      labels: xandyaxisarraydata.labels,
+      datasets: _datasets
+    }
+
+    var _chartInfo = this.ChartInfo.at(chartNumber) as FormArray
+    _chartInfo.get('FinalChartData')?.setValue(JSON.stringify(_barData));
+    this.barData = _barData;
+    console.log(_barData)
     return this.barData;
   }
-  BuildBarOptions(chartInfo: any) {
-    this.barOptions = {
-      indexAxis: 'x',
+  BuildBarOptions(chartInfo: any, chartNumber: number) {
+    var _barOptions: any;
+    _barOptions = {
+      indexAxis: chartInfo.BarOptionsIndexAxis,
       plugins: {
         title: {
-          display: true,
-          text: 'Custom Chart Title',
-          color: 'white',
-          position: 'top',  // top, bottom, left, right
-          align: 'center',  //start, center, end
+          display: chartInfo.OptionsPluginsTitleDisplay,
+          text: chartInfo.OptionsPluginsTitleText,
+          color: chartInfo.OptionsPluginsTitleColor,
+          position: chartInfo.OptionsPluginsTitlePosition,  // top, bottom, left, right
+          align: chartInfo.OptionsPluginsTitleAlign,  //start, center, end
           font: {
-            size: 20,
-            style: 'normal',  // normal, italic, oblique, initial, inherit
-            weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
+            size: chartInfo.OptionsPluginsTitleFontSize,
+            style: chartInfo.OptionsPluginsTitleFontStyle,  // normal, italic, oblique, initial, inherit
+            weight: chartInfo.OptionsPluginsTitleFontWeight,  // normal, bold, bolder, lighter, initial, inherit
           },
           padding: {
-            top: 0,
-            bottom: 0
+            top: chartInfo.OptionsPluginsTitlePaddingTop,
+            bottom: chartInfo.OptionsPluginsTitlePaddingBottom
           }
         },
         subtitle: {
-          display: true,
-          text: 'Custom Chart Subtitle',
-          color: 'white',
-          position: 'top',  // top, bottom, left, right
-          align: 'center',  //start, center, end
+          display: chartInfo.OptionsPluginsSubtitleDisplay,
+          text: chartInfo.OptionsPluginsSubtitleText,
+          color: chartInfo.OptionsPluginsSubtitleColor,
+          position: chartInfo.OptionsPluginsSubtitlePosition,  // top, bottom, left, right
+          align: chartInfo.OptionsPluginsSubtitleAlign,  //start, center, end
           font: {
-            size: 15,
-            style: 'normal',  // normal, italic, oblique, initial, inherit
-            weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
+            size: chartInfo.OptionsPluginsSubtitleFontSize,
+            style: chartInfo.OptionsPluginsSubtitleFontStyle,  // normal, italic, oblique, initial, inherit
+            weight: chartInfo.OptionsPluginsSubtitleFontWeight,  // normal, bold, bolder, lighter, initial, inherit
           },
           padding: {
-            top: 0,
-            bottom: 0
+            top: chartInfo.OptionsPluginsSubtitlePaddingTop,
+            bottom: chartInfo.OptionsPluginsSubtitlePaddingBottom
           }
         },
         tooltips: {
-          mode: 'index',  //point,nearest,index,dataset, x, y
-          intersect: false
+          mode: chartInfo.OptionsPluginsTooltipsMode,  //point,nearest,index,dataset, x, y
+          intersect: chartInfo.OptionsPluginsTooltipsIntersect
         },
         legend: {
           labels: {
-            color: 'white'
+            color: chartInfo.OptionsPluginsLegendLabelsColor
           }
         }
       },
       scales: {
         x: {
-          stacked: false,
+          stacked: chartInfo.BarOptionsScalesXYStacked,
           title: {
-            color: 'white',
-            display: true,
-            text: 'X - Axis',
+            color: chartInfo.BarLineOptionsScalesXYTitleColor,
+            display: chartInfo.BarLineOptionsScalesXYTitleDisplay,
+            text: chartInfo.BarLineOptionsScalesXTitleText,
             font: {
               size: 20,
               style: 'normal',  // normal, italic, oblique, initial, inherit
@@ -2257,35 +2256,41 @@ export class ReportingComponent implements OnInit {
             }
           },
           ticks: {
-            color: 'white'
+            color: chartInfo.BarLineOptionsScalesXYTicksColor
           },
           grid: {
-            color: 'white'
+            color: chartInfo.BarLineOptionsScalesXYGridColor
           }
         },
         y: {
-          stacked: false,
+          stacked: chartInfo.BarOptionsScalesXYStacked,
           title: {
-            color: 'white',
-            display: true,
-            text: 'Y -Axis',
+            color: chartInfo.BarLineOptionsScalesXYTitleColor,
+            display: chartInfo.BarLineOptionsScalesXYTitleDisplay,
+            text: chartInfo.BarLineOptionsScalesYTitleText,
             font: {
-              size: 20,
-              style: 'normal',  // normal, italic, oblique, initial, inherit
-              weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
+              size: chartInfo.BarLineOptionsScalesXYTitleFontSize,
+              style: chartInfo.BarLineOptionsScalesXYTitleFontStyle,  // normal, italic, oblique, initial, inherit
+              weight: chartInfo.BarLineOptionsScalesXYTitleFontWeight,  // normal, bold, bolder, lighter, initial, inherit
             }
           },
           ticks: {
-            color: 'white'
+            color: chartInfo.BarLineOptionsScalesXYTicksColor
           },
           grid: {
-            color: 'white'
+            color: chartInfo.BarLineOptionsScalesXYGridColor
           }
         }
       }
     };
+
+    var _chartInfo = this.ChartInfo.at(chartNumber) as FormArray
+    _chartInfo.get('FinalChartOptions')?.setValue(JSON.stringify(_barOptions));
+    this.barOptions = _barOptions;
+    console.log(_barOptions)
     return this.barOptions;
   }
+
   BuildLineData(chartInfo: any) {
     this.lineData = {
       labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -2499,30 +2504,12 @@ export class ReportingComponent implements OnInit {
   }
   BuildPolarAreaData(chartInfo: any) {
     this.polarAreaData = {
+      labels: ["Red", "Green", "Yellow", "Grey", "Blue"],
       datasets: [{
-        data: [
-          11,
-          16,
-          7,
-          3,
-          14
-        ],
-        backgroundColor: [
-          "#42A5F5",
-          "#66BB6A",
-          "#FFA726",
-          "#26C6DA",
-          "#7E57C2"
-        ],
+        data: [11, 16, 7, 3, 14],
+        backgroundColor: ["#42A5F5", "#66BB6A", "#FFA726", "#26C6DA", "#7E57C2"],
         label: 'My dataset'
-      }],
-      labels: [
-        "Red",
-        "Green",
-        "Yellow",
-        "Grey",
-        "Blue"
-      ]
+      }]
     }
     return this.polarAreaData;
   }
@@ -2739,12 +2726,18 @@ export class ReportingComponent implements OnInit {
   Maximum(number_array: any[]) {
     return Math.max(...number_array);
   }
+
   GetXAndYAxisArray(chartInfo: any) {
     let x_axis_array: any = [];
     let y_axis_array: any = [];
 
+    let datasetsData: any[] = []
+    let labels = []
+
+
     var x_axis_object = [...new Map(this.resultData.map(item => [item[chartInfo.ChartXAxis], item])).values()];
     x_axis_array = x_axis_object.map(x => x[chartInfo.ChartXAxis])
+    labels = x_axis_array;
 
     chartInfo.ChartYAxisInfo.forEach((element: any, i: number) => {
       y_axis_array = [];
@@ -2768,9 +2761,9 @@ export class ReportingComponent implements OnInit {
           y_axis_array.push(this.Maximum(filteredResultData));
         }
       })
-      console.log(y_axis_array)
+      datasetsData.push(y_axis_array)
     })
-    console.log(x_axis_array);
+    return { labels, datasetsData };
   }
 
 }

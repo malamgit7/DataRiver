@@ -395,14 +395,12 @@
                             aria-label="Close"><i class="fas fa-times text-danger"></i></button>
                         </div>
                         <div class="card-body py-0">
-                          <p-chart [type]="function.get('ChartType').value"
-                            [data]="function.get('FinalChartData').value"
-                            [options]="function.get('FinalChartOptions').value">
+                          <!-- <p-chart [type]="function.get('ChartType').value"
+                            [data]="function.get('FinalChartData').value | json"
+                            [options]="function.get('FinalChartOptions').value | json">
+                          </p-chart> -->
+                          <p-chart type="{{function.get('ChartType').value}}" [data]="barData" [options]="barOptions">
                           </p-chart>
-                          <!--  -->
-                        </div>
-                        <div class="card-footer py-2">
-                          <button class="btn btn-sm btn-outline-primary" (click)="testConsole()">Ok</button>
                         </div>
                       </div>
                       <p-overlayPanel [showTransitionOptions]="'100ms'" [hideTransitionOptions]="'100ms'" #op
