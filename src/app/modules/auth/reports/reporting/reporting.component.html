@@ -395,7 +395,11 @@
                             aria-label="Close"><i class="fas fa-times text-danger"></i></button>
                         </div>
                         <div class="card-body py-0">
-                          {{i}}
+                          <p-chart [type]="function.get('ChartType').value"
+                            [data]="function.get('FinalChartData').value"
+                            [options]="function.get('FinalChartOptions').value">
+                          </p-chart>
+                          <!--  -->
                         </div>
                         <div class="card-footer py-2">
                           <button class="btn btn-sm btn-outline-primary" (click)="testConsole()">Ok</button>
@@ -1297,6 +1301,12 @@
                                   </p-overlayPanel>
                                 </div>
                               </div>
+                            </div>
+                          </div>
+                          <div class="row gx-2 gy-2 mb-2">
+                            <div class="col-sm-12 d-flex">
+                              <button class="btn btn-sm btn-primary shadow-sm" (click)="CreateChart(i)">Create
+                                Chart</button>
                             </div>
                           </div>
                         </p-scrollPanel>

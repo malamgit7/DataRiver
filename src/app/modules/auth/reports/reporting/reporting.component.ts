@@ -900,8 +900,8 @@ export class ReportingComponent implements OnInit {
       ChartXAxis: [{ value: '', disabled: false }, Validators.required],
       ChartYAxisInfo: this.formBuilder.array([]),
 
-      FinalChartData: ['', Validators.required],
-      FinalChartOptions: ['', Validators.required]
+      FinalChartData: [JSON.stringify(this.barData), Validators.required],
+      FinalChartOptions: [JSON.stringify(this.barOptions), Validators.required]
     });
   }
   addChartInfo() {
@@ -944,7 +944,6 @@ export class ReportingComponent implements OnInit {
   }
   //#endregion
 
-
   onSubmitRunCustomQuery() {
     this.runcustomQueryForm_loading = true;
     this.xAxisItems = []
@@ -962,6 +961,7 @@ export class ReportingComponent implements OnInit {
         this.getDatasetKeys(res[0]);
         this.chartdataService.updateData(res);
         this.resultData = res;
+        console.log(res);
         if (this.selectedWorkspacedata != null) {
           this.renderSavedCharts();
         }
@@ -2136,6 +2136,641 @@ export class ReportingComponent implements OnInit {
 
   testConsole() {
     console.log(this.runCustomQueryform.value);
+  }
+
+  parseJson(str: string): any {
+    console.log(JSON.parse(str));
+    return JSON.parse(JSON.stringify(str));
+  }
+
+  // This is chart generation region
+
+  CreateChart(chartNumber: number) {
+    var chartInfo = this.ChartInfo.at(chartNumber) as FormArray;
+    var chartType = chartInfo.get('ChartType')?.value;
+    if (chartType == '' || chartType == null) {
+      window.alert('Please select a chart type');
+    }
+    else if (chartType == 'bar') {
+      this.BuildBarData(chartInfo.value)
+      this.BuildBarOptions(chartInfo.value)
+    }
+    else if (chartType == 'line') {
+      this.BuildLineData(chartInfo.value)
+      this.BuildLineOptions(chartInfo.value)
+    }
+    else if (chartType == 'radar') {
+      this.BuildRadarData(chartInfo.value)
+      this.BuildRadarOptions(chartInfo.value)
+    }
+    else if (chartType == 'polarArea') {
+      this.BuildPolarAreaData(chartInfo.value)
+      this.BuildPolarAreaOptions(chartInfo.value)
+    }
+    else if (chartType == 'doughnut') {
+      this.BuildDoughnutData(chartInfo.value)
+      this.BuildDoughnutOptions(chartInfo.value)
+    }
+    else if (chartType == 'pie') {
+      this.BuildPieData(chartInfo.value)
+      this.BuildPieOptions(chartInfo.value)
+    }
+  }
+  // ------------------------- Some Region -------------------------//
+
+  BuildBarData(chartInfo: any) {
+    this.GetXAndYAxisArray(chartInfo)
+    this.barData = {
+      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      datasets: [
+        {
+          label: 'My First dataset',
+          backgroundColor: '#42A5F5',
+          data: [65, 59, 80, 81, 56, 55, 40]
+        },
+        {
+          label: 'My Second dataset',
+          backgroundColor: '#FFA726',
+          data: [28, 48, 40, 19, 86, 27, 90]
+        }
+      ]
+    };
+    return this.barData;
+  }
+  BuildBarOptions(chartInfo: any) {
+    this.barOptions = {
+      indexAxis: 'x',
+      plugins: {
+        title: {
+          display: true,
+          text: 'Custom Chart Title',
+          color: 'white',
+          position: 'top',  // top, bottom, left, right
+          align: 'center',  //start, center, end
+          font: {
+            size: 20,
+            style: 'normal',  // normal, italic, oblique, initial, inherit
+            weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
+          },
+          padding: {
+            top: 0,
+            bottom: 0
+          }
+        },
+        subtitle: {
+          display: true,
+          text: 'Custom Chart Subtitle',
+          color: 'white',
+          position: 'top',  // top, bottom, left, right
+          align: 'center',  //start, center, end
+          font: {
+            size: 15,
+            style: 'normal',  // normal, italic, oblique, initial, inherit
+            weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
+          },
+          padding: {
+            top: 0,
+            bottom: 0
+          }
+        },
+        tooltips: {
+          mode: 'index',  //point,nearest,index,dataset, x, y
+          intersect: false
+        },
+        legend: {
+          labels: {
+            color: 'white'
+          }
+        }
+      },
+      scales: {
+        x: {
+          stacked: false,
+          title: {
+            color: 'white',
+            display: true,
+            text: 'X - Axis',
+            font: {
+              size: 20,
+              style: 'normal',  // normal, italic, oblique, initial, inherit
+              weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
+            }
+          },
+          ticks: {
+            color: 'white'
+          },
+          grid: {
+            color: 'white'
+          }
+        },
+        y: {
+          stacked: false,
+          title: {
+            color: 'white',
+            display: true,
+            text: 'Y -Axis',
+            font: {
+              size: 20,
+              style: 'normal',  // normal, italic, oblique, initial, inherit
+              weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
+            }
+          },
+          ticks: {
+            color: 'white'
+          },
+          grid: {
+            color: 'white'
+          }
+        }
+      }
+    };
+    return this.barOptions;
+  }
+  BuildLineData(chartInfo: any) {
+    this.lineData = {
+      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      datasets: [
+        {
+          label: 'First Dataset',
+          data: [65, 59, 80, 81, 56, 55, 40],
+          fill: false,
+          borderDash: [0, 0],
+          tension: 0,
+          borderColor: '#42A5F5',
+          backgroundColor: 'rgba(255,167,38,0.2)'
+        },
+        {
+          label: 'Second Dataset',
+          data: [28, 48, 40, 19, 86, 27, 90],
+          fill: false,
+          borderDash: [5, 5],
+          tension: .4,
+          borderColor: '#66BB6A',
+          backgroundColor: 'rgba(255,167,38,0.2)'
+        },
+        {
+          label: 'Third Dataset',
+          data: [12, 51, 62, 33, 21, 62, 45],
+          fill: true,
+          borderDash: [0, 0],
+          tension: .4,
+          borderColor: '#FFA726',
+          backgroundColor: 'rgba(255,167,38,0.2)'
+        }
+      ]
+    }
+    return this.lineData;
+  }
+  BuildLineOptions(chartInfo: any) {
+    this.lineOptions = {
+      indexAxis: 'x',
+      plugins: {
+        title: {
+          display: true,
+          text: 'Custom Chart Title',
+          color: 'white',
+          position: 'top',  // top, bottom, left, right
+          align: 'center',  //start, center, end
+          font: {
+            size: 20,
+            style: 'normal',  // normal, italic, oblique, initial, inherit
+            weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
+          },
+          padding: {
+            top: 0,
+            bottom: 0
+          }
+        },
+        subtitle: {
+          display: true,
+          text: 'Custom Chart Subtitle',
+          color: 'white',
+          position: 'top',  // top, bottom, left, right
+          align: 'center',  //start, center, end
+          font: {
+            size: 15,
+            style: 'normal',  // normal, italic, oblique, initial, inherit
+            weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
+          },
+          padding: {
+            top: 0,
+            bottom: 0
+          }
+        },
+        tooltips: {
+          mode: 'index',  //point,nearest,index,dataset, x, y
+          intersect: false
+        },
+        legend: {
+          labels: {
+            color: 'white'
+          }
+        }
+      },
+      scales: {
+        x: {
+          title: {
+            color: 'white',
+            display: true,
+            text: 'X - Axis',
+            font: {
+              size: 20,
+              style: 'normal',  // normal, italic, oblique, initial, inherit
+              weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
+            }
+          },
+          ticks: {
+            color: 'white'
+          },
+          grid: {
+            color: 'white'
+          }
+        },
+        y: {
+          title: {
+            color: 'white',
+            display: true,
+            text: 'Y -Axis',
+            font: {
+              size: 20,
+              style: 'normal',  // normal, italic, oblique, initial, inherit
+              weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
+            }
+          },
+          ticks: {
+            color: 'white'
+          },
+          grid: {
+            color: 'white'
+          }
+        }
+      }
+    }
+    return this.lineOptions;
+  }
+  BuildRadarData(chartInfo: any) {
+    this.radarData = {
+      labels: ['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Running'],
+      datasets: [
+        {
+          label: 'My First dataset',
+          backgroundColor: 'rgba(179,181,198,0.2)',
+          borderColor: 'rgba(179,181,198,1)',
+          pointBackgroundColor: 'rgba(179,181,198,1)',
+          pointBorderColor: '#fff',
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: 'rgba(179,181,198,1)',
+          data: [65, 59, 90, 81, 56, 55, 400]
+        },
+        {
+          label: 'My Second dataset',
+          backgroundColor: 'rgba(255,99,132,0.2)',
+          borderColor: 'rgba(255,99,132,1)',
+          pointBackgroundColor: 'rgba(255,99,132,1)',
+          pointBorderColor: '#fff',
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: 'rgba(255,99,132,1)',
+          data: [28, 48, 40, 19, 96, 27, 100]
+        }
+      ]
+    }
+    return this.radarData;
+  }
+  BuildRadarOptions(chartInfo: any) {
+    this.radarOptions = {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Custom Chart Title',
+          color: 'white',
+          position: 'top',  // top, bottom, left, right
+          align: 'center',  //start, center, end
+          font: {
+            size: 20,
+            style: 'normal',  // normal, italic, oblique, initial, inherit
+            weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
+          },
+          padding: {
+            top: 0,
+            bottom: 0
+          }
+        },
+        subtitle: {
+          display: true,
+          text: 'Custom Chart Subtitle',
+          color: 'white',
+          position: 'top',  // top, bottom, left, right
+          align: 'center',  //start, center, end
+          font: {
+            size: 15,
+            style: 'normal',  // normal, italic, oblique, initial, inherit
+            weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
+          },
+          padding: {
+            top: 0,
+            bottom: 0
+          }
+        },
+        tooltips: {
+          mode: 'index',  //point,nearest,index,dataset, x, y
+          intersect: false
+        },
+        legend: {
+          labels: {
+            color: 'white'
+          }
+        }
+      },
+      scales: {
+        r: {
+          pointLabels: {
+            color: 'white',
+          },
+          grid: {
+            color: 'white',
+          },
+          angleLines: {
+            color: 'white'
+          }
+        }
+      }
+    }
+    return this.radarOptions;
+  }
+  BuildPolarAreaData(chartInfo: any) {
+    this.polarAreaData = {
+      datasets: [{
+        data: [
+          11,
+          16,
+          7,
+          3,
+          14
+        ],
+        backgroundColor: [
+          "#42A5F5",
+          "#66BB6A",
+          "#FFA726",
+          "#26C6DA",
+          "#7E57C2"
+        ],
+        label: 'My dataset'
+      }],
+      labels: [
+        "Red",
+        "Green",
+        "Yellow",
+        "Grey",
+        "Blue"
+      ]
+    }
+    return this.polarAreaData;
+  }
+  BuildPolarAreaOptions(chartInfo: any) {
+    this.polarAreaOptions = {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Custom Chart Title',
+          color: 'white',
+          position: 'top',  // top, bottom, left, right
+          align: 'center',  //start, center, end
+          font: {
+            size: 20,
+            style: 'normal',  // normal, italic, oblique, initial, inherit
+            weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
+          },
+          padding: {
+            top: 0,
+            bottom: 0
+          }
+        },
+        subtitle: {
+          display: true,
+          text: 'Custom Chart Subtitle',
+          color: 'white',
+          position: 'top',  // top, bottom, left, right
+          align: 'center',  //start, center, end
+          font: {
+            size: 15,
+            style: 'normal',  // normal, italic, oblique, initial, inherit
+            weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
+          },
+          padding: {
+            top: 0,
+            bottom: 0
+          }
+        },
+        tooltips: {
+          mode: 'index',  //point,nearest,index,dataset, x, y
+          intersect: false
+        },
+        legend: {
+          labels: {
+            color: 'white'
+          }
+        }
+      },
+      scales: {
+        r: {
+          grid: {
+            color: 'white'
+          }
+        }
+      }
+    }
+    return this.polarAreaOptions;
+  }
+  BuildDoughnutData(chartInfo: any) {
+    this.doughnutData = {
+      labels: ['A', 'B', 'C'],
+      datasets: [
+        {
+          data: [300, 50, 100],
+          backgroundColor: [
+            "#FF6384",
+            "#36A2EB",
+            "#FFCE56"
+          ],
+          hoverBackgroundColor: [
+            "#FF6384",
+            "#36A2EB",
+            "#FFCE56"
+          ]
+        }
+      ]
+    }
+    return this.doughnutData;
+  }
+  BuildDoughnutOptions(chartInfo: any) {
+    this.doughnutOptions = {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Custom Chart Title',
+          color: 'white',
+          position: 'top',  // top, bottom, left, right
+          align: 'center',  //start, center, end
+          font: {
+            size: 20,
+            style: 'normal',  // normal, italic, oblique, initial, inherit
+            weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
+          },
+          padding: {
+            top: 0,
+            bottom: 0
+          }
+        },
+        subtitle: {
+          display: true,
+          text: 'Custom Chart Subtitle',
+          color: 'white',
+          position: 'top',  // top, bottom, left, right
+          align: 'center',  //start, center, end
+          font: {
+            size: 15,
+            style: 'normal',  // normal, italic, oblique, initial, inherit
+            weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
+          },
+          padding: {
+            top: 0,
+            bottom: 0
+          }
+        },
+        tooltips: {
+          mode: 'index',  //point,nearest,index,dataset, x, y
+          intersect: false
+        },
+        legend: {
+          labels: {
+            color: 'white'
+          }
+        }
+      }
+    }
+    return this.doughnutOptions;
+  }
+  BuildPieData(chartInfo: any) {
+    this.pieData = {
+      labels: ['A', 'B', 'C'],
+      datasets: [
+        {
+          data: [300, 50, 100],
+          backgroundColor: [
+            "#42A5F5",
+            "#66BB6A",
+            "#FFA726"
+          ],
+          hoverBackgroundColor: [
+            "#64B5F6",
+            "#81C784",
+            "#FFB74D"
+          ]
+        }
+      ]
+    }
+    return this.pieData;
+  }
+  BuildPieOptions(chartInfo: any) {
+    this.pieOptions = {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Custom Chart Title',
+          color: 'white',
+          position: 'top',  // top, bottom, left, right
+          align: 'center',  //start, center, end
+          font: {
+            size: 20,
+            style: 'normal',  // normal, italic, oblique, initial, inherit
+            weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
+          },
+          padding: {
+            top: 0,
+            bottom: 0
+          }
+        },
+        subtitle: {
+          display: true,
+          text: 'Custom Chart Subtitle',
+          color: 'white',
+          position: 'top',  // top, bottom, left, right
+          align: 'center',  //start, center, end
+          font: {
+            size: 15,
+            style: 'normal',  // normal, italic, oblique, initial, inherit
+            weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
+          },
+          padding: {
+            top: 0,
+            bottom: 0
+          }
+        },
+        tooltips: {
+          mode: 'index',  //point,nearest,index,dataset, x, y
+          intersect: false
+        },
+        legend: {
+          labels: {
+            color: 'white'
+          }
+        }
+      }
+    }
+    return this.pieOptions;
+  }
+
+  Count(number_array: any[]) {
+    let count = 0;
+    for (let i = 0; i < number_array.length; i++) {
+      count += number_array[i];
+    }
+    return count;
+  }
+  Sum(number_array: any[]) {
+    return number_array.reduce((a, b) => a + b, 0);
+  }
+  Average(number_array: any[]) {
+    return this.Sum(number_array) / number_array.length;
+  }
+  Minimum(number_array: any[]) {
+    return Math.min(...number_array);
+  }
+  Maximum(number_array: any[]) {
+    return Math.max(...number_array);
+  }
+  GetXAndYAxisArray(chartInfo: any) {
+    let x_axis_array: any = [];
+    let y_axis_array: any = [];
+
+    var x_axis_object = [...new Map(this.resultData.map(item => [item[chartInfo.ChartXAxis], item])).values()];
+    x_axis_array = x_axis_object.map(x => x[chartInfo.ChartXAxis])
+
+    chartInfo.ChartYAxisInfo.forEach((element: any, i: number) => {
+      y_axis_array = [];
+      var _ChartYAxisFunction = element.ChartYAxisFunction;
+      console.log(_ChartYAxisFunction);
+      x_axis_array.forEach((x_axis_value: any, index: number) => {
+        var filteredResultData = this.resultData.filter(x => x[chartInfo.ChartXAxis] == x_axis_value).map(x => x[element.ChartYAxis])
+        if (_ChartYAxisFunction = "COUNT") {
+          y_axis_array.push(this.Count(filteredResultData));
+        }
+        else if (_ChartYAxisFunction = "SUM") {
+          y_axis_array.push(this.Sum(filteredResultData));
+        }
+        else if (_ChartYAxisFunction = "AVG") {
+          y_axis_array.push(this.Average(filteredResultData));
+        }
+        else if (_ChartYAxisFunction = "MIN") {
+          y_axis_array.push(this.Minimum(filteredResultData));
+        }
+        else if (_ChartYAxisFunction = "MAX") {
+          y_axis_array.push(this.Maximum(filteredResultData));
+        }
+      })
+      console.log(y_axis_array)
+    })
+    console.log(x_axis_array);
   }
 
 }
