@@ -1665,7 +1665,6 @@ export class ReportingComponent implements OnInit {
     if (data.chartinfo.length >= 1) {
       data.chartinfo.forEach((element: any, index: number) => {
         this.addChartInfo();
-        // this.onDetectChartType(index, element.chartType);
         var chartinfo = this.runCustomQueryform.get('ChartInfo') as FormArray
         chartinfo.controls[index].patchValue({
           Id: element.id != null ? element.id : null,
@@ -1728,7 +1727,7 @@ export class ReportingComponent implements OnInit {
             RadarDatasetsPointHoverBorderColor: item.radarDatsetsPointHoverBorderColor,
           })
         })
-
+        this.onDetectChartType(index, element.chartType);
       });
     }
   }
@@ -2281,24 +2280,24 @@ export class ReportingComponent implements OnInit {
       this.BuildBarOptions(chartInfo.value, chartNumber)
     }
     else if (chartType == 'line') {
-      this.BuildLineData(chartInfo.value)
-      this.BuildLineOptions(chartInfo.value)
+      this.BuildLineData(chartInfo.value, chartNumber)
+      this.BuildLineOptions(chartInfo.value, chartNumber)
     }
     else if (chartType == 'radar') {
-      this.BuildRadarData(chartInfo.value)
-      this.BuildRadarOptions(chartInfo.value)
+      this.BuildRadarData(chartInfo.value, chartNumber)
+      this.BuildRadarOptions(chartInfo.value, chartNumber)
     }
     else if (chartType == 'polarArea') {
-      this.BuildPolarAreaData(chartInfo.value)
-      this.BuildPolarAreaOptions(chartInfo.value)
+      this.BuildPolarAreaData(chartInfo.value, chartNumber)
+      this.BuildPolarAreaOptions(chartInfo.value, chartNumber)
     }
     else if (chartType == 'doughnut') {
-      this.BuildDoughnutData(chartInfo.value)
-      this.BuildDoughnutOptions(chartInfo.value)
+      this.BuildDoughnutData(chartInfo.value, chartNumber)
+      this.BuildDoughnutOptions(chartInfo.value, chartNumber)
     }
     else if (chartType == 'pie') {
-      this.BuildPieData(chartInfo.value)
-      this.BuildPieOptions(chartInfo.value)
+      this.BuildPieData(chartInfo.value, chartNumber)
+      this.BuildPieOptions(chartInfo.value, chartNumber)
     }
   }
 
@@ -2320,8 +2319,6 @@ export class ReportingComponent implements OnInit {
 
     var _chartInfo = this.ChartInfo.at(chartNumber) as FormArray
     _chartInfo.get('FinalChartData')?.setValue(JSON.stringify(_barData));
-    this.barData = _barData;
-    console.log(_barData)
     return this.barData;
   }
   BuildBarOptions(chartInfo: any, chartNumber: number) {
@@ -2379,9 +2376,9 @@ export class ReportingComponent implements OnInit {
             display: chartInfo.BarLineOptionsScalesXYTitleDisplay,
             text: chartInfo.BarLineOptionsScalesXTitleText,
             font: {
-              size: 20,
-              style: 'normal',  // normal, italic, oblique, initial, inherit
-              weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
+              size: chartInfo.BarLineOptionsScalesXYTitleFontSize,
+              style: chartInfo.BarLineOptionsScalesXYTitleFontStyle,
+              weight: chartInfo.BarLineOptionsScalesXYTitleFontWeight,
             }
           },
           ticks: {
@@ -2399,8 +2396,8 @@ export class ReportingComponent implements OnInit {
             text: chartInfo.BarLineOptionsScalesYTitleText,
             font: {
               size: chartInfo.BarLineOptionsScalesXYTitleFontSize,
-              style: chartInfo.BarLineOptionsScalesXYTitleFontStyle,  // normal, italic, oblique, initial, inherit
-              weight: chartInfo.BarLineOptionsScalesXYTitleFontWeight,  // normal, bold, bolder, lighter, initial, inherit
+              style: chartInfo.BarLineOptionsScalesXYTitleFontStyle,
+              weight: chartInfo.BarLineOptionsScalesXYTitleFontWeight,
             }
           },
           ticks: {
@@ -2415,12 +2412,9 @@ export class ReportingComponent implements OnInit {
 
     var _chartInfo = this.ChartInfo.at(chartNumber) as FormArray
     _chartInfo.get('FinalChartOptions')?.setValue(JSON.stringify(_barOptions));
-    this.barOptions = _barOptions;
-    console.log(_barOptions)
     return this.barOptions;
   }
-
-  BuildLineData(chartInfo: any) {
+  BuildLineData(chartInfo: any, chartNumber: number) {
     this.lineData = {
       labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
       datasets: [
@@ -2455,94 +2449,99 @@ export class ReportingComponent implements OnInit {
     }
     return this.lineData;
   }
-  BuildLineOptions(chartInfo: any) {
-    this.lineOptions = {
+  BuildLineOptions(chartInfo: any, chartNumber: number) {
+    var _lineOptions: any;
+    _lineOptions = {
       indexAxis: 'x',
       plugins: {
         title: {
-          display: true,
-          text: 'Custom Chart Title',
-          color: 'white',
-          position: 'top',  // top, bottom, left, right
-          align: 'center',  //start, center, end
+          display: chartInfo.OptionsPluginsTitleDisplay,
+          text: chartInfo.OptionsPluginsTitleText,
+          color: chartInfo.OptionsPluginsTitleColor,
+          position: chartInfo.OptionsPluginsTitlePosition,  // top, bottom, left, right
+          align: chartInfo.OptionsPluginsTitleAlign,  //start, center, end
           font: {
-            size: 20,
-            style: 'normal',  // normal, italic, oblique, initial, inherit
-            weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
+            size: chartInfo.OptionsPluginsTitleFontSize,
+            style: chartInfo.OptionsPluginsTitleFontStyle,  // normal, italic, oblique, initial, inherit
+            weight: chartInfo.OptionsPluginsTitleFontWeight,  // normal, bold, bolder, lighter, initial, inherit
           },
           padding: {
-            top: 0,
-            bottom: 0
+            top: chartInfo.OptionsPluginsTitlePaddingTop,
+            bottom: chartInfo.OptionsPluginsTitlePaddingBottom
           }
         },
         subtitle: {
-          display: true,
-          text: 'Custom Chart Subtitle',
-          color: 'white',
-          position: 'top',  // top, bottom, left, right
-          align: 'center',  //start, center, end
+          display: chartInfo.OptionsPluginsSubtitleDisplay,
+          text: chartInfo.OptionsPluginsSubtitleText,
+          color: chartInfo.OptionsPluginsSubtitleColor,
+          position: chartInfo.OptionsPluginsSubtitlePosition,  // top, bottom, left, right
+          align: chartInfo.OptionsPluginsSubtitleAlign,  //start, center, end
           font: {
-            size: 15,
-            style: 'normal',  // normal, italic, oblique, initial, inherit
-            weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
+            size: chartInfo.OptionsPluginsSubtitleFontSize,
+            style: chartInfo.OptionsPluginsSubtitleFontStyle,  // normal, italic, oblique, initial, inherit
+            weight: chartInfo.OptionsPluginsSubtitleFontWeight,  // normal, bold, bolder, lighter, initial, inherit
           },
           padding: {
-            top: 0,
-            bottom: 0
+            top: chartInfo.OptionsPluginsSubtitlePaddingTop,
+            bottom: chartInfo.OptionsPluginsSubtitlePaddingBottom
           }
         },
         tooltips: {
-          mode: 'index',  //point,nearest,index,dataset, x, y
-          intersect: false
+          mode: chartInfo.OptionsPluginsTooltipsMode,  //point,nearest,index,dataset, x, y
+          intersect: chartInfo.OptionsPluginsTooltipsIntersect
         },
         legend: {
           labels: {
-            color: 'white'
+            color: chartInfo.OptionsPluginsLegendLabelsColor
           }
         }
       },
       scales: {
         x: {
           title: {
-            color: 'white',
-            display: true,
-            text: 'X - Axis',
+            color: chartInfo.BarLineOptionsScalesXYTitleColor,
+            display: chartInfo.BarLineOptionsScalesXYTitleDisplay,
+            text: chartInfo.BarLineOptionsScalesXTitleText,
             font: {
-              size: 20,
-              style: 'normal',  // normal, italic, oblique, initial, inherit
-              weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
+              size: chartInfo.BarLineOptionsScalesXYTitleFontSize,
+              style: chartInfo.BarLineOptionsScalesXYTitleFontStyle,
+              weight: chartInfo.BarLineOptionsScalesXYTitleFontWeight,
             }
           },
           ticks: {
-            color: 'white'
+            color: chartInfo.BarLineOptionsScalesXYTicksColor
           },
           grid: {
-            color: 'white'
+            color: chartInfo.BarLineOptionsScalesXYGridColor
           }
         },
         y: {
           title: {
-            color: 'white',
-            display: true,
-            text: 'Y -Axis',
+            color: chartInfo.BarLineOptionsScalesXYTitleColor,
+            display: chartInfo.BarLineOptionsScalesXYTitleDisplay,
+            text: chartInfo.BarLineOptionsScalesYTitleText,
             font: {
-              size: 20,
-              style: 'normal',  // normal, italic, oblique, initial, inherit
-              weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
+              size: chartInfo.BarLineOptionsScalesXYTitleFontSize,
+              style: chartInfo.BarLineOptionsScalesXYTitleFontStyle,
+              weight: chartInfo.BarLineOptionsScalesXYTitleFontWeight,
             }
           },
           ticks: {
-            color: 'white'
+            color: chartInfo.BarLineOptionsScalesXYTicksColor
           },
           grid: {
-            color: 'white'
+            color: chartInfo.BarLineOptionsScalesXYGridColor
           }
         }
       }
     }
+
+    var _chartInfo = this.ChartInfo.at(chartNumber) as FormArray
+    _chartInfo.get('FinalChartOptions')?.setValue(JSON.stringify(_lineOptions));
     return this.lineOptions;
   }
-  BuildRadarData(chartInfo: any) {
+
+  BuildRadarData(chartInfo: any, chartNumber: number) {
     this.radarData = {
       labels: ['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Running'],
       datasets: [
@@ -2570,7 +2569,7 @@ export class ReportingComponent implements OnInit {
     }
     return this.radarData;
   }
-  BuildRadarOptions(chartInfo: any) {
+  BuildRadarOptions(chartInfo: any, chartNumber: number) {
     this.radarOptions = {
       plugins: {
         title: {
@@ -2631,7 +2630,7 @@ export class ReportingComponent implements OnInit {
     }
     return this.radarOptions;
   }
-  BuildPolarAreaData(chartInfo: any) {
+  BuildPolarAreaData(chartInfo: any, chartNumber: number) {
     this.polarAreaData = {
       labels: ["Red", "Green", "Yellow", "Grey", "Blue"],
       datasets: [{
@@ -2642,7 +2641,7 @@ export class ReportingComponent implements OnInit {
     }
     return this.polarAreaData;
   }
-  BuildPolarAreaOptions(chartInfo: any) {
+  BuildPolarAreaOptions(chartInfo: any, chartNumber: number) {
     this.polarAreaOptions = {
       plugins: {
         title: {
@@ -2697,7 +2696,7 @@ export class ReportingComponent implements OnInit {
     }
     return this.polarAreaOptions;
   }
-  BuildDoughnutData(chartInfo: any) {
+  BuildDoughnutData(chartInfo: any, chartNumber: number) {
     this.doughnutData = {
       labels: ['A', 'B', 'C'],
       datasets: [
@@ -2718,7 +2717,7 @@ export class ReportingComponent implements OnInit {
     }
     return this.doughnutData;
   }
-  BuildDoughnutOptions(chartInfo: any) {
+  BuildDoughnutOptions(chartInfo: any, chartNumber: number) {
     this.doughnutOptions = {
       plugins: {
         title: {
@@ -2766,7 +2765,7 @@ export class ReportingComponent implements OnInit {
     }
     return this.doughnutOptions;
   }
-  BuildPieData(chartInfo: any) {
+  BuildPieData(chartInfo: any, chartNumber: number) {
     this.pieData = {
       labels: ['A', 'B', 'C'],
       datasets: [
@@ -2787,7 +2786,7 @@ export class ReportingComponent implements OnInit {
     }
     return this.pieData;
   }
-  BuildPieOptions(chartInfo: any) {
+  BuildPieOptions(chartInfo: any, chartNumber: number) {
     this.pieOptions = {
       plugins: {
         title: {
