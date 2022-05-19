@@ -2316,10 +2316,8 @@ export class ReportingComponent implements OnInit {
       labels: xandyaxisarraydata.labels,
       datasets: _datasets
     }
-
     var _chartInfo = this.ChartInfo.at(chartNumber) as FormArray
     _chartInfo.get('FinalChartData')?.setValue(JSON.stringify(_barData));
-    return this.barData;
   }
   BuildBarOptions(chartInfo: any, chartNumber: number) {
     var _barOptions: any;
@@ -2330,12 +2328,12 @@ export class ReportingComponent implements OnInit {
           display: chartInfo.OptionsPluginsTitleDisplay,
           text: chartInfo.OptionsPluginsTitleText,
           color: chartInfo.OptionsPluginsTitleColor,
-          position: chartInfo.OptionsPluginsTitlePosition,  // top, bottom, left, right
-          align: chartInfo.OptionsPluginsTitleAlign,  //start, center, end
+          position: chartInfo.OptionsPluginsTitlePosition,
+          align: chartInfo.OptionsPluginsTitleAlign,
           font: {
             size: chartInfo.OptionsPluginsTitleFontSize,
-            style: chartInfo.OptionsPluginsTitleFontStyle,  // normal, italic, oblique, initial, inherit
-            weight: chartInfo.OptionsPluginsTitleFontWeight,  // normal, bold, bolder, lighter, initial, inherit
+            style: chartInfo.OptionsPluginsTitleFontStyle,
+            weight: chartInfo.OptionsPluginsTitleFontWeight,
           },
           padding: {
             top: chartInfo.OptionsPluginsTitlePaddingTop,
@@ -2346,12 +2344,12 @@ export class ReportingComponent implements OnInit {
           display: chartInfo.OptionsPluginsSubtitleDisplay,
           text: chartInfo.OptionsPluginsSubtitleText,
           color: chartInfo.OptionsPluginsSubtitleColor,
-          position: chartInfo.OptionsPluginsSubtitlePosition,  // top, bottom, left, right
-          align: chartInfo.OptionsPluginsSubtitleAlign,  //start, center, end
+          position: chartInfo.OptionsPluginsSubtitlePosition,
+          align: chartInfo.OptionsPluginsSubtitleAlign,
           font: {
             size: chartInfo.OptionsPluginsSubtitleFontSize,
-            style: chartInfo.OptionsPluginsSubtitleFontStyle,  // normal, italic, oblique, initial, inherit
-            weight: chartInfo.OptionsPluginsSubtitleFontWeight,  // normal, bold, bolder, lighter, initial, inherit
+            style: chartInfo.OptionsPluginsSubtitleFontStyle,
+            weight: chartInfo.OptionsPluginsSubtitleFontWeight,
           },
           padding: {
             top: chartInfo.OptionsPluginsSubtitlePaddingTop,
@@ -2359,7 +2357,7 @@ export class ReportingComponent implements OnInit {
           }
         },
         tooltips: {
-          mode: chartInfo.OptionsPluginsTooltipsMode,  //point,nearest,index,dataset, x, y
+          mode: chartInfo.OptionsPluginsTooltipsMode,
           intersect: chartInfo.OptionsPluginsTooltipsIntersect
         },
         legend: {
@@ -2412,58 +2410,43 @@ export class ReportingComponent implements OnInit {
 
     var _chartInfo = this.ChartInfo.at(chartNumber) as FormArray
     _chartInfo.get('FinalChartOptions')?.setValue(JSON.stringify(_barOptions));
-    return this.barOptions;
   }
   BuildLineData(chartInfo: any, chartNumber: number) {
-    this.lineData = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-      datasets: [
-        {
-          label: 'First Dataset',
-          data: [65, 59, 80, 81, 56, 55, 40],
-          fill: false,
-          borderDash: [0, 0],
-          tension: 0,
-          borderColor: '#42A5F5',
-          backgroundColor: 'rgba(255,167,38,0.2)'
-        },
-        {
-          label: 'Second Dataset',
-          data: [28, 48, 40, 19, 86, 27, 90],
-          fill: false,
-          borderDash: [5, 5],
-          tension: .4,
-          borderColor: '#66BB6A',
-          backgroundColor: 'rgba(255,167,38,0.2)'
-        },
-        {
-          label: 'Third Dataset',
-          data: [12, 51, 62, 33, 21, 62, 45],
-          fill: true,
-          borderDash: [0, 0],
-          tension: .4,
-          borderColor: '#FFA726',
-          backgroundColor: 'rgba(255,167,38,0.2)'
-        }
-      ]
+    var _lineData: any
+    var xandyaxisarraydata = this.GetXAndYAxisArray(chartInfo)
+    var _datasets: any = [];
+    chartInfo.ChartYAxisInfo.forEach((element: any, i: number) => {
+      _datasets.push({
+        label: element.LineBarRadarPolarDatasetsLabel,
+        data: xandyaxisarraydata.datasetsData[i],
+        fill: element.LineDatasetsFill,
+        borderDash: [0, 0],
+        tension: element.LineDatasetsTension,
+        borderColor: element.LineRadarDatasetsBorderColor,
+        backgroundColor: element.LineBarRadarDatasetsBackgroundColor,
+      })
+    })
+    _lineData = {
+      labels: xandyaxisarraydata.labels,
+      datasets: _datasets
     }
-    return this.lineData;
+    var _chartInfo = this.ChartInfo.at(chartNumber) as FormArray
+    _chartInfo.get('FinalChartData')?.setValue(JSON.stringify(_lineData));
   }
   BuildLineOptions(chartInfo: any, chartNumber: number) {
     var _lineOptions: any;
     _lineOptions = {
-      indexAxis: 'x',
       plugins: {
         title: {
           display: chartInfo.OptionsPluginsTitleDisplay,
           text: chartInfo.OptionsPluginsTitleText,
           color: chartInfo.OptionsPluginsTitleColor,
-          position: chartInfo.OptionsPluginsTitlePosition,  // top, bottom, left, right
-          align: chartInfo.OptionsPluginsTitleAlign,  //start, center, end
+          position: chartInfo.OptionsPluginsTitlePosition,
+          align: chartInfo.OptionsPluginsTitleAlign,
           font: {
             size: chartInfo.OptionsPluginsTitleFontSize,
-            style: chartInfo.OptionsPluginsTitleFontStyle,  // normal, italic, oblique, initial, inherit
-            weight: chartInfo.OptionsPluginsTitleFontWeight,  // normal, bold, bolder, lighter, initial, inherit
+            style: chartInfo.OptionsPluginsTitleFontStyle,
+            weight: chartInfo.OptionsPluginsTitleFontWeight,
           },
           padding: {
             top: chartInfo.OptionsPluginsTitlePaddingTop,
@@ -2474,12 +2457,12 @@ export class ReportingComponent implements OnInit {
           display: chartInfo.OptionsPluginsSubtitleDisplay,
           text: chartInfo.OptionsPluginsSubtitleText,
           color: chartInfo.OptionsPluginsSubtitleColor,
-          position: chartInfo.OptionsPluginsSubtitlePosition,  // top, bottom, left, right
-          align: chartInfo.OptionsPluginsSubtitleAlign,  //start, center, end
+          position: chartInfo.OptionsPluginsSubtitlePosition,
+          align: chartInfo.OptionsPluginsSubtitleAlign,
           font: {
             size: chartInfo.OptionsPluginsSubtitleFontSize,
-            style: chartInfo.OptionsPluginsSubtitleFontStyle,  // normal, italic, oblique, initial, inherit
-            weight: chartInfo.OptionsPluginsSubtitleFontWeight,  // normal, bold, bolder, lighter, initial, inherit
+            style: chartInfo.OptionsPluginsSubtitleFontStyle,
+            weight: chartInfo.OptionsPluginsSubtitleFontWeight,
           },
           padding: {
             top: chartInfo.OptionsPluginsSubtitlePaddingTop,
@@ -2487,7 +2470,7 @@ export class ReportingComponent implements OnInit {
           }
         },
         tooltips: {
-          mode: chartInfo.OptionsPluginsTooltipsMode,  //point,nearest,index,dataset, x, y
+          mode: chartInfo.OptionsPluginsTooltipsMode,
           intersect: chartInfo.OptionsPluginsTooltipsIntersect
         },
         legend: {
@@ -2535,167 +2518,174 @@ export class ReportingComponent implements OnInit {
         }
       }
     }
-
     var _chartInfo = this.ChartInfo.at(chartNumber) as FormArray
     _chartInfo.get('FinalChartOptions')?.setValue(JSON.stringify(_lineOptions));
-    return this.lineOptions;
   }
-
   BuildRadarData(chartInfo: any, chartNumber: number) {
-    this.radarData = {
-      labels: ['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Running'],
-      datasets: [
-        {
-          label: 'My First dataset',
-          backgroundColor: 'rgba(179,181,198,0.2)',
-          borderColor: 'rgba(179,181,198,1)',
-          pointBackgroundColor: 'rgba(179,181,198,1)',
-          pointBorderColor: '#fff',
-          pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: 'rgba(179,181,198,1)',
-          data: [65, 59, 90, 81, 56, 55, 400]
-        },
-        {
-          label: 'My Second dataset',
-          backgroundColor: 'rgba(255,99,132,0.2)',
-          borderColor: 'rgba(255,99,132,1)',
-          pointBackgroundColor: 'rgba(255,99,132,1)',
-          pointBorderColor: '#fff',
-          pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: 'rgba(255,99,132,1)',
-          data: [28, 48, 40, 19, 96, 27, 100]
-        }
-      ]
+    var _radarData: any
+    var xandyaxisarraydata = this.GetXAndYAxisArray(chartInfo)
+    var _datasets: any = [];
+    chartInfo.ChartYAxisInfo.forEach((element: any, i: number) => {
+      _datasets.push({
+        label: element.LineBarRadarPolarDatasetsLabel,
+        data: xandyaxisarraydata.datasetsData[i],
+        backgroundColor: element.LineBarRadarDatasetsBackgroundColor,
+        borderColor: element.LineRadarDatasetsBorderColor,
+        pointBackgroundColor: element.RadarDatasetsPointBackgroundColor,
+        pointBorderColor: element.RadarDatasetsPointBorderColor,
+        pointHoverBackgroundColor: element.RadarDatsetsPointHoverBackgroundColor,
+        pointHoverBorderColor: element.RadarDatasetsPointHoverBorderColor
+      })
+    })
+    _radarData = {
+      labels: xandyaxisarraydata.labels,
+      datasets: _datasets
     }
-    return this.radarData;
+    var _chartInfo = this.ChartInfo.at(chartNumber) as FormArray
+    _chartInfo.get('FinalChartData')?.setValue(JSON.stringify(_radarData));
   }
   BuildRadarOptions(chartInfo: any, chartNumber: number) {
-    this.radarOptions = {
+    var _radarOptions: any;
+    _radarOptions = {
       plugins: {
         title: {
-          display: true,
-          text: 'Custom Chart Title',
-          color: 'white',
-          position: 'top',  // top, bottom, left, right
-          align: 'center',  //start, center, end
+          display: chartInfo.OptionsPluginsTitleDisplay,
+          text: chartInfo.OptionsPluginsTitleText,
+          color: chartInfo.OptionsPluginsTitleColor,
+          position: chartInfo.OptionsPluginsTitlePosition,
+          align: chartInfo.OptionsPluginsTitleAlign,
           font: {
-            size: 20,
-            style: 'normal',  // normal, italic, oblique, initial, inherit
-            weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
+            size: chartInfo.OptionsPluginsTitleFontSize,
+            style: chartInfo.OptionsPluginsTitleFontStyle,
+            weight: chartInfo.OptionsPluginsTitleFontWeight
           },
           padding: {
-            top: 0,
-            bottom: 0
+            top: chartInfo.OptionsPluginsTitlePaddingTop,
+            bottom: chartInfo.OptionsPluginsTitlePaddingBottom
           }
         },
         subtitle: {
-          display: true,
-          text: 'Custom Chart Subtitle',
-          color: 'white',
-          position: 'top',  // top, bottom, left, right
-          align: 'center',  //start, center, end
+          display: chartInfo.OptionsPluginsSubtitleDisplay,
+          text: chartInfo.OptionsPluginsSubtitleText,
+          color: chartInfo.OptionsPluginsSubtitleColor,
+          position: chartInfo.OptionsPluginsSubtitlePosition,
+          align: chartInfo.OptionsPluginsSubtitleAlign,
           font: {
-            size: 15,
-            style: 'normal',  // normal, italic, oblique, initial, inherit
-            weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
+            size: chartInfo.OptionsPluginsSubtitleFontSize,
+            style: chartInfo.OptionsPluginsSubtitleFontStyle,
+            weight: chartInfo.OptionsPluginsSubtitleFontWeight,
           },
           padding: {
-            top: 0,
-            bottom: 0
+            top: chartInfo.OptionsPluginsSubtitlePaddingTop,
+            bottom: chartInfo.OptionsPluginsSubtitlePaddingBottom
           }
         },
         tooltips: {
-          mode: 'index',  //point,nearest,index,dataset, x, y
-          intersect: false
+          mode: chartInfo.OptionsPluginsTooltipsMode,
+          intersect: chartInfo.OptionsPluginsTooltipsIntersect
         },
         legend: {
           labels: {
-            color: 'white'
+            color: chartInfo.OptionsPluginsLegendLabelsColor
           }
         }
       },
       scales: {
         r: {
           pointLabels: {
-            color: 'white',
+            color: chartInfo.RadarOptionsScalesRPointlabelsColor
           },
           grid: {
-            color: 'white',
+            color: chartInfo.RadarPolarareaOptionsScalesRGridColor
           },
           angleLines: {
-            color: 'white'
+            color: chartInfo.RadarOptionsScalesRAnglelinesColor
           }
         }
       }
     }
-    return this.radarOptions;
+    var _chartInfo = this.ChartInfo.at(chartNumber) as FormArray
+    _chartInfo.get('FinalChartOptions')?.setValue(JSON.stringify(_radarOptions));
   }
   BuildPolarAreaData(chartInfo: any, chartNumber: number) {
-    this.polarAreaData = {
-      labels: ["Red", "Green", "Yellow", "Grey", "Blue"],
-      datasets: [{
-        data: [11, 16, 7, 3, 14],
-        backgroundColor: ["#42A5F5", "#66BB6A", "#FFA726", "#26C6DA", "#7E57C2"],
-        label: 'My dataset'
-      }]
+    var _polarAreaData: any
+    var xandyaxisarraydata = this.GetXAndYAxisArray(chartInfo)
+    var _datasets: any = [];
+    chartInfo.ChartYAxisInfo.forEach((element: any, i: number) => {
+      var _backgroundColor: any = [];
+      xandyaxisarraydata.datasetsData[i].forEach((element: any, i: number) => {
+        _backgroundColor.push('#' + Math.floor(Math.random() * 16777215).toString(16))
+      })
+      _datasets.push({
+        data: xandyaxisarraydata.datasetsData[i],
+        backgroundColor: _backgroundColor,
+        label: element.LineBarRadarPolarDatasetsLabel,
+      })
+    })
+    _polarAreaData = {
+      labels: xandyaxisarraydata.labels,
+      datasets: _datasets
     }
-    return this.polarAreaData;
+    var _chartInfo = this.ChartInfo.at(chartNumber) as FormArray
+    _chartInfo.get('FinalChartData')?.setValue(JSON.stringify(_polarAreaData));
   }
   BuildPolarAreaOptions(chartInfo: any, chartNumber: number) {
     this.polarAreaOptions = {
       plugins: {
         title: {
-          display: true,
-          text: 'Custom Chart Title',
-          color: 'white',
-          position: 'top',  // top, bottom, left, right
-          align: 'center',  //start, center, end
+          display: chartInfo.OptionsPluginsTitleDisplay,
+          text: chartInfo.OptionsPluginsTitleText,
+          color: chartInfo.OptionsPluginsTitleColor,
+          position: chartInfo.OptionsPluginsTitlePosition,
+          align: chartInfo.OptionsPluginsTitleAlign,
           font: {
-            size: 20,
-            style: 'normal',  // normal, italic, oblique, initial, inherit
-            weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
+            size: chartInfo.OptionsPluginsTitleFontSize,
+            style: chartInfo.OptionsPluginsTitleFontStyle,
+            weight: chartInfo.OptionsPluginsTitleFontWeight
           },
           padding: {
-            top: 0,
-            bottom: 0
+            top: chartInfo.OptionsPluginsTitlePaddingTop,
+            bottom: chartInfo.OptionsPluginsTitlePaddingBottom
           }
         },
         subtitle: {
-          display: true,
-          text: 'Custom Chart Subtitle',
-          color: 'white',
-          position: 'top',  // top, bottom, left, right
-          align: 'center',  //start, center, end
+          display: chartInfo.OptionsPluginsSubtitleDisplay,
+          text: chartInfo.OptionsPluginsSubtitleText,
+          color: chartInfo.OptionsPluginsSubtitleColor,
+          position: chartInfo.OptionsPluginsSubtitlePosition,
+          align: chartInfo.OptionsPluginsSubtitleAlign,
           font: {
-            size: 15,
-            style: 'normal',  // normal, italic, oblique, initial, inherit
-            weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
+            size: chartInfo.OptionsPluginsSubtitleFontSize,
+            style: chartInfo.OptionsPluginsSubtitleFontStyle,
+            weight: chartInfo.OptionsPluginsSubtitleFontWeight,
           },
           padding: {
-            top: 0,
-            bottom: 0
+            top: chartInfo.OptionsPluginsSubtitlePaddingTop,
+            bottom: chartInfo.OptionsPluginsSubtitlePaddingBottom
           }
         },
         tooltips: {
-          mode: 'index',  //point,nearest,index,dataset, x, y
-          intersect: false
+          mode: chartInfo.OptionsPluginsTooltipsMode,
+          intersect: chartInfo.OptionsPluginsTooltipsIntersect
         },
         legend: {
           labels: {
-            color: 'white'
+            color: chartInfo.OptionsPluginsLegendLabelsColor
           }
         }
       },
       scales: {
         r: {
           grid: {
-            color: 'white'
+            color: chartInfo.RadarPolarareaOptionsScalesRGridColor
           }
         }
       }
     }
     return this.polarAreaOptions;
   }
+
+  
   BuildDoughnutData(chartInfo: any, chartNumber: number) {
     this.doughnutData = {
       labels: ['A', 'B', 'C'],
