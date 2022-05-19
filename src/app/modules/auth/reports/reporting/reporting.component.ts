@@ -1665,6 +1665,7 @@ export class ReportingComponent implements OnInit {
     if (data.chartinfo.length >= 1) {
       data.chartinfo.forEach((element: any, index: number) => {
         this.addChartInfo();
+        // this.onDetectChartType(index, element.chartType);
         var chartinfo = this.runCustomQueryform.get('ChartInfo') as FormArray
         chartinfo.controls[index].patchValue({
           Id: element.id != null ? element.id : null,
@@ -1727,7 +1728,7 @@ export class ReportingComponent implements OnInit {
             RadarDatasetsPointHoverBorderColor: item.radarDatsetsPointHoverBorderColor,
           })
         })
-        this.onClickChartType(index, element.chartType.toString());
+
       });
     }
   }
@@ -1787,12 +1788,140 @@ export class ReportingComponent implements OnInit {
   }
   //#endregion
 
+  onDetectChartType(i: number, chartType: any) {
+    var chartInfo = this.runCustomQueryform.get('ChartInfo') as FormArray;
+
+    if (chartType == null || chartType == undefined || chartType == "") {
+      this.chartTypeSelected = false;
+      chartInfo.at(i).get('BarOptionsIndexAxis')!.disable(); chartInfo.at(i).get('BarOptionsIndexAxis')!.clearValidators(); chartInfo.at(i).get('BarOptionsIndexAxis')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarOptionsScalesXYStacked')!.disable(); chartInfo.at(i).get('BarOptionsScalesXYStacked')!.clearValidators(); chartInfo.at(i).get('BarOptionsScalesXYStacked')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.updateValueAndValidity();
+      chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.disable(); chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.clearValidators(); chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.disable(); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.clearValidators(); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.disable(); chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.clearValidators(); chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.updateValueAndValidity();
+    }
+    else if (chartType == 'bar') {
+      this.chartTypeSelected = true;
+      chartInfo.at(i).get('BarOptionsIndexAxis')!.enable(); chartInfo.at(i).get('BarOptionsIndexAxis')!.setValidators([Validators.required]); chartInfo.at(i).get('BarOptionsIndexAxis')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarOptionsScalesXYStacked')!.enable(); chartInfo.at(i).get('BarOptionsScalesXYStacked')!.setValidators([Validators.required]); chartInfo.at(i).get('BarOptionsScalesXYStacked')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.enable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.setValidators([Validators.required]); chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.enable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.setValidators([Validators.required]); chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.enable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.setValidators([Validators.required]); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.enable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.setValidators([Validators.required]); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.enable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.setValidators([Validators.required]); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.enable(); chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.setValidators([Validators.required]); chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.enable(); chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.setValidators([Validators.required]); chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.enable(); chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.setValidators([Validators.required]); chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.enable(); chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.setValidators([Validators.required]); chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.updateValueAndValidity();
+
+      chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.disable(); chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.clearValidators(); chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.disable(); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.clearValidators(); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.disable(); chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.clearValidators(); chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.updateValueAndValidity();
+    }
+    else if (chartType == 'line') {
+      this.chartTypeSelected = true;
+      chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.enable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.setValidators([Validators.required]); chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.enable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.setValidators([Validators.required]); chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.enable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.setValidators([Validators.required]); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.enable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.setValidators([Validators.required]); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.enable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.setValidators([Validators.required]); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.enable(); chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.setValidators([Validators.required]); chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.enable(); chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.setValidators([Validators.required]); chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.enable(); chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.setValidators([Validators.required]); chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.enable(); chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.setValidators([Validators.required]); chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.updateValueAndValidity();
+
+      chartInfo.at(i).get('BarOptionsIndexAxis')!.disable(); chartInfo.at(i).get('BarOptionsIndexAxis')!.clearValidators(); chartInfo.at(i).get('BarOptionsIndexAxis')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarOptionsScalesXYStacked')!.disable(); chartInfo.at(i).get('BarOptionsScalesXYStacked')!.clearValidators(); chartInfo.at(i).get('BarOptionsScalesXYStacked')!.updateValueAndValidity();
+      chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.disable(); chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.clearValidators(); chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.disable(); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.clearValidators(); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.disable(); chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.clearValidators(); chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.updateValueAndValidity();
+    }
+    else if (chartType == 'pie') {
+      this.chartTypeSelected = true;
+      chartInfo.at(i).get('BarOptionsIndexAxis')!.disable(); chartInfo.at(i).get('BarOptionsIndexAxis')!.clearValidators(); chartInfo.at(i).get('BarOptionsIndexAxis')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarOptionsScalesXYStacked')!.disable(); chartInfo.at(i).get('BarOptionsScalesXYStacked')!.clearValidators(); chartInfo.at(i).get('BarOptionsScalesXYStacked')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.updateValueAndValidity();
+      chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.disable(); chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.clearValidators(); chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.disable(); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.clearValidators(); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.disable(); chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.clearValidators(); chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.updateValueAndValidity();
+    }
+    else if (chartType == 'doughnut') {
+      this.chartTypeSelected = true;
+      chartInfo.at(i).get('BarOptionsIndexAxis')!.disable(); chartInfo.at(i).get('BarOptionsIndexAxis')!.clearValidators(); chartInfo.at(i).get('BarOptionsIndexAxis')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarOptionsScalesXYStacked')!.disable(); chartInfo.at(i).get('BarOptionsScalesXYStacked')!.clearValidators(); chartInfo.at(i).get('BarOptionsScalesXYStacked')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.updateValueAndValidity();
+      chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.disable(); chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.clearValidators(); chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.disable(); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.clearValidators(); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.disable(); chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.clearValidators(); chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.updateValueAndValidity();
+    }
+    else if (chartType == 'radar') {
+      this.chartTypeSelected = true;
+      chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.enable(); chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.setValidators([Validators.required]); chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.enable(); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.setValidators([Validators.required]); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.enable(); chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.setValidators([Validators.required]); chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.updateValueAndValidity();
+
+      chartInfo.at(i).get('BarOptionsIndexAxis')!.disable(); chartInfo.at(i).get('BarOptionsIndexAxis')!.clearValidators(); chartInfo.at(i).get('BarOptionsIndexAxis')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarOptionsScalesXYStacked')!.disable(); chartInfo.at(i).get('BarOptionsScalesXYStacked')!.clearValidators(); chartInfo.at(i).get('BarOptionsScalesXYStacked')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.updateValueAndValidity();
+    }
+    else if (chartType == 'polarArea') {
+      this.chartTypeSelected = true;
+      chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.enable(); chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.setValidators([Validators.required]); chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.updateValueAndValidity();
+
+      chartInfo.at(i).get('BarOptionsIndexAxis')!.disable(); chartInfo.at(i).get('BarOptionsIndexAxis')!.clearValidators(); chartInfo.at(i).get('BarOptionsIndexAxis')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarOptionsScalesXYStacked')!.disable(); chartInfo.at(i).get('BarOptionsScalesXYStacked')!.clearValidators(); chartInfo.at(i).get('BarOptionsScalesXYStacked')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.updateValueAndValidity();
+      chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.updateValueAndValidity();
+      chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.disable(); chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.clearValidators(); chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.updateValueAndValidity();
+      chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.disable(); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.clearValidators(); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.updateValueAndValidity();
+    }
+  }
+
   onSelectChartType(i: number, event: Event) {
     // var x = JSON.parse((<HTMLInputElement>event.target).value);
     var chartType = (<HTMLInputElement>event.target).value
     var chartInfo = this.runCustomQueryform.get('ChartInfo') as FormArray;
 
-    if (chartType == null) {
+    if (chartType == null || chartType == undefined || chartType == "") {
       this.chartTypeSelected = false;
       chartInfo.at(i).get('BarOptionsIndexAxis')!.disable(); chartInfo.at(i).get('BarOptionsIndexAxis')!.clearValidators(); chartInfo.at(i).get('BarOptionsIndexAxis')!.updateValueAndValidity();
       chartInfo.at(i).get('BarOptionsScalesXYStacked')!.disable(); chartInfo.at(i).get('BarOptionsScalesXYStacked')!.clearValidators(); chartInfo.at(i).get('BarOptionsScalesXYStacked')!.updateValueAndValidity();

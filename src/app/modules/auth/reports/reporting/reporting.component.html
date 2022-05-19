@@ -395,11 +395,9 @@
                             aria-label="Close"><i class="fas fa-times text-danger"></i></button>
                         </div>
                         <div class="card-body py-0">
-                          <!-- <p-chart [type]="function.get('ChartType').value"
-                            [data]="function.get('FinalChartData').value | json"
-                            [options]="function.get('FinalChartOptions').value | json">
-                          </p-chart> -->
-                          <p-chart type="{{function.get('ChartType').value}}" [data]="barData" [options]="barOptions">
+                          <p-chart [type]="function.get('ChartType').value"
+                            [data]="function.get('FinalChartData').value | makeJson"
+                            [options]="function.get('FinalChartOptions').value | makeJson">
                           </p-chart>
                         </div>
                       </div>

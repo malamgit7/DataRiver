@@ -20,12 +20,14 @@ import { ButtonModule } from 'primeng/button';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { SliderModule } from 'primeng/slider';
+import { MakeJsonPipe } from 'src/app/pipes/make_json.pipe';
 
 
 @NgModule({
   declarations: [
     ReportingComponent,
-    ChartingComponent
+    ChartingComponent,
+    MakeJsonPipe
   ],
   imports: [
     CommonModule,
