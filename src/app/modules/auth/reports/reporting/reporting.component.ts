@@ -19,6 +19,7 @@ export class ReportingComponent implements OnInit {
 
   userName!: string;
   todayDate = new Date().toISOString();
+  card_Z_index_clicked: boolean = false
 
   //#region 
   default_select = null
@@ -1712,6 +1713,7 @@ export class ReportingComponent implements OnInit {
         });
         element.chartYAxisinfo.forEach((item: any, indexY: number) => {
           this.addChartYAxisInfo(index)
+          this.onChangeChartType(index, element.chartType)
           var chartYAxisInfo = this.ChartInfo.at(index).get('ChartYAxisInfo') as FormArray;
           chartYAxisInfo.controls[indexY].patchValue({
             Id: item.id,
@@ -2610,7 +2612,6 @@ export class ReportingComponent implements OnInit {
   Maximum(number_array: any[]) {
     return Math.max(...number_array);
   }
-
   GetXAndYAxisArray(chartInfo: any) {
     let x_axis_array: any = [];
     let y_axis_array: any = [];
@@ -2648,6 +2649,11 @@ export class ReportingComponent implements OnInit {
       datasetsData.push(y_axis_array)
     })
     return { labels, datasetsData };
+  }
+
+  cardSelected() {
+    this.card_Z_index_clicked = true
+    return this.card_Z_index_clicked
   }
 
 }

@@ -364,6 +364,7 @@
           </form>
         </div>
         <div class="col-sm-9">
+
           <div class="row gx-2 gy-2 mb-2" *ngIf="isError">
             <div class="col-sm-12">
               <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -373,13 +374,16 @@
               </div>
             </div>
           </div>
+
           <div class="row gx-2 gy-2 mb-2">
             <div class="col-sm-12">
               <form [formGroup]="runCustomQueryform">
                 <div formArrayName="ChartInfo">
                   <div *ngFor="let function of runCustomQueryform.get('ChartInfo')?.controls; let i=index">
                     <div [formGroupName]="i">
-                      <div class="card mb-2" style="resize:horizontal;">
+                      <div class="card mb-2" (click)="cardSelected()"
+                        [ngStyle]="{'z-index':card_Z_index_clicked ? 99999999999999999999 : 99999999999999 }" cdkDrag
+                        m22Resizable>
                         <div class="card-header py-1 d-flex">
                           <div class="card-title me-2">{{!function.get('ChartName').value? "Chart "+(i+1):
                             function.get('ChartName').value}}</div>
@@ -1287,7 +1291,8 @@
               </form>
             </div>
           </div>
-          <div class="row row-cols-2 gx-2 gy-2 mb-2" *ngIf="resultData.length>=1">
+
+          <!-- <div class="row row-cols-2 gx-2 gy-2 mb-2" *ngIf="resultData.length>=1">
             <div class="col">
               <div class="card">
                 <div class="card-header d-flex" [ngClass]="{'text-dark bg-info':chartNumber==1}">
@@ -1337,10 +1342,12 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
+
           <div class="row gx-2 gy-2 mb-2">
             <div class="col-sm-12">
-              <div *ngIf="resultData.length>=1" class="card">
+              <div *ngIf="resultData.length>=1" class="card"
+                [ngStyle]="{'z-index':card_Z_index_clicked ? 99999999999999999999 : 99999999999999 }" cdkDrag>
                 <div class="card-body">
                   <p-table #dt [columns]="cols" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
                     urrentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"

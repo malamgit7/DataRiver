@@ -21,12 +21,15 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { SliderModule } from 'primeng/slider';
 import { MakeJsonPipe } from 'src/app/pipes/make_json.pipe';
+import { M22ResizableComponent } from 'src/app/modules/helper_component/resizable/resizable.component';
+
 
 
 @NgModule({
   declarations: [
     ReportingComponent,
     ChartingComponent,
+    M22ResizableComponent,
     MakeJsonPipe
   ],
   imports: [
