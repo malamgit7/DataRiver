@@ -1496,6 +1496,7 @@ export class ReportingComponent implements OnInit {
     if (data.chartinfo.length >= 1) {
       data.chartinfo.forEach((element: any, index: number) => {
         this.addChartInfo();
+        this.onSelectChartType(index, element.chartType);
         var chartinfo = this.runCustomQueryform.get('ChartInfo') as FormArray
         chartinfo.controls[index].patchValue({
           Id: element.id != null ? element.id : null,
@@ -1541,6 +1542,7 @@ export class ReportingComponent implements OnInit {
         });
         element.chartYAxisinfo.forEach((item: any, indexY: number) => {
           this.addChartYAxisInfo(index)
+          this.onChangeChartType(index, element.chartType)
           var chartYAxisInfo = this.ChartInfo.at(index).get('ChartYAxisInfo') as FormArray;
           chartYAxisInfo.controls[indexY].patchValue({
             Id: item.id,
@@ -1558,7 +1560,6 @@ export class ReportingComponent implements OnInit {
             RadarDatasetsPointHoverBorderColor: item.radarDatsetsPointHoverBorderColor,
           })
         })
-        this.onClickChartType(index, element.chartType.toString());
       });
     }
   }
@@ -1665,6 +1666,7 @@ export class ReportingComponent implements OnInit {
     if (data.chartinfo.length >= 1) {
       data.chartinfo.forEach((element: any, index: number) => {
         this.addChartInfo();
+        this.onSelectChartType(index, element.chartType);
         var chartinfo = this.runCustomQueryform.get('ChartInfo') as FormArray
         chartinfo.controls[index].patchValue({
           Id: element.id != null ? element.id : null,
@@ -1727,7 +1729,7 @@ export class ReportingComponent implements OnInit {
             RadarDatasetsPointHoverBorderColor: item.radarDatsetsPointHoverBorderColor,
           })
         })
-        this.onDetectChartType(index, element.chartType);
+
       });
     }
   }
@@ -1787,10 +1789,11 @@ export class ReportingComponent implements OnInit {
   }
   //#endregion
 
-  onDetectChartType(i: number, chartType: any) {
+  onSelectChartType(i: number, _chartType: any) {
+    // var chartType = (<HTMLInputElement>event.target).value
     var chartInfo = this.runCustomQueryform.get('ChartInfo') as FormArray;
 
-    if (chartType == null || chartType == undefined || chartType == "") {
+    if (_chartType == null || _chartType == undefined || _chartType == "") {
       this.chartTypeSelected = false;
       chartInfo.at(i).get('BarOptionsIndexAxis')!.disable(); chartInfo.at(i).get('BarOptionsIndexAxis')!.clearValidators(); chartInfo.at(i).get('BarOptionsIndexAxis')!.updateValueAndValidity();
       chartInfo.at(i).get('BarOptionsScalesXYStacked')!.disable(); chartInfo.at(i).get('BarOptionsScalesXYStacked')!.clearValidators(); chartInfo.at(i).get('BarOptionsScalesXYStacked')!.updateValueAndValidity();
@@ -1807,137 +1810,7 @@ export class ReportingComponent implements OnInit {
       chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.disable(); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.clearValidators(); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.updateValueAndValidity();
       chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.disable(); chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.clearValidators(); chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.updateValueAndValidity();
     }
-    else if (chartType == 'bar') {
-      this.chartTypeSelected = true;
-      chartInfo.at(i).get('BarOptionsIndexAxis')!.enable(); chartInfo.at(i).get('BarOptionsIndexAxis')!.setValidators([Validators.required]); chartInfo.at(i).get('BarOptionsIndexAxis')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarOptionsScalesXYStacked')!.enable(); chartInfo.at(i).get('BarOptionsScalesXYStacked')!.setValidators([Validators.required]); chartInfo.at(i).get('BarOptionsScalesXYStacked')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.enable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.setValidators([Validators.required]); chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.enable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.setValidators([Validators.required]); chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.enable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.setValidators([Validators.required]); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.enable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.setValidators([Validators.required]); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.enable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.setValidators([Validators.required]); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.enable(); chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.setValidators([Validators.required]); chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.enable(); chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.setValidators([Validators.required]); chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.enable(); chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.setValidators([Validators.required]); chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.enable(); chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.setValidators([Validators.required]); chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.updateValueAndValidity();
-
-      chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.disable(); chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.clearValidators(); chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.updateValueAndValidity();
-      chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.disable(); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.clearValidators(); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.updateValueAndValidity();
-      chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.disable(); chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.clearValidators(); chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.updateValueAndValidity();
-    }
-    else if (chartType == 'line') {
-      this.chartTypeSelected = true;
-      chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.enable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.setValidators([Validators.required]); chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.enable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.setValidators([Validators.required]); chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.enable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.setValidators([Validators.required]); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.enable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.setValidators([Validators.required]); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.enable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.setValidators([Validators.required]); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.enable(); chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.setValidators([Validators.required]); chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.enable(); chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.setValidators([Validators.required]); chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.enable(); chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.setValidators([Validators.required]); chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.enable(); chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.setValidators([Validators.required]); chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.updateValueAndValidity();
-
-      chartInfo.at(i).get('BarOptionsIndexAxis')!.disable(); chartInfo.at(i).get('BarOptionsIndexAxis')!.clearValidators(); chartInfo.at(i).get('BarOptionsIndexAxis')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarOptionsScalesXYStacked')!.disable(); chartInfo.at(i).get('BarOptionsScalesXYStacked')!.clearValidators(); chartInfo.at(i).get('BarOptionsScalesXYStacked')!.updateValueAndValidity();
-      chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.disable(); chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.clearValidators(); chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.updateValueAndValidity();
-      chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.disable(); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.clearValidators(); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.updateValueAndValidity();
-      chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.disable(); chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.clearValidators(); chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.updateValueAndValidity();
-    }
-    else if (chartType == 'pie') {
-      this.chartTypeSelected = true;
-      chartInfo.at(i).get('BarOptionsIndexAxis')!.disable(); chartInfo.at(i).get('BarOptionsIndexAxis')!.clearValidators(); chartInfo.at(i).get('BarOptionsIndexAxis')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarOptionsScalesXYStacked')!.disable(); chartInfo.at(i).get('BarOptionsScalesXYStacked')!.clearValidators(); chartInfo.at(i).get('BarOptionsScalesXYStacked')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.updateValueAndValidity();
-      chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.disable(); chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.clearValidators(); chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.updateValueAndValidity();
-      chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.disable(); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.clearValidators(); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.updateValueAndValidity();
-      chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.disable(); chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.clearValidators(); chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.updateValueAndValidity();
-    }
-    else if (chartType == 'doughnut') {
-      this.chartTypeSelected = true;
-      chartInfo.at(i).get('BarOptionsIndexAxis')!.disable(); chartInfo.at(i).get('BarOptionsIndexAxis')!.clearValidators(); chartInfo.at(i).get('BarOptionsIndexAxis')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarOptionsScalesXYStacked')!.disable(); chartInfo.at(i).get('BarOptionsScalesXYStacked')!.clearValidators(); chartInfo.at(i).get('BarOptionsScalesXYStacked')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.updateValueAndValidity();
-      chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.disable(); chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.clearValidators(); chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.updateValueAndValidity();
-      chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.disable(); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.clearValidators(); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.updateValueAndValidity();
-      chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.disable(); chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.clearValidators(); chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.updateValueAndValidity();
-    }
-    else if (chartType == 'radar') {
-      this.chartTypeSelected = true;
-      chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.enable(); chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.setValidators([Validators.required]); chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.updateValueAndValidity();
-      chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.enable(); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.setValidators([Validators.required]); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.updateValueAndValidity();
-      chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.enable(); chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.setValidators([Validators.required]); chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.updateValueAndValidity();
-
-      chartInfo.at(i).get('BarOptionsIndexAxis')!.disable(); chartInfo.at(i).get('BarOptionsIndexAxis')!.clearValidators(); chartInfo.at(i).get('BarOptionsIndexAxis')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarOptionsScalesXYStacked')!.disable(); chartInfo.at(i).get('BarOptionsScalesXYStacked')!.clearValidators(); chartInfo.at(i).get('BarOptionsScalesXYStacked')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.updateValueAndValidity();
-    }
-    else if (chartType == 'polarArea') {
-      this.chartTypeSelected = true;
-      chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.enable(); chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.setValidators([Validators.required]); chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.updateValueAndValidity();
-
-      chartInfo.at(i).get('BarOptionsIndexAxis')!.disable(); chartInfo.at(i).get('BarOptionsIndexAxis')!.clearValidators(); chartInfo.at(i).get('BarOptionsIndexAxis')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarOptionsScalesXYStacked')!.disable(); chartInfo.at(i).get('BarOptionsScalesXYStacked')!.clearValidators(); chartInfo.at(i).get('BarOptionsScalesXYStacked')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.updateValueAndValidity();
-      chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.disable(); chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.clearValidators(); chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.updateValueAndValidity();
-      chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.disable(); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.clearValidators(); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.updateValueAndValidity();
-    }
-  }
-
-  onSelectChartType(i: number, event: Event) {
-    // var x = JSON.parse((<HTMLInputElement>event.target).value);
-    var chartType = (<HTMLInputElement>event.target).value
-    var chartInfo = this.runCustomQueryform.get('ChartInfo') as FormArray;
-
-    if (chartType == null || chartType == undefined || chartType == "") {
-      this.chartTypeSelected = false;
-      chartInfo.at(i).get('BarOptionsIndexAxis')!.disable(); chartInfo.at(i).get('BarOptionsIndexAxis')!.clearValidators(); chartInfo.at(i).get('BarOptionsIndexAxis')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarOptionsScalesXYStacked')!.disable(); chartInfo.at(i).get('BarOptionsScalesXYStacked')!.clearValidators(); chartInfo.at(i).get('BarOptionsScalesXYStacked')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontSize')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontStyle')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleFontWeight')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYTicksColor')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXYGridColor')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.updateValueAndValidity();
-      chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.updateValueAndValidity();
-      chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.disable(); chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.clearValidators(); chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.updateValueAndValidity();
-      chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.disable(); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.clearValidators(); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.updateValueAndValidity();
-      chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.disable(); chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.clearValidators(); chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.updateValueAndValidity();
-    }
-    else if (chartType == 'bar') {
+    else if (_chartType == 'bar') {
       this.chartTypeSelected = true;
       chartInfo.at(i).get('BarOptionsIndexAxis')!.enable(); chartInfo.at(i).get('BarOptionsIndexAxis')!.setValidators([Validators.required]); chartInfo.at(i).get('BarOptionsIndexAxis')!.updateValueAndValidity();
       chartInfo.at(i).get('BarOptionsScalesXYStacked')!.enable(); chartInfo.at(i).get('BarOptionsScalesXYStacked')!.setValidators([Validators.required]); chartInfo.at(i).get('BarOptionsScalesXYStacked')!.updateValueAndValidity();
@@ -1957,7 +1830,7 @@ export class ReportingComponent implements OnInit {
       chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.disable(); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.clearValidators(); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.updateValueAndValidity();
       chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.disable(); chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.clearValidators(); chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.updateValueAndValidity();
     }
-    else if (chartType == 'line') {
+    else if (_chartType == 'line') {
       this.chartTypeSelected = true;
       chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.enable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.setValidators([Validators.required]); chartInfo.at(i).get('BarLineOptionsScalesXYTitleDisplay')!.updateValueAndValidity();
       chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.enable(); chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.setValidators([Validators.required]); chartInfo.at(i).get('BarLineOptionsScalesXYTitleColor')!.updateValueAndValidity();
@@ -1975,7 +1848,7 @@ export class ReportingComponent implements OnInit {
       chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.disable(); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.clearValidators(); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.updateValueAndValidity();
       chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.disable(); chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.clearValidators(); chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.updateValueAndValidity();
     }
-    else if (chartType == 'pie') {
+    else if (_chartType == 'pie') {
       this.chartTypeSelected = true;
       chartInfo.at(i).get('BarOptionsIndexAxis')!.disable(); chartInfo.at(i).get('BarOptionsIndexAxis')!.clearValidators(); chartInfo.at(i).get('BarOptionsIndexAxis')!.updateValueAndValidity();
       chartInfo.at(i).get('BarOptionsScalesXYStacked')!.disable(); chartInfo.at(i).get('BarOptionsScalesXYStacked')!.clearValidators(); chartInfo.at(i).get('BarOptionsScalesXYStacked')!.updateValueAndValidity();
@@ -1992,7 +1865,7 @@ export class ReportingComponent implements OnInit {
       chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.disable(); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.clearValidators(); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.updateValueAndValidity();
       chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.disable(); chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.clearValidators(); chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.updateValueAndValidity();
     }
-    else if (chartType == 'doughnut') {
+    else if (_chartType == 'doughnut') {
       this.chartTypeSelected = true;
       chartInfo.at(i).get('BarOptionsIndexAxis')!.disable(); chartInfo.at(i).get('BarOptionsIndexAxis')!.clearValidators(); chartInfo.at(i).get('BarOptionsIndexAxis')!.updateValueAndValidity();
       chartInfo.at(i).get('BarOptionsScalesXYStacked')!.disable(); chartInfo.at(i).get('BarOptionsScalesXYStacked')!.clearValidators(); chartInfo.at(i).get('BarOptionsScalesXYStacked')!.updateValueAndValidity();
@@ -2009,7 +1882,7 @@ export class ReportingComponent implements OnInit {
       chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.disable(); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.clearValidators(); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.updateValueAndValidity();
       chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.disable(); chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.clearValidators(); chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.updateValueAndValidity();
     }
-    else if (chartType == 'radar') {
+    else if (_chartType == 'radar') {
       this.chartTypeSelected = true;
       chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.enable(); chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.setValidators([Validators.required]); chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.updateValueAndValidity();
       chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.enable(); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.setValidators([Validators.required]); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.updateValueAndValidity();
@@ -2027,7 +1900,7 @@ export class ReportingComponent implements OnInit {
       chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesXTitleText')!.updateValueAndValidity();
       chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.disable(); chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.clearValidators(); chartInfo.at(i).get('BarLineOptionsScalesYTitleText')!.updateValueAndValidity();
     }
-    else if (chartType == 'polarArea') {
+    else if (_chartType == 'polarArea') {
       this.chartTypeSelected = true;
       chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.enable(); chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.setValidators([Validators.required]); chartInfo.at(i).get('RadarPolarareaOptionsScalesRGridColor')!.updateValueAndValidity();
 
@@ -2045,15 +1918,14 @@ export class ReportingComponent implements OnInit {
       chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.disable(); chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.clearValidators(); chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.updateValueAndValidity();
       chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.disable(); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.clearValidators(); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.updateValueAndValidity();
     }
+    console.log(this.runCustomQueryform.get('ChartInfo')?.value)
   }
 
-  onChangeChartType(i: number, event: Event) {
-    // var _chartTypeObject = JSON.parse((<HTMLInputElement>event.target).value);
-    var _chartType = (<HTMLInputElement>event.target).value;
+  onChangeChartType(i: number, _chartType: any) {
     var _x = this.ChartInfo.at(i).get('ChartYAxisInfo') as FormArray;
-
+    console.log(_chartType)
     for (var j = 0; j < _x.length; j++) {
-      if (_chartType == null) {
+      if (_chartType == null || _chartType == undefined || _chartType == "") {
         _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.disable(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.clearValidators(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.updateValueAndValidity();
         _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.disable(); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.clearValidators(); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.updateValueAndValidity();
         _x.at(j).get('LineDatasetsFill')?.disable(); _x.at(j).get('LineDatasetsFill')?.clearValidators(); _x.at(j).get('LineDatasetsFill')?.updateValueAndValidity();
@@ -2143,117 +2015,6 @@ export class ReportingComponent implements OnInit {
         _x.at(j).get('RadarDatasetsPointBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBorderColor')?.updateValueAndValidity();
         _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.disable(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.updateValueAndValidity();
         _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.updateValueAndValidity();
-      }
-    }
-  }
-
-  onClickChartType(i: number, _chartType: any) {
-    // var _chartTypeObject = JSON.parse(chartTypeObject);
-    // var _chartType = _chartTypeObject.chartType;
-    var _x = this.ChartInfo.at(i).get('ChartYAxisInfo') as FormArray;
-    console.log(i, _chartType)
-    for (var j = 0; j < _x.length; j++) {
-      if (_chartType == null) {
-        _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.disable(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.clearValidators(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.updateValueAndValidity();
-        _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.disable(); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.clearValidators(); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.updateValueAndValidity();
-        _x.at(j).get('LineDatasetsFill')?.disable(); _x.at(j).get('LineDatasetsFill')?.clearValidators(); _x.at(j).get('LineDatasetsFill')?.updateValueAndValidity();
-        _x.at(j).get('LineDatasetsBorderDash')?.disable(); _x.at(j).get('LineDatasetsBorderDash')?.clearValidators(); _x.at(j).get('LineDatasetsBorderDash')?.updateValueAndValidity();
-        _x.at(j).get('LineDatasetsTension')?.disable(); _x.at(j).get('LineDatasetsTension')?.clearValidators(); _x.at(j).get('LineDatasetsTension')?.updateValueAndValidity();
-        _x.at(j).get('LineRadarDatasetsBorderColor')?.disable(); _x.at(j).get('LineRadarDatasetsBorderColor')?.clearValidators(); _x.at(j).get('LineRadarDatasetsBorderColor')?.updateValueAndValidity();
-        _x.at(j).get('RadarDatasetsPointBackgroundColor')?.disable(); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.updateValueAndValidity();
-        _x.at(j).get('RadarDatasetsPointBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBorderColor')?.updateValueAndValidity();
-        _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.disable(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.updateValueAndValidity();
-        _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.updateValueAndValidity();
-
-        console.log(_x.value)
-      }
-      else if (_chartType == 'bar') {
-        _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.enable(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.setValidators([Validators.required]); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.updateValueAndValidity();
-        _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.enable(); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.setValidators([Validators.required]); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.updateValueAndValidity();
-
-        _x.at(j).get('LineDatasetsFill')?.disable(); _x.at(j).get('LineDatasetsFill')?.clearValidators(); _x.at(j).get('LineDatasetsFill')?.updateValueAndValidity();
-        _x.at(j).get('LineDatasetsBorderDash')?.disable(); _x.at(j).get('LineDatasetsBorderDash')?.clearValidators(); _x.at(j).get('LineDatasetsBorderDash')?.updateValueAndValidity();
-        _x.at(j).get('LineDatasetsTension')?.disable(); _x.at(j).get('LineDatasetsTension')?.clearValidators(); _x.at(j).get('LineDatasetsTension')?.updateValueAndValidity();
-        _x.at(j).get('LineRadarDatasetsBorderColor')?.disable(); _x.at(j).get('LineRadarDatasetsBorderColor')?.clearValidators(); _x.at(j).get('LineRadarDatasetsBorderColor')?.updateValueAndValidity();
-        _x.at(j).get('RadarDatasetsPointBackgroundColor')?.disable(); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.updateValueAndValidity();
-        _x.at(j).get('RadarDatasetsPointBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBorderColor')?.updateValueAndValidity();
-        _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.disable(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.updateValueAndValidity();
-        _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.updateValueAndValidity();
-
-        console.log(_x.value)
-      }
-      else if (_chartType == 'line') {
-        _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.enable(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.setValidators([Validators.required]); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.updateValueAndValidity();
-        _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.enable(); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.setValidators([Validators.required]); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.updateValueAndValidity();
-        _x.at(j).get('LineDatasetsFill')?.enable(); _x.at(j).get('LineDatasetsFill')?.setValidators([Validators.required]); _x.at(j).get('LineDatasetsFill')?.updateValueAndValidity();
-        _x.at(j).get('LineDatasetsBorderDash')?.enable(); _x.at(j).get('LineDatasetsBorderDash')?.setValidators([Validators.required]); _x.at(j).get('LineDatasetsBorderDash')?.updateValueAndValidity();
-        _x.at(j).get('LineDatasetsTension')?.enable(); _x.at(j).get('LineDatasetsTension')?.setValidators([Validators.required]); _x.at(j).get('LineDatasetsTension')?.updateValueAndValidity();
-        _x.at(j).get('LineRadarDatasetsBorderColor')?.enable(); _x.at(j).get('LineRadarDatasetsBorderColor')?.setValidators([Validators.required]); _x.at(j).get('LineRadarDatasetsBorderColor')?.updateValueAndValidity();
-
-        _x.at(j).get('RadarDatasetsPointBackgroundColor')?.disable(); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.updateValueAndValidity();
-        _x.at(j).get('RadarDatasetsPointBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBorderColor')?.updateValueAndValidity();
-        _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.disable(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.updateValueAndValidity();
-        _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.updateValueAndValidity();
-
-        console.log(_x.value)
-      }
-      else if (_chartType == 'pie') {
-        _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.disable(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.clearValidators(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.updateValueAndValidity();
-        _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.disable(); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.clearValidators(); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.updateValueAndValidity();
-        _x.at(j).get('LineDatasetsFill')?.disable(); _x.at(j).get('LineDatasetsFill')?.clearValidators(); _x.at(j).get('LineDatasetsFill')?.updateValueAndValidity();
-        _x.at(j).get('LineDatasetsBorderDash')?.disable(); _x.at(j).get('LineDatasetsBorderDash')?.clearValidators(); _x.at(j).get('LineDatasetsBorderDash')?.updateValueAndValidity();
-        _x.at(j).get('LineDatasetsTension')?.disable(); _x.at(j).get('LineDatasetsTension')?.clearValidators(); _x.at(j).get('LineDatasetsTension')?.updateValueAndValidity();
-        _x.at(j).get('LineRadarDatasetsBorderColor')?.disable(); _x.at(j).get('LineRadarDatasetsBorderColor')?.clearValidators(); _x.at(j).get('LineRadarDatasetsBorderColor')?.updateValueAndValidity();
-        _x.at(j).get('RadarDatasetsPointBackgroundColor')?.disable(); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.updateValueAndValidity();
-        _x.at(j).get('RadarDatasetsPointBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBorderColor')?.updateValueAndValidity();
-        _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.disable(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.updateValueAndValidity();
-        _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.updateValueAndValidity();
-
-        console.log(_x.value)
-      }
-      else if (_chartType == 'doughnut') {
-        _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.disable(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.clearValidators(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.updateValueAndValidity();
-        _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.disable(); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.clearValidators(); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.updateValueAndValidity();
-        _x.at(j).get('LineDatasetsFill')?.disable(); _x.at(j).get('LineDatasetsFill')?.clearValidators(); _x.at(j).get('LineDatasetsFill')?.updateValueAndValidity();
-        _x.at(j).get('LineDatasetsBorderDash')?.disable(); _x.at(j).get('LineDatasetsBorderDash')?.clearValidators(); _x.at(j).get('LineDatasetsBorderDash')?.updateValueAndValidity();
-        _x.at(j).get('LineDatasetsTension')?.disable(); _x.at(j).get('LineDatasetsTension')?.clearValidators(); _x.at(j).get('LineDatasetsTension')?.updateValueAndValidity();
-        _x.at(j).get('LineRadarDatasetsBorderColor')?.disable(); _x.at(j).get('LineRadarDatasetsBorderColor')?.clearValidators(); _x.at(j).get('LineRadarDatasetsBorderColor')?.updateValueAndValidity();
-        _x.at(j).get('RadarDatasetsPointBackgroundColor')?.disable(); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.updateValueAndValidity();
-        _x.at(j).get('RadarDatasetsPointBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBorderColor')?.updateValueAndValidity();
-        _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.disable(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.updateValueAndValidity();
-        _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.updateValueAndValidity();
-
-        console.log(_x.value)
-      }
-      else if (_chartType == 'radar') {
-        _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.enable(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.setValidators([Validators.required]); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.updateValueAndValidity();
-        _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.enable(); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.setValidators([Validators.required]); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.updateValueAndValidity()
-        _x.at(j).get('LineRadarDatasetsBorderColor')?.enable(); _x.at(j).get('LineRadarDatasetsBorderColor')?.setValidators([Validators.required]); _x.at(j).get('LineRadarDatasetsBorderColor')?.updateValueAndValidity()
-        _x.at(j).get('RadarDatasetsPointBackgroundColor')?.enable(); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.setValidators([Validators.required]); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.updateValueAndValidity()
-        _x.at(j).get('RadarDatasetsPointBorderColor')?.enable(); _x.at(j).get('RadarDatasetsPointBorderColor')?.setValidators([Validators.required]); _x.at(j).get('RadarDatasetsPointBorderColor')?.updateValueAndValidity()
-        _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.enable(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.setValidators([Validators.required]); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.updateValueAndValidity()
-        _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.enable(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.setValidators([Validators.required]); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.updateValueAndValidity()
-
-        _x.at(j).get('LineDatasetsFill')?.disable(); _x.at(j).get('LineDatasetsFill')?.clearValidators(); _x.at(j).get('LineDatasetsFill')?.updateValueAndValidity();
-        _x.at(j).get('LineDatasetsBorderDash')?.disable(); _x.at(j).get('LineDatasetsBorderDash')?.clearValidators(); _x.at(j).get('LineDatasetsBorderDash')?.updateValueAndValidity();
-        _x.at(j).get('LineDatasetsTension')?.disable(); _x.at(j).get('LineDatasetsTension')?.clearValidators(); _x.at(j).get('LineDatasetsTension')?.updateValueAndValidity();
-
-        console.log(_x.value)
-      }
-      else if (_chartType == 'polarArea') {
-        _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.enable(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.setValidators([Validators.required]); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.updateValueAndValidity();
-
-        _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.disable(); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.clearValidators(); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.updateValueAndValidity();
-        _x.at(j).get('LineDatasetsFill')?.disable(); _x.at(j).get('LineDatasetsFill')?.clearValidators(); _x.at(j).get('LineDatasetsFill')?.updateValueAndValidity();
-        _x.at(j).get('LineDatasetsBorderDash')?.disable(); _x.at(j).get('LineDatasetsBorderDash')?.clearValidators(); _x.at(j).get('LineDatasetsBorderDash')?.updateValueAndValidity();
-        _x.at(j).get('LineDatasetsTension')?.disable(); _x.at(j).get('LineDatasetsTension')?.clearValidators(); _x.at(j).get('LineDatasetsTension')?.updateValueAndValidity();
-        _x.at(j).get('LineRadarDatasetsBorderColor')?.disable(); _x.at(j).get('LineRadarDatasetsBorderColor')?.clearValidators(); _x.at(j).get('LineRadarDatasetsBorderColor')?.updateValueAndValidity();
-        _x.at(j).get('RadarDatasetsPointBackgroundColor')?.disable(); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBackgroundColor')?.updateValueAndValidity();
-        _x.at(j).get('RadarDatasetsPointBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointBorderColor')?.updateValueAndValidity();
-        _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.disable(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.clearValidators(); _x.at(j).get('RadarDatsetsPointHoverBackgroundColor')?.updateValueAndValidity();
-        _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.updateValueAndValidity();
-
-        console.log(_x.value)
       }
     }
   }
@@ -2407,7 +2168,6 @@ export class ReportingComponent implements OnInit {
         }
       }
     };
-
     var _chartInfo = this.ChartInfo.at(chartNumber) as FormArray
     _chartInfo.get('FinalChartOptions')?.setValue(JSON.stringify(_barOptions));
   }
@@ -2630,7 +2390,8 @@ export class ReportingComponent implements OnInit {
     _chartInfo.get('FinalChartData')?.setValue(JSON.stringify(_polarAreaData));
   }
   BuildPolarAreaOptions(chartInfo: any, chartNumber: number) {
-    this.polarAreaOptions = {
+    var _polarAreaOptions: any
+    _polarAreaOptions = {
       plugins: {
         title: {
           display: chartInfo.OptionsPluginsTitleDisplay,
@@ -2682,147 +2443,152 @@ export class ReportingComponent implements OnInit {
         }
       }
     }
-    return this.polarAreaOptions;
+    var _chartInfo = this.ChartInfo.at(chartNumber) as FormArray
+    _chartInfo.get('FinalChartOptions')?.setValue(JSON.stringify(_polarAreaOptions));
   }
-
-  
   BuildDoughnutData(chartInfo: any, chartNumber: number) {
-    this.doughnutData = {
-      labels: ['A', 'B', 'C'],
-      datasets: [
-        {
-          data: [300, 50, 100],
-          backgroundColor: [
-            "#FF6384",
-            "#36A2EB",
-            "#FFCE56"
-          ],
-          hoverBackgroundColor: [
-            "#FF6384",
-            "#36A2EB",
-            "#FFCE56"
-          ]
-        }
-      ]
+    var _doughnutData: any
+    var xandyaxisarraydata = this.GetXAndYAxisArray(chartInfo)
+    var _datasets: any = [];
+    chartInfo.ChartYAxisInfo.forEach((element: any, i: number) => {
+      var _backgroundColor: any = [];
+      xandyaxisarraydata.datasetsData[i].forEach((element: any, j: number) => {
+        _backgroundColor.push('#' + Math.floor(Math.random() * 16777215).toString(16))
+      })
+      _datasets.push({
+        data: xandyaxisarraydata.datasetsData[i],
+        backgroundColor: _backgroundColor,
+        hoverBackgroundColor: _backgroundColor
+      })
+    })
+    _doughnutData = {
+      labels: xandyaxisarraydata.labels,
+      datasets: _datasets
     }
-    return this.doughnutData;
+    var _chartInfo = this.ChartInfo.at(chartNumber) as FormArray
+    _chartInfo.get('FinalChartData')?.setValue(JSON.stringify(_doughnutData));
   }
   BuildDoughnutOptions(chartInfo: any, chartNumber: number) {
-    this.doughnutOptions = {
+    var _doughnutOptions: any
+    _doughnutOptions = {
       plugins: {
         title: {
-          display: true,
-          text: 'Custom Chart Title',
-          color: 'white',
-          position: 'top',  // top, bottom, left, right
-          align: 'center',  //start, center, end
+          display: chartInfo.OptionsPluginsTitleDisplay,
+          text: chartInfo.OptionsPluginsTitleText,
+          color: chartInfo.OptionsPluginsTitleColor,
+          position: chartInfo.OptionsPluginsTitlePosition,
+          align: chartInfo.OptionsPluginsTitleAlign,
           font: {
-            size: 20,
-            style: 'normal',  // normal, italic, oblique, initial, inherit
-            weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
+            size: chartInfo.OptionsPluginsTitleFontSize,
+            style: chartInfo.OptionsPluginsTitleFontStyle,
+            weight: chartInfo.OptionsPluginsTitleFontWeight
           },
           padding: {
-            top: 0,
-            bottom: 0
+            top: chartInfo.OptionsPluginsTitlePaddingTop,
+            bottom: chartInfo.OptionsPluginsTitlePaddingBottom
           }
         },
         subtitle: {
-          display: true,
-          text: 'Custom Chart Subtitle',
-          color: 'white',
-          position: 'top',  // top, bottom, left, right
-          align: 'center',  //start, center, end
+          display: chartInfo.OptionsPluginsSubtitleDisplay,
+          text: chartInfo.OptionsPluginsSubtitleText,
+          color: chartInfo.OptionsPluginsSubtitleColor,
+          position: chartInfo.OptionsPluginsSubtitlePosition,
+          align: chartInfo.OptionsPluginsSubtitleAlign,
           font: {
-            size: 15,
-            style: 'normal',  // normal, italic, oblique, initial, inherit
-            weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
+            size: chartInfo.OptionsPluginsSubtitleFontSize,
+            style: chartInfo.OptionsPluginsSubtitleFontStyle,
+            weight: chartInfo.OptionsPluginsSubtitleFontWeight,
           },
           padding: {
-            top: 0,
-            bottom: 0
+            top: chartInfo.OptionsPluginsSubtitlePaddingTop,
+            bottom: chartInfo.OptionsPluginsSubtitlePaddingBottom
           }
         },
         tooltips: {
-          mode: 'index',  //point,nearest,index,dataset, x, y
-          intersect: false
+          mode: chartInfo.OptionsPluginsTooltipsMode,
+          intersect: chartInfo.OptionsPluginsTooltipsIntersect
         },
         legend: {
           labels: {
-            color: 'white'
+            color: chartInfo.OptionsPluginsLegendLabelsColor
           }
         }
       }
     }
-    return this.doughnutOptions;
+    var _chartInfo = this.ChartInfo.at(chartNumber) as FormArray
+    _chartInfo.get('FinalChartOptions')?.setValue(JSON.stringify(_doughnutOptions));
   }
   BuildPieData(chartInfo: any, chartNumber: number) {
-    this.pieData = {
-      labels: ['A', 'B', 'C'],
-      datasets: [
-        {
-          data: [300, 50, 100],
-          backgroundColor: [
-            "#42A5F5",
-            "#66BB6A",
-            "#FFA726"
-          ],
-          hoverBackgroundColor: [
-            "#64B5F6",
-            "#81C784",
-            "#FFB74D"
-          ]
-        }
-      ]
+    var _pieData: any
+    var xandyaxisarraydata = this.GetXAndYAxisArray(chartInfo)
+    var _datasets: any = [];
+    chartInfo.ChartYAxisInfo.forEach((element: any, i: number) => {
+      var _backgroundColor: any = [];
+      xandyaxisarraydata.datasetsData[i].forEach((element: any, j: number) => {
+        _backgroundColor.push('#' + Math.floor(Math.random() * 16777215).toString(16))
+      })
+      _datasets.push({
+        data: xandyaxisarraydata.datasetsData[i],
+        backgroundColor: _backgroundColor,
+        hoverBackgroundColor: _backgroundColor
+      })
+    })
+    _pieData = {
+      labels: xandyaxisarraydata.labels,
+      datasets: _datasets
     }
-    return this.pieData;
+    var _chartInfo = this.ChartInfo.at(chartNumber) as FormArray
+    _chartInfo.get('FinalChartData')?.setValue(JSON.stringify(_pieData));
   }
   BuildPieOptions(chartInfo: any, chartNumber: number) {
-    this.pieOptions = {
+    var _pieOptions: any
+    _pieOptions = {
       plugins: {
         title: {
-          display: true,
-          text: 'Custom Chart Title',
-          color: 'white',
-          position: 'top',  // top, bottom, left, right
-          align: 'center',  //start, center, end
+          display: chartInfo.OptionsPluginsTitleDisplay,
+          text: chartInfo.OptionsPluginsTitleText,
+          color: chartInfo.OptionsPluginsTitleColor,
+          position: chartInfo.OptionsPluginsTitlePosition,
+          align: chartInfo.OptionsPluginsTitleAlign,
           font: {
-            size: 20,
-            style: 'normal',  // normal, italic, oblique, initial, inherit
-            weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
+            size: chartInfo.OptionsPluginsTitleFontSize,
+            style: chartInfo.OptionsPluginsTitleFontStyle,
+            weight: chartInfo.OptionsPluginsTitleFontWeight
           },
           padding: {
-            top: 0,
-            bottom: 0
+            top: chartInfo.OptionsPluginsTitlePaddingTop,
+            bottom: chartInfo.OptionsPluginsTitlePaddingBottom
           }
         },
         subtitle: {
-          display: true,
-          text: 'Custom Chart Subtitle',
-          color: 'white',
-          position: 'top',  // top, bottom, left, right
-          align: 'center',  //start, center, end
+          display: chartInfo.OptionsPluginsSubtitleDisplay,
+          text: chartInfo.OptionsPluginsSubtitleText,
+          color: chartInfo.OptionsPluginsSubtitleColor,
+          position: chartInfo.OptionsPluginsSubtitlePosition,
+          align: chartInfo.OptionsPluginsSubtitleAlign,
           font: {
-            size: 15,
-            style: 'normal',  // normal, italic, oblique, initial, inherit
-            weight: 'bold',  // normal, bold, bolder, lighter, initial, inherit
+            size: chartInfo.OptionsPluginsSubtitleFontSize,
+            style: chartInfo.OptionsPluginsSubtitleFontStyle,
+            weight: chartInfo.OptionsPluginsSubtitleFontWeight,
           },
           padding: {
-            top: 0,
-            bottom: 0
+            top: chartInfo.OptionsPluginsSubtitlePaddingTop,
+            bottom: chartInfo.OptionsPluginsSubtitlePaddingBottom
           }
         },
         tooltips: {
-          mode: 'index',  //point,nearest,index,dataset, x, y
-          intersect: false
+          mode: chartInfo.OptionsPluginsTooltipsMode,
+          intersect: chartInfo.OptionsPluginsTooltipsIntersect
         },
         legend: {
           labels: {
-            color: 'white'
+            color: chartInfo.OptionsPluginsLegendLabelsColor
           }
         }
       }
     }
-    return this.pieOptions;
+    var _chartInfo = this.ChartInfo.at(chartNumber) as FormArray
+    _chartInfo.get('FinalChartOptions')?.setValue(JSON.stringify(_pieOptions));
   }
 
   Count(number_array: any[]) {

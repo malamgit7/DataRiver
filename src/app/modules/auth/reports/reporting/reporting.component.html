@@ -408,7 +408,7 @@
                             <div class="col-sm-12">
                               <select class="form-select form-select-sm shadow-sm" aria-label="chart type"
                                 formControlName="ChartType"
-                                (change)="onChangeChartType(i, $event); onSelectChartType(i, $event)">
+                                (change)="onChangeChartType(i, $event.target.value); onSelectChartType(i, $event.target.value)">
                                 <option value='{{default_select}}' selected>Chart type...</option>
                                 <option value='bar'>Bar</option>
                                 <option value='line'>Line</option>
@@ -1108,7 +1108,7 @@
                             <div class="col-sm-6">
                               <button class="btn btn-sm btn-primary shadow-sm me-auto w-100"
                                 [disabled]="(!function.get('ChartType').value) || (function.get('ChartType').value==null)"
-                                (click)="addChartYAxisInfo(i); onClickChartType(i, function.get('ChartType').value )">
+                                (click)="addChartYAxisInfo(i); onChangeChartType(i, function.get('ChartType').value )">
                                 <i class="fas fa-plus me-2"></i>
                                 Add Metrics
                               </button>
@@ -1342,8 +1342,10 @@
             <div class="col-sm-12">
               <div *ngIf="resultData.length>=1" class="card">
                 <div class="card-body">
-                  <p-table #dt [columns]="cols" [value]="resultData" styleClass="p-datatable-sm" [rowHover]="true"
-                    responsiveLayout="scroll" [globalFilterFields]="['{{filterFields}}']">
+                  <p-table #dt [columns]="cols" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+                    urrentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                    [rowsPerPageOptions]="[10,25,50]" [value]="resultData" styleClass="p-datatable-sm" [rowHover]="true"
+                    responsiveLayout="scroll" [globalFilterFields]="['{{cols.header}}']">
                     <ng-template pTemplate="caption">
                       <div class="d-flex ">
                         <div class="flex-grow-1">
