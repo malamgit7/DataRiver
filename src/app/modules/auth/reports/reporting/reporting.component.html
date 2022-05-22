@@ -13,7 +13,6 @@
     <div class="container-fluid">
       <div class="row gx-2 gy-2">
         <div class="col-sm-3">
-
           <form [formGroup]="runCustomQueryform">
             <div class="row gx-2 mb-2">
               <div class="col-sm-4">
@@ -364,7 +363,6 @@
           </form>
         </div>
         <div class="col-sm-9">
-
           <div class="row gx-2 gy-2 mb-2" *ngIf="isError">
             <div class="col-sm-12">
               <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -381,16 +379,18 @@
                 <div formArrayName="ChartInfo">
                   <div *ngFor="let function of runCustomQueryform.get('ChartInfo')?.controls; let i=index">
                     <div [formGroupName]="i">
-                      <div #chart_{{i}} class="card mb-2" (click)="cardSelected()" style="z-index: relative;" cdkDrag
-                        m22Resizable>
+                      <div id="chart_{{i}}" class="card mb-2" (click)="cardSelected()" style="z-index: relative;"
+                        cdkDrag m22Resizable>
                         <div class="card-header py-1 d-flex">
                           <div class="card-title me-auto">{{!function.get('ChartName').value? "Chart "+(i+1):
                             function.get('ChartName').value}}</div>
 
                           <button type="button" class="btn btn-sm shadow-none me-2" (click)="op.toggle($event)">
                             <i class="fas fa-cogs text-primary"></i> </button>
-                          <button type="button" class="btn btn-sm shadow-none me-2"><i
-                              class="fas fa-camera-retro"></i></button>
+                          <button type="button" class="btn btn-sm shadow-none me-2"
+                            (click)="takeScreenshot('chart_'+i)">
+                            <i class="fas fa-camera-retro"></i>
+                          </button>
                           <button type="button" class="btn btn-sm shadow-none me-2"><i
                               class="fas fa-file-download"></i></button>
 

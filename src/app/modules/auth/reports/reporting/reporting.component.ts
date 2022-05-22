@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ComponentFactoryResolver, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, Component, ComponentFactoryResolver, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AnalysisService } from 'src/app/services/auth/analysis.service';
 import { BridgeManagerService } from 'src/app/services/auth/bridge-manager.service';
@@ -8,6 +8,8 @@ import { ChartdataService } from 'src/app/services/auth/chartdata.service';
 import { MsalAuthenticationService } from 'src/app/services/msal-authentication.service';
 import { ToastrService } from 'ngx-toastr';
 import { SideBarService } from 'src/app/services/side-bar.service';
+
+declare let html2canvas: any;
 
 
 @Component({
@@ -2161,5 +2163,10 @@ export class ReportingComponent implements OnInit {
     this.maximize_chart_clicked = true
     return this.maximize_chart_clicked
   }
+
+  takeScreenshot(chartid: string) {
+    html2canvas(document.querySelector("#capture")).then((canvas: any) => { })
+  }
+
 
 }
