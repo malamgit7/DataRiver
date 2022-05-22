@@ -13,6 +13,7 @@
     <div class="container-fluid">
       <div class="row gx-2 gy-2">
         <div class="col-sm-3">
+
           <form [formGroup]="runCustomQueryform">
             <div class="row gx-2 mb-2">
               <div class="col-sm-4">
@@ -45,7 +46,6 @@
                   <i class="fas fa-copy" style="color: black;"></i></button>
               </div>
               <div class="col-sm-4">
-                <!-- [disabled]="runCustomQueryform.invalid && resultData.length<1" -->
                 <button class="btn btn-sm btn-light shadow w-100" (click)="addChartInfo()"
                   [disabled]="runCustomQueryform.invalid && resultData.length<1"><i
                     class="fas fa-plus-square"></i></button>
@@ -381,9 +381,7 @@
                 <div formArrayName="ChartInfo">
                   <div *ngFor="let function of runCustomQueryform.get('ChartInfo')?.controls; let i=index">
                     <div [formGroupName]="i">
-                      <div class="card mb-2" (click)="cardSelected()"
-                        [ngStyle]="{'z-index':card_Z_index_clicked ? 99999999999999999999 : 99999999999999 }" cdkDrag
-                        m22Resizable>
+                      <div class="card mb-2" (click)="cardSelected()" style="z-index: relative;" cdkDrag m22Resizable>
                         <div class="card-header py-1 d-flex">
                           <div class="card-title me-2">{{!function.get('ChartName').value? "Chart "+(i+1):
                             function.get('ChartName').value}}</div>
@@ -400,7 +398,7 @@
                         </div>
                       </div>
                       <p-overlayPanel [showTransitionOptions]="'100ms'" [hideTransitionOptions]="'100ms'" #op
-                        [showCloseIcon]="true" [dismissable]="false" [style]="{width: '450px'}">
+                        [showCloseIcon]="false" [dismissable]="false" [style]="{width: '450px'}">
                         <p-scrollPanel [style]="{width: '100%', height: '360px'}" styleClass="custombar2">
                           <div class="row gx-2 gy-2 mb-2">
                             <div class="col-sm-12">
@@ -435,7 +433,7 @@
                                   </button>
                                 </div>
                               </div>
-                              <p-overlayPanel #title [showCloseIcon]="true" [dismissable]="false"
+                              <p-overlayPanel #title [showCloseIcon]="false" [dismissable]="false"
                                 [style]="{width: '400px'}">
                                 <p-scrollPanel [style]="{width: '100%', height: '375px'}" styleClass="custombar2">
                                   <div class="row gx-2 gy-2 mb-2">
@@ -580,6 +578,12 @@
                                     </div>
                                   </div>
                                 </p-scrollPanel>
+                                <ng-template pTemplate>
+                                  <div class="d-flex">
+                                    <button (click)="title.hide($event)"
+                                      class="btn btn-sm btn-warning ms-auto">Close</button>
+                                  </div>
+                                </ng-template>
                               </p-overlayPanel>
                             </div>
                             <div class="col-sm-6 d-flex">
@@ -593,7 +597,7 @@
                                   </button>
                                 </div>
                               </div>
-                              <p-overlayPanel #subtitle [showCloseIcon]="true" [dismissable]="false"
+                              <p-overlayPanel #subtitle [showCloseIcon]="false" [dismissable]="false"
                                 [style]="{width: '400px'}">
                                 <p-scrollPanel [style]="{width: '100%', height: '375px'}" styleClass="custombar2">
                                   <div class="row gx-2 gy-2 mb-2">
@@ -740,7 +744,14 @@
                                     </div>
                                   </div>
                                 </p-scrollPanel>
+                                <ng-template pTemplate>
+                                  <div class="d-flex">
+                                    <button (click)="subtitle.hide($event)"
+                                      class="btn btn-sm btn-warning ms-auto">Close</button>
+                                  </div>
+                                </ng-template>
                               </p-overlayPanel>
+
                             </div>
                           </div>
                           <div class="row gx-2 gy-2 mb-2">
@@ -755,7 +766,7 @@
                                   </button>
                                 </div>
                               </div>
-                              <p-overlayPanel #tooltip [showCloseIcon]="true" [dismissable]="false"
+                              <p-overlayPanel #tooltip [showCloseIcon]="false" [dismissable]="false"
                                 [style]="{width: '400px'}">
                                 <p-scrollPanel [style]="{width: '100%', height: '115px'}" styleClass="custombar2">
                                   <div class="row gx-2 gy-2 mb-2">
@@ -809,6 +820,12 @@
                                     </div>
                                   </div>
                                 </p-scrollPanel>
+                                <ng-template pTemplate>
+                                  <div class="d-flex">
+                                    <button (click)="tooltip.hide($event)"
+                                      class="btn btn-sm btn-warning ms-auto">Close</button>
+                                  </div>
+                                </ng-template>
                               </p-overlayPanel>
                             </div>
                             <div class="col-sm-6">
@@ -821,7 +838,7 @@
                                   </button>
                                 </div>
                               </div>
-                              <p-overlayPanel #chartoptions [showCloseIcon]="true" [dismissable]="false"
+                              <p-overlayPanel #chartoptions [showCloseIcon]="false" [dismissable]="false"
                                 [style]="{width: '400px'}">
                                 <p-scrollPanel [style]="{width: '100%', height: '350px'}" styleClass="custombar2">
 
@@ -1097,6 +1114,12 @@
                                     </div>
                                   </div>
                                 </p-scrollPanel>
+                                <ng-template pTemplate>
+                                  <div class="d-flex">
+                                    <button (click)="chartoptions.hide($event)"
+                                      class="btn btn-sm btn-warning ms-auto">Close</button>
+                                  </div>
+                                </ng-template>
                               </p-overlayPanel>
                             </div>
                           </div>
@@ -1145,7 +1168,7 @@
                                           <option value="MAX">MAX()</option>
                                         </select>
                                         <button class="btn btn-sm btn-secondary shadow-sm" type="button"
-                                          (click)="op1.toggle($event)" id=" button-addon2"><i
+                                          (click)="yaxis.toggle($event)" id=" button-addon2"><i
                                             class="fas fa-cog"></i></button>
                                       </div>
                                       <button type="button" class="btn btn-sm shadow-none ms-3"
@@ -1153,8 +1176,9 @@
                                           class="fas fa-trash-alt text-danger"></i></button>
                                     </div>
                                   </div>
-                                  <p-overlayPanel [showTransitionOptions]="'100ms'" [hideTransitionOptions]="'100ms'"
-                                    #op1 [showCloseIcon]="true" [dismissable]="false" [style]="{width: '400px'}">
+                                  <p-overlayPanel #yaxis [showTransitionOptions]="'100ms'"
+                                    [hideTransitionOptions]="'100ms'" [showCloseIcon]="false" [dismissable]="false"
+                                    [style]="{width: '400px'}">
                                     <p-scrollPanel [style]="{width: '100%', height: '200px'}" styleClass="custombar2">
                                       <div class="row gx-2 gy-2 mb-2"
                                         [hidden]="func.get('LineBarRadarPolarDatasetsLabel').disabled">
@@ -1272,18 +1296,27 @@
                                         </div>
                                       </div>
                                     </p-scrollPanel>
+                                    <ng-template pTemplate>
+                                      <div class="d-flex">
+                                        <button (click)="yaxis.hide($event)"
+                                          class="btn btn-sm btn-warning ms-auto">Close</button>
+                                      </div>
+                                    </ng-template>
                                   </p-overlayPanel>
                                 </div>
                               </div>
                             </div>
                           </div>
-                          <div class="row gx-2 gy-2 mb-2">
-                            <div class="col-sm-12 d-flex">
-                              <button class="btn btn-sm btn-primary shadow-sm" (click)="CreateChart(i)">Create
-                                Chart</button>
-                            </div>
-                          </div>
                         </p-scrollPanel>
+                        <ng-template pTemplate>
+                          <div class="d-flex">
+                            <button class="btn btn-sm btn-primary shadow-sm me-auto" (click)="CreateChart(i)">Create
+                              Chart</button>
+                            <button
+                              (click)="op.hide($event); title.hide($event); subtitle.hide($event); tooltip.hide($event) ;chartoptions.hide($event); yaxis.hide($event);"
+                              class="btn btn-sm btn-warning">Close</button>
+                          </div>
+                        </ng-template>
                       </p-overlayPanel>
                     </div>
                   </div>
@@ -1292,62 +1325,9 @@
             </div>
           </div>
 
-          <!-- <div class="row row-cols-2 gx-2 gy-2 mb-2" *ngIf="resultData.length>=1">
-            <div class="col">
-              <div class="card">
-                <div class="card-header d-flex" [ngClass]="{'text-dark bg-info':chartNumber==1}">
-                  <div class="me-auto">{{runCustomQueryform.controls.ChartName1.value}}</div>
-                  <button class="btn btn-sm btn-primary shadow-sm" (click)="showDialog(1)"><i
-                      class="fas fa-filter"></i></button>
-                </div>
-                <div class="card-body p-2">
-                  <p-chart *ngIf="isLineChart1" type="line" [data]="chartData1"></p-chart>
-                  <p-chart *ngIf="isBarChart1" type="bar" [data]="chartData1"></p-chart>
-                </div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="card">
-                <div class="card-header d-flex" [ngClass]="{'text-dark bg-info':chartNumber==2}">
-                  <div class="me-auto">{{runCustomQueryform.controls.ChartName2.value}}</div>
-                  <button class="btn btn-sm btn-primary shadow-sm" (click)="showDialog(2)">Configs</button>
-                </div>
-                <div class="card-body p-2">
-                  <p-chart *ngIf="isLineChart2" type="line" [data]="chartData2"></p-chart>
-                  <p-chart *ngIf="isBarChart2" type="bar" [data]="chartData2"></p-chart>
-                </div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="card">
-                <div class="card-header d-flex" [ngClass]="{'text-dark bg-info':chartNumber==3}">
-                  <div class="me-auto">{{runCustomQueryform.controls.ChartName3.value}}</div>
-                  <button class="btn btn-sm btn-primary shadow-sm" (click)="showDialog(3)">Configs</button>
-                </div>
-                <div class="card-body p-2">
-                  <p-chart *ngIf="isLineChart3" type="line" [data]="chartData3"></p-chart>
-                  <p-chart *ngIf="isBarChart3" type="bar" [data]="chartData3"></p-chart>
-                </div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="card">
-                <div class="card-header d-flex" [ngClass]="{'text-dark bg-info':chartNumber==4}">
-                  <div class="me-auto">{{runCustomQueryform.controls.ChartName4.value}}</div>
-                  <button class="btn btn-sm btn-primary shadow-sm" (click)="showDialog(4)">Configs</button>
-                </div>
-                <div class="card-body p-2">
-                  <p-chart *ngIf="isLineChart4" type="line" [data]="chartData4"></p-chart>
-                  <p-chart *ngIf="isBarChart4" type="bar" [data]="chartData4"></p-chart>
-                </div>
-              </div>
-            </div>
-          </div> -->
-
           <div class="row gx-2 gy-2 mb-2">
             <div class="col-sm-12">
-              <div *ngIf="resultData.length>=1" class="card"
-                [ngStyle]="{'z-index':card_Z_index_clicked ? 99999999999999999999 : 99999999999999 }" cdkDrag>
+              <div *ngIf="resultData.length>=1" class="card" cdkDrag>
                 <div class="card-body">
                   <p-table #dt [columns]="cols" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
                     urrentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
