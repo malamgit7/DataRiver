@@ -132,6 +132,10 @@ export class ReportingComponent implements OnInit {
   chartTypeSelected: boolean = false;
   lineDatasetsBorderDashRangeValues: number[] = [10, 20];
 
+  maximize_chart_number!: number
+  maximize_chart_clicked: boolean = false
+
+
   constructor(
     private formBuilder: FormBuilder,
     private bridgeManagerService: BridgeManagerService,
@@ -2150,6 +2154,12 @@ export class ReportingComponent implements OnInit {
 
   testZIndex(event: any) {
     console.log(event)
+  }
+
+  maximizeChart(chartNumber: number) {
+    this.maximize_chart_number = chartNumber
+    this.maximize_chart_clicked = true
+    return this.maximize_chart_clicked
   }
 
 }
