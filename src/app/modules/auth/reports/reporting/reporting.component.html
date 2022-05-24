@@ -379,8 +379,7 @@
                 <div formArrayName="ChartInfo">
                   <div *ngFor="let function of runCustomQueryform.get('ChartInfo')?.controls; let i=index">
                     <div [formGroupName]="i">
-                      <div id="chart_{{i}}" class="card mb-2" (click)="cardSelected()" style="z-index: relative;"
-                        cdkDrag m22Resizable>
+                      <div class="card mb-2" (click)="cardSelected()" style="z-index: relative;" cdkDrag m22Resizable>
                         <div class="card-header py-1 d-flex">
                           <div class="card-title me-auto">{{!function.get('ChartName').value? "Chart "+(i+1):
                             function.get('ChartName').value}}</div>
@@ -388,7 +387,7 @@
                           <button type="button" class="btn btn-sm shadow-none me-2" (click)="op.toggle($event)">
                             <i class="fas fa-cogs text-primary"></i> </button>
                           <button type="button" class="btn btn-sm shadow-none me-2"
-                            (click)="takeScreenshot('chart_'+i)">
+                            (click)="takeScreenshot('chart_'+i,!function.get('ChartName').value?'image':function.get('ChartName').value)">
                             <i class="fas fa-camera-retro"></i>
                           </button>
                           <button type="button" class="btn btn-sm shadow-none me-2"><i
@@ -405,7 +404,7 @@
                               class="fas fa-window-close text-danger"></i></button>
                         </div>
                         <div class="card-body py-0">
-                          <p-chart [type]="function.get('ChartType').value"
+                          <p-chart id="chart_{{i}}" [type]="function.get('ChartType').value"
                             [data]="function.get('FinalChartData').value | makeJson"
                             [options]="function.get('FinalChartOptions').value | makeJson">
                           </p-chart>

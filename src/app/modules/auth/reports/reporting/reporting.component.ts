@@ -8,8 +8,7 @@ import { ChartdataService } from 'src/app/services/auth/chartdata.service';
 import { MsalAuthenticationService } from 'src/app/services/msal-authentication.service';
 import { ToastrService } from 'ngx-toastr';
 import { SideBarService } from 'src/app/services/side-bar.service';
-
-declare let html2canvas: any;
+import html2canvas from 'html2canvas';
 
 
 @Component({
@@ -2164,8 +2163,21 @@ export class ReportingComponent implements OnInit {
     return this.maximize_chart_clicked
   }
 
-  takeScreenshot(chartid: string) {
-    html2canvas(document.querySelector("#capture")).then((canvas: any) => { })
+  takeScreenshot(chartid: string, chartName: string) {
+    html2canvas(<HTMLElement>document.getElementById(chartid), {
+      allowTaint: true,
+      useCORS: true,
+    })
+      .then(function (canvas) {
+        let image = canvas.toDataURL("image/png", 1.0).replace("image/png", "image/octet-stream");
+        var link = document.createElement('a');
+        link.download = chartName + ".png";
+        link.href = image;
+        link.click();
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }
 
 
