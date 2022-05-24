@@ -399,7 +399,7 @@
                           <button type="button" class="btn btn-sm shadow-none me-2" (click)="op.toggle($event)">
                             <i class="fas fa-cogs text-primary"></i> </button>
                           <button type="button" class="btn btn-sm shadow-none me-2"
-                            (click)="takeScreenshot('chart_'+i,!function.get('ChartName').value?'image':function.get('ChartName').value)">
+                            (click)="copyChartToClipboard('chart_'+i,!function.get('ChartName').value?'image':function.get('ChartName').value)">
                             <i class="fas fa-camera-retro"></i>
                           </button>
                           <button type="button" class="btn btn-sm shadow-none me-2"><i
@@ -409,7 +409,7 @@
 
 
                           <button type="button" class="btn btn-sm shadow-none mx-2"
-                            (click)="minimizeChart(i, !function.get('ChartName').value?'Chart_{{i}}':function.get('ChartName').value, true)"><i
+                            (click)="minimizeChart(i, !function.get('ChartName').value?'Chart_'+i:function.get('ChartName').value, true)"><i
                               class="fas fa-minus"></i></button>
                           <button type="button" class="btn btn-sm shadow-none me-2" (click)="maximizeChart(i)"><i
                               class="far fa-window-maximize"></i></button>

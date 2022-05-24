@@ -10,6 +10,25 @@ import { ToastrService } from 'ngx-toastr';
 import { SideBarService } from 'src/app/services/side-bar.service';
 import html2canvas from 'html2canvas';
 
+interface ClipboardItem {
+  readonly types: string[];
+  readonly presentationStyle: "unspecified" | "inline" | "attachment";
+  getType(): Promise<Blob>;
+}
+
+interface ClipboardItemData {
+  [mimeType: string]: Blob | string | Promise<Blob | string>;
+}
+
+declare var ClipboardItem: {
+  prototype: ClipboardItem;
+  new(itemData: ClipboardItemData): ClipboardItem;
+};
+
+interface Clipboard {
+  read(): Promise<DataTransfer>;
+  write(data: ClipboardItem[]): Promise<void>;
+}
 
 @Component({
   selector: 'app-reporting',
@@ -2146,7 +2165,7 @@ export class ReportingComponent implements OnInit {
     return { labels, datasetsData };
   }
 
-  takeScreenshot(chartid: string, chartName: string) {
+  downloadChart(chartid: string, chartName: string) {
     html2canvas(<HTMLElement>document.getElementById(chartid), {
       allowTaint: true,
       useCORS: true,
@@ -2160,6 +2179,25 @@ export class ReportingComponent implements OnInit {
       })
       .catch((e) => {
         console.log(e);
+      });
+  }
+
+  copyChartToClipboard(chartid: string, chartName: string) {
+    html2canvas(<HTMLElement>document.getElementById(chartid), {
+      allowTaint: true,
+      useCORS: true,
+    })
+      .then((canvas) => {
+        canvas.toBlob((blob: any) => {
+          if (blob) {
+            const clipboardItemInput = new ClipboardItem({ "image/png": blob });
+            (navigator.clipboard as any).write([clipboardItemInput]);
+          }
+        })
+        this.toastr.success("Image copied to clipboard", 'Success', { positionClass: 'toast-bottom-right' });
+      })
+      .catch((e) => {
+        this.toastr.error("Error in copying image to clipboard", 'Error', { positionClass: 'toast-bottom-right' });
       });
   }
 
@@ -2186,6 +2224,4 @@ export class ReportingComponent implements OnInit {
       return false;
     }
   }
-
-
 }
