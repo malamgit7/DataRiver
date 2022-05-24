@@ -131,10 +131,8 @@ export class ReportingComponent implements OnInit {
   polarAreaOptions: any
 
   chartTypeSelected: boolean = false;
-  lineDatasetsBorderDashRangeValues: number[] = [10, 20];
 
-  maximize_chart_number!: number
-  maximize_chart_clicked: boolean = false
+  minimizedChartLists: any[] = []
 
 
   constructor(
@@ -2148,21 +2146,6 @@ export class ReportingComponent implements OnInit {
     return { labels, datasetsData };
   }
 
-  cardSelected() {
-    this.card_Z_index_clicked = true
-    return this.card_Z_index_clicked
-  }
-
-  testZIndex(event: any) {
-    console.log(event)
-  }
-
-  maximizeChart(chartNumber: number) {
-    this.maximize_chart_number = chartNumber
-    this.maximize_chart_clicked = true
-    return this.maximize_chart_clicked
-  }
-
   takeScreenshot(chartid: string, chartName: string) {
     html2canvas(<HTMLElement>document.getElementById(chartid), {
       allowTaint: true,
@@ -2180,8 +2163,28 @@ export class ReportingComponent implements OnInit {
       });
   }
 
-  onDragStart(event: Event) {
-    window.alert("drag start")
+  minimizeChart(chartId: number, chartName: string, minimize: boolean) {
+    if (minimize) {
+      this.minimizedChartLists.push({
+        chartId: chartId,
+        chartName: chartName,
+        minimized: minimize
+      })
+    }
+    else {
+      var x = this.minimizedChartLists.find(x => x.chartId == chartId);
+      this.minimizedChartLists.splice(this.minimizedChartLists.indexOf(x), 1);
+    }
+  }
+
+  isChartMaximised(chartId: number) {
+    var x = this.minimizedChartLists.find(x => x.chartId == chartId);
+    if (x == undefined) {
+      return true
+    }
+    else {
+      return false;
+    }
   }
 
 
