@@ -281,8 +281,8 @@
                       <div *ngFor="let function of runCustomQueryform.get('GroupBy')?.controls; let i=index"
                         [formGroupName]="i">
                         <div class="input-group input-group-sm dropend mb-2">
-                          <button class="btn btn-outline-danger shadow-none" type="button" (click)="removeGroupBy(i)"><i
-                              class="fas fa-trash-alt"></i></button>
+                          <button class="btn btn-outline-danger shadow-none" type="button" style="z-index: 0;"
+                            (click)="removeGroupBy(i)"><i class="fas fa-trash-alt"></i></button>
                           <select class="form-select form-select-sm shadow-none" aria-label=".form-select-sm example"
                             formControlName="ColumnName"
                             [ngClass]="{ 'is-invalid': function.get('ColumnName').touched && function.get('ColumnName').errors }">
@@ -315,12 +315,12 @@
                       <div *ngFor="let function of runCustomQueryform.get('SortBy')?.controls; let i=index"
                         [formGroupName]="i">
                         <div class="input-group input-group-sm dropend mb-2">
-                          <button class="btn btn-outline-danger shadow-none" type="button" (click)="removeSortBy(i)"><i
-                              class="fas fa-trash-alt"></i></button>
+                          <button class="btn btn-outline-danger shadow-none" type="button" style="z-index: 0;"
+                            (click)="removeSortBy(i)"><i class="fas fa-trash-alt"></i></button>
                           <input type="text" id="iField" class="form-control shadow-none" [ngModel]="iFieldSortBy[i]"
                             [ngModelOptions]="{standalone: true}" aria-label="Text input with dropdown button" readonly>
                           <button type="button" #sortBypop="bs-popover"
-                            class="btn btn-default btn-secondary dropdown-toggle shadow-none"
+                            class="btn btn-default btn-secondary dropdown-toggle shadow-none" style="z-index: 0;"
                             [popover]="popTemplateSortBy" placement="right"> </button>
                         </div>
                         <ng-template #popTemplateSortBy>
@@ -363,6 +363,7 @@
           </form>
         </div>
         <div class="col-sm-9">
+
           <div class="row gx-2 gy-2 mb-2" *ngIf="isError">
             <div class="col-sm-12">
               <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -379,7 +380,8 @@
                 <div formArrayName="ChartInfo">
                   <div *ngFor="let function of runCustomQueryform.get('ChartInfo')?.controls; let i=index">
                     <div [formGroupName]="i">
-                      <div class="card mb-2" (click)="cardSelected()" style="z-index: relative;" cdkDrag m22Resizable>
+                      <div class="card mb-2" (click)="cardSelected()" style="z-index: inherit;"
+                        (dragstart)="onDragStart($event)" cdkDrag m22Resizable>
                         <div class="card-header py-1 d-flex">
                           <div class="card-title me-auto">{{!function.get('ChartName').value? "Chart "+(i+1):
                             function.get('ChartName').value}}</div>
@@ -404,7 +406,8 @@
                               class="fas fa-window-close text-danger"></i></button>
                         </div>
                         <div class="card-body py-0">
-                          <p-chart id="chart_{{i}}" [type]="function.get('ChartType').value"
+                          <p-chart id="chart_{{i}}" (dragstart)="onDragStart($event)"
+                            [type]="function.get('ChartType').value"
                             [data]="function.get('FinalChartData').value | makeJson"
                             [options]="function.get('FinalChartOptions').value | makeJson">
                           </p-chart>

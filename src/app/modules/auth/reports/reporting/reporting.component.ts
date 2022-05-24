@@ -2180,5 +2180,9 @@ export class ReportingComponent implements OnInit {
       });
   }
 
+  onDragStart(event: Event) {
+    window.alert("drag start")
+  }
+
 
 }
