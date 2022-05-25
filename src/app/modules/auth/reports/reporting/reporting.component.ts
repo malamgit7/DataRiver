@@ -634,6 +634,7 @@ export class ReportingComponent implements OnInit {
         this.chartData4 = [];
         this.selectedWorkspacedata = null;
         this.selectedWorkspace = '';
+        this.minimizedChartLists = [];
       }
     })
 
