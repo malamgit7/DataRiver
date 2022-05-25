@@ -64,11 +64,6 @@ button {
 
   &.custombar2 {
     overflow-y: scroll;
-
-    // .p-scrollpanel-wrapper {
-    //   border-right: 9px solid var(--layer-1);
-    //   border-bottom: 9px solid var(--layer-1);
-    // }
   }
 }
 
@@ -77,4 +72,8 @@ button {
   height: auto;
   margin-top: 8px;
   margin-bottom: 8px;
+}
+
+button#cogs:hover {
+  transform: scale(1.5);
 }
