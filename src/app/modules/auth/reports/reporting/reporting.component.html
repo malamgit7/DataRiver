@@ -409,7 +409,7 @@
 
 
                           <button type="button" class="btn btn-sm shadow-none mx-2"
-                            (click)="minimizeChart(i, !function.get('ChartName').value?'Chart_'+i:function.get('ChartName').value, true)"><i
+                            (click)="minimizeChart(i, !function.get('ChartName').value?'Chart '+(i+1):function.get('ChartName').value, true)"><i
                               class="fas fa-minus"></i></button>
                           <button type="button" class="btn btn-sm shadow-none me-2" (click)="maximizeChart(i)"><i
                               class="far fa-window-maximize"></i></button>
