@@ -9,6 +9,7 @@ import { MsalAuthenticationService } from 'src/app/services/msal-authentication.
 import { ToastrService } from 'ngx-toastr';
 import { SideBarService } from 'src/app/services/side-bar.service';
 import html2canvas from 'html2canvas';
+import { ngxCsv } from 'ngx-csv/ngx-csv';
 
 interface ClipboardItem {
   readonly types: string[];
@@ -36,6 +37,8 @@ interface Clipboard {
   styleUrls: ['./reporting.component.scss']
 })
 export class ReportingComponent implements OnInit {
+
+  chartDataToDownload: any[] = [];
 
   userName!: string;
   todayDate = new Date().toISOString();
@@ -2224,5 +2227,34 @@ export class ReportingComponent implements OnInit {
     else {
       return false;
     }
+  }
+
+  downloadChartData(chartNumber: number, chartName: string) {
+    var data: any[] = [];
+    var chartInfo = this.ChartInfo.at(chartNumber) as FormArray;
+    var chartData = chartInfo.get('FinalChartData')?.value
+    var parsedchartdata = JSON.parse(chartData)
+
+    parsedchartdata.datasets.forEach((element: any) => {
+      var tmpObject: any = {};
+      element.data.forEach((item: any, index: number) => {
+        tmpObject[parsedchartdata.labels[index]] = item
+      });
+      data.push(tmpObject);
+    });
+    var options = {
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalseparator: '.',
+      showLabels: true,
+      showTitle: true,
+      title: chartName,
+      useBom: true,
+      noDownload: false,
+      headers: parsedchartdata.labels,
+      eol: '\n'
+    };
+
+    new ngxCsv(data, chartName, options);
   }
 }

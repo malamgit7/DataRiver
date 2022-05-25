@@ -24,7 +24,6 @@ import { MakeJsonPipe } from 'src/app/pipes/make_json.pipe';
 import { M22ResizableComponent } from 'src/app/modules/helper_component/resizable/resizable.component';
 
 
-
 @NgModule({
   declarations: [
     ReportingComponent,

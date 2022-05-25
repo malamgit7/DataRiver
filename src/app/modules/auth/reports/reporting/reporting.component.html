@@ -361,9 +361,7 @@
               </div>
             </div>
           </form>
-
           <hr *ngIf="minimizedChartLists.length>=1" style="color: white; height: 3px;">
-
           <div class="row gx-2 gy-2">
             <div class="col-sm-6" *ngFor="let minimizedChartList of minimizedChartLists">
               <div class="card" (click)="minimizeChart(minimizedChartList.chartId,minimizedChartList.chartName, false)">
@@ -374,7 +372,6 @@
 
         </div>
         <div class="col-sm-9">
-
           <div class="row gx-2 gy-2 mb-2" *ngIf="isError">
             <div class="col-sm-12">
               <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -384,7 +381,6 @@
               </div>
             </div>
           </div>
-
           <div class="row gx-2 gy-2 mb-2">
             <div class="col-sm-12">
               <form [formGroup]="runCustomQueryform">
@@ -403,7 +399,8 @@
                             (click)="copyChartToClipboard('chart_'+i,!function.get('ChartName').value?'image':function.get('ChartName').value)">
                             <i class="fas fa-camera-retro"></i>
                           </button>
-                          <button id="cogs" type="button" class="btn btn-sm shadow-none me-2"><i
+                          <button id="cogs" type="button" class="btn btn-sm shadow-none me-2"
+                            (click)="downloadChartData(i, !function.get('ChartName').value?'Chart '+(i+1):function.get('ChartName').value)"><i
                               class="fas fa-file-download"></i></button>
 
                           <div class="vl mx-3"></div>
@@ -418,26 +415,33 @@
                               class="fas fa-window-close text-danger"></i></button>
                         </div>
                         <div class="card-body py-0">
-                          <p-chart id="chart_{{i}}" [type]="function.get('ChartType').value"
-                            [data]="function.get('FinalChartData').value | makeJson"
-                            [options]="function.get('FinalChartOptions').value | makeJson">
-                          </p-chart>
+                          <div class="row">
+                            <div class="col-sm-12">
+                              <p-chart id="chart_{{i}}"
+                                [type]="!function.get('ChartType').value? null:function.get('ChartType').value"
+                                [data]="!function.get('FinalChartData').value? null: function.get('FinalChartData').value | makeJson"
+                                [options]="!function.get('FinalChartOptions').value? null: function.get('FinalChartOptions').value | makeJson">
+                              </p-chart>
+                            </div>
+                          </div>
                         </div>
                       </div>
                       <p-overlayPanel #op [showTransitionOptions]="'100ms'" [hideTransitionOptions]="'100ms'"
                         [showCloseIcon]="false" [dismissable]="false">
-                        <p-scrollPanel [style]="{width: '100%', height: '360px'}" styleClass="custombar2">
+                        <p-scrollPanel [style]="{width: 'auto', height: '360px'}" styleClass="custombar2">
                           <div class="row gx-2 gy-2 mb-2">
                             <div class="col-sm-12">
                               <input class="form-control form-control-sm shadow-none" id="chartname"
-                                formControlName="ChartName" type="text" placeholder="Name" aria-label="name">
+                                formControlName="ChartName" type="text" placeholder="Name" aria-label="name"
+                                [ngClass]="{ 'is-invalid': function.get('ChartName').touched && function.get('ChartName').errors }">
                             </div>
                           </div>
                           <div class="row gx-2 gy-2 mb-2">
                             <div class="col-sm-12">
                               <select class="form-select form-select-sm shadow-sm" aria-label="chart type"
                                 formControlName="ChartType"
-                                (change)="onChangeChartType(i, $event.target.value); onSelectChartType(i, $event.target.value)">
+                                (change)="onChangeChartType(i, $event.target.value); onSelectChartType(i, $event.target.value)"
+                                [ngClass]="{ 'is-invalid': function.get('ChartType').touched && function.get('ChartType').errors }">
                                 <option value='{{default_select}}' selected>Chart type...</option>
                                 <option value='bar'>Bar</option>
                                 <option value='line'>Line</option>
@@ -785,79 +789,6 @@
                             <div class="col-sm-6">
                               <div class="card w-100">
                                 <div class="card-body p-2 d-flex">
-                                  <div class="me-auto">Tooltips & Legends</div>
-                                  <button class="btn btn-sm btn-primary py-0 px-2 shadow"
-                                    [disabled]="(!function.get('ChartType').value) || (function.get('ChartType').value==null)"
-                                    (click)="tooltip.toggle($event)">
-                                    <i class="fas fa-cog"></i>
-                                  </button>
-                                </div>
-                              </div>
-                              <p-overlayPanel #tooltip [showCloseIcon]="false" [dismissable]="false"
-                                [style]="{width: '400px'}">
-                                <p-scrollPanel [style]="{width: '100%', height: '115px'}" styleClass="custombar2">
-                                  <div class="row gx-2 gy-2 mb-2">
-                                    <div class="col-sm-5">
-                                      <label class="form-label">Tooltips Mode</label>
-                                    </div>
-                                    <div class="col-sm-7">
-                                      <select class="form-select form-select-sm shadow-none"
-                                        id="OptionsPluginsTooltipsMode" formControlName="OptionsPluginsTooltipsMode"
-                                        aria-label="OptionsPluginsTooltipsMode">
-                                        <option value="point">Point</option>
-                                        <option value="nearest">Nearest</option>
-                                        <option value="index">Index</option>
-                                        <option value="dataset">Dataset</option>
-                                        <option value="x">X</option>
-                                        <option value="y">Y</option>
-                                      </select>
-                                    </div>
-                                  </div>
-                                  <div class="row gx-2 gy-2 mb-2">
-                                    <div class="col-sm-5">
-                                      <label class="form-label">Tooltips
-                                        Intersect</label>
-                                    </div>
-                                    <div class="col-sm-7">
-                                      <select class="form-select form-select-sm shadow-none"
-                                        id="OptionsPluginsTooltipsIntersect"
-                                        formControlName="OptionsPluginsTooltipsIntersect"
-                                        aria-label="OptionsPluginsTooltipsIntersect">
-                                        <option value="true">Yes</option>
-                                        <option value="false">No</option>
-                                      </select>
-                                    </div>
-                                  </div>
-                                  <div class="row gx-2 gy-2 mb-2">
-                                    <div class="col-sm-5">
-                                      <label class="form-label">Legend Label
-                                        Color</label>
-                                    </div>
-                                    <div class="col-sm-7">
-                                      <div class="row">
-                                        <div class="col-sm-12 d-flex">
-                                          <input type="color" formControlName="OptionsPluginsLegendLabelsColor"
-                                            id="OptionsPluginsLegendLabelsColor"
-                                            class="form-control form-control-color shadow-none p-0 me-2"
-                                            title="Legend Label color">
-                                          <div>{{function.get('OptionsPluginsLegendLabelsColor').value | uppercase }}
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </p-scrollPanel>
-                                <ng-template pTemplate>
-                                  <div class="d-flex">
-                                    <button (click)="tooltip.hide($event)"
-                                      class="btn btn-sm btn-warning ms-auto">Close</button>
-                                  </div>
-                                </ng-template>
-                              </p-overlayPanel>
-                            </div>
-                            <div class="col-sm-6">
-                              <div class="card w-100">
-                                <div class="card-body p-2 d-flex">
                                   <div class="me-auto">Chart Options</div>
                                   <button class="btn btn-sm btn-primary py-0 px-2 shadow"
                                     [disabled]="!function.get('ChartType').value" (click)="chartoptions.toggle($event)">
@@ -1149,6 +1080,79 @@
                                 </ng-template>
                               </p-overlayPanel>
                             </div>
+                            <div class="col-sm-6">
+                              <div class="card w-100">
+                                <div class="card-body p-2 d-flex">
+                                  <div class="me-auto">Miscellaneous</div>
+                                  <button class="btn btn-sm btn-primary py-0 px-2 shadow"
+                                    [disabled]="(!function.get('ChartType').value) || (function.get('ChartType').value==null)"
+                                    (click)="tooltip.toggle($event)">
+                                    <i class="fas fa-cog"></i>
+                                  </button>
+                                </div>
+                              </div>
+                              <p-overlayPanel #tooltip [showCloseIcon]="false" [dismissable]="false"
+                                [style]="{width: '400px'}">
+                                <p-scrollPanel [style]="{width: '100%', height: '115px'}" styleClass="custombar2">
+                                  <div class="row gx-2 gy-2 mb-2">
+                                    <div class="col-sm-5">
+                                      <label class="form-label">Tooltips Mode</label>
+                                    </div>
+                                    <div class="col-sm-7">
+                                      <select class="form-select form-select-sm shadow-none"
+                                        id="OptionsPluginsTooltipsMode" formControlName="OptionsPluginsTooltipsMode"
+                                        aria-label="OptionsPluginsTooltipsMode">
+                                        <option value="point">Point</option>
+                                        <option value="nearest">Nearest</option>
+                                        <option value="index">Index</option>
+                                        <option value="dataset">Dataset</option>
+                                        <option value="x">X</option>
+                                        <option value="y">Y</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                  <div class="row gx-2 gy-2 mb-2">
+                                    <div class="col-sm-5">
+                                      <label class="form-label">Tooltips
+                                        Intersect</label>
+                                    </div>
+                                    <div class="col-sm-7">
+                                      <select class="form-select form-select-sm shadow-none"
+                                        id="OptionsPluginsTooltipsIntersect"
+                                        formControlName="OptionsPluginsTooltipsIntersect"
+                                        aria-label="OptionsPluginsTooltipsIntersect">
+                                        <option value="true">Yes</option>
+                                        <option value="false">No</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                  <div class="row gx-2 gy-2 mb-2">
+                                    <div class="col-sm-5">
+                                      <label class="form-label">Legend Label
+                                        Color</label>
+                                    </div>
+                                    <div class="col-sm-7">
+                                      <div class="row">
+                                        <div class="col-sm-12 d-flex">
+                                          <input type="color" formControlName="OptionsPluginsLegendLabelsColor"
+                                            id="OptionsPluginsLegendLabelsColor"
+                                            class="form-control form-control-color shadow-none p-0 me-2"
+                                            title="Legend Label color">
+                                          <div>{{function.get('OptionsPluginsLegendLabelsColor').value | uppercase }}
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </p-scrollPanel>
+                                <ng-template pTemplate>
+                                  <div class="d-flex">
+                                    <button (click)="tooltip.hide($event)"
+                                      class="btn btn-sm btn-warning ms-auto">Close</button>
+                                  </div>
+                                </ng-template>
+                              </p-overlayPanel>
+                            </div>
                           </div>
                           <hr style="height:2px;border-width:0;color:gray;background-color:gray">
                           <div class="row gx-2 gy-2 mb-2">
@@ -1188,11 +1192,11 @@
                                           formControlName="ChartYAxisFunction" aria-label=".form-select-sm example"
                                           style="width: 4rem;">
                                           <option value="{{default_select}}" selected>Function...</option>
-                                          <option value="COUNT">COUNT()</option>
-                                          <option value="SUM">SUM()</option>
-                                          <option value="AVG">AVG()</option>
-                                          <option value="MIN">MIN()</option>
-                                          <option value="MAX">MAX()</option>
+                                          <option value="COUNT">COUNT</option>
+                                          <option value="SUM">SUM</option>
+                                          <option value="AVG">AVG</option>
+                                          <option value="MIN">MIN</option>
+                                          <option value="MAX">MAX</option>
                                         </select>
                                         <button class="btn btn-sm btn-secondary shadow-sm" type="button"
                                           (click)="yaxis.toggle($event)" id=" button-addon2"><i
@@ -1340,7 +1344,7 @@
                             <button class="btn btn-sm btn-primary shadow-sm me-auto" (click)="CreateChart(i)">Create
                               Chart</button>
                             <button
-                              (click)="op.hide($event); title.hide($event); subtitle.hide($event); tooltip.hide($event) ;chartoptions.hide($event); yaxis.hide($event);"
+                              (click)="op.hide($event); title.hide($event); subtitle.hide($event); tooltip.hide($event) ;chartoptions.hide($event);"
                               class="btn btn-sm btn-warning">Close</button>
                           </div>
                         </ng-template>
@@ -1351,7 +1355,6 @@
               </form>
             </div>
           </div>
-
           <div class="row gx-2 gy-2 mb-2">
             <div class="col-sm-12">
               <div *ngIf="resultData.length>=1" class="card" cdkDrag>
