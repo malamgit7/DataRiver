@@ -424,7 +424,6 @@ export class ReportingComponent implements OnInit {
   }
   addChartInfo() {
     this.ChartInfo.push(this.newChartInfo());
-    console.log("Chart info triggered")
   }
   removeChartInfo(i: number) {
     this.ChartInfo.removeAt(i);
@@ -479,7 +478,7 @@ export class ReportingComponent implements OnInit {
         this.getDatasetKeys(res[0]);
         this.chartdataService.updateData(res);
         this.resultData = res;
-        console.log(res);
+
         if (this.selectedWorkspacedata != null) {
           this.renderSavedCharts();
         }
@@ -528,7 +527,6 @@ export class ReportingComponent implements OnInit {
     this.reportsService.GetAllCustomQuery().subscribe(
       (res) => {
         this.allWorkSpaces = res;
-        console.log(this.allWorkSpaces);
       },
       (err) => { console.log(err); }
     )
@@ -560,7 +558,6 @@ export class ReportingComponent implements OnInit {
   GetAllTables(connectionStringId: string) {
     this.analysisService.GetAllTables(connectionStringId).subscribe(
       (res: any) => {
-        console.log(res);
         this.tables = res[0];
         this.databaseName = res[0].databaseName;
         this.tables = res[0].tables
@@ -1438,12 +1435,12 @@ export class ReportingComponent implements OnInit {
       chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.disable(); chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.clearValidators(); chartInfo.at(i).get('RadarOptionsScalesRPointlabelsColor')!.updateValueAndValidity();
       chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.disable(); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.clearValidators(); chartInfo.at(i).get('RadarOptionsScalesRAnglelinesColor')!.updateValueAndValidity();
     }
-    console.log(this.runCustomQueryform.get('ChartInfo')?.value)
+
   }
 
   onChangeChartType(i: number, _chartType: any) {
     var _x = this.ChartInfo.at(i).get('ChartYAxisInfo') as FormArray;
-    console.log(_chartType)
+
     for (var j = 0; j < _x.length; j++) {
       if (_chartType == null || _chartType == undefined || _chartType == "") {
         _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.disable(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.clearValidators(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.updateValueAndValidity();
@@ -1458,7 +1455,7 @@ export class ReportingComponent implements OnInit {
         _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.disable(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.clearValidators(); _x.at(j).get('RadarDatasetsPointHoverBorderColor')?.updateValueAndValidity();
       }
       else if (_chartType == 'bar') {
-        console.log(_chartType)
+
         _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.enable(); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.setValidators([Validators.required]); _x.at(j).get('LineBarRadarPolarDatasetsLabel')?.updateValueAndValidity();
         _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.enable(); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.setValidators([Validators.required]); _x.at(j).get('LineBarRadarDatasetsBackgroundColor')?.updateValueAndValidity();
 
@@ -2230,18 +2227,29 @@ export class ReportingComponent implements OnInit {
   }
 
   downloadChartData(chartNumber: number, chartName: string) {
-    var data: any[] = [];
-    var chartInfo = this.ChartInfo.at(chartNumber) as FormArray;
-    var chartData = chartInfo.get('FinalChartData')?.value
-    var parsedchartdata = JSON.parse(chartData)
+    var csvHeaders: any[] = [];
 
-    parsedchartdata.datasets.forEach((element: any) => {
-      var tmpObject: any = {};
-      element.data.forEach((item: any, index: number) => {
-        tmpObject[parsedchartdata.labels[index]] = item
-      });
-      data.push(tmpObject);
+    var fullChartInfo = this.ChartInfo.at(chartNumber) as FormArray
+    csvHeaders.push(fullChartInfo.get('ChartXAxis')?.value)
+
+    fullChartInfo.get('ChartYAxisInfo')?.value.forEach((element: any) => {
+      csvHeaders.push(element.ChartYAxis + "(" + element.ChartYAxisFunction + ")")
     });
+
+    // get the labels and datasets data
+    var finalParsedChartData = JSON.parse(fullChartInfo.get('FinalChartData')?.value)
+    var labels: any[] = finalParsedChartData.labels
+    var datasets: any[] = finalParsedChartData.datasets
+
+    // push the labels and datatset datas to ana array
+    var arrayOfLabelsAndData: any[] = [];
+    arrayOfLabelsAndData.push(labels)
+    datasets.forEach((element: any) => {
+      arrayOfLabelsAndData.push(element.data)
+    });
+
+    var chartDataToDownload = arrayOfLabelsAndData[0].map((_: any, colIndex: string | number) => arrayOfLabelsAndData.map(row => row[colIndex]));
+
     var options = {
       fieldSeparator: ',',
       quoteStrings: '"',
@@ -2251,10 +2259,9 @@ export class ReportingComponent implements OnInit {
       title: chartName,
       useBom: true,
       noDownload: false,
-      headers: parsedchartdata.labels,
-      eol: '\n'
+      headers: csvHeaders,
     };
 
-    new ngxCsv(data, chartName, options);
+    new ngxCsv(chartDataToDownload, chartName, options);
   }
 }

@@ -50,7 +50,7 @@ import { M22ResizableComponent } from 'src/app/modules/helper_component/resizabl
     ButtonModule,
     OverlayPanelModule,
     ScrollPanelModule,
-    SliderModule
+    SliderModule,
   ],
   providers: [ConfirmationService]
 })
