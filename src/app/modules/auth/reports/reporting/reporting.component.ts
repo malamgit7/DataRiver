@@ -183,6 +183,7 @@ export class ReportingComponent implements OnInit {
     this.userName = this.msalAuthenticationService.userName();
     this.GetSqlConnectionStrings()
     this.GetAllCustomQuery()
+    console.log(Date.parse("2021-04-16T00:00:00"))
   }
 
   ngAfterViewInit() {
