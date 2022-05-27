@@ -13,7 +13,6 @@
     <div class="container-fluid">
       <div class="row gx-2 gy-2">
         <div class="col-sm-3">
-
           <form [formGroup]="runCustomQueryform">
             <div class="row gx-2 mb-2">
               <div class="col-sm-4">
@@ -424,16 +423,12 @@
                       <button type="button" class="btn btn-sm shadow-none" (click)="removeChartInfo(i)"><i
                           class="fas fa-window-close text-danger"></i></button>
                     </div>
-                    <div class="card-body py-0">
-                      <div class="row">
-                        <div class="col-sm-12">
-                          <p-chart id="chart_{{i}}"
-                            [type]="!function.get('ChartType').value? null:function.get('ChartType').value"
-                            [data]="!function.get('FinalChartData').value? null: function.get('FinalChartData').value | makeJson"
-                            [options]="!function.get('FinalChartOptions').value? null: function.get('FinalChartOptions').value | makeJson">
-                          </p-chart>
-                        </div>
-                      </div>
+                    <div class="card-body py-0" (resized)="onResizedChartCard($event)">
+                      <p-chart id="chart_{{i}}" [responsive]="true" [width]="chartWidth" [height]="chartHeight"
+                        [type]="!function.get('ChartType').value? null:function.get('ChartType').value"
+                        [data]="!function.get('FinalChartData').value? null: function.get('FinalChartData').value | makeJson"
+                        [options]="!function.get('FinalChartOptions').value? null: function.get('FinalChartOptions').value | makeJson">
+                      </p-chart>
                     </div>
                   </div>
                   <p-overlayPanel #op [showTransitionOptions]="'100ms'" [hideTransitionOptions]="'100ms'"

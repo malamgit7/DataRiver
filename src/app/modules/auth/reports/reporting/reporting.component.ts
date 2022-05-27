@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 import { SideBarService } from 'src/app/services/side-bar.service';
 import html2canvas from 'html2canvas';
 import { ngxCsv } from 'ngx-csv/ngx-csv';
+import { ResizedEvent } from 'angular-resize-event';
 
 interface ClipboardItem {
   readonly types: string[];
@@ -155,8 +156,8 @@ export class ReportingComponent implements OnInit {
   chartTypeSelected: boolean = false;
 
   minimizedChartLists: any[] = []
-
-  queryPanelHidden: boolean = false;
+  chartWidth!: number;
+  chartHeight!: number;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -192,8 +193,10 @@ export class ReportingComponent implements OnInit {
     })
   }
 
-  toggeleQueryPanel() {
-    this.queryPanelHidden = this.queryPanelHidden ? false : true;
+
+  onResizedChartCard(event: ResizedEvent) {
+    this.chartWidth = event.newRect.width - 10
+    this.chartHeight = event.newRect.height - 10
   }
 
   buildCreateTableProfileForm() {
