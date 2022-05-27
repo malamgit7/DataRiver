@@ -156,6 +156,7 @@ export class ReportingComponent implements OnInit {
 
   minimizedChartLists: any[] = []
 
+  queryPanelHidden: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -188,7 +189,10 @@ export class ReportingComponent implements OnInit {
     setTimeout(() => {
       this.sideBarService.toggleSideNav()
     })
+  }
 
+  toggeleQueryPanel() {
+    this.queryPanelHidden = this.queryPanelHidden ? false : true;
   }
 
   buildCreateTableProfileForm() {

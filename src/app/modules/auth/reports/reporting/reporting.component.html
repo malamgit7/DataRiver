@@ -382,11 +382,12 @@
             </div>
           </div>
           <div class="row gx-2 gy-2 mb-2">
-            <div class="col-sm-12">
+            <div class="col-sm-6">
               <form [formGroup]="runCustomQueryform">
                 <div formArrayName="ChartInfo">
                   <div *ngFor="let function of runCustomQueryform.get('ChartInfo')?.controls; let i=index"
                     [formGroupName]="i">
+
                     <div class="card mb-2" style="z-index: inherit;" *ngIf="isChartMaximised(i)" cdkDrag m22Resizable>
                       <div class="card-header py-1 d-flex">
                         <div class="card-title me-auto">{{!function.get('ChartName').value? "Chart "+(i+1):
@@ -833,17 +834,17 @@
                                       <label class="form-check-label" for="inlineRadio2">Horizontal</label>
                                     </div>
                                     <!-- <div class="row">
-                                        <div class="col-sm-12 d-flex">
-                                          <div class="form-check form-switch me-2">
-                                            <input class="form-check-input " type="checkbox" role="switch"
-                                              id="BarOptionsScalesXYStacked"
-                                              formControlName="BarOptionsScalesXYStacked">
+                                          <div class="col-sm-12 d-flex">
+                                            <div class="form-check form-switch me-2">
+                                              <input class="form-check-input " type="checkbox" role="switch"
+                                                id="BarOptionsScalesXYStacked"
+                                                formControlName="BarOptionsScalesXYStacked">
+                                            </div>
+                                            <div>
+                                              {{function.get('BarOptionsScalesXYStacked').value==true?'Yes':'No'}}
+                                            </div>
                                           </div>
-                                          <div>
-                                            {{function.get('BarOptionsScalesXYStacked').value==true?'Yes':'No'}}
-                                          </div>
-                                        </div>
-                                      </div> -->
+                                        </div> -->
                                   </div>
                                 </div>
 
@@ -1243,15 +1244,15 @@
                                     </div>
 
                                     <!-- <div class="row gx-2 gy-2 mb-2"
-                                        [hidden]="func.get('LineDatasetsBorderDash').disabled">
-                                        <div class="col-sm-5">
-                                          <label class="form-label">Line Border Dash</label>
-                                        </div>
-                                        <div class="col-sm-7">
-                                          <p-slider formControlName="LineDatasetsBorderDash" [range]="true">
-                                          </p-slider>
-                                        </div>
-                                      </div> -->
+                                          [hidden]="func.get('LineDatasetsBorderDash').disabled">
+                                          <div class="col-sm-5">
+                                            <label class="form-label">Line Border Dash</label>
+                                          </div>
+                                          <div class="col-sm-7">
+                                            <p-slider formControlName="LineDatasetsBorderDash" [range]="true">
+                                            </p-slider>
+                                          </div>
+                                        </div> -->
 
                                     <div class="row gx-2 gy-2 mb-2" [hidden]="func.get('LineDatasetsTension').disabled">
                                       <div class="col-sm-7">
