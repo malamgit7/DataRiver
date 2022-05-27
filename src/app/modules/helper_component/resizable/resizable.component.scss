@@ -1,5 +1,5 @@
 $handle-size: 10px;
-$handle-color: #ccc;
+$handle-color: rgb(107, 107, 107);
 
 :host:hover .m22-resizable-triangle {
     opacity: 1;
@@ -16,11 +16,11 @@ $handle-color: #ccc;
 
 .m22-resizable-triangle {
     pointer-events: none;
-    opacity: 0;
+    opacity: 1;
     transition: opacity ease-in-out 0.2s;
     position: absolute;
-    width: 0;
-    height: 0;
+    width: 10px;
+    height: 10px;
     border-left: $handle-size / 2 solid transparent;
     border-top: $handle-size / 2 solid transparent;
     border-right: $handle-size / 2 solid $handle-color;

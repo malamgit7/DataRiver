@@ -388,7 +388,7 @@
                 <div class="col-sm-6"
                   *ngFor="let function of runCustomQueryform.get('ChartInfo')?.controls; let i=index"
                   [formGroupName]="i">
-                  <div class="card mb-2" style="z-index: inherit;" *ngIf="isChartMaximised(i)" cdkDrag m22Resizable>
+                  <div class="card" style="z-index: inherit;" *ngIf="isChartMaximised(i)" cdkDrag m22Resizable>
                     <div class="card-header py-1 d-flex">
                       <div class="card-title me-auto">{{!function.get('ChartName').value? "Chart "+(i+1):
                         function.get('ChartName').value}}</div>
