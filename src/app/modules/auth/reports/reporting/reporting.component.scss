@@ -77,3 +77,12 @@ button {
 button#cogs:hover {
   transform: scale(1.5);
 }
+
+::ng-deep .customClass>a {
+  color: white;
+  border: 1px solid white !important;
+}
+
+::ng-deep .customClass>a:hover {
+  color: white;
+}

@@ -22,6 +22,7 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { SliderModule } from 'primeng/slider';
 import { MakeJsonPipe } from 'src/app/pipes/make_json.pipe';
 import { M22ResizableComponent } from 'src/app/modules/helper_component/resizable/resizable.component';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 
 
 @NgModule({
@@ -43,6 +44,7 @@ import { M22ResizableComponent } from 'src/app/modules/helper_component/resizabl
     ConfirmDialogModule,
     HighchartsChartModule,
     PopoverModule.forRoot(),
+    TabsModule.forRoot(),
     DialogModule,
     NgMultiSelectDropDownModule.forRoot(),
     FormsModule,

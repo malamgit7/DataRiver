@@ -13,6 +13,7 @@
     <div class="container-fluid">
       <div class="row gx-2 gy-2">
         <div class="col-sm-3">
+
           <form [formGroup]="runCustomQueryform">
             <div class="row gx-2 mb-2">
               <div class="col-sm-4">
@@ -50,7 +51,7 @@
                     class="fas fa-plus-square"></i></button>
               </div>
             </div>
-            <div class="row mt-2" *ngIf="selectedWorkspace">
+            <div class="row mt-2 mb-2" *ngIf="selectedWorkspace">
               <div class="col-sm-12 d-flex">
                 <div class="input-group input-group-sm">
                   <input type="text" formControlName="CustomQueryName"
@@ -70,296 +71,306 @@
                 </div>
               </div>
             </div>
-            <div class="accordion" id="accordionPanelsStayOpenExample">
-              <div class="accordion-item">
-                <div class="accordion-header" id="panelsStayOpen-headingOne">
-                  <button class="accordion-button shadow-none py-1 px-2" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
-                    aria-controls="panelsStayOpen-collapseOne">
-                    Dataset Selection <span class="required">*</span>
-                  </button>
-                </div>
-                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
-                  aria-labelledby="panelsStayOpen-headingOne">
-                  <div class="accordion-body px-2">
-                    <div class="mb-2">
-                      <select class="form-select form-select-sm shadow-none" aria-label="Default select example"
-                        formControlName="ConnectionStringId" (change)="onSelectConnectionString($event)"
-                        [ngClass]="{ 'is-invalid': f['ConnectionStringId'].touched && f['ConnectionStringId'].errors }">
-                        <option value={{default_select}} selected>Select Connection...</option>
-                        <option value={{connectionString.connectionStringId}}
-                          *ngFor="let connectionString of connectionStrings">
-                          {{connectionString.connectionName}}
-                        </option>
-                      </select>
+            <tabset [justified]="true">
+              <tab heading="New" customClass="customClass">
+                <div class="accordion" id="accordionPanelsStayOpenExample">
+                  <div class="accordion-item">
+                    <div class="accordion-header" id="panelsStayOpen-headingOne">
+                      <button class="accordion-button shadow-none py-1 px-2" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                        aria-controls="panelsStayOpen-collapseOne">
+                        Dataset Selection <span class="required">*</span>
+                      </button>
                     </div>
-                    <div class="mb-0">
-                      <select class="form-select form-select-sm shadow-none" aria-label="Default select example"
-                        formControlName="TableName" (change)="onSelectTable($event)"
-                        [ngClass]="{ 'is-invalid': f['TableName'].touched && f['TableName'].errors }">
-                        <option value={{default_select}} selected>Select table...</option>
-                        <optgroup label="Tables" *ngIf="tables.length>=1">
-                          <option value="{{table.tableName}}" *ngFor="let table of tables">{{table.tableName}}
-                          </option>
-                        </optgroup>
-                        <optgroup label="External Tables" *ngIf="externalTables.length>=1">
-                          <option value="{{table.tableName}}" *ngFor="let table of externalTables">
-                            {{table.tableName}}
-                          </option>
-                        </optgroup>
-                        <optgroup label="Views" *ngIf="viewTables.length>=1">
-                          <option value="{{table.tableName}}" *ngFor="let table of viewTables">{{table.tableName}}
-                          </option>
-                        </optgroup>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="accordion-item">
-                <div class="accordion-header" id="panelsStayOpen-headingTwo">
-                  <button class="accordion-button shadow-none py-1 px-2" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true"
-                    aria-controls="panelsStayOpen-collapseTwo">
-                    <div class="me-2">Metrics<span class="required">*</span></div>
-                    ({{runCustomQueryform.get('Functions')?.length}})
-                  </button>
-                </div>
-                <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show"
-                  aria-labelledby="panelsStayOpen-headingTwo">
-                  <div class="accordion-body px-2 py-0">
-                    <div formArrayName="Functions">
-                      <div *ngFor="let function of runCustomQueryform.get('Functions')?.controls; let i=index"
-                        [formGroupName]="i">
-                        <div class="input-group input-group-sm dropend mb-2">
-                          <button class="btn btn-outline-danger shadow-none" style="z-index: 0;" type="button"
-                            (click)="removeFunction(i)"><i class="fas fa-trash-alt"></i></button>
-                          <input type="text" id="iField" class="form-control shadow-none" [ngModel]="iFieldFunction[i]"
-                            [ngModelOptions]="{standalone: true}" aria-label="Text input with dropdown button" readonly>
-                          <button type="button" #functionspop="bs-popover"
-                            class="btn btn-default btn-secondary dropdown-toggle shadow-none" style="z-index: 0;"
-                            [popover]="popTemplate" placement="auto"> </button>
+                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
+                      aria-labelledby="panelsStayOpen-headingOne">
+                      <div class="accordion-body px-2">
+                        <div class="mb-2">
+                          <select class="form-select form-select-sm shadow-none" aria-label="Default select example"
+                            formControlName="ConnectionStringId" (change)="onSelectConnectionString($event)"
+                            [ngClass]="{ 'is-invalid': f['ConnectionStringId'].touched && f['ConnectionStringId'].errors }">
+                            <option value={{default_select}} selected>Select Connection...</option>
+                            <option value={{connectionString.connectionStringId}}
+                              *ngFor="let connectionString of connectionStrings">
+                              {{connectionString.connectionName}}
+                            </option>
+                          </select>
                         </div>
-                        <ng-template #popTemplate>
-                          <div class="mb-2">
-                            <select id="exampleFormControlInput1" class="form-select form-select-sm shadow-none"
-                              formControlName="ColumnName" aria-label=".form-select-sm example"
-                              [ngClass]="{ 'is-invalid': function.get('ColumnName').touched && function.get('ColumnName').errors }">
-                              <option value="{{default_select}}" selected>Select column...</option>
-                              <option value="{{table_name.columN_NAME}}" *ngFor="let table_name of Tablemetadata">
-                                {{table_name.columN_NAME}}
-                                ({{table_name.datA_TYPE}})
+                        <div class="mb-0">
+                          <select class="form-select form-select-sm shadow-none" aria-label="Default select example"
+                            formControlName="TableName" (change)="onSelectTable($event)"
+                            [ngClass]="{ 'is-invalid': f['TableName'].touched && f['TableName'].errors }">
+                            <option value={{default_select}} selected>Select table...</option>
+                            <optgroup label="Tables" *ngIf="tables.length>=1">
+                              <option value="{{table.tableName}}" *ngFor="let table of tables">{{table.tableName}}
                               </option>
-                            </select>
-                          </div>
-                          <div class="mb-2">
-                            <select id="exampleFormControlInput2" class="form-select form-select-sm shadow-none"
-                              formControlName="Function" aria-label=".form-select-sm example"
-                              [ngClass]="{ 'is-invalid': function.get('Function').touched && function.get('Function').errors }">
-                              <option value="{{default_select}}" selected>Select function...</option>
-                              <option value="COUNT()">COUNT(*)</option>
-                              <option value="SUM()">SUM()</option>
-                              <option value="AVG()">AVG()</option>
-                              <option value="MIN()">MIN()</option>
-                              <option value="MAX()">MAX()</option>
-                            </select>
-                          </div>
-                          <div class="d-flex mb-0">
-                            <button type="button" class="btn btn-sm btn-primary shadow-none me-auto"
-                              (click)="[onConfirmFunction(i), functionspop.hide()]"
-                              [disabled]="!function.get('ColumnName').value || !function.get('Function').value">Save</button>
-                            <button type="button" class="btn btn-sm btn-warning shadow-none"
-                              (click)="functionspop.hide()">Cancel</button>
-                          </div>
-                        </ng-template>
-                      </div>
-                    </div>
-                    <div class="d-flex">
-                      <button class="btn btn-sm shadow-none ms-auto" (click)="addFunctions()"><i
-                          class="fas fa-plus"></i></button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="accordion-item">
-                <div class="accordion-header" id="panelsStayOpen-headingThree">
-                  <button class="accordion-button shadow-none py-1 px-2" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="true"
-                    aria-controls="panelsStayOpen-collapseThree">
-                    <div class="me-2">Filter By</div>
-                    ({{runCustomQueryform.get('FilterBy')?.length}})
-                  </button>
-                </div>
-                <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse show"
-                  aria-labelledby="panelsStayOpen-headingThree">
-                  <div class="accordion-body px-2 py-0">
-                    <div formArrayName="FilterBy">
-                      <div *ngFor="let function of runCustomQueryform.get('FilterBy')?.controls; let i=index"
-                        [formGroupName]="i">
-                        <div class="input-group input-group-sm dropend mb-2">
-                          <button class="btn btn-outline-danger shadow-none" type="button"
-                            (click)="removeFilterBy(i)"><i class="fas fa-trash-alt"></i></button>
-                          <input type="text" id="iField" class="form-control shadow-none" [ngModel]="iFieldFilterBy[i]"
-                            [ngModelOptions]="{standalone: true}" aria-label="Text input with dropdown button" readonly>
-                          <button type="button" #filterBypop="bs-popover"
-                            class="btn btn-default btn-secondary dropdown-toggle shadow-none"
-                            [popover]="popTemplateFilterBy" placement="right"> </button>
-                        </div>
-                        <ng-template #popTemplateFilterBy>
-                          <div class="mb-3">
-                            <select id="exampleFormControlInput1" class="form-select form-select-sm shadow-none"
-                              formControlName="ColumnName" aria-label=".form-select-sm example">
-                              <option value="{{default_select}}" selected>Select column...</option>
-                              <option value="{{table_name.columN_NAME}}" *ngFor="let table_name of Tablemetadata">
-                                {{table_name.columN_NAME}}
-                                ({{table_name.datA_TYPE}})
+                            </optgroup>
+                            <optgroup label="External Tables" *ngIf="externalTables.length>=1">
+                              <option value="{{table.tableName}}" *ngFor="let table of externalTables">
+                                {{table.tableName}}
                               </option>
-                            </select>
-                          </div>
-                          <div class="mb-3">
-                            <select id="exampleFormControlInput2" class="form-select form-select-sm shadow-none"
-                              formControlName="FilterOperator" aria-label=".form-select-sm example">
-                              <option value="{{default_select}}" selected>Select Operator...</option>
-
-                              <optgroup label="Comparison operator">
-                                <option value="=">Equal (=)</option>
-                                <option value="<>">Not Equal (<>)</option>
-                                <option value=">">Greater than (>)</option>
-                                <option value="<">Less than (<)< /option>
-                                <option value=">=">Greater than or equal
-                                  (>=)</option>
-                                <option value="<=">Less than or equal (<=)< /option>
-                              </optgroup>
-                              <optgroup label="Logical/Special Operators">
-                                <option value="IN">IN</option>
-                                <option value="NOT IN">NOT IN</option>
-                                <option value="IS NULL">IS NULL</option>
-                                <option value="IS NOT NULL">IS NOT NULL</option>
-                                <option value="BETWEEN">BETWEEN</option>
-                                <option value="NOT BETWEEN">NOT BETWEEN</option>
-                                <option value="LIKE">LIKE</option>
-                              </optgroup>
-
-                            </select>
-                          </div>
-                          <div class="mb-3">
-                            <input type="text" class="form-control form-control-sm shadow-none"
-                              placeholder="Filter value" aria-label="Text input with dropdown button"
-                              formControlName="FilterValue">
-                          </div>
-                          <div class="d-flex mb-0">
-                            <button type="button" class="btn btn-sm btn-primary shadow-none me-auto"
-                              (click)="[onConfirmFilterBy(i),filterBypop.hide()]"
-                              [disabled]="!function.get('ColumnName').value || !function.get('FilterOperator').value || !function.get('FilterValue').value">Save</button>
-                            <button type="button" class="btn btn-sm btn-warning  shadow-none"
-                              (click)="filterBypop.hide()">Cancel</button>
-                          </div>
-                        </ng-template>
-                      </div>
-                    </div>
-                    <div class="d-flex">
-                      <label for="exampleFormControlInput1" class="form-label me-auto"></label>
-                      <button class="btn btn-sm shadow-none" (click)="addFilterBy()"><i
-                          class="fas fa-plus"></i></button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="accordion-item">
-                <div class="accordion-header" id="panelsStayOpen-headingFour">
-                  <button class="accordion-button shadow-none py-1 px-2" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="true"
-                    aria-controls="panelsStayOpen-collapseFour">
-                    <div class="me-2">Group By<span class="required">*</span></div>
-                    ({{runCustomQueryform.get('GroupBy')?.length}})
-                  </button>
-                </div>
-                <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse show"
-                  aria-labelledby="panelsStayOpen-headingFour">
-                  <div class="accordion-body px-2 py-0">
-                    <div formArrayName="GroupBy">
-                      <div *ngFor="let function of runCustomQueryform.get('GroupBy')?.controls; let i=index"
-                        [formGroupName]="i">
-                        <div class="input-group input-group-sm dropend mb-2">
-                          <button class="btn btn-outline-danger shadow-none" type="button" style="z-index: 0;"
-                            (click)="removeGroupBy(i)"><i class="fas fa-trash-alt"></i></button>
-                          <select class="form-select form-select-sm shadow-none" aria-label=".form-select-sm example"
-                            formControlName="ColumnName"
-                            [ngClass]="{ 'is-invalid': function.get('ColumnName').touched && function.get('ColumnName').errors }">
-                            <option value="{{default_select}}" selected>Select column...</option>
-                            <option value="{{table_name.columN_NAME}}" *ngFor="let table_name of Tablemetadata">
-                              {{table_name.columN_NAME}}</option>
+                            </optgroup>
+                            <optgroup label="Views" *ngIf="viewTables.length>=1">
+                              <option value="{{table.tableName}}" *ngFor="let table of viewTables">{{table.tableName}}
+                              </option>
+                            </optgroup>
                           </select>
                         </div>
                       </div>
                     </div>
-                    <div class="d-flex">
-                      <label for="exampleFormControlInput1" class="form-label me-auto"></label>
-                      <button class="btn btn-sm shadow-none" (click)="addGroupBy()"><i class="fas fa-plus"></i></button>
-                    </div>
                   </div>
-                </div>
-              </div>
-              <div class="accordion-item">
-                <div class="accordion-header" id="panelsStayOpen-headingFive">
-                  <button class="accordion-button shadow-none py-1 px-2" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="true"
-                    aria-controls="panelsStayOpen-collapseFive">
-                    <div class="me-2">Sort By</div> ({{runCustomQueryform.get('SortBy')?.length}})
-                  </button>
-                </div>
-                <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse show"
-                  aria-labelledby="panelsStayOpen-headingFive">
-                  <div class="accordion-body px-2 py-0">
-                    <div formArrayName="SortBy">
-                      <div *ngFor="let function of runCustomQueryform.get('SortBy')?.controls; let i=index"
-                        [formGroupName]="i">
-                        <div class="input-group input-group-sm dropend mb-2">
-                          <button class="btn btn-outline-danger shadow-none" type="button" style="z-index: 0;"
-                            (click)="removeSortBy(i)"><i class="fas fa-trash-alt"></i></button>
-                          <input type="text" id="iField" class="form-control shadow-none" [ngModel]="iFieldSortBy[i]"
-                            [ngModelOptions]="{standalone: true}" aria-label="Text input with dropdown button" readonly>
-                          <button type="button" #sortBypop="bs-popover"
-                            class="btn btn-default btn-secondary dropdown-toggle shadow-none" style="z-index: 0;"
-                            [popover]="popTemplateSortBy" placement="right"> </button>
+                  <div class="accordion-item">
+                    <div class="accordion-header" id="panelsStayOpen-headingTwo">
+                      <button class="accordion-button shadow-none py-1 px-2" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true"
+                        aria-controls="panelsStayOpen-collapseTwo">
+                        <div class="me-2">Metrics<span class="required">*</span></div>
+                        ({{runCustomQueryform.get('Functions')?.length}})
+                      </button>
+                    </div>
+                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show"
+                      aria-labelledby="panelsStayOpen-headingTwo">
+                      <div class="accordion-body px-2 py-0">
+                        <div formArrayName="Functions">
+                          <div *ngFor="let function of runCustomQueryform.get('Functions')?.controls; let i=index"
+                            [formGroupName]="i">
+                            <div class="input-group input-group-sm dropend mb-2">
+                              <button class="btn btn-outline-danger shadow-none" style="z-index: 0;" type="button"
+                                (click)="removeFunction(i)"><i class="fas fa-trash-alt"></i></button>
+                              <input type="text" id="iField" class="form-control shadow-none"
+                                [ngModel]="iFieldFunction[i]" [ngModelOptions]="{standalone: true}"
+                                aria-label="Text input with dropdown button" readonly>
+                              <button type="button" #functionspop="bs-popover"
+                                class="btn btn-default btn-secondary dropdown-toggle shadow-none" style="z-index: 0;"
+                                [popover]="popTemplate" placement="auto"> </button>
+                            </div>
+                            <ng-template #popTemplate>
+                              <div class="mb-2">
+                                <select id="exampleFormControlInput1" class="form-select form-select-sm shadow-none"
+                                  formControlName="ColumnName" aria-label=".form-select-sm example"
+                                  [ngClass]="{ 'is-invalid': function.get('ColumnName').touched && function.get('ColumnName').errors }">
+                                  <option value="{{default_select}}" selected>Select column...</option>
+                                  <option value="{{table_name.columN_NAME}}" *ngFor="let table_name of Tablemetadata">
+                                    {{table_name.columN_NAME}}
+                                    ({{table_name.datA_TYPE}})
+                                  </option>
+                                </select>
+                              </div>
+                              <div class="mb-2">
+                                <select id="exampleFormControlInput2" class="form-select form-select-sm shadow-none"
+                                  formControlName="Function" aria-label=".form-select-sm example"
+                                  [ngClass]="{ 'is-invalid': function.get('Function').touched && function.get('Function').errors }">
+                                  <option value="{{default_select}}" selected>Select function...</option>
+                                  <option value="COUNT()">COUNT(*)</option>
+                                  <option value="SUM()">SUM()</option>
+                                  <option value="AVG()">AVG()</option>
+                                  <option value="MIN()">MIN()</option>
+                                  <option value="MAX()">MAX()</option>
+                                </select>
+                              </div>
+                              <div class="d-flex mb-0">
+                                <button type="button" class="btn btn-sm btn-primary shadow-none me-auto"
+                                  (click)="[onConfirmFunction(i), functionspop.hide()]"
+                                  [disabled]="!function.get('ColumnName').value || !function.get('Function').value">Save</button>
+                                <button type="button" class="btn btn-sm btn-warning shadow-none"
+                                  (click)="functionspop.hide()">Cancel</button>
+                              </div>
+                            </ng-template>
+                          </div>
                         </div>
-                        <ng-template #popTemplateSortBy>
-                          <div class="mb-3">
-                            <select id="exampleFormControlInput1" class="form-select form-select-sm shadow-none"
-                              formControlName="ColumnName" aria-label=".form-select-sm example">
-                              <option value="{{default_select}}" selected>Select column...</option>
-                              <option value="{{table_name.columN_NAME}}" *ngFor="let table_name of Tablemetadata">
-                                {{table_name.columN_NAME}}
-                                ({{table_name.datA_TYPE}})
-                              </option>
-                            </select>
-                          </div>
-                          <div class="mb-3">
-                            <select id="exampleFormControlInput2" class="form-select form-select-sm shadow-none"
-                              formControlName="SortType" aria-label=".form-select-sm example">
-                              <option value="{{default_select}}" selected>Select Sort type...</option>
-                              <option value="ASC">ASC</option>
-                              <option value="DESC">DESC</option>
-                            </select>
-                          </div>
-                          <div class="d-flex">
-                            <button type="button" class="btn btn-sm btn-primary shadow-none me-auto"
-                              (click)="[onConfirmSortBy(i), sortBypop.hide()]"
-                              [disabled]="!function.get('ColumnName').value || !function.get('SortType').value">Save</button>
-                            <button type="button" class="btn btn-sm btn-warning  shadow-none"
-                              (click)="sortBypop.hide()">Cancel</button>
-                          </div>
-                        </ng-template>
+                        <div class="d-flex">
+                          <button class="btn btn-sm shadow-none ms-auto" (click)="addFunctions()"><i
+                              class="fas fa-plus"></i></button>
+                        </div>
                       </div>
                     </div>
-                    <div class="d-flex">
-                      <label for="exampleFormControlInput1" class="form-label me-auto"></label>
-                      <button class="btn btn-sm shadow-none" (click)="addSortBy()"><i class="fas fa-plus"></i></button>
+                  </div>
+                  <div class="accordion-item">
+                    <div class="accordion-header" id="panelsStayOpen-headingThree">
+                      <button class="accordion-button shadow-none py-1 px-2" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="true"
+                        aria-controls="panelsStayOpen-collapseThree">
+                        <div class="me-2">Filter By</div>
+                        ({{runCustomQueryform.get('FilterBy')?.length}})
+                      </button>
+                    </div>
+                    <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse show"
+                      aria-labelledby="panelsStayOpen-headingThree">
+                      <div class="accordion-body px-2 py-0">
+                        <div formArrayName="FilterBy">
+                          <div *ngFor="let function of runCustomQueryform.get('FilterBy')?.controls; let i=index"
+                            [formGroupName]="i">
+                            <div class="input-group input-group-sm dropend mb-2">
+                              <button class="btn btn-outline-danger shadow-none" type="button"
+                                (click)="removeFilterBy(i)"><i class="fas fa-trash-alt"></i></button>
+                              <input type="text" id="iField" class="form-control shadow-none"
+                                [ngModel]="iFieldFilterBy[i]" [ngModelOptions]="{standalone: true}"
+                                aria-label="Text input with dropdown button" readonly>
+                              <button type="button" #filterBypop="bs-popover"
+                                class="btn btn-default btn-secondary dropdown-toggle shadow-none"
+                                [popover]="popTemplateFilterBy" placement="right"> </button>
+                            </div>
+                            <ng-template #popTemplateFilterBy>
+                              <div class="mb-3">
+                                <select id="exampleFormControlInput1" class="form-select form-select-sm shadow-none"
+                                  formControlName="ColumnName" aria-label=".form-select-sm example">
+                                  <option value="{{default_select}}" selected>Select column...</option>
+                                  <option value="{{table_name.columN_NAME}}" *ngFor="let table_name of Tablemetadata">
+                                    {{table_name.columN_NAME}}
+                                    ({{table_name.datA_TYPE}})
+                                  </option>
+                                </select>
+                              </div>
+                              <div class="mb-3">
+                                <select id="exampleFormControlInput2" class="form-select form-select-sm shadow-none"
+                                  formControlName="FilterOperator" aria-label=".form-select-sm example">
+                                  <option value="{{default_select}}" selected>Select Operator...</option>
+
+                                  <optgroup label="Comparison operator">
+                                    <option value="=">Equal (=)</option>
+                                    <option value="<>">Not Equal (<>)</option>
+                                    <option value=">">Greater than (>)</option>
+                                    <option value="<">Less than (<)< /option>
+                                    <option value=">=">Greater than or equal
+                                      (>=)</option>
+                                    <option value="<=">Less than or equal (<=)< /option>
+                                  </optgroup>
+                                  <optgroup label="Logical/Special Operators">
+                                    <option value="IN">IN</option>
+                                    <option value="NOT IN">NOT IN</option>
+                                    <option value="IS NULL">IS NULL</option>
+                                    <option value="IS NOT NULL">IS NOT NULL</option>
+                                    <option value="BETWEEN">BETWEEN</option>
+                                    <option value="NOT BETWEEN">NOT BETWEEN</option>
+                                    <option value="LIKE">LIKE</option>
+                                  </optgroup>
+
+                                </select>
+                              </div>
+                              <div class="mb-3">
+                                <input type="text" class="form-control form-control-sm shadow-none"
+                                  placeholder="Filter value" aria-label="Text input with dropdown button"
+                                  formControlName="FilterValue">
+                              </div>
+                              <div class="d-flex mb-0">
+                                <button type="button" class="btn btn-sm btn-primary shadow-none me-auto"
+                                  (click)="[onConfirmFilterBy(i),filterBypop.hide()]"
+                                  [disabled]="!function.get('ColumnName').value || !function.get('FilterOperator').value || !function.get('FilterValue').value">Save</button>
+                                <button type="button" class="btn btn-sm btn-warning  shadow-none"
+                                  (click)="filterBypop.hide()">Cancel</button>
+                              </div>
+                            </ng-template>
+                          </div>
+                        </div>
+                        <div class="d-flex">
+                          <label for="exampleFormControlInput1" class="form-label me-auto"></label>
+                          <button class="btn btn-sm shadow-none" (click)="addFilterBy()"><i
+                              class="fas fa-plus"></i></button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="accordion-item">
+                    <div class="accordion-header" id="panelsStayOpen-headingFour">
+                      <button class="accordion-button shadow-none py-1 px-2" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="true"
+                        aria-controls="panelsStayOpen-collapseFour">
+                        <div class="me-2">Group By<span class="required">*</span></div>
+                        ({{runCustomQueryform.get('GroupBy')?.length}})
+                      </button>
+                    </div>
+                    <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse show"
+                      aria-labelledby="panelsStayOpen-headingFour">
+                      <div class="accordion-body px-2 py-0">
+                        <div formArrayName="GroupBy">
+                          <div *ngFor="let function of runCustomQueryform.get('GroupBy')?.controls; let i=index"
+                            [formGroupName]="i">
+                            <div class="input-group input-group-sm dropend mb-2">
+                              <button class="btn btn-outline-danger shadow-none" type="button" style="z-index: 0;"
+                                (click)="removeGroupBy(i)"><i class="fas fa-trash-alt"></i></button>
+                              <select class="form-select form-select-sm shadow-none"
+                                aria-label=".form-select-sm example" formControlName="ColumnName"
+                                [ngClass]="{ 'is-invalid': function.get('ColumnName').touched && function.get('ColumnName').errors }">
+                                <option value="{{default_select}}" selected>Select column...</option>
+                                <option value="{{table_name.columN_NAME}}" *ngFor="let table_name of Tablemetadata">
+                                  {{table_name.columN_NAME}}</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="d-flex">
+                          <label for="exampleFormControlInput1" class="form-label me-auto"></label>
+                          <button class="btn btn-sm shadow-none" (click)="addGroupBy()"><i
+                              class="fas fa-plus"></i></button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="accordion-item">
+                    <div class="accordion-header" id="panelsStayOpen-headingFive">
+                      <button class="accordion-button shadow-none py-1 px-2" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="true"
+                        aria-controls="panelsStayOpen-collapseFive">
+                        <div class="me-2">Sort By</div> ({{runCustomQueryform.get('SortBy')?.length}})
+                      </button>
+                    </div>
+                    <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse show"
+                      aria-labelledby="panelsStayOpen-headingFive">
+                      <div class="accordion-body px-2 py-0">
+                        <div formArrayName="SortBy">
+                          <div *ngFor="let function of runCustomQueryform.get('SortBy')?.controls; let i=index"
+                            [formGroupName]="i">
+                            <div class="input-group input-group-sm dropend mb-2">
+                              <button class="btn btn-outline-danger shadow-none" type="button" style="z-index: 0;"
+                                (click)="removeSortBy(i)"><i class="fas fa-trash-alt"></i></button>
+                              <input type="text" id="iField" class="form-control shadow-none"
+                                [ngModel]="iFieldSortBy[i]" [ngModelOptions]="{standalone: true}"
+                                aria-label="Text input with dropdown button" readonly>
+                              <button type="button" #sortBypop="bs-popover"
+                                class="btn btn-default btn-secondary dropdown-toggle shadow-none" style="z-index: 0;"
+                                [popover]="popTemplateSortBy" placement="right"> </button>
+                            </div>
+                            <ng-template #popTemplateSortBy>
+                              <div class="mb-3">
+                                <select id="exampleFormControlInput1" class="form-select form-select-sm shadow-none"
+                                  formControlName="ColumnName" aria-label=".form-select-sm example">
+                                  <option value="{{default_select}}" selected>Select column...</option>
+                                  <option value="{{table_name.columN_NAME}}" *ngFor="let table_name of Tablemetadata">
+                                    {{table_name.columN_NAME}}
+                                    ({{table_name.datA_TYPE}})
+                                  </option>
+                                </select>
+                              </div>
+                              <div class="mb-3">
+                                <select id="exampleFormControlInput2" class="form-select form-select-sm shadow-none"
+                                  formControlName="SortType" aria-label=".form-select-sm example">
+                                  <option value="{{default_select}}" selected>Select Sort type...</option>
+                                  <option value="ASC">ASC</option>
+                                  <option value="DESC">DESC</option>
+                                </select>
+                              </div>
+                              <div class="d-flex">
+                                <button type="button" class="btn btn-sm btn-primary shadow-none me-auto"
+                                  (click)="[onConfirmSortBy(i), sortBypop.hide()]"
+                                  [disabled]="!function.get('ColumnName').value || !function.get('SortType').value">Save</button>
+                                <button type="button" class="btn btn-sm btn-warning  shadow-none"
+                                  (click)="sortBypop.hide()">Cancel</button>
+                              </div>
+                            </ng-template>
+                          </div>
+                        </div>
+                        <div class="d-flex">
+                          <label for="exampleFormControlInput1" class="form-label me-auto"></label>
+                          <button class="btn btn-sm shadow-none" (click)="addSortBy()"><i
+                              class="fas fa-plus"></i></button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
+              </tab>
+              <tab heading="Existing" customClass="customClass">Chart from existing query</tab>
+            </tabset>
           </form>
           <hr *ngIf="minimizedChartLists.length>=1" style="color: white; height: 3px;">
           <div class="row gx-2 gy-2">
@@ -369,7 +380,6 @@
               </div>
             </div>
           </div>
-
         </div>
         <div class="col-sm-9">
           <div class="row gx-2 gy-2 mb-2" *ngIf="isError">
