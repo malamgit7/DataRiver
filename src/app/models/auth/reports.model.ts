@@ -73,6 +73,7 @@ export class ChartInfo {
     RadarPolarareaOptionsScalesRGridColor!: string;
 
     ChartXAxis!: string;
+    ChartXAxisOrder!: string;
     ChartYAxisInfo!: ChartYAxisInfo[];
     FinalChartData!: string;
     FinalChartOptions!: string;
@@ -81,6 +82,7 @@ export class ChartInfo {
 export class ChartYAxisInfo {
     Id!: string;
     ChartYAxis!: string;
+    ChartYAxisOrder!: string;
     ChartYAxisFunction!: string;
     LineBarRadarPolarDatasetsLabel!: string;
     LineBarRadarDatasetsBackgroundColor!: string;

@@ -184,7 +184,6 @@ export class ReportingComponent implements OnInit {
     this.userName = this.msalAuthenticationService.userName();
     this.GetSqlConnectionStrings()
     this.GetAllCustomQuery()
-    console.log(Date.parse("2021-04-16T00:00:00"))
   }
 
   ngAfterViewInit() {
@@ -2157,7 +2156,6 @@ export class ReportingComponent implements OnInit {
     chartInfo.ChartYAxisInfo.forEach((element: any, i: number) => {
       y_axis_array = [];
       var _ChartYAxisFunction = element.ChartYAxisFunction;
-      console.log(_ChartYAxisFunction);
       x_axis_array.forEach((x_axis_value: any, index: number) => {
         var filteredResultData = this.resultData.filter(x => x[chartInfo.ChartXAxis] == x_axis_value).map(x => x[element.ChartYAxis])
         if (_ChartYAxisFunction = "COUNT") {
