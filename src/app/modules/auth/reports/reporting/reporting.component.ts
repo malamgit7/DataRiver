@@ -11,6 +11,7 @@ import { SideBarService } from 'src/app/services/side-bar.service';
 import html2canvas from 'html2canvas';
 import { ngxCsv } from 'ngx-csv/ngx-csv';
 import { ResizedEvent } from 'angular-resize-event';
+import { dateFormat } from 'highcharts';
 
 interface ClipboardItem {
   readonly types: string[];
@@ -2176,6 +2177,12 @@ export class ReportingComponent implements OnInit {
       })
       datasetsData.push(y_axis_array)
     })
+    var _tempArray: any[] = [];
+    _tempArray.push(labels)
+    datasetsData.forEach(element => {
+      _tempArray.push(element)
+    });
+    this.SortArray(_tempArray)
     return { labels, datasetsData };
   }
 
@@ -2276,5 +2283,22 @@ export class ReportingComponent implements OnInit {
     };
 
     new ngxCsv(chartDataToDownload, chartName, options);
+  }
+
+  SortArray(arrayToSort: any[]) {
+    
+    var transposedArry = arrayToSort[0].map((_: any, colIndex: string | number) => arrayToSort.map(row => row[colIndex]));
+    transposedArry.sort((a: any, b: any) => {
+      return (a[1] - b[1])
+    })
+
+    console.table(transposedArry)
+
+
+    // Number.parseFloat('1.1')
+    // console.table(_a)
+
+    // objs.sort((a: any, b: any) => a.name.localeCompare(b.name) || b.age - a.age || a.RollNo.localeCompare(b.RollNo) || Date.parse(a.DOB) - Date.parse(b.DOB));
+    // console.table(objs);
   }
 }
