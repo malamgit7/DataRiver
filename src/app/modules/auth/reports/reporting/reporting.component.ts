@@ -1602,11 +1602,11 @@ export class ReportingComponent implements OnInit {
       _datasets.push({
         label: element.LineBarRadarPolarDatasetsLabel,
         backgroundColor: element.LineBarRadarDatasetsBackgroundColor,
-        data: xandyaxisarraydata.datasetsData[i]
+        data: xandyaxisarraydata.tmpdatasetsData[i]
       })
     })
     _barData = {
-      labels: xandyaxisarraydata.labels,
+      labels: xandyaxisarraydata.tmpLabel,
       datasets: _datasets
     }
     var _chartInfo = this.ChartInfo.at(chartNumber) as FormArray
@@ -1710,7 +1710,7 @@ export class ReportingComponent implements OnInit {
     chartInfo.ChartYAxisInfo.forEach((element: any, i: number) => {
       _datasets.push({
         label: element.LineBarRadarPolarDatasetsLabel,
-        data: xandyaxisarraydata.datasetsData[i],
+        data: xandyaxisarraydata.tmpdatasetsData[i],
         fill: element.LineDatasetsFill,
         borderDash: [0, 0],
         tension: element.LineDatasetsTension,
@@ -1719,7 +1719,7 @@ export class ReportingComponent implements OnInit {
       })
     })
     _lineData = {
-      labels: xandyaxisarraydata.labels,
+      labels: xandyaxisarraydata.tmpLabel,
       datasets: _datasets
     }
     var _chartInfo = this.ChartInfo.at(chartNumber) as FormArray
@@ -1820,7 +1820,7 @@ export class ReportingComponent implements OnInit {
     chartInfo.ChartYAxisInfo.forEach((element: any, i: number) => {
       _datasets.push({
         label: element.LineBarRadarPolarDatasetsLabel,
-        data: xandyaxisarraydata.datasetsData[i],
+        data: xandyaxisarraydata.tmpdatasetsData[i],
         backgroundColor: element.LineBarRadarDatasetsBackgroundColor,
         borderColor: element.LineRadarDatasetsBorderColor,
         pointBackgroundColor: element.RadarDatasetsPointBackgroundColor,
@@ -1830,7 +1830,7 @@ export class ReportingComponent implements OnInit {
       })
     })
     _radarData = {
-      labels: xandyaxisarraydata.labels,
+      labels: xandyaxisarraydata.tmpLabel,
       datasets: _datasets
     }
     var _chartInfo = this.ChartInfo.at(chartNumber) as FormArray
@@ -1905,17 +1905,17 @@ export class ReportingComponent implements OnInit {
     var _datasets: any = [];
     chartInfo.ChartYAxisInfo.forEach((element: any, i: number) => {
       var _backgroundColor: any = [];
-      xandyaxisarraydata.datasetsData[i].forEach((element: any, i: number) => {
+      xandyaxisarraydata.tmpdatasetsData[i].forEach((element: any, i: number) => {
         _backgroundColor.push('#' + Math.floor(Math.random() * 16777215).toString(16))
       })
       _datasets.push({
-        data: xandyaxisarraydata.datasetsData[i],
+        data: xandyaxisarraydata.tmpdatasetsData[i],
         backgroundColor: _backgroundColor,
         label: element.LineBarRadarPolarDatasetsLabel,
       })
     })
     _polarAreaData = {
-      labels: xandyaxisarraydata.labels,
+      labels: xandyaxisarraydata.tmpLabel,
       datasets: _datasets
     }
     var _chartInfo = this.ChartInfo.at(chartNumber) as FormArray
@@ -1984,17 +1984,17 @@ export class ReportingComponent implements OnInit {
     var _datasets: any = [];
     chartInfo.ChartYAxisInfo.forEach((element: any, i: number) => {
       var _backgroundColor: any = [];
-      xandyaxisarraydata.datasetsData[i].forEach((element: any, j: number) => {
+      xandyaxisarraydata.tmpdatasetsData[i].forEach((element: any, j: number) => {
         _backgroundColor.push('#' + Math.floor(Math.random() * 16777215).toString(16))
       })
       _datasets.push({
-        data: xandyaxisarraydata.datasetsData[i],
+        data: xandyaxisarraydata.tmpdatasetsData[i],
         backgroundColor: _backgroundColor,
         hoverBackgroundColor: _backgroundColor
       })
     })
     _doughnutData = {
-      labels: xandyaxisarraydata.labels,
+      labels: xandyaxisarraydata.tmpLabel,
       datasets: _datasets
     }
     var _chartInfo = this.ChartInfo.at(chartNumber) as FormArray
@@ -2056,17 +2056,17 @@ export class ReportingComponent implements OnInit {
     var _datasets: any = [];
     chartInfo.ChartYAxisInfo.forEach((element: any, i: number) => {
       var _backgroundColor: any = [];
-      xandyaxisarraydata.datasetsData[i].forEach((element: any, j: number) => {
+      xandyaxisarraydata.tmpdatasetsData[i].forEach((element: any, j: number) => {
         _backgroundColor.push('#' + Math.floor(Math.random() * 16777215).toString(16))
       })
       _datasets.push({
-        data: xandyaxisarraydata.datasetsData[i],
+        data: xandyaxisarraydata.tmpdatasetsData[i],
         backgroundColor: _backgroundColor,
         hoverBackgroundColor: _backgroundColor
       })
     })
     _pieData = {
-      labels: xandyaxisarraydata.labels,
+      labels: xandyaxisarraydata.tmpLabel,
       datasets: _datasets
     }
     var _chartInfo = this.ChartInfo.at(chartNumber) as FormArray
@@ -2182,8 +2182,16 @@ export class ReportingComponent implements OnInit {
     datasetsData.forEach(element => {
       _tempArray.push(element)
     });
-    this.SortArray(_tempArray)
-    return { labels, datasetsData };
+    var modifiesdArry = this.SortArray(_tempArray, ['DESC', 'ASC', 'DESC'])
+
+    var tmpLabel = modifiesdArry[0]
+    var tmpdatasetsData: any[] = []
+
+    for (let i = 1; i < modifiesdArry.length; i++) {
+      tmpdatasetsData.push(modifiesdArry[i])
+    }
+
+    return { tmpLabel, tmpdatasetsData };
   }
 
   downloadChart(chartid: string, chartName: string) {
@@ -2285,20 +2293,16 @@ export class ReportingComponent implements OnInit {
     new ngxCsv(chartDataToDownload, chartName, options);
   }
 
-  SortArray(arrayToSort: any[]) {
-    
-    var transposedArry = arrayToSort[0].map((_: any, colIndex: string | number) => arrayToSort.map(row => row[colIndex]));
-    transposedArry.sort((a: any, b: any) => {
-      return (a[1] - b[1])
+  SortArray(arrayToSort: any[], sortBy: string[]) {
+
+    const givenArrayLength = arrayToSort.length;
+
+    var transposedArray = arrayToSort[0].map((_: any, colIndex: string | number) => arrayToSort.map(row => row[colIndex]));
+    transposedArray.sort((a: any, b: any) => {
+      return (sortBy[0] == 'ASC' ? Date.parse(a[0]) - Date.parse(b[0]) : Date.parse(b[0]) - Date.parse(a[0])) || (sortBy[1] == 'ASC' ? a[1] - b[1] : b[1] - a[1]) || (sortBy[2] == 'ASC' ? a[2] - b[2] : b[2] - a[2])
     })
 
-    console.table(transposedArry)
-
-
-    // Number.parseFloat('1.1')
-    // console.table(_a)
-
+    return transposedArray[0].map((_: any, colIndex: string | number) => transposedArray.map((row: any) => row[colIndex]));
     // objs.sort((a: any, b: any) => a.name.localeCompare(b.name) || b.age - a.age || a.RollNo.localeCompare(b.RollNo) || Date.parse(a.DOB) - Date.parse(b.DOB));
-    // console.table(objs);
   }
 }

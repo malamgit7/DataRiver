@@ -401,7 +401,6 @@
                     <div class="card-header py-1 d-flex">
                       <div class="card-title me-auto">{{!function.get('ChartName').value? "Chart "+(i+1):
                         function.get('ChartName').value}}</div>
-
                       <button id="cogs" type="button" class="btn btn-sm shadow-none me-2" (click)="op.toggle($event)">
                         <i class="fas fa-cogs text-primary"></i> </button>
                       <button id="cogs" type="button" class="btn btn-sm shadow-none me-2"
@@ -411,10 +410,7 @@
                       <button id="cogs" type="button" class="btn btn-sm shadow-none me-2"
                         (click)="downloadChartData(i, !function.get('ChartName').value?'Chart '+(i+1):function.get('ChartName').value)"><i
                           class="fas fa-file-download"></i></button>
-
                       <div class="vl mx-3"></div>
-
-
                       <button type="button" class="btn btn-sm shadow-none mx-2"
                         (click)="minimizeChart(i, !function.get('ChartName').value?'Chart '+(i+1):function.get('ChartName').value, true)"><i
                           class="fas fa-minus"></i></button>
