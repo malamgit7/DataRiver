@@ -424,6 +424,7 @@ export class ReportingComponent implements OnInit {
       //#endregion
 
       ChartXAxis: [{ value: '', disabled: false }, Validators.required],
+      ChartXAxisOrder: [{ value: '', disabled: false }, Validators.required],
       ChartYAxisInfo: this.formBuilder.array([]),
 
       FinalChartData: ['', Validators.required],
@@ -446,6 +447,7 @@ export class ReportingComponent implements OnInit {
     return this.formBuilder.group({
       Id: null,
       ChartYAxis: ['', Validators.required],
+      ChartYAxisOrder: ['', Validators.required],
       ChartYAxisFunction: ['', Validators.required],
 
       LineBarRadarPolarDatasetsLabel: [{ value: '', disabled: true }, Validators.required],
@@ -1061,6 +1063,7 @@ export class ReportingComponent implements OnInit {
           RadarOptionsScalesRAnglelinesColor: element.radarOptionsScalesRAnglelinesColor,
           RadarPolarareaOptionsScalesRGridColor: element.radarPolarareaOptionsScalesRGridColor,
           ChartXAxis: element.chartXAxis,
+          ChartXAxisOrder: element.chartXAxisOrder,
           FinalChartData: element.finalChartData,
           FinalChartOptions: element.finalChartOptions,
         });
@@ -1071,6 +1074,7 @@ export class ReportingComponent implements OnInit {
           chartYAxisInfo.controls[indexY].patchValue({
             Id: item.id,
             ChartYAxis: item.chartYAxis,
+            ChartYAxisOrder: item.chartYAxisOrder,
             ChartYAxisFunction: item.chartYAxisFunction,
             LineBarRadarPolarDatasetsLabel: item.lineBarRadarPolarDatasetsLabel,
             LineBarRadarDatasetsBackgroundColor: item.lineBarRadarDatasetsBackgroundColor,
@@ -1231,6 +1235,7 @@ export class ReportingComponent implements OnInit {
           RadarOptionsScalesRAnglelinesColor: element.radarOptionsScalesRAnglelinesColor,
           RadarPolarareaOptionsScalesRGridColor: element.radarPolarareaOptionsScalesRGridColor,
           ChartXAxis: element.chartXAxis,
+          ChartXAxisOrder: element.chartXAxisOrder,
           FinalChartData: element.finalChartData,
           FinalChartOptions: element.finalChartOptions,
         });
@@ -1241,6 +1246,7 @@ export class ReportingComponent implements OnInit {
           chartYAxisInfo.controls[indexY].patchValue({
             Id: item.id,
             ChartYAxis: item.chartYAxis,
+            ChartYAxisOrder: item.chartYAxisOrder,
             ChartYAxisFunction: item.chartYAxisFunction,
             LineBarRadarPolarDatasetsLabel: item.lineBarRadarPolarDatasetsLabel,
             LineBarRadarDatasetsBackgroundColor: item.lineBarRadarDatasetsBackgroundColor,
@@ -1590,6 +1596,7 @@ export class ReportingComponent implements OnInit {
   BuildBarData(chartInfo: any, chartNumber: number) {
     var _barData: any
     var xandyaxisarraydata = this.GetXAndYAxisArray(chartInfo)
+    console.log(xandyaxisarraydata);
     var _datasets: any = [];
     chartInfo.ChartYAxisInfo.forEach((element: any, i: number) => {
       _datasets.push({

@@ -2,7 +2,8 @@ body {
   padding-top: 1rem;
   padding-bottom: 1rem;
   width: 100%;
-  background: #21667c;
+  //background: #21667c;
+  background: transparent;
 }
 
 .content {
@@ -85,4 +86,9 @@ button#cogs:hover {
 
 ::ng-deep .customClass>a:hover {
   color: white;
+}
+
+span .form-select {
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
 }
