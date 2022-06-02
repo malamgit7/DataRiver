@@ -398,26 +398,45 @@
                   *ngFor="let function of runCustomQueryform.get('ChartInfo')?.controls; let i=index"
                   [formGroupName]="i">
                   <div class="card" style="z-index: inherit;" *ngIf="isChartMaximised(i)" cdkDrag m22Resizable>
-                    <div class="card-header py-1 d-flex">
-                      <div class="card-title me-auto">{{!function.get('ChartName').value? "Chart "+(i+1):
-                        function.get('ChartName').value}}</div>
-                      <button id="cogs" type="button" class="btn btn-sm shadow-none me-2" (click)="op.toggle($event)">
-                        <i class="fas fa-cogs text-primary"></i> </button>
-                      <button id="cogs" type="button" class="btn btn-sm shadow-none me-2"
-                        (click)="copyChartToClipboard('chart_'+i,!function.get('ChartName').value?'image':function.get('ChartName').value)">
-                        <i class="fas fa-camera-retro"></i>
-                      </button>
-                      <button id="cogs" type="button" class="btn btn-sm shadow-none me-2"
-                        (click)="downloadChartData(i, !function.get('ChartName').value?'Chart '+(i+1):function.get('ChartName').value)"><i
-                          class="fas fa-file-download"></i></button>
-                      <div class="vl mx-3"></div>
-                      <button type="button" class="btn btn-sm shadow-none mx-2"
-                        (click)="minimizeChart(i, !function.get('ChartName').value?'Chart '+(i+1):function.get('ChartName').value, true)"><i
-                          class="fas fa-minus"></i></button>
-                      <button type="button" class="btn btn-sm shadow-none me-2" (click)="maximizeChart(i)"><i
-                          class="far fa-window-maximize"></i></button>
-                      <button type="button" class="btn btn-sm shadow-none" (click)="removeChartInfo(i)"><i
-                          class="fas fa-window-close text-danger"></i></button>
+                    <div class="card-header py-1">
+                      <div class="row gx-0">
+                        <div class="col-sm-6 text-truncate">{{!function.get('ChartName').value? "Chart "+(i+1):
+                          function.get('ChartName').value}}
+                        </div>
+                        <div class="col-sm-1"><button id="cogs" type="button" class="btn btn-sm shadow-none"
+                            (click)="op.toggle($event)">
+                            <i class="fas fa-cogs text-primary"></i>
+                          </button>
+                        </div>
+                        <div class="col-sm-1">
+                          <button id="cogs" type="button" class="btn btn-sm shadow-none"
+                            (click)="copyChartToClipboard('chart_'+i,!function.get('ChartName').value?'image':function.get('ChartName').value)">
+                            <i class="fas fa-camera-retro"></i>
+                          </button>
+                        </div>
+                        <div class="col-sm-1">
+                          <button id="cogs" type="button" class="btn btn-sm shadow-none"
+                            (click)="downloadChartData(i, !function.get('ChartName').value?'Chart '+(i+1):function.get('ChartName').value)"><i
+                              class="fas fa-file-download"></i>
+                          </button>
+                        </div>
+                        <div class="col-sm-1">
+                          <button type="button" class="btn btn-sm shadow-none"
+                            (click)="minimizeChart(i, !function.get('ChartName').value?'Chart '+(i+1):function.get('ChartName').value, true)"><i
+                              class="fas fa-minus"></i>
+                          </button>
+                        </div>
+                        <div class="col-sm-1">
+                          <button type="button" class="btn btn-sm shadow-none" (click)="maximizeChart(i)"><i
+                              class="far fa-window-maximize"></i>
+                          </button>
+                        </div>
+                        <div class="col-sm-1">
+                          <button type="button" class="btn btn-sm shadow-none" (click)="removeChartInfo(i, $event)"><i
+                              class="fas fa-window-close text-danger"></i>
+                          </button>
+                        </div>
+                      </div>
                     </div>
                     <div class="card-body py-0" (resized)="onResizedChartCard($event)" style="overflow: hidden;">
                       <p-chart id="chart_{{i}}" [responsive]="true" [width]="chartWidth" [height]="chartHeight"

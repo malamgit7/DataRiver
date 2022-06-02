@@ -434,8 +434,15 @@ export class ReportingComponent implements OnInit {
   addChartInfo() {
     this.ChartInfo.push(this.newChartInfo());
   }
-  removeChartInfo(i: number) {
-    this.ChartInfo.removeAt(i);
+  removeChartInfo(i: number, event: Event) {
+    this.confirmationService.confirm({
+      target: event.target!,
+      message: 'Are you sure that you want to proceed?',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => { this.ChartInfo.removeAt(i); },
+      reject: () => { }
+    })
+
   }
   //#endregion
 
