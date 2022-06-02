@@ -11,7 +11,7 @@ import { SideBarService } from 'src/app/services/side-bar.service';
 import html2canvas from 'html2canvas';
 import { ngxCsv } from 'ngx-csv/ngx-csv';
 import { ResizedEvent } from 'angular-resize-event';
-import { dateFormat } from 'highcharts';
+import * as moment from 'moment';
 
 interface ClipboardItem {
   readonly types: string[];
@@ -2296,10 +2296,7 @@ export class ReportingComponent implements OnInit {
   SortArray(arrayToSort: any[], sortBy: string) {
     var transposedArray = arrayToSort[0].map((_: any, colIndex: string | number) => arrayToSort.map(row => row[colIndex]));
     transposedArray.sort((a: any, b: any) => {
-      var validDateA = new Date(a[0])
-      var validDateB = new Date(b[0])
-
-      if (validDateA && validDateB) {
+      if (moment(a[0]).isValid() && moment(b[0]).isValid()) {
         return sortBy == 'ASC' ? Date.parse(a[0]) - Date.parse(b[0]) : Date.parse(b[0]) - Date.parse(a[0]);
       }
       else if (a[0] instanceof String || typeof a[0] == 'string' || isNaN(a[0])) {
