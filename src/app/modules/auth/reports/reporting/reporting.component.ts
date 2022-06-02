@@ -447,7 +447,7 @@ export class ReportingComponent implements OnInit {
     return this.formBuilder.group({
       Id: null,
       ChartYAxis: ['', Validators.required],
-      ChartYAxisOrder: ['', Validators.required],
+      ChartYAxisOrder: [{ value: '', disabled: true }, Validators.required],
       ChartYAxisFunction: ['', Validators.required],
 
       LineBarRadarPolarDatasetsLabel: [{ value: '', disabled: true }, Validators.required],
@@ -2296,7 +2296,20 @@ export class ReportingComponent implements OnInit {
   SortArray(arrayToSort: any[], sortBy: string) {
     var transposedArray = arrayToSort[0].map((_: any, colIndex: string | number) => arrayToSort.map(row => row[colIndex]));
     transposedArray.sort((a: any, b: any) => {
-      return (sortBy == 'ASC' ? Date.parse(a[0]) - Date.parse(b[0]) : Date.parse(b[0]) - Date.parse(a[0])) || (sortBy[1] == 'ASC' ? a[1] - b[1] : b[1] - a[1]) || (sortBy[2] == 'ASC' ? a[2] - b[2] : b[2] - a[2])
+      var validDateA = new Date(a[0])
+      var validDateB = new Date(b[0])
+
+      if (validDateA && validDateB) {
+        return sortBy == 'ASC' ? Date.parse(a[0]) - Date.parse(b[0]) : Date.parse(b[0]) - Date.parse(a[0]);
+      }
+      else if (a[0] instanceof String || typeof a[0] == 'string' || isNaN(a[0])) {
+        return sortBy == "ASC" ? a[0].localeCompare(b[0]) : b[0].localeCompare(a[0]);
+      }
+      else if (a[0] instanceof Number || typeof a[0] == 'number' || !isNaN(a[0])) {
+        return sortBy == 'ASC' ? a[0] - b[0] : b[0] - a[0]
+      }
+
+      // return (sortBy == 'ASC' ? Date.parse(a[0]) - Date.parse(b[0]) : Date.parse(b[0]) - Date.parse(a[0])) || (sortBy[1] == 'ASC' ? a[1] - b[1] : b[1] - a[1]) || (sortBy[2] == 'ASC' ? a[2] - b[2] : b[2] - a[2])
     })
     return transposedArray[0].map((_: any, colIndex: string | number) => transposedArray.map((row: any) => row[colIndex]));
   }
