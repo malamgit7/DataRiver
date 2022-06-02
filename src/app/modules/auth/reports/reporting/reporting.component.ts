@@ -2148,7 +2148,7 @@ export class ReportingComponent implements OnInit {
 
     let datasetsData: any[] = []
     let labels = []
-
+    console.log(chartInfo)
 
     var x_axis_object = [...new Map(this.resultData.map(item => [item[chartInfo.ChartXAxis], item])).values()];
     x_axis_array = x_axis_object.map(x => x[chartInfo.ChartXAxis])
@@ -2182,7 +2182,7 @@ export class ReportingComponent implements OnInit {
     datasetsData.forEach(element => {
       _tempArray.push(element)
     });
-    var modifiesdArry = this.SortArray(_tempArray, ['DESC', 'ASC', 'DESC'])
+    var modifiesdArry = this.SortArray(_tempArray, chartInfo.ChartXAxisOrder)
 
     var tmpLabel = modifiesdArry[0]
     var tmpdatasetsData: any[] = []
@@ -2293,16 +2293,11 @@ export class ReportingComponent implements OnInit {
     new ngxCsv(chartDataToDownload, chartName, options);
   }
 
-  SortArray(arrayToSort: any[], sortBy: string[]) {
-
-    const givenArrayLength = arrayToSort.length;
-
+  SortArray(arrayToSort: any[], sortBy: string) {
     var transposedArray = arrayToSort[0].map((_: any, colIndex: string | number) => arrayToSort.map(row => row[colIndex]));
     transposedArray.sort((a: any, b: any) => {
-      return (sortBy[0] == 'ASC' ? Date.parse(a[0]) - Date.parse(b[0]) : Date.parse(b[0]) - Date.parse(a[0])) || (sortBy[1] == 'ASC' ? a[1] - b[1] : b[1] - a[1]) || (sortBy[2] == 'ASC' ? a[2] - b[2] : b[2] - a[2])
+      return (sortBy == 'ASC' ? Date.parse(a[0]) - Date.parse(b[0]) : Date.parse(b[0]) - Date.parse(a[0])) || (sortBy[1] == 'ASC' ? a[1] - b[1] : b[1] - a[1]) || (sortBy[2] == 'ASC' ? a[2] - b[2] : b[2] - a[2])
     })
-
     return transposedArray[0].map((_: any, colIndex: string | number) => transposedArray.map((row: any) => row[colIndex]));
-    // objs.sort((a: any, b: any) => a.name.localeCompare(b.name) || b.age - a.age || a.RollNo.localeCompare(b.RollNo) || Date.parse(a.DOB) - Date.parse(b.DOB));
   }
 }
