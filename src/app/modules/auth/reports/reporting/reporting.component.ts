@@ -12,6 +12,7 @@ import html2canvas from 'html2canvas';
 import { ngxCsv } from 'ngx-csv/ngx-csv';
 import { ResizedEvent } from 'angular-resize-event';
 import * as moment from 'moment';
+import { Queries } from 'src/app/models/auth/data-analysis.model';
 
 interface ClipboardItem {
   readonly types: string[];
@@ -160,6 +161,12 @@ export class ReportingComponent implements OnInit {
   chartWidth!: number;
   chartHeight!: number;
 
+  queries!: any[];
+  selectedQuery!: any;
+
+  executeQueryForm!: FormGroup;
+  executeQueryForm_loading = false;
+
   constructor(
     private formBuilder: FormBuilder,
     private bridgeManagerService: BridgeManagerService,
@@ -193,6 +200,74 @@ export class ReportingComponent implements OnInit {
     })
   }
 
+  GetQueries() {
+    this.analysisService.GetQueries().subscribe(
+      res => {
+        this.queries = res;
+        console.log(this.queries)
+      },
+      err => { }
+    );
+  }
+
+  onSelectQuery(event: Event) {
+    var queryId = (<HTMLInputElement>event.target).value
+    this.selectedQuery = this.queries.find(x => x.queryId == queryId)!
+    const databaseName = this.connectionStrings.find(x => x.connectionStringId == this.selectedQuery.connectionStringId).databaseName;
+
+    this.buildExecuteQueryForm()
+    this.executeQueryForm.patchValue({
+      QueryId: this.selectedQuery.queryId,
+      DatabaseName: databaseName,
+      ConnectionStringId: this.selectedQuery.connectionStringId,
+      QuerySQL: this.selectedQuery.querySQL,
+      AddedBy: this.selectedQuery.addedBy,
+      AddedDate: this.selectedQuery.addedDate,
+    })
+    console.log(this.executeQueryForm.value)
+    this.onSubmitExecuteQueryForm();
+  }
+
+  buildExecuteQueryForm() {
+    this.executeQueryForm = this.formBuilder.group({
+      QueryId: [null],
+      DatabaseName: [null],
+      ConnectionStringId: [null],
+      QuerySQL: [null],
+      AddedBy: null,
+      AddedDate: null
+    });
+  }
+
+  onSubmitExecuteQueryForm() {
+    this.analysisService.ExecuteQuery(this.executeQueryForm.value).subscribe(
+      (res: any) => {
+        console.log(res)
+        if (typeof (res) == 'object') {
+          this.getDatasetKeys(res[0]);
+          this.chartdataService.updateData(res);
+          this.resultData = res;
+
+          if (this.selectedWorkspacedata != null) {
+            this.renderSavedCharts();
+          }
+          this.keys = Object.keys(res[0]);
+          this.keys.forEach((key, i) => {
+            this.cols.push({ field: key, header: key.trim() });
+          });
+          var tmp: string[] = [];
+          this.keys.forEach((item) => {
+            tmp.push("'" + item + "'");
+          });
+          this.filterFields = tmp.join(",");
+        }
+        else if (typeof (res) == 'number') { }
+      },
+      err => {
+        console.log(err)
+      }
+    )
+  }
 
   onResizedChartCard(event: ResizedEvent) {
     this.chartWidth = event.newRect.width - 10
@@ -532,6 +607,7 @@ export class ReportingComponent implements OnInit {
     this.bridgeManagerService.GetSqlConnectionStrings().subscribe(
       (res) => {
         this.connectionStrings = res;
+        console.log(res);
         this.connectionString_loading = false;
       },
       (err) => {
@@ -1559,6 +1635,7 @@ export class ReportingComponent implements OnInit {
 
   getDatasetKeys(data: any) {
     this.datasetKeys = Object.keys(data);
+    console.log(this.datasetKeys);
   }
 
   parseJson(strData: any): any {

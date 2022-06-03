@@ -368,7 +368,39 @@
                   </div>
                 </div>
               </tab>
-              <tab heading="Existing" customClass="customClass">Chart from existing query</tab>
+              <tab heading="Existing" customClass="customClass" (selectTab)="GetQueries()">
+                <div class="card mt-2">
+                  <div class="card-body p-2">
+                    <div class="input-group mb-2">
+                      <select aria-label="Connection String" (change)="onSelectConnectionString($event)"
+                        class="form-control form-control-sm shadow-none text-truncate"
+                        formControlName="ConnectionStringId">
+                        <option value={{default_select}} selected>Select Connection...</option>
+                        <option value={{connectionString.connectionStringId}}
+                          *ngFor="let connectionString of connectionStrings">
+                          {{connectionString.connectionName}}
+                        </option>
+                      </select>
+                      <div class="input-group-text" *ngIf="connectionString_loading">
+                        <div class="spinner-grow spinner-grow-sm text-primary" role="status">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="mb-2">
+                      <input class="form-control form-control-sm shadow-none text-truncate" type="text"
+                        [value]="databaseName" aria-label="Disabled input example" disabled readonly>
+                    </div>
+                    <div class="mb-2">
+                      <select class="form-select form-select-sm shadow-none" name="all tables" id="alltables"
+                        (change)="onSelectQuery($event)">
+                        <option [value]="default_select">Select Query...</option>
+                        <option [value]="query.queryId" *ngFor="let query of queries">{{query.queryName}}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </tab>
             </tabset>
           </form>
           <hr *ngIf="minimizedChartLists.length>=1" style="color: white; height: 3px;">
