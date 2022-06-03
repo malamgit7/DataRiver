@@ -240,6 +240,14 @@ export class ReportingComponent implements OnInit {
   }
 
   onSubmitExecuteQueryForm() {
+    this.runcustomQueryForm_loading = true;
+    this.xAxisItems = []
+    this.yAxisItems = []
+    this.resultData = []
+    this.cols = [];
+    this.keys = [];
+    this.filterFields = '';
+    this.isError = false;
     this.analysisService.ExecuteQuery(this.executeQueryForm.value).subscribe(
       (res: any) => {
         console.log(res)
