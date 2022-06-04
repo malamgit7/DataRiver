@@ -200,11 +200,30 @@ export class ReportingComponent implements OnInit {
     })
   }
 
-  GetQueries() {
-    this.analysisService.GetQueries().subscribe(
+  ExestingTabSelected() {
+    this.allTables_loading = true;
+    (this.runCustomQueryform.get('Functions') as FormArray).clear();
+    (this.runCustomQueryform.get('GroupBy') as FormArray).clear();
+    (this.runCustomQueryform.get('SortBy') as FormArray).clear();
+    (this.runCustomQueryform.get('FilterBy') as FormArray).clear();
+    (this.runCustomQueryform.get('ChartInfo') as FormArray).clear();
+    this.databaseName = 'Database Name...';
+    this.tables = [];
+    this.externalTables = [];
+    this.viewTables = [];
+    this.xAxisItems = [];
+    this.yAxisItems = [];
+    this.iFieldFunction = [];
+    this.iFieldSortBy = [];
+    this.iFieldFilterBy = [];
+    this.Tablemetadata = [];
+    this.resultData = [];
+  }
+
+  GetQueriesByConnectionStringId(ConnectionStringId: string) {
+    this.analysisService.GetQueriesByConnectionStringId(ConnectionStringId).subscribe(
       res => {
         this.queries = res;
-        console.log(this.queries)
       },
       err => { }
     );
@@ -270,8 +289,10 @@ export class ReportingComponent implements OnInit {
           this.filterFields = tmp.join(",");
         }
         else if (typeof (res) == 'number') { }
+        this.runcustomQueryForm_loading = false;
       },
       err => {
+        this.runcustomQueryForm_loading = false;
         console.log(err)
       }
     )
@@ -654,6 +675,31 @@ export class ReportingComponent implements OnInit {
     this.selectedConnectionStringId = connectionStringId;
     this.databaseName = this.connectionStrings.find(x => x.connectionStringId == connectionStringId).databaseName;
     this.GetAllTables(connectionStringId);
+  }
+
+  onSelectConnectionStringExesting(event: Event) {
+    this.allTables_loading = true;
+    (this.runCustomQueryform.get('Functions') as FormArray).clear();
+    (this.runCustomQueryform.get('GroupBy') as FormArray).clear();
+    (this.runCustomQueryform.get('SortBy') as FormArray).clear();
+    (this.runCustomQueryform.get('FilterBy') as FormArray).clear();
+    this.databaseName = 'Database Name...';
+    this.tables = [];
+    this.externalTables = [];
+    this.viewTables = [];
+    this.xAxisItems = [];
+    this.yAxisItems = [];
+    this.iFieldFunction = [];
+    this.iFieldSortBy = [];
+    this.iFieldFilterBy = [];
+    this.Tablemetadata = [];
+    this.resultData = [];
+    var connectionStringId = (<HTMLInputElement>event.target).value;
+    this.selectedConnectionStringId = connectionStringId;
+    if (connectionStringId) {
+      this.databaseName = this.connectionStrings.find(x => x.connectionStringId == connectionStringId).databaseName;
+      this.GetQueriesByConnectionStringId(connectionStringId);
+    }
   }
 
   GetAllTables(connectionStringId: string) {

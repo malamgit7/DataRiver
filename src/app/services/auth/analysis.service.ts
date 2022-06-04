@@ -117,6 +117,14 @@ export class AnalysisService {
     return this.http.get<Queries[]>(url + `/${QueryId}`, options)
   }
 
+  GetQueriesByConnectionStringId(ConnectionStringId: string): Observable<Queries[]> {
+    const url = protectedResources.AnalysisApi.GetQueriesByConnectionStringId.endpoint;
+    const options = {
+      headers: new HttpHeaders().append('Content-Type', 'application/json')
+    }
+    return this.http.get<Queries[]>(url + `/${ConnectionStringId}`, options)
+  }
+
   DeleteQuery(QueryId: string): Observable<Queries[]> {
     const url = protectedResources.AnalysisApi.DeleteQuery.endpoint;
     const options = {

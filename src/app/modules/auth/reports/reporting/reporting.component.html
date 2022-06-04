@@ -368,13 +368,13 @@
                   </div>
                 </div>
               </tab>
-              <tab heading="Existing" customClass="customClass" (selectTab)="GetQueries()">
+              <tab heading="Existing" customClass="customClass" (selectTab)="ExestingTabSelected()">
                 <div class="card mt-2">
                   <div class="card-body p-2">
                     <div class="input-group mb-2">
-                      <select aria-label="Connection String" (change)="onSelectConnectionString($event)"
-                        class="form-control form-control-sm shadow-none text-truncate"
-                        formControlName="ConnectionStringId">
+                      <select class="form-select form-select-sm shadow-none" aria-label="Default select example"
+                        formControlName="ConnectionStringId" (change)="onSelectConnectionStringExesting($event)"
+                        [ngClass]="{ 'is-invalid': f['ConnectionStringId'].touched && f['ConnectionStringId'].errors }">
                         <option value={{default_select}} selected>Select Connection...</option>
                         <option value={{connectionString.connectionStringId}}
                           *ngFor="let connectionString of connectionStrings">
@@ -393,7 +393,7 @@
                     </div>
                     <div class="mb-2">
                       <select class="form-select form-select-sm shadow-none" name="all tables" id="alltables"
-                        (change)="onSelectQuery($event)">
+                        formControlName="CustomQueryId" (change)="onSelectQuery($event)">
                         <option [value]="default_select">Select Query...</option>
                         <option [value]="query.queryId" *ngFor="let query of queries">{{query.queryName}}</option>
                       </select>

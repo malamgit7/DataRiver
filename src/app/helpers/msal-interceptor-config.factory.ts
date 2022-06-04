@@ -62,6 +62,7 @@ export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
   protectedResourceMap.set(protectedResources.AnalysisApi.OnRowTableUpdate.endpoint, protectedResources.AnalysisApi.OnRowTableUpdate.scopes);
   protectedResourceMap.set(protectedResources.AnalysisApi.GetQueries.endpoint, protectedResources.AnalysisApi.GetQueries.scopes);
   protectedResourceMap.set(protectedResources.AnalysisApi.GetQueryById.endpoint, protectedResources.AnalysisApi.GetQueryById.scopes);
+  protectedResourceMap.set(protectedResources.AnalysisApi.GetQueriesByConnectionStringId.endpoint, protectedResources.AnalysisApi.GetQueriesByConnectionStringId.scopes);
   protectedResourceMap.set(protectedResources.AnalysisApi.DeleteQuery.endpoint, protectedResources.AnalysisApi.DeleteQuery.scopes);
   protectedResourceMap.set(protectedResources.AnalysisApi.ScheduleQuery.endpoint, protectedResources.AnalysisApi.ScheduleQuery.scopes);
   protectedResourceMap.set(protectedResources.AnalysisApi.DeleteSchedule.endpoint, protectedResources.AnalysisApi.DeleteSchedule.scopes);

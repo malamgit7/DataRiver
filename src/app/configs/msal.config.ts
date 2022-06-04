@@ -91,6 +91,7 @@ export const protectedResources = {
     OnRowTableUpdate: { endpoint: environment.apiUrl + "/Analysis/OnRowTableUpdate", scopes: [environment.scopes_1] },
     GetQueries: { endpoint: environment.apiUrl + "/Analysis/GetQueries", scopes: [environment.scopes_1] },
     GetQueryById: { endpoint: environment.apiUrl + "/Analysis/GetQueryById", scopes: [environment.scopes_1] },
+    GetQueriesByConnectionStringId: { endpoint: environment.apiUrl + "/Analysis/GetQueriesByConnectionStringId", scopes: [environment.scopes_1] },
     DeleteQuery: { endpoint: environment.apiUrl + "/Analysis/DeleteQuery", scopes: [environment.scopes_1] },
     ScheduleQuery: { endpoint: environment.apiUrl + "/Analysis/ScheduleQuery", scopes: [environment.scopes_1] },
     DeleteSchedule: { endpoint: environment.apiUrl + "/Analysis/DeleteSchedule", scopes: [environment.scopes_1] },
