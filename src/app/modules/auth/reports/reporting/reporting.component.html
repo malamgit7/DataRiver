@@ -71,7 +71,7 @@
               </div>
             </div>
             <tabset [justified]="true">
-              <tab heading="New" customClass="customClass">
+              <tab heading="New" customClass="customClass" (selectTab)="NewTabSelected()">
                 <div class="accordion" id="accordionPanelsStayOpenExample">
                   <div class="accordion-item">
                     <div class="accordion-header" id="panelsStayOpen-headingOne">
@@ -393,6 +393,7 @@
                     </div>
                     <div class="mb-2">
                       <select class="form-select form-select-sm shadow-none" name="all tables" id="alltables"
+                        [ngClass]="{ 'is-invalid': f['CustomQueryId'].touched && f['CustomQueryId'].errors }"
                         formControlName="CustomQueryId" (change)="onSelectQuery($event)">
                         <option [value]="default_select">Select Query...</option>
                         <option [value]="query.queryId" *ngFor="let query of queries">{{query.queryName}}</option>

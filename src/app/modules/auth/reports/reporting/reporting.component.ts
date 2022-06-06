@@ -200,25 +200,6 @@ export class ReportingComponent implements OnInit {
     })
   }
 
-  ExestingTabSelected() {
-    this.allTables_loading = true;
-    (this.runCustomQueryform.get('Functions') as FormArray).clear();
-    (this.runCustomQueryform.get('GroupBy') as FormArray).clear();
-    (this.runCustomQueryform.get('SortBy') as FormArray).clear();
-    (this.runCustomQueryform.get('FilterBy') as FormArray).clear();
-    (this.runCustomQueryform.get('ChartInfo') as FormArray).clear();
-    this.databaseName = 'Database Name...';
-    this.tables = [];
-    this.externalTables = [];
-    this.viewTables = [];
-    this.xAxisItems = [];
-    this.yAxisItems = [];
-    this.iFieldFunction = [];
-    this.iFieldSortBy = [];
-    this.iFieldFilterBy = [];
-    this.Tablemetadata = [];
-    this.resultData = [];
-  }
 
   GetQueriesByConnectionStringId(ConnectionStringId: string) {
     this.analysisService.GetQueriesByConnectionStringId(ConnectionStringId).subscribe(
@@ -233,7 +214,7 @@ export class ReportingComponent implements OnInit {
     var queryId = (<HTMLInputElement>event.target).value
     this.selectedQuery = this.queries.find(x => x.queryId == queryId)!
     const databaseName = this.connectionStrings.find(x => x.connectionStringId == this.selectedQuery.connectionStringId).databaseName;
-
+    console.log(this.selectedQuery)
     this.buildExecuteQueryForm()
     this.executeQueryForm.patchValue({
       QueryId: this.selectedQuery.queryId,
@@ -310,6 +291,60 @@ export class ReportingComponent implements OnInit {
     });
   }
 
+  NewTabSelected() {
+    //#region 
+    this.allTables_loading = true;
+    (this.runCustomQueryform.get('Functions') as FormArray).clear();
+    (this.runCustomQueryform.get('GroupBy') as FormArray).clear();
+    (this.runCustomQueryform.get('SortBy') as FormArray).clear();
+    (this.runCustomQueryform.get('FilterBy') as FormArray).clear();
+    (this.runCustomQueryform.get('ChartInfo') as FormArray).clear();
+    this.databaseName = 'Database Name...';
+    this.tables = [];
+    this.externalTables = [];
+    this.viewTables = [];
+    this.xAxisItems = [];
+    this.yAxisItems = [];
+    this.iFieldFunction = [];
+    this.iFieldSortBy = [];
+    this.iFieldFilterBy = [];
+    this.Tablemetadata = [];
+    this.resultData = [];
+    //#endregion
+    this.runCustomQueryform.get('TableName')?.setValidators(Validators.required); this.runCustomQueryform.get('TableName')?.updateValueAndValidity();
+    this.runCustomQueryform.get('Functions')?.setValidators(Validators.required); this.runCustomQueryform.get('Functions')?.updateValueAndValidity();
+    this.runCustomQueryform.get('GroupBy')?.setValidators(Validators.required); this.runCustomQueryform.get('GroupBy')?.updateValueAndValidity();
+
+    this.runCustomQueryform.get('CustomQueryId')?.clearValidators(); this.runCustomQueryform.get('CustomQueryId')?.updateValueAndValidity();
+  }
+  ExestingTabSelected() {
+    //#region 
+    this.allTables_loading = true;
+    (this.runCustomQueryform.get('Functions') as FormArray).clear();
+    (this.runCustomQueryform.get('GroupBy') as FormArray).clear();
+    (this.runCustomQueryform.get('SortBy') as FormArray).clear();
+    (this.runCustomQueryform.get('FilterBy') as FormArray).clear();
+    (this.runCustomQueryform.get('ChartInfo') as FormArray).clear();
+    this.databaseName = 'Database Name...';
+    this.tables = [];
+    this.externalTables = [];
+    this.viewTables = [];
+    this.xAxisItems = [];
+    this.yAxisItems = [];
+    this.iFieldFunction = [];
+    this.iFieldSortBy = [];
+    this.iFieldFilterBy = [];
+    this.Tablemetadata = [];
+    this.resultData = [];
+    //#endregion
+
+    this.runCustomQueryform.get('CustomQueryId')?.setValidators(Validators.required); this.runCustomQueryform.get('CustomQueryId')?.updateValueAndValidity();
+
+    this.runCustomQueryform.get('TableName')?.clearValidators(); this.runCustomQueryform.get('TableName')?.updateValueAndValidity();
+    this.runCustomQueryform.get('Functions')?.clearValidators(); this.runCustomQueryform.get('Functions')?.updateValueAndValidity();
+    this.runCustomQueryform.get('GroupBy')?.clearValidators(); this.runCustomQueryform.get('GroupBy')?.updateValueAndValidity();
+  }
+
   buildRunCustomQueryform() {
     this.runCustomQueryform = this.formBuilder.group({
       ConnectionStringId: ['', Validators.required],
@@ -321,23 +356,6 @@ export class ReportingComponent implements OnInit {
       SortBy: this.formBuilder.array([]),
       FilterBy: this.formBuilder.array([]),
       ChartInfo: this.formBuilder.array([]),
-
-      ChartName1: [''],
-      ChartName2: [''],
-      ChartName3: [''],
-      ChartName4: [''],
-      xAxis1: [''],
-      xAxis2: [''],
-      xAxis3: [''],
-      xAxis4: [''],
-      yAxis1: [''],
-      yAxis2: [''],
-      yAxis3: [''],
-      yAxis4: [''],
-      ChartType1: [''],
-      ChartType2: [''],
-      ChartType3: [''],
-      ChartType4: [''],
 
       AddedBy: this.userName,
       AddedDate: this.todayDate,
@@ -649,6 +667,7 @@ export class ReportingComponent implements OnInit {
     this.reportsService.GetAllCustomQuery().subscribe(
       (res) => {
         this.allWorkSpaces = res;
+        console.table(this.allWorkSpaces)
       },
       (err) => { console.log(err); }
     )
@@ -979,9 +998,7 @@ export class ReportingComponent implements OnInit {
       AddedDate: this.todayDate,
       UpdatedDate: this.todayDate
     })
-    console.log(this.runCustomQueryform.value);
     this.reportsService.SaveCustomQuery(this.runCustomQueryform.value).subscribe((res: any) => {
-      console.log(res);
       this.GetAllCustomQuery();
       this.toastr.success('Successfully saved', 'Success', { positionClass: 'toast-bottom-right' })
       this.todayDate = new Date().toISOString();
@@ -1005,7 +1022,6 @@ export class ReportingComponent implements OnInit {
     })
     this.reportsService.SaveAsCustomQuery(this.runCustomQueryform.value).subscribe(
       (res: any) => {
-        console.log(res);
         this.SetCustomQueryDataAfterSave(res);
         this.GetAllCustomQuery();
         this.toastr.success('Successfully saved', 'Success', { positionClass: 'toast-bottom-right' })
@@ -1048,6 +1064,7 @@ export class ReportingComponent implements OnInit {
   }
 
   SetCustomQueryToEdit(queryId: string) {
+    console.log(queryId);
     this.buildRunCustomQueryform();
     this.selectedWorkspacedata = null;
     this.selectedWorkspace = '';
@@ -1090,22 +1107,7 @@ export class ReportingComponent implements OnInit {
       ConnectionStringId: data.connectionStringId,
       TableName: data.tableName,
       CustomQueryName: data.customQueryName,
-      ChartName1: data.chartName1,
-      ChartName2: data.chartName2,
-      ChartName3: data.chartName3,
-      ChartName4: data.chartName4,
-      xAxis1: data.xAxis1,
-      xAxis2: data.xAxis2,
-      xAxis3: data.xAxis3,
-      xAxis4: data.xAxis4,
-      yAxis1: data.yAxis1,
-      yAxis2: data.yAxis2,
-      yAxis3: data.yAxis3,
-      yAxis4: data.yAxis4,
-      ChartType1: data.chartType1,
-      ChartType2: data.chartType2,
-      ChartType3: data.chartType3,
-      ChartType4: data.chartType4,
+
       AddedBy: data.addedBy,
       AddedDate: data.addedDate,
       UpdatedBy: data.updatedBy,
@@ -1263,22 +1265,6 @@ export class ReportingComponent implements OnInit {
       ConnectionStringId: data.connectionStringId,
       TableName: data.tableName,
       CustomQueryName: data.customQueryName,
-      ChartName1: data.chartName1,
-      ChartName2: data.chartName2,
-      ChartName3: data.chartName3,
-      ChartName4: data.chartName4,
-      xAxis1: data.xAxis1,
-      xAxis2: data.xAxis2,
-      xAxis3: data.xAxis3,
-      xAxis4: data.xAxis4,
-      yAxis1: data.yAxis1,
-      yAxis2: data.yAxis2,
-      yAxis3: data.yAxis3,
-      yAxis4: data.yAxis4,
-      ChartType1: data.chartType1,
-      ChartType2: data.chartType2,
-      ChartType3: data.chartType3,
-      ChartType4: data.chartType4,
       AddedBy: data.addedBy,
       AddedDate: data.addedDate,
       UpdatedBy: data.updatedBy,
