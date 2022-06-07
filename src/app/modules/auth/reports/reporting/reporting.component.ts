@@ -299,7 +299,7 @@ export class ReportingComponent implements OnInit {
     this.isError = false;
     this.analysisService.ExecuteQuery(this.executeQueryForm.value).subscribe(
       (res: any) => {
-        console.log(res)
+        this.runcustomQueryForm_loading = false;
         if (typeof (res) == 'object') {
           this.getDatasetKeys(res[0]);
           this.chartdataService.updateData(res);
@@ -318,8 +318,9 @@ export class ReportingComponent implements OnInit {
           });
           this.filterFields = tmp.join(",");
         }
-        else if (typeof (res) == 'number') { }
-        this.runcustomQueryForm_loading = false;
+        else if (typeof (res) == 'number') {
+        }
+
       },
       err => {
         this.runcustomQueryForm_loading = false;
@@ -341,10 +342,10 @@ export class ReportingComponent implements OnInit {
     }
     this.reportsService.ExecuteCustomeQuery(this.runCustomQueryform.value).subscribe(
       (res: any) => {
+        this.runcustomQueryForm_loading = false;
         this.getDatasetKeys(res[0]);
         this.chartdataService.updateData(res);
         this.resultData = res;
-
         if (this.selectedWorkspacedata != null) {
           this.renderSavedCharts();
         }
@@ -366,7 +367,7 @@ export class ReportingComponent implements OnInit {
           var _func = _functionName + "_" + _columnName
           this.yAxisItems.push(_func);
         });
-        this.runcustomQueryForm_loading = false
+
       },
       (err: any) => {
         this.error_message = err.error;
@@ -1245,6 +1246,7 @@ export class ReportingComponent implements OnInit {
   }
 
   SetCustomQueryDataAfterSave(data: any) {
+    console.log(data);
     this.selectedWorkspacedata = data;
     this.selectedWorkspace = data.customQueryName;
     //#region Set Table metadata
