@@ -29,7 +29,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.colorSchemeService.checkColorScheme();
-    console.log(this.colorSchemeService.checkColorScheme());
     this.primengConfig.ripple = true;
     this.msalBroadcastService.msalSubject$
       .pipe(

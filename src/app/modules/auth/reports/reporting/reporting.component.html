@@ -70,8 +70,8 @@
                 </div>
               </div>
             </div>
-            <tabset [justified]="true">
-              <tab heading="New" customClass="customClass" (selectTab)="NewTabSelected()">
+            <tabset #staticTabs [justified]="true">
+              <tab heading="New" customClass="customClass" (selectTab)="onSelectNewTab()">
                 <div class="accordion" id="accordionPanelsStayOpenExample">
                   <div class="accordion-item">
                     <div class="accordion-header" id="panelsStayOpen-headingOne">
@@ -86,7 +86,7 @@
                       <div class="accordion-body px-2">
                         <div class="mb-2">
                           <select class="form-select form-select-sm shadow-none" aria-label="Default select example"
-                            formControlName="ConnectionStringId" (change)="onSelectConnectionString($event)"
+                            formControlName="ConnectionStringId" (change)="onSelectConnectionInNewTab($event)"
                             [ngClass]="{ 'is-invalid': f['ConnectionStringId'].touched && f['ConnectionStringId'].errors }">
                             <option value={{default_select}} selected>Select Connection...</option>
                             <option value={{connectionString.connectionStringId}}
@@ -97,7 +97,7 @@
                         </div>
                         <div class="mb-0">
                           <select class="form-select form-select-sm shadow-none" aria-label="Default select example"
-                            formControlName="TableName" (change)="onSelectTable($event)"
+                            formControlName="TableName" (change)="onSelectTableInNewTab($event)"
                             [ngClass]="{ 'is-invalid': f['TableName'].touched && f['TableName'].errors }">
                             <option value={{default_select}} selected>Select table...</option>
                             <optgroup label="Tables" *ngIf="tables.length>=1">
@@ -368,12 +368,12 @@
                   </div>
                 </div>
               </tab>
-              <tab heading="Existing" customClass="customClass" (selectTab)="ExestingTabSelected()">
+              <tab heading="Existing" customClass="customClass" (selectTab)="onSelectExistingTab()">
                 <div class="card mt-2">
                   <div class="card-body p-2">
                     <div class="input-group mb-2">
                       <select class="form-select form-select-sm shadow-none" aria-label="Default select example"
-                        formControlName="ConnectionStringId" (change)="onSelectConnectionStringExesting($event)"
+                        formControlName="ConnectionStringId" (change)="onSelectConnectionInExistingTab($event)"
                         [ngClass]="{ 'is-invalid': f['ConnectionStringId'].touched && f['ConnectionStringId'].errors }">
                         <option value={{default_select}} selected>Select Connection...</option>
                         <option value={{connectionString.connectionStringId}}
@@ -394,7 +394,7 @@
                     <div class="mb-2">
                       <select class="form-select form-select-sm shadow-none" name="all tables" id="alltables"
                         [ngClass]="{ 'is-invalid': f['CustomQueryId'].touched && f['CustomQueryId'].errors }"
-                        formControlName="CustomQueryId" (change)="onSelectQuery($event)">
+                        formControlName="CustomQueryId" (change)="onSelectExistingQuery($event)">
                         <option [value]="default_select">Select Query...</option>
                         <option [value]="query.queryId" *ngFor="let query of queries">{{query.queryName}}</option>
                       </select>
@@ -1616,9 +1616,9 @@
         <td>{{allWorkSpace.customQueryName}}</td>
         <td>{{allWorkSpace.tableName}}</td>
         <td>{{allWorkSpace.addedBy}}</td>
-        <td>{{allWorkSpace.addedDate? (allWorkSpace.addedDate+'Z'| date:'short'): null}}</td>
+        <td>{{allWorkSpace.addedDate? (allWorkSpace.addedDate+'Z'| date:'MMM d, y, h:mm a'): null}}</td>
         <td>{{allWorkSpace.updatedBy}}</td>
-        <td>{{allWorkSpace.updatedDate? (allWorkSpace.updatedDate+'Z'| date:'short'):null}}</td>
+        <td>{{allWorkSpace.updatedDate? (allWorkSpace.updatedDate+'Z'| date:'MMM d, y, h:mm a'):null}}</td>
         <td>
           <button type="button" class="btn btn-sm btn-info shadow-sm me-3"
             (click)="SetCustomQueryToEdit(allWorkSpace.customQueryId)"><i class="far fa-edit"></i></button>

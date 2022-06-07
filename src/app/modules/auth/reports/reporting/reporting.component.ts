@@ -12,7 +12,7 @@ import html2canvas from 'html2canvas';
 import { ngxCsv } from 'ngx-csv/ngx-csv';
 import { ResizedEvent } from 'angular-resize-event';
 import * as moment from 'moment';
-import { Queries } from 'src/app/models/auth/data-analysis.model';
+import { TabsetComponent } from 'ngx-bootstrap/tabs';
 
 interface ClipboardItem {
   readonly types: string[];
@@ -41,13 +41,15 @@ interface Clipboard {
 })
 export class ReportingComponent implements OnInit {
 
+  //#region Variables
+  @ViewChild('staticTabs', { static: false }) staticTabs?: TabsetComponent;
   chartDataToDownload: any[] = [];
 
   userName!: string;
   todayDate = new Date().toISOString();
   card_Z_index_clicked: boolean = false
 
-  //#region 
+
   default_select = null
   selectedConnectionStringId!: string;
   selectedTable!: string;
@@ -83,7 +85,6 @@ export class ReportingComponent implements OnInit {
   yAxisItems: any[] = []
   items: number[] = new Array(4).fill(0);
 
-  //#endregion
 
   selectedWorkspace: string = '';
   selectedWorkspacedata: any;
@@ -91,7 +92,6 @@ export class ReportingComponent implements OnInit {
   isSave: boolean = false;
   isSaveAs: boolean = false;
 
-  //#region 
   chartData1: any = {
     labels: [],
     datasets: []
@@ -136,11 +136,8 @@ export class ReportingComponent implements OnInit {
   displayAllQueries: boolean = false;
 
   allWorkSpaces: any[] = [];
-  //#endregion
 
-  //#region For SQL on Dataset
   datasetKeys: any[] = []
-  //#endregion
 
   barData: any;
   barOptions: any;
@@ -166,6 +163,7 @@ export class ReportingComponent implements OnInit {
 
   executeQueryForm!: FormGroup;
   executeQueryForm_loading = false;
+  //#endregion
 
   constructor(
     private formBuilder: FormBuilder,
@@ -200,34 +198,7 @@ export class ReportingComponent implements OnInit {
     })
   }
 
-
-  GetQueriesByConnectionStringId(ConnectionStringId: string) {
-    this.analysisService.GetQueriesByConnectionStringId(ConnectionStringId).subscribe(
-      res => {
-        this.queries = res;
-      },
-      err => { }
-    );
-  }
-
-  onSelectQuery(event: Event) {
-    var queryId = (<HTMLInputElement>event.target).value
-    this.selectedQuery = this.queries.find(x => x.queryId == queryId)!
-    const databaseName = this.connectionStrings.find(x => x.connectionStringId == this.selectedQuery.connectionStringId).databaseName;
-    console.log(this.selectedQuery)
-    this.buildExecuteQueryForm()
-    this.executeQueryForm.patchValue({
-      QueryId: this.selectedQuery.queryId,
-      DatabaseName: databaseName,
-      ConnectionStringId: this.selectedQuery.connectionStringId,
-      QuerySQL: this.selectedQuery.querySQL,
-      AddedBy: this.selectedQuery.addedBy,
-      AddedDate: this.selectedQuery.addedDate,
-    })
-    console.log(this.executeQueryForm.value)
-    this.onSubmitExecuteQueryForm();
-  }
-
+  //#region Build Forms
   buildExecuteQueryForm() {
     this.executeQueryForm = this.formBuilder.group({
       QueryId: [null],
@@ -239,6 +210,84 @@ export class ReportingComponent implements OnInit {
     });
   }
 
+  buildCreateTableProfileForm() {
+    this.getTableMeatadataForm = this.formBuilder.group({
+      ConnectionStringId: ['', Validators.required],
+      ExternalTableName: ['', Validators.required]
+    });
+  }
+
+  buildRunCustomQueryform() {
+    this.runCustomQueryform = this.formBuilder.group({
+      ConnectionStringId: ['', Validators.required],
+      CustomQueryId: null,
+      TableName: ['', Validators.required],
+      CustomQueryName: [{ value: '', disabled: true }],
+      Functions: this.formBuilder.array([], Validators.required),
+      GroupBy: this.formBuilder.array([], Validators.required),
+      SortBy: this.formBuilder.array([]),
+      FilterBy: this.formBuilder.array([]),
+      ChartInfo: this.formBuilder.array([]),
+
+      AddedBy: this.userName,
+      AddedDate: this.todayDate,
+      UpdatedBy: this.userName,
+      UpdatedDate: this.todayDate
+    });
+  }
+  //#endregion
+
+  //#region Get Connection Strings
+  GetSqlConnectionStrings() {
+    this.connectionString_loading = true;
+    this.bridgeManagerService.GetSqlConnectionStrings().subscribe(
+      (res) => {
+        this.connectionStrings = res;
+        this.connectionString_loading = false;
+      },
+      (err) => {
+        this.connectionString_loading = false;
+      }
+    )
+  }
+  //#endregion
+
+  //#region Get Methods
+  // This method gets all the custom queries generated from new Query panel from dashboard
+  GetAllCustomQuery() {
+    this.reportsService.GetAllCustomQuery().subscribe(
+      (res) => {
+        this.allWorkSpaces = res;
+      },
+      (err) => { console.log(err); }
+    )
+  }
+  // Gets Queries written on SQL Server tab>New Query> SQL editor
+  GetQueriesByConnectionStringId(ConnectionStringId: string) {
+    this.analysisService.GetQueriesByConnectionStringId(ConnectionStringId).subscribe(
+      res => {
+        this.queries = res;
+      },
+      err => { }
+    );
+  }
+  GetAllTables(connectionStringId: string) {
+    this.analysisService.GetAllTables(connectionStringId).subscribe(
+      (res: any) => {
+        this.tables = res[0];
+        this.databaseName = res[0].databaseName;
+        this.tables = res[0].tables
+        this.externalTables = res[0].externalTables
+        this.viewTables = res[0].viewTables
+        this.allTables_loading = false;
+      },
+      err => { this.allTables_loading = false; }
+    );
+  }
+  //#endregion
+
+
+  //#region OnSubmit
   onSubmitExecuteQueryForm() {
     this.runcustomQueryForm_loading = true;
     this.xAxisItems = []
@@ -278,27 +327,68 @@ export class ReportingComponent implements OnInit {
       }
     )
   }
+  onSubmitRunCustomQuery() {
+    this.runcustomQueryForm_loading = true;
+    this.xAxisItems = []
+    this.yAxisItems = []
+    this.resultData = []
+    this.cols = [];
+    this.keys = [];
+    this.filterFields = '';
+    this.isError = false;
+    if (this.runCustomQueryform.invalid) {
+      return;
+    }
+    this.reportsService.ExecuteCustomeQuery(this.runCustomQueryform.value).subscribe(
+      (res: any) => {
+        this.getDatasetKeys(res[0]);
+        this.chartdataService.updateData(res);
+        this.resultData = res;
 
-  onResizedChartCard(event: ResizedEvent) {
-    this.chartWidth = event.newRect.width - 10
-    this.chartHeight = event.newRect.height - 10
+        if (this.selectedWorkspacedata != null) {
+          this.renderSavedCharts();
+        }
+        this.keys = Object.keys(res[0]);
+        this.keys.forEach((key, i) => {
+          this.cols.push({ field: key, header: key.trim() });
+        });
+        var tmp: string[] = [];
+        this.keys.forEach((item) => {
+          tmp.push("'" + item + "'");
+        });
+        this.filterFields = tmp.join(",");
+        this.runCustomQueryform.get("GroupBy")?.value.forEach((item: any) => {
+          this.xAxisItems.push(item.ColumnName);
+        });
+        this.runCustomQueryform.get("Functions")?.value.forEach((item: any) => {
+          var _columnName = item.ColumnName
+          var _functionName = item.Function.split(')')[0].split('(')[0]
+          var _func = _functionName + "_" + _columnName
+          this.yAxisItems.push(_func);
+        });
+        this.runcustomQueryForm_loading = false
+      },
+      (err: any) => {
+        this.error_message = err.error;
+        this.isError = true;
+        this.runcustomQueryForm_loading = false
+      }
+    );
   }
+  //#endregion
 
-  buildCreateTableProfileForm() {
-    this.getTableMeatadataForm = this.formBuilder.group({
-      ConnectionStringId: ['', Validators.required],
-      ExternalTableName: ['', Validators.required]
-    });
-  }
-
-  NewTabSelected() {
+  //#region OnSelect
+  onSelectNewTab() {
     //#region 
     this.allTables_loading = true;
+    this.selectedWorkspacedata = null;
+    this.selectedWorkspace = '';
     (this.runCustomQueryform.get('Functions') as FormArray).clear();
     (this.runCustomQueryform.get('GroupBy') as FormArray).clear();
     (this.runCustomQueryform.get('SortBy') as FormArray).clear();
     (this.runCustomQueryform.get('FilterBy') as FormArray).clear();
     (this.runCustomQueryform.get('ChartInfo') as FormArray).clear();
+    this.buildRunCustomQueryform();
     this.databaseName = 'Database Name...';
     this.tables = [];
     this.externalTables = [];
@@ -317,14 +407,17 @@ export class ReportingComponent implements OnInit {
 
     this.runCustomQueryform.get('CustomQueryId')?.clearValidators(); this.runCustomQueryform.get('CustomQueryId')?.updateValueAndValidity();
   }
-  ExestingTabSelected() {
-    //#region 
+  onSelectExistingTab() {
+    //#region
     this.allTables_loading = true;
+    this.selectedWorkspacedata = null;
+    this.selectedWorkspace = '';
     (this.runCustomQueryform.get('Functions') as FormArray).clear();
     (this.runCustomQueryform.get('GroupBy') as FormArray).clear();
     (this.runCustomQueryform.get('SortBy') as FormArray).clear();
     (this.runCustomQueryform.get('FilterBy') as FormArray).clear();
     (this.runCustomQueryform.get('ChartInfo') as FormArray).clear();
+    this.buildRunCustomQueryform();
     this.databaseName = 'Database Name...';
     this.tables = [];
     this.externalTables = [];
@@ -344,28 +437,108 @@ export class ReportingComponent implements OnInit {
     this.runCustomQueryform.get('Functions')?.clearValidators(); this.runCustomQueryform.get('Functions')?.updateValueAndValidity();
     this.runCustomQueryform.get('GroupBy')?.clearValidators(); this.runCustomQueryform.get('GroupBy')?.updateValueAndValidity();
   }
-
-  buildRunCustomQueryform() {
-    this.runCustomQueryform = this.formBuilder.group({
-      ConnectionStringId: ['', Validators.required],
-      CustomQueryId: null,
-      TableName: ['', Validators.required],
-      CustomQueryName: [{ value: '', disabled: true }],
-      Functions: this.formBuilder.array([], Validators.required),
-      GroupBy: this.formBuilder.array([], Validators.required),
-      SortBy: this.formBuilder.array([]),
-      FilterBy: this.formBuilder.array([]),
-      ChartInfo: this.formBuilder.array([]),
-
-      AddedBy: this.userName,
-      AddedDate: this.todayDate,
-      UpdatedBy: this.userName,
-      UpdatedDate: this.todayDate
-    });
+  onSelectExistingQuery(event: Event) {
+    var queryId = (<HTMLInputElement>event.target).value
+    this.selectedQuery = this.queries.find(x => x.queryId == queryId)!
+    const databaseName = this.connectionStrings.find(x => x.connectionStringId == this.selectedQuery.connectionStringId).databaseName;
+    console.log(this.selectedQuery)
+    this.buildExecuteQueryForm()
+    this.executeQueryForm.patchValue({
+      QueryId: this.selectedQuery.queryId,
+      DatabaseName: databaseName,
+      ConnectionStringId: this.selectedQuery.connectionStringId,
+      QuerySQL: this.selectedQuery.querySQL,
+      AddedBy: this.selectedQuery.addedBy,
+      AddedDate: this.selectedQuery.addedDate,
+    })
+    console.log(this.executeQueryForm.value)
+    this.onSubmitExecuteQueryForm();
   }
+  onSelectConnectionInNewTab(event: Event) {
+    this.allTables_loading = true;
+    (this.runCustomQueryform.get('Functions') as FormArray).clear();
+    (this.runCustomQueryform.get('GroupBy') as FormArray).clear();
+    (this.runCustomQueryform.get('SortBy') as FormArray).clear();
+    (this.runCustomQueryform.get('FilterBy') as FormArray).clear();
+    this.databaseName = 'Database Name...';
+    this.tables = [];
+    this.externalTables = [];
+    this.viewTables = [];
+    this.xAxisItems = [];
+    this.yAxisItems = [];
+    this.iFieldFunction = [];
+    this.iFieldSortBy = [];
+    this.iFieldFilterBy = [];
+    this.Tablemetadata = [];
+    this.resultData = [];
+    var connectionStringId = (<HTMLInputElement>event.target).value;
+    this.selectedConnectionStringId = connectionStringId;
+    this.databaseName = this.connectionStrings.find(x => x.connectionStringId == connectionStringId).databaseName;
+    this.GetAllTables(connectionStringId);
+  }
+  onSelectConnectionInExistingTab(event: Event) {
+    this.allTables_loading = true;
+    (this.runCustomQueryform.get('Functions') as FormArray).clear();
+    (this.runCustomQueryform.get('GroupBy') as FormArray).clear();
+    (this.runCustomQueryform.get('SortBy') as FormArray).clear();
+    (this.runCustomQueryform.get('FilterBy') as FormArray).clear();
+    this.databaseName = 'Database Name...';
+    this.tables = [];
+    this.externalTables = [];
+    this.viewTables = [];
+    this.xAxisItems = [];
+    this.yAxisItems = [];
+    this.iFieldFunction = [];
+    this.iFieldSortBy = [];
+    this.iFieldFilterBy = [];
+    this.Tablemetadata = [];
+    this.resultData = [];
+    var connectionStringId = (<HTMLInputElement>event.target).value;
+    this.selectedConnectionStringId = connectionStringId;
+    if (connectionStringId) {
+      this.databaseName = this.connectionStrings.find(x => x.connectionStringId == connectionStringId).databaseName;
+      this.GetQueriesByConnectionStringId(connectionStringId);
+    }
+  }
+  onSelectTableInNewTab(event: Event) {
+    this.Tablemetadata = [];
+    var table = (<HTMLInputElement>event.target).value;
+    this.selectedTable = table;
+    this.getTableMeatadataForm.patchValue({
+      ConnectionStringId: this.selectedConnectionStringId,
+      ExternalTableName: table
+    });
+
+    if (!this.getTableMeatadataForm.valid) {
+      this.getTableMeatadata_loading = false
+      return;
+    }
+
+    this.analysisService.GetExternalTableMetadata(this.getTableMeatadataForm.value).subscribe(
+      (data: any) => {
+        this.Tablemetadata = data;
+        this.getTableMeatadata_loading = false;
+        this.buildCreateTableProfileForm();
+      },
+      error => {
+
+        this.getTableMeatadata_loading = false
+        this.buildCreateTableProfileForm();
+      }
+    );
+  }
+  //#endregion
+
+  //#region Resize Chart
+  onResizedChartCard(event: ResizedEvent) {
+    this.chartWidth = event.newRect.width - 10
+    this.chartHeight = event.newRect.height - 10
+  }
+  //#endregion
 
   get f() { return this.runCustomQueryform.controls; }
 
+  //#region New Query Panel's Features Builder
   //#region  Functions Controller
   get Functions(): FormArray {
     return this.runCustomQueryform.get('Functions') as FormArray;
@@ -600,168 +773,7 @@ export class ReportingComponent implements OnInit {
   }
   //#endregion
 
-  onSubmitRunCustomQuery() {
-    this.runcustomQueryForm_loading = true;
-    this.xAxisItems = []
-    this.yAxisItems = []
-    this.resultData = []
-    this.cols = [];
-    this.keys = [];
-    this.filterFields = '';
-    this.isError = false;
-    if (this.runCustomQueryform.invalid) {
-      return;
-    }
-    this.reportsService.ExecuteCustomeQuery(this.runCustomQueryform.value).subscribe(
-      (res: any) => {
-        this.getDatasetKeys(res[0]);
-        this.chartdataService.updateData(res);
-        this.resultData = res;
-
-        if (this.selectedWorkspacedata != null) {
-          this.renderSavedCharts();
-        }
-        this.keys = Object.keys(res[0]);
-        this.keys.forEach((key, i) => {
-          this.cols.push({ field: key, header: key.trim() });
-        });
-        var tmp: string[] = [];
-        this.keys.forEach((item) => {
-          tmp.push("'" + item + "'");
-        });
-        this.filterFields = tmp.join(",");
-        this.runCustomQueryform.get("GroupBy")?.value.forEach((item: any) => {
-          this.xAxisItems.push(item.ColumnName);
-        });
-        this.runCustomQueryform.get("Functions")?.value.forEach((item: any) => {
-          var _columnName = item.ColumnName
-          var _functionName = item.Function.split(')')[0].split('(')[0]
-          var _func = _functionName + "_" + _columnName
-          this.yAxisItems.push(_func);
-        });
-        this.runcustomQueryForm_loading = false
-      },
-      (err: any) => {
-        this.error_message = err.error;
-        this.isError = true;
-        this.runcustomQueryForm_loading = false
-      }
-    );
-  }
-
-  GetSqlConnectionStrings() {
-    this.connectionString_loading = true;
-    this.bridgeManagerService.GetSqlConnectionStrings().subscribe(
-      (res) => {
-        this.connectionStrings = res;
-        console.log(res);
-        this.connectionString_loading = false;
-      },
-      (err) => {
-        this.connectionString_loading = false;
-      }
-    )
-  }
-
-  GetAllCustomQuery() {
-    this.reportsService.GetAllCustomQuery().subscribe(
-      (res) => {
-        this.allWorkSpaces = res;
-        console.table(this.allWorkSpaces)
-      },
-      (err) => { console.log(err); }
-    )
-  }
-
-  onSelectConnectionString(event: Event) {
-    this.allTables_loading = true;
-    (this.runCustomQueryform.get('Functions') as FormArray).clear();
-    (this.runCustomQueryform.get('GroupBy') as FormArray).clear();
-    (this.runCustomQueryform.get('SortBy') as FormArray).clear();
-    (this.runCustomQueryform.get('FilterBy') as FormArray).clear();
-    this.databaseName = 'Database Name...';
-    this.tables = [];
-    this.externalTables = [];
-    this.viewTables = [];
-    this.xAxisItems = [];
-    this.yAxisItems = [];
-    this.iFieldFunction = [];
-    this.iFieldSortBy = [];
-    this.iFieldFilterBy = [];
-    this.Tablemetadata = [];
-    this.resultData = [];
-    var connectionStringId = (<HTMLInputElement>event.target).value;
-    this.selectedConnectionStringId = connectionStringId;
-    this.databaseName = this.connectionStrings.find(x => x.connectionStringId == connectionStringId).databaseName;
-    this.GetAllTables(connectionStringId);
-  }
-
-  onSelectConnectionStringExesting(event: Event) {
-    this.allTables_loading = true;
-    (this.runCustomQueryform.get('Functions') as FormArray).clear();
-    (this.runCustomQueryform.get('GroupBy') as FormArray).clear();
-    (this.runCustomQueryform.get('SortBy') as FormArray).clear();
-    (this.runCustomQueryform.get('FilterBy') as FormArray).clear();
-    this.databaseName = 'Database Name...';
-    this.tables = [];
-    this.externalTables = [];
-    this.viewTables = [];
-    this.xAxisItems = [];
-    this.yAxisItems = [];
-    this.iFieldFunction = [];
-    this.iFieldSortBy = [];
-    this.iFieldFilterBy = [];
-    this.Tablemetadata = [];
-    this.resultData = [];
-    var connectionStringId = (<HTMLInputElement>event.target).value;
-    this.selectedConnectionStringId = connectionStringId;
-    if (connectionStringId) {
-      this.databaseName = this.connectionStrings.find(x => x.connectionStringId == connectionStringId).databaseName;
-      this.GetQueriesByConnectionStringId(connectionStringId);
-    }
-  }
-
-  GetAllTables(connectionStringId: string) {
-    this.analysisService.GetAllTables(connectionStringId).subscribe(
-      (res: any) => {
-        this.tables = res[0];
-        this.databaseName = res[0].databaseName;
-        this.tables = res[0].tables
-        this.externalTables = res[0].externalTables
-        this.viewTables = res[0].viewTables
-        this.allTables_loading = false;
-      },
-      err => { this.allTables_loading = false; }
-    );
-  }
-
-  onSelectTable(event: Event) {
-    this.Tablemetadata = [];
-    var table = (<HTMLInputElement>event.target).value;
-    this.selectedTable = table;
-    this.getTableMeatadataForm.patchValue({
-      ConnectionStringId: this.selectedConnectionStringId,
-      ExternalTableName: table
-    });
-
-    if (!this.getTableMeatadataForm.valid) {
-      this.getTableMeatadata_loading = false
-      return;
-    }
-
-    this.analysisService.GetExternalTableMetadata(this.getTableMeatadataForm.value).subscribe(
-      (data: any) => {
-        this.Tablemetadata = data;
-        this.getTableMeatadata_loading = false;
-        this.buildCreateTableProfileForm();
-      },
-      error => {
-
-        this.getTableMeatadata_loading = false
-        this.buildCreateTableProfileForm();
-      }
-    );
-  }
+  //#endregion
 
   resetRunCustomQueryForm(event: Event) {
     this.confirmationService.confirm({
@@ -958,36 +970,28 @@ export class ReportingComponent implements OnInit {
     this.onHideDialog();
   }
 
-  buildLineChart() { }
-  buildBarChart() { }
-  buildPieChart() { }
-  buildDoughnutChart() { }
-
+  //#region Dialogs open/close
   showDialog(i: number) {
     this.chartNumber = i;
     this.display = true;
   }
-
   showSaveQueryDialog() {
     this.displaySaveQuery = true;
   }
-
   onHideSaveQueryDialog() {
     this.displaySaveQuery = false;
   }
-
   onHideDialog() {
     this.chartNumber = 0;
     this.display = false;
   }
-
   showAllQueriesDialog() {
     this.displayAllQueries = true;
   }
-
   onHideAllQueriesDialog() {
     this.displayAllQueries = false;
   }
+  //#endregion
 
   saveChartData() {
     this.saveCustomQuery_loading = true;
@@ -1064,7 +1068,6 @@ export class ReportingComponent implements OnInit {
   }
 
   SetCustomQueryToEdit(queryId: string) {
-    console.log(queryId);
     this.buildRunCustomQueryform();
     this.selectedWorkspacedata = null;
     this.selectedWorkspace = '';
@@ -1073,11 +1076,20 @@ export class ReportingComponent implements OnInit {
     this.externalTables = [];
     this.viewTables = [];
     var data = this.allWorkSpaces.find(x => x.customQueryId == queryId);
-
+    this.onHideAllQueriesDialog();
+    console.log(data);
+    console.log(this.runCustomQueryform.get('CustomQueryName')!.value)
     this.selectedWorkspacedata = data;
+    console.log(this.selectedWorkspacedata)
     this.selectedWorkspace = data.customQueryName;
+    console.log(this.selectedWorkspace)
 
-
+    if (data.tableName) {
+      this.selectTab(0)
+    }
+    else if (!data.tableName) {
+      this.selectTab(1)
+    }
     //#region Set Table metadata
     this.Tablemetadata = [];
     this.getTableMeatadataForm.patchValue({
@@ -1156,7 +1168,7 @@ export class ReportingComponent implements OnInit {
 
     this.GetAllTables(data.connectionStringId);
     this.onSubmitRunCustomQuery()
-    this.onHideAllQueriesDialog();
+
 
     if (data.chartinfo.length >= 1) {
       data.chartinfo.forEach((element: any, index: number) => {
@@ -1229,13 +1241,12 @@ export class ReportingComponent implements OnInit {
         })
       });
     }
+    //#endregion
   }
 
   SetCustomQueryDataAfterSave(data: any) {
     this.selectedWorkspacedata = data;
     this.selectedWorkspace = data.customQueryName;
-
-
     //#region Set Table metadata
     this.Tablemetadata = [];
     this.getTableMeatadataForm.patchValue({
@@ -1683,7 +1694,7 @@ export class ReportingComponent implements OnInit {
     return JSON.parse(strData);
   }
 
-  // This is chart generation region
+  //#region Generate Charts
 
   CreateChart(chartNumber: number) {
     var chartInfo = this.ChartInfo.at(chartNumber) as FormArray;
@@ -2246,7 +2257,9 @@ export class ReportingComponent implements OnInit {
     var _chartInfo = this.ChartInfo.at(chartNumber) as FormArray
     _chartInfo.get('FinalChartOptions')?.setValue(JSON.stringify(_pieOptions));
   }
+  //#endregion
 
+  //#region Math Functions
   Count(number_array: any[]) {
     let count = 0;
     for (let i = 0; i < number_array.length; i++) {
@@ -2266,6 +2279,8 @@ export class ReportingComponent implements OnInit {
   Maximum(number_array: any[]) {
     return Math.max(...number_array);
   }
+  //#endregion
+
   GetXAndYAxisArray(chartInfo: any) {
     let x_axis_array: any = [];
     let y_axis_array: any = [];
@@ -2433,5 +2448,11 @@ export class ReportingComponent implements OnInit {
       // return (sortBy == 'ASC' ? Date.parse(a[0]) - Date.parse(b[0]) : Date.parse(b[0]) - Date.parse(a[0])) || (sortBy[1] == 'ASC' ? a[1] - b[1] : b[1] - a[1]) || (sortBy[2] == 'ASC' ? a[2] - b[2] : b[2] - a[2])
     })
     return transposedArray[0].map((_: any, colIndex: string | number) => transposedArray.map((row: any) => row[colIndex]));
+  }
+
+  selectTab(tabId: number) {
+    if (this.staticTabs?.tabs[tabId]) {
+      this.staticTabs.tabs[tabId].active = true;
+    }
   }
 }
