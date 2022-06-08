@@ -263,6 +263,7 @@ export class ReportingComponent implements OnInit {
     )
   }
   // Gets Queries written on SQL Server tab>New Query> SQL editor
+
   GetQueriesByConnectionStringId(ConnectionStringId: string) {
     this.analysisService.GetQueriesByConnectionStringId(ConnectionStringId).subscribe(
       res => {
@@ -271,6 +272,7 @@ export class ReportingComponent implements OnInit {
       err => { }
     );
   }
+
   GetAllTables(connectionStringId: string) {
     this.analysisService.GetAllTables(connectionStringId).subscribe(
       (res: any) => {
@@ -1005,6 +1007,7 @@ export class ReportingComponent implements OnInit {
       UpdatedDate: this.todayDate
     })
     this.reportsService.SaveCustomQuery(this.runCustomQueryform.value).subscribe((res: any) => {
+      console.log(res);
       this.GetAllCustomQuery();
       this.toastr.success('Successfully saved', 'Success', { positionClass: 'toast-bottom-right' })
       this.todayDate = new Date().toISOString();
@@ -1028,6 +1031,7 @@ export class ReportingComponent implements OnInit {
     })
     this.reportsService.SaveAsCustomQuery(this.runCustomQueryform.value).subscribe(
       (res: any) => {
+        console.log(res);
         this.SetCustomQueryDataAfterSave(res);
         this.GetAllCustomQuery();
         this.toastr.success('Successfully saved', 'Success', { positionClass: 'toast-bottom-right' })
@@ -1069,51 +1073,52 @@ export class ReportingComponent implements OnInit {
     });
   }
 
-  SetCustomQueryToEdit(queryId: string) {
+  async SetCustomQueryToEdit(queryId: string) {
     this.buildRunCustomQueryform();
     this.onHideAllQueriesDialog();
     this.selectedWorkspacedata = null;
-    this.selectedWorkspace = '';
+    // this.selectedWorkspace = '';
     this.databaseName = '';
     this.tables = [];
     this.externalTables = [];
     this.viewTables = [];
     var data = this.allWorkSpaces.find(x => x.customQueryId == queryId);
-
-    console.log(data);
-    console.log(this.runCustomQueryform.get('CustomQueryName')!.value)
     this.selectedWorkspacedata = data;
-    console.log(this.selectedWorkspacedata)
     this.selectedWorkspace = data.customQueryName;
-    console.log(this.selectedWorkspace)
+    this.databaseName = data.databaseName;
 
+    //#region Tab selector
     if (data.tableName) {
       this.selectTab(0)
     }
     else if (!data.tableName) {
       this.selectTab(1)
     }
+    //#endregion
+
     //#region Set Table metadata
-    this.Tablemetadata = [];
-    this.getTableMeatadataForm.patchValue({
-      ConnectionStringId: data.connectionStringId,
-      ExternalTableName: data.tableName
-    });
-    if (!this.getTableMeatadataForm.valid) {
-      this.getTableMeatadata_loading = false
-      return;
-    }
-    this.analysisService.GetExternalTableMetadata(this.getTableMeatadataForm.value).subscribe(
-      (data: any) => {
-        this.Tablemetadata = data;
-        this.getTableMeatadata_loading = false;
-        this.buildCreateTableProfileForm();
-      },
-      error => {
+    if (data.tableName) {
+      this.Tablemetadata = [];
+      this.getTableMeatadataForm.patchValue({
+        ConnectionStringId: data.connectionStringId,
+        ExternalTableName: data.tableName
+      });
+      if (!this.getTableMeatadataForm.valid) {
         this.getTableMeatadata_loading = false
-        this.buildCreateTableProfileForm();
+        return;
       }
-    );
+      this.analysisService.GetExternalTableMetadata(this.getTableMeatadataForm.value).subscribe(
+        (data: any) => {
+          this.Tablemetadata = data;
+          this.getTableMeatadata_loading = false;
+          this.buildCreateTableProfileForm();
+        },
+        error => {
+          this.getTableMeatadata_loading = false
+          this.buildCreateTableProfileForm();
+        }
+      );
+    }
     //#endregion
 
     //#region patchValue
@@ -1129,50 +1134,57 @@ export class ReportingComponent implements OnInit {
       UpdatedDate: data.updatedDate
     });
 
-    data.functionss.forEach((element: any, index: number) => {
-      this.addFunctions();
-      var func = this.runCustomQueryform.get('Functions') as FormArray
-      func.controls[index].patchValue({
-        Id: element.id,
-        ColumnName: element.columnName,
-        Function: element.function,
-      })
-      this.onConfirmFunction(index);
-    });
-    data.groupby.forEach((element: any, index: number) => {
-      this.addGroupBy();
-      var gropuby = this.runCustomQueryform.get('GroupBy') as FormArray
-      gropuby.controls[index].patchValue({
-        Id: element.id,
-        ColumnName: element.columnName
-      })
-    });
-    data.sortby.forEach((element: any, index: number) => {
-      this.addSortBy();
-      var sortby = this.runCustomQueryform.get('SortBy') as FormArray
-      sortby.controls[index].patchValue({
-        Id: element.id,
-        ColumnName: element.columnName,
-        SortType: element.sortType
-      })
-      this.onConfirmSortBy(index);
-    });
-    data.filterby.forEach((element: any, index: number) => {
-      this.addFilterBy();
-      var filterby = this.runCustomQueryform.get('FilterBy') as FormArray
-      filterby.controls[index].patchValue({
-        Id: element.id,
-        ColumnName: element.columnName,
-        FilterOperator: element.filterOperator,
-        FilterValue: element.filterValue
-      })
-      this.onConfirmFilterBy(index);
-    });
-
-    this.GetAllTables(data.connectionStringId);
-    this.onSubmitRunCustomQuery()
-
-
+    if (data.tableName) {
+      if (data.functionss.length >= 1) {
+        data.functionss.forEach((element: any, index: number) => {
+          this.addFunctions();
+          var func = this.runCustomQueryform.get('Functions') as FormArray
+          func.controls[index].patchValue({
+            Id: element.id,
+            ColumnName: element.columnName,
+            Function: element.function,
+          })
+          this.onConfirmFunction(index);
+        });
+      }
+      if (data.groupby.length >= 1) {
+        data.groupby.forEach((element: any, index: number) => {
+          this.addGroupBy();
+          var gropuby = this.runCustomQueryform.get('GroupBy') as FormArray
+          gropuby.controls[index].patchValue({
+            Id: element.id,
+            ColumnName: element.columnName
+          })
+        });
+      }
+      if (data.sortby.length >= 1) {
+        data.sortby.forEach((element: any, index: number) => {
+          this.addSortBy();
+          var sortby = this.runCustomQueryform.get('SortBy') as FormArray
+          sortby.controls[index].patchValue({
+            Id: element.id,
+            ColumnName: element.columnName,
+            SortType: element.sortType
+          })
+          this.onConfirmSortBy(index);
+        });
+      }
+      if (data.filterby.length >= 1) {
+        data.filterby.forEach((element: any, index: number) => {
+          this.addFilterBy();
+          var filterby = this.runCustomQueryform.get('FilterBy') as FormArray
+          filterby.controls[index].patchValue({
+            Id: element.id,
+            ColumnName: element.columnName,
+            FilterOperator: element.filterOperator,
+            FilterValue: element.filterValue
+          })
+          this.onConfirmFilterBy(index);
+        });
+      }
+    }
+    // this.GetAllTables(data.connectionStringId);
+    // this.onSubmitRunCustomQuery()
     if (data.chartinfo.length >= 1) {
       data.chartinfo.forEach((element: any, index: number) => {
         this.addChartInfo();
@@ -1245,7 +1257,42 @@ export class ReportingComponent implements OnInit {
       });
     }
     //#endregion
+
+    if (data.tableName) {
+      this.GetAllTables(data.connectionStringId);
+      this.onSubmitRunCustomQuery()
+    }
+    else {
+      this.analysisService.GetQueriesByConnectionStringId(data.connectionStringId).subscribe(
+        res => {
+          this.queries = res;
+          console.log(this.queries);
+          this.runExistingQueryPostSelect(data, this.queries)
+        },
+        err => { }
+      );
+    }
   }
+
+  runExistingQueryPostSelect(data: any, queries: any) {
+    console.log(data);
+    console.log(queries);
+    this.databaseName = this.connectionStrings.find(x => x.connectionStringId == data.connectionStringId).databaseName;
+    var querySQL = queries.find((x: any) => x.queryId == data.customQueryId).querySQL
+    this.buildExecuteQueryForm()
+    this.executeQueryForm.patchValue({
+      QueryId: data.customQueryId,
+      DatabaseName: this.databaseName,
+      ConnectionStringId: data.connectionStringId,
+      QuerySQL: querySQL,
+      AddedBy: this.todayDate,
+      AddedDate: this.todayDate,
+    })
+    console.log(this.executeQueryForm.value)
+    this.onSubmitExecuteQueryForm();
+  }
+
+
 
   SetCustomQueryDataAfterSave(data: any) {
     this.buildRunCustomQueryform();
@@ -1258,25 +1305,27 @@ export class ReportingComponent implements OnInit {
     this.externalTables = [];
     this.viewTables = [];
 
-    this.getTableMeatadataForm.patchValue({
-      ConnectionStringId: data.connectionStringId,
-      ExternalTableName: data.tableName
-    });
-    if (!this.getTableMeatadataForm.valid) {
-      this.getTableMeatadata_loading = false
-      return;
-    }
-    this.analysisService.GetExternalTableMetadata(this.getTableMeatadataForm.value).subscribe(
-      (data: any) => {
-        this.Tablemetadata = data;
-        this.getTableMeatadata_loading = false;
-        this.buildCreateTableProfileForm();
-      },
-      error => {
+    if (data.tableName) {
+      this.getTableMeatadataForm.patchValue({
+        ConnectionStringId: data.connectionStringId,
+        ExternalTableName: data.tableName
+      });
+      if (!this.getTableMeatadataForm.valid) {
         this.getTableMeatadata_loading = false
-        this.buildCreateTableProfileForm();
+        return;
       }
-    );
+      this.analysisService.GetExternalTableMetadata(this.getTableMeatadataForm.value).subscribe(
+        (data: any) => {
+          this.Tablemetadata = data;
+          this.getTableMeatadata_loading = false;
+          this.buildCreateTableProfileForm();
+        },
+        error => {
+          this.getTableMeatadata_loading = false
+          this.buildCreateTableProfileForm();
+        }
+      );
+    }
 
     this.runCustomQueryform.patchValue({
       CustomQueryId: data.customQueryId,
@@ -1288,52 +1337,55 @@ export class ReportingComponent implements OnInit {
       UpdatedBy: data.updatedBy,
       UpdatedDate: data.updatedDate
     });
-    if (data.functionss.length >= 1) {
-      data.functionss.forEach((element: any, index: number) => {
-        this.addFunctions();
-        var func = this.runCustomQueryform.get('Functions') as FormArray
-        func.controls[index].patchValue({
-          Id: element.id,
-          ColumnName: element.columnName,
-          Function: element.function,
-        })
-        this.onConfirmFunction(index);
-      });
-    }
-    if (data.groupby.length >= 1) {
-      data.groupby.forEach((element: any, index: number) => {
-        this.addGroupBy();
-        var gropuby = this.runCustomQueryform.get('GroupBy') as FormArray
-        gropuby.controls[index].patchValue({
-          Id: element.id,
-          ColumnName: element.columnName
-        })
-      });
-    }
-    if (data.sortby.length >= 1) {
-      data.sortby.forEach((element: any, index: number) => {
-        this.addSortBy();
-        var sortby = this.runCustomQueryform.get('SortBy') as FormArray
-        sortby.controls[index].patchValue({
-          Id: element.id,
-          ColumnName: element.columnName,
-          SortType: element.sortType
-        })
-        this.onConfirmSortBy(index);
-      });
-    }
-    if (data.filterby.length >= 1) {
-      data.filterby.forEach((element: any, index: number) => {
-        this.addFilterBy();
-        var filterby = this.runCustomQueryform.get('FilterBy') as FormArray
-        filterby.controls[index].patchValue({
-          Id: element.id,
-          ColumnName: element.columnName,
-          FilterOperator: element.filterOperator,
-          FilterValue: element.filterValue
-        })
-        this.onConfirmFilterBy(index);
-      });
+
+    if (data.tableName) {
+      if (data.functionss.length >= 1) {
+        data.functionss.forEach((element: any, index: number) => {
+          this.addFunctions();
+          var func = this.runCustomQueryform.get('Functions') as FormArray
+          func.controls[index].patchValue({
+            Id: element.id,
+            ColumnName: element.columnName,
+            Function: element.function,
+          })
+          this.onConfirmFunction(index);
+        });
+      }
+      if (data.groupby.length >= 1) {
+        data.groupby.forEach((element: any, index: number) => {
+          this.addGroupBy();
+          var gropuby = this.runCustomQueryform.get('GroupBy') as FormArray
+          gropuby.controls[index].patchValue({
+            Id: element.id,
+            ColumnName: element.columnName
+          })
+        });
+      }
+      if (data.sortby.length >= 1) {
+        data.sortby.forEach((element: any, index: number) => {
+          this.addSortBy();
+          var sortby = this.runCustomQueryform.get('SortBy') as FormArray
+          sortby.controls[index].patchValue({
+            Id: element.id,
+            ColumnName: element.columnName,
+            SortType: element.sortType
+          })
+          this.onConfirmSortBy(index);
+        });
+      }
+      if (data.filterby.length >= 1) {
+        data.filterby.forEach((element: any, index: number) => {
+          this.addFilterBy();
+          var filterby = this.runCustomQueryform.get('FilterBy') as FormArray
+          filterby.controls[index].patchValue({
+            Id: element.id,
+            ColumnName: element.columnName,
+            FilterOperator: element.filterOperator,
+            FilterValue: element.filterValue
+          })
+          this.onConfirmFilterBy(index);
+        });
+      }
     }
     if (data.chartinfo.length >= 1) {
       data.chartinfo.forEach((element: any, index: number) => {
@@ -1409,7 +1461,12 @@ export class ReportingComponent implements OnInit {
     }
 
     this.GetAllTables(data.connectionStringId);
-    this.onSubmitRunCustomQuery()
+    if (data.tableName) {
+      this.onSubmitRunCustomQuery()
+    }
+    else {
+
+    }
   }
 
   renderSavedCharts() {
