@@ -259,7 +259,7 @@ export class ReportingComponent implements OnInit {
       (res) => {
         this.allWorkSpaces = res;
       },
-      (err) => {  }
+      (err) => { }
     )
   }
   // Gets Queries written on SQL Server tab>New Query> SQL editor
@@ -276,7 +276,7 @@ export class ReportingComponent implements OnInit {
   GetAllTables(connectionStringId: string) {
     this.analysisService.GetAllTables(connectionStringId).subscribe(
       (res: any) => {
-        
+
         this.tables = res[0];
         this.databaseName = res[0].databaseName;
         this.tables = res[0].tables
@@ -327,7 +327,7 @@ export class ReportingComponent implements OnInit {
       },
       err => {
         this.runcustomQueryForm_loading = false;
-        
+
       }
     )
   }
@@ -451,7 +451,7 @@ export class ReportingComponent implements OnInit {
     var queryId = (<HTMLInputElement>event.target).value
     this.selectedQuery = this.queries.find(x => x.queryId == queryId)!
     const databaseName = this.connectionStrings.find(x => x.connectionStringId == this.selectedQuery.connectionStringId).databaseName;
-    
+
     this.buildExecuteQueryForm()
     this.executeQueryForm.patchValue({
       QueryId: this.selectedQuery.queryId,
@@ -461,7 +461,7 @@ export class ReportingComponent implements OnInit {
       AddedBy: this.selectedQuery.addedBy,
       AddedDate: this.selectedQuery.addedDate,
     })
-    
+
     this.onSubmitExecuteQueryForm();
   }
   onSelectConnectionInNewTab(event: Event) {
@@ -823,6 +823,7 @@ export class ReportingComponent implements OnInit {
         this.selectedWorkspacedata = null;
         this.selectedWorkspace = '';
         this.minimizedChartLists = [];
+        this.queries = [];
       }
     })
 
@@ -1013,7 +1014,7 @@ export class ReportingComponent implements OnInit {
       UpdatedDate: this.todayDate
     })
     this.reportsService.SaveCustomQuery(this.runCustomQueryform.value).subscribe((res: any) => {
-      
+
       this.GetAllCustomQuery();
       this.toastr.success('Successfully saved', 'Success', { positionClass: 'toast-bottom-right' })
       this.todayDate = new Date().toISOString();
@@ -1037,7 +1038,7 @@ export class ReportingComponent implements OnInit {
     })
     this.reportsService.SaveAsCustomQuery(this.runCustomQueryform.value).subscribe(
       (res: any) => {
-        
+
         this.SetCustomQueryDataAfterSave(res);
         this.GetAllCustomQuery();
         this.toastr.success('Successfully saved', 'Success', { positionClass: 'toast-bottom-right' })
@@ -1269,7 +1270,7 @@ export class ReportingComponent implements OnInit {
       this.analysisService.GetQueriesByConnectionStringId(data.connectionStringId).subscribe(
         res => {
           this.queries = res;
-          
+
           this.runExistingQueryPostSelect(data, this.queries)
         },
         err => { }
@@ -1455,7 +1456,7 @@ export class ReportingComponent implements OnInit {
       // this.analysisService.GetQueriesByConnectionStringId(data.connectionStringId).subscribe(
       //   res => {
       //     this.queries = res;
-      
+
       //     this.runExistingQueryPostSelect(data, this.queries)
       //   },
       //   err => { }
@@ -1476,7 +1477,7 @@ export class ReportingComponent implements OnInit {
       AddedBy: this.todayDate,
       AddedDate: this.todayDate,
     })
-    
+
     this.onSubmitExecuteQueryForm();
   }
 
@@ -1767,11 +1768,11 @@ export class ReportingComponent implements OnInit {
 
   getDatasetKeys(data: any) {
     this.datasetKeys = Object.keys(data);
-    
+
   }
 
   parseJson(strData: any): any {
-    
+
     return JSON.parse(strData);
   }
 
@@ -1812,7 +1813,7 @@ export class ReportingComponent implements OnInit {
   BuildBarData(chartInfo: any, chartNumber: number) {
     var _barData: any
     var xandyaxisarraydata = this.GetXAndYAxisArray(chartInfo)
-    
+
     var _datasets: any = [];
     chartInfo.ChartYAxisInfo.forEach((element: any, i: number) => {
       _datasets.push({
@@ -2368,7 +2369,7 @@ export class ReportingComponent implements OnInit {
 
     let datasetsData: any[] = []
     let labels = []
-    
+
 
     var x_axis_object = [...new Map(this.resultData.map(item => [item[chartInfo.ChartXAxis], item])).values()];
     x_axis_array = x_axis_object.map(x => x[chartInfo.ChartXAxis])
@@ -2427,7 +2428,7 @@ export class ReportingComponent implements OnInit {
         link.click();
       })
       .catch((e) => {
-        
+
       });
   }
 
