@@ -75,7 +75,7 @@ export class DataLakeService {
 
   UploadFiles(formData: any, ConnectionStringId: string, FileSystem: string) {
     const url = protectedResources.dataLakeApi.UploadFiles.endpoint;
-    console.log(ConnectionStringId, FileSystem)
+
     const options: Object = {
       // headers: new HttpHeaders().append('Content-Type', 'application/json'),
       params: new HttpParams()

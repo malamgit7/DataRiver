@@ -40,10 +40,10 @@ export class AllViewsComponent implements OnInit {
       (res) => {
         this.connectionStrings = res;
         this.connectionString_loading = false;
-        console.log(res);
+        
       },
       (err) => {
-        console.log(err);
+        
         this.connectionString_loading = false;
       }
     );
@@ -61,7 +61,7 @@ export class AllViewsComponent implements OnInit {
   getViews() {
     this.views_loading = true;
     this.analysisService.GetViews(this.connectionStringId_Next).subscribe(
-      res => { this.Views = res; this.views_loading = false; console.log(res); },
+      res => { this.Views = res; this.views_loading = false; },
       err => { this.views_loading = false; }
     );
   }

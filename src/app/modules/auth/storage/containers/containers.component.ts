@@ -123,8 +123,7 @@ export class ContainersComponent implements OnInit {
 
 
   public onContextMenuSelect(event: any, item: any) {
-    console.log(event.data);
-    console.log(item);
+
     this.buildContextMenu();
     if (event.data.ext != 'csv') {
       this.items[0].disabled = true;
@@ -144,7 +143,7 @@ export class ContainersComponent implements OnInit {
 
   getClaims(claims: any) {
     this.role = claims['roles'][0]
-    console.log(this.role);
+    
   }
 
   buildCreateFileSystemForm() {
@@ -197,7 +196,6 @@ export class ContainersComponent implements OnInit {
         this.toastr.success('Container created!', 'Success', { positionClass: 'toast-bottom-center' })
       },
         error => {
-          console.log(error);
           this.createFileSystems_loading = false;
           window.alert(error.error.split('\n')[0].split(':')[1].trim());
           this.toastr.error('Something wrong!', 'Error', { positionClass: 'toast-bottom-center' })
@@ -221,7 +219,7 @@ export class ContainersComponent implements OnInit {
           },
           err => {
             this.toastr.error('Query deletion failed', 'Error', { positionClass: 'toast-bottom-center' });
-            console.log(err);
+            
           }
         );
       },
@@ -236,14 +234,14 @@ export class ContainersComponent implements OnInit {
     this.GetFileSystems_loading = true;
     this.dataAnalysisService.GetFileSystems(connectionStringId).subscribe(
       res => {
-        console.log(res);
+        
         this.containers = res;
         this.GetFileSystems_loading = false
       },
       err => {
         this.containers = [];
         this.GetFileSystems_loading = false
-        console.log(err)
+        
       }
     )
   }
@@ -277,7 +275,7 @@ export class ContainersComponent implements OnInit {
 
   DownloadBlob(blob: any) {
     this.dataLakeService.DownloadBlob(this.connectionString_Next, this.fileSystem_Next, blob.name).subscribe((data: any) => {
-      console.log(data.body);
+      
       saveAs(data.body, blob.name)
     });
   }
@@ -309,7 +307,7 @@ export class ContainersComponent implements OnInit {
 
   GetBlobProperties(blob: any) {
     this.displayPropertiesModal = true;
-    console.log(blob)
+    
     this.properties_of_this_blob = blob.name;
 
     this.GetBlobProperties_loading = true
@@ -327,14 +325,14 @@ export class ContainersComponent implements OnInit {
   LockFile(blob: any) {
     // this.dataLakeService.LockFile(this.container, path_blob).subscribe(data => {
     //   this.GetBlobs();
-    //   console.log("File Locked")
+    
     // });
   }
 
   UnlockFile(blob: any) {
     // this.dataLakeService.UnlockFile(this.container, path_blob).subscribe(data => {
     //   this.GetBlobs();
-    //   console.log("File Unlocked")
+    
     // });
   }
 
@@ -357,7 +355,7 @@ export class ContainersComponent implements OnInit {
     if (files.length === 0) {
       return;
     }
-    console.log(files)
+    
     const formData = new FormData();
     for (let file of files) {
       formData.append(file.name, file)
@@ -431,7 +429,7 @@ export class ContainersComponent implements OnInit {
       this.arrayBuffer = fileReader.result;
       var data = new Uint8Array(this.arrayBuffer);
 
-      console.log(data)
+      
 
       var arr = new Array();
       for (var i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
@@ -452,7 +450,7 @@ export class ContainersComponent implements OnInit {
   LazyLoadBlobData(event: LazyLoadEvent) {
     this.arraylist_loading = true;
     setTimeout(() => {
-      console.log(event)
+      
     }, 1000);
   }
 

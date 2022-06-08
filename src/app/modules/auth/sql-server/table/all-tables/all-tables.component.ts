@@ -41,10 +41,10 @@ export class AllTablesComponent implements OnInit {
       (res) => {
         this.connectionStrings = res;
         this.connectionString_loading = false;
-        console.log(res);
+
       },
       (err) => {
-        console.log(err);
+
         this.connectionString_loading = false;
       }
     );
@@ -61,7 +61,7 @@ export class AllTablesComponent implements OnInit {
   GetTables(connectionStringId: string) {
     this.Table_loading = true;
     this.analysisService.GetTables(connectionStringId).subscribe(
-      res => { this.Tables = res; this.Table_loading = false; console.log(res); },
+      res => { this.Tables = res; this.Table_loading = false; },
       err => { this.Table_loading = false; }
     );
   }

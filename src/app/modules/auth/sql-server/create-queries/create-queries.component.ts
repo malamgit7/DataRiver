@@ -353,7 +353,7 @@ export class CreateQueriesComponent implements OnInit {
     this.analysisService.ExecuteQuery(this.executeQueryForm.value).subscribe(
       (data: any) => {
         this.pauseTimer();
-        console.log(data);
+        
         if (typeof (data) == 'object') {
           var res = data;
           this.dataKey = Object.keys(res[0])[0]

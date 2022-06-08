@@ -1013,7 +1013,7 @@ export class ReportingComponent implements OnInit {
       UpdatedDate: this.todayDate
     })
     this.reportsService.SaveCustomQuery(this.runCustomQueryform.value).subscribe((res: any) => {
-      console.log(res);
+      
       this.GetAllCustomQuery();
       this.toastr.success('Successfully saved', 'Success', { positionClass: 'toast-bottom-right' })
       this.todayDate = new Date().toISOString();
@@ -1037,7 +1037,7 @@ export class ReportingComponent implements OnInit {
     })
     this.reportsService.SaveAsCustomQuery(this.runCustomQueryform.value).subscribe(
       (res: any) => {
-        console.log(res);
+        
         this.SetCustomQueryDataAfterSave(res);
         this.GetAllCustomQuery();
         this.toastr.success('Successfully saved', 'Success', { positionClass: 'toast-bottom-right' })
@@ -1269,7 +1269,7 @@ export class ReportingComponent implements OnInit {
       this.analysisService.GetQueriesByConnectionStringId(data.connectionStringId).subscribe(
         res => {
           this.queries = res;
-          console.log(this.queries);
+          
           this.runExistingQueryPostSelect(data, this.queries)
         },
         err => { }
@@ -1455,7 +1455,7 @@ export class ReportingComponent implements OnInit {
       // this.analysisService.GetQueriesByConnectionStringId(data.connectionStringId).subscribe(
       //   res => {
       //     this.queries = res;
-      //     console.log(this.queries);
+      
       //     this.runExistingQueryPostSelect(data, this.queries)
       //   },
       //   err => { }
@@ -1464,8 +1464,7 @@ export class ReportingComponent implements OnInit {
   }
 
   runExistingQueryPostSelect(data: any, queries: any) {
-    console.log(data);
-    console.log(queries);
+
     this.databaseName = this.connectionStrings.find(x => x.connectionStringId == data.connectionStringId).databaseName;
     var querySQL = queries.find((x: any) => x.queryId == data.customQueryId).querySQL
     this.buildExecuteQueryForm()
@@ -1477,7 +1476,7 @@ export class ReportingComponent implements OnInit {
       AddedBy: this.todayDate,
       AddedDate: this.todayDate,
     })
-    console.log(this.executeQueryForm.value)
+    
     this.onSubmitExecuteQueryForm();
   }
 
@@ -1768,11 +1767,11 @@ export class ReportingComponent implements OnInit {
 
   getDatasetKeys(data: any) {
     this.datasetKeys = Object.keys(data);
-    console.log(this.datasetKeys);
+    
   }
 
   parseJson(strData: any): any {
-    // console.log(JSON.parse(strData));
+    
     return JSON.parse(strData);
   }
 
@@ -1813,7 +1812,7 @@ export class ReportingComponent implements OnInit {
   BuildBarData(chartInfo: any, chartNumber: number) {
     var _barData: any
     var xandyaxisarraydata = this.GetXAndYAxisArray(chartInfo)
-    console.log(xandyaxisarraydata);
+    
     var _datasets: any = [];
     chartInfo.ChartYAxisInfo.forEach((element: any, i: number) => {
       _datasets.push({
@@ -2369,7 +2368,7 @@ export class ReportingComponent implements OnInit {
 
     let datasetsData: any[] = []
     let labels = []
-    console.log(chartInfo)
+    
 
     var x_axis_object = [...new Map(this.resultData.map(item => [item[chartInfo.ChartXAxis], item])).values()];
     x_axis_array = x_axis_object.map(x => x[chartInfo.ChartXAxis])
@@ -2428,7 +2427,7 @@ export class ReportingComponent implements OnInit {
         link.click();
       })
       .catch((e) => {
-        console.log(e);
+        
       });
   }
 

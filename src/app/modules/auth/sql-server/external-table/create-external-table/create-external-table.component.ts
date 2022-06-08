@@ -80,12 +80,12 @@ export class CreateExternalTableComponent implements OnInit {
     this.connectionString_loading = true;
     this.bridgeManagerService.GetStorageConnectionStrings().subscribe(
       data => {
-        console.log(data);
+        
         this.connectionStrings = data;
         this.connectionString_loading = false;
       },
       error => {
-        console.log(error);
+        
         this.connectionString_loading = false;
       }
     )
@@ -97,10 +97,10 @@ export class CreateExternalTableComponent implements OnInit {
       (res) => {
         this.syn_connectionStrings = res;
         this.syn_connectionString_loading = false;
-        console.log(res);
+        
       },
       (err) => {
-        console.log(err);
+        
         this.syn_connectionString_loading = false;
       }
     );
@@ -153,7 +153,7 @@ export class CreateExternalTableComponent implements OnInit {
   }
 
   GetDataTypeLists() {
-    this.dataAnalysisService.GetDataTypeLists().subscribe(data => { this.dataTypes = data; console.log(this.dataTypes) })
+    this.dataAnalysisService.GetDataTypeLists().subscribe(data => { this.dataTypes = data; })
   }
 
   onSelectConnectionString(event: Event) {
@@ -165,12 +165,12 @@ export class CreateExternalTableComponent implements OnInit {
     this.dataAnalysisService.GetFileSystems(connectionStringId).subscribe(
       res => {
         this.containers = res;
-        console.log(this.containers)
+        
         this.GetFileSystems_loading = false
       },
       err => {
         this.GetFileSystems_loading = false
-        console.log(err)
+        
       }
     )
   }
@@ -224,8 +224,6 @@ export class CreateExternalTableComponent implements OnInit {
     }
     this.dataAnalysisService.GetBlobSchema(this.getBlobSchemaForm.value).subscribe(
       data => {
-        console.log(data)
-        console.log(data.length)
         if (data.length === 0) {
           window.alert("This file is empty")
           this.GetBlobSchema_loading = false;
@@ -263,7 +261,7 @@ export class CreateExternalTableComponent implements OnInit {
       FileSystem: this.fileSystem_Next,
       Path_Blob: this.blob_next
     });
-    console.log(this.createETForm.value)
+    
 
     if (this.createETForm.invalid) {
       this.CreateView_loading = false
@@ -271,12 +269,12 @@ export class CreateExternalTableComponent implements OnInit {
       return;
     }
     this.dataAnalysisService.CreateExternalTableCustom(this.createETForm.value).subscribe(data => {
-      console.log(data)
+      
       this.CreateView_loading = false
       this.toastr.success("Successfully created", "Success", { positionClass: 'toast-bottom-center' });
     },
       error => {
-        console.log(error)
+        
         this.CreateView_loading = false;
         this.toastr.error(error.error, "Error", { positionClass: 'toast-bottom-center' });
         return;
