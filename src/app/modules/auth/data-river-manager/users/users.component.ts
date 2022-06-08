@@ -19,7 +19,7 @@ export class UsersComponent implements OnInit {
   }
 
   GetAllUsers() {
-    this.dataRiverManagerService.GetAllUsers().subscribe(data => { this.users=data; console.log(this.users) });
+    this.dataRiverManagerService.GetAllUsers().subscribe(data => { this.users=data; });
   }
 
 }

@@ -128,11 +128,11 @@ export class AllQueriesComponent implements OnInit {
       QuerySQL: query.querySQL
     });
     if (!this.executeQueryForm.valid) {
-      console.log(this.executeQueryForm.value);
+      
       this.executeQueryForm_loading = false;
       return;
     }
-    console.log(this.executeQueryForm.value);
+    
     this.time = 0;
     this.startTimer();
     this.analysisService.ExecuteQuery(this.executeQueryForm.value).subscribe(

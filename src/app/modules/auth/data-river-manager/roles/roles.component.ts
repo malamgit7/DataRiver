@@ -14,7 +14,7 @@ export class RolesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.dataRiverManagerService.GetApplicationRoles().subscribe(data => { this.roles = data; console.log(this.roles) })
+    this.dataRiverManagerService.GetApplicationRoles().subscribe(data => { this.roles = data; })
   }
 
 }

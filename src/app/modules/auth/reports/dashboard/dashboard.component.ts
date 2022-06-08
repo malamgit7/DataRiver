@@ -153,7 +153,7 @@ export class DashboardComponent implements OnInit {
   }
 
   generateDailyData(selectedStartDate: any, selectedEndDate: any) {
-    console.log(this.rawData, selectedStartDate, selectedEndDate);
+    
     this._labels = [];
     const theDate = new Date(selectedStartDate.toISOString().split('T')[0]);
     while (theDate <= selectedEndDate) {
@@ -171,7 +171,7 @@ export class DashboardComponent implements OnInit {
       this._dates = finalData.map(x => x.date);
       this._successData = finalData.map(x => x.success);
       this._failedData = finalData.map(x => x.failed);
-      console.log(this._dates, this._successData, this._failedData);
+      
     }
     finally {
       this.buildLineChart();
@@ -195,7 +195,7 @@ export class DashboardComponent implements OnInit {
     finalData.sort((a, b) => (a.date > b.date) ? 1 : -1);
     try {
       this._dates = finalData.map(x => x.date);
-      console.log(this._dates)
+      
       this._dates.forEach(element => {
         this._successData.push(finalData.filter(x => x.date >= element && x.date <= element + 7).map(x => x.success)[0]);
         this._failedData.push(finalData.filter(x => x.date >= element && x.date <= element + 7).map(x => x.failed)[0]);
@@ -234,7 +234,7 @@ export class DashboardComponent implements OnInit {
       this.buildLineChart();
       this.buildBarChart();
     }
-    console.log(this._dates, this._successData, this._failedData);
+    
   }
 
   buildLineChart() {
@@ -336,7 +336,7 @@ export class DashboardComponent implements OnInit {
   }
 
   GetQueryOutputStatus(startDate: any, endDate: any) {
-    console.log(startDate, endDate);
+    
     this.rawData_loading = true;
     this.reportsService.GetQueryOutputStatus(startDate, endDate).subscribe(
       data => {
@@ -344,7 +344,7 @@ export class DashboardComponent implements OnInit {
         this.rawData_loading = false;
       },
       error => {
-        console.log(error);
+        
         this.rawData_loading = false;
       }
     );

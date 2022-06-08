@@ -54,7 +54,7 @@ export class QueryOutputDetailsComponent implements OnInit {
     this.analysisService.QueryOutputDetails(this.queryId).subscribe(
       res => {
         this.queryResults = res
-        console.log(res)
+        
         this.queryResults_loading = false
       },
       err => {

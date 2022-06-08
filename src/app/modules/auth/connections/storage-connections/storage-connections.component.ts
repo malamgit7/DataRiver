@@ -82,7 +82,7 @@ export class StorageConnectionsComponent implements OnInit {
         // this.storageConnectionStrings = res;
       },
       (err) => {
-        console.log(err);
+        
       }
     );
   }
@@ -115,7 +115,7 @@ export class StorageConnectionsComponent implements OnInit {
   }
 
   DeleteStorageConnectionString(connectionString: any) {
-    console.log(connectionString);
+    
     this.confirmationService.confirm({
       message: 'Are you sure that you want to delete ' + connectionString.connectionName + '?',
       header: 'Confirmation',

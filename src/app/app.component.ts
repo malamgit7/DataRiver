@@ -36,7 +36,6 @@ export class AppComponent implements OnInit {
         takeUntil(this._destroying$)
       )
       .subscribe((result: EventMessage) => {
-        console.log(result);
         const payload = result.payload as AuthenticationResult;
         this.authService.instance.setActiveAccount(payload.account);
       });
@@ -77,7 +76,6 @@ export class AppComponent implements OnInit {
       { id: 2, claim: "User Principal Name (UPN)", value: claims ? claims['preferred_username'] : null },
       { id: 2, claim: "OID", value: claims ? claims['oid'] : null }
     ];
-    // console.log(this.dataSource)
   }
 
   ngOnDestroy(): void {

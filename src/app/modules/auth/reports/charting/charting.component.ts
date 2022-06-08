@@ -29,7 +29,7 @@ export class ChartingComponent implements OnInit {
     this.subscription = this.chartdataService.getData().subscribe(
       data => {
         this.chartdata = data
-        console.log(this.chartdata)
+        
       }
     )
   }

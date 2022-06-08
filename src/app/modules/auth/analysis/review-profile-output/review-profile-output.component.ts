@@ -67,10 +67,10 @@ export class ReviewProfileOutputComponent implements OnInit {
       (res) => {
         this.connectionStrings = res;
         this.connectionString_loading = false;
-        console.log(res);
+
       },
       (err) => {
-        console.log(err);
+
         this.connectionString_loading = false;
       }
     );
@@ -98,7 +98,7 @@ export class ReviewProfileOutputComponent implements OnInit {
   getExternalTable(connectionStringId: string) {
     this.externalTables_loading = true;
     this.analysisService.GetExternalTables(connectionStringId).subscribe(
-      res => { this.externalTables = res; this.externalTables_loading = false; console.log(res); },
+      res => { this.externalTables = res; this.externalTables_loading = false; },
       err => { this.externalTables_loading = false; }
     );
   }
@@ -106,7 +106,7 @@ export class ReviewProfileOutputComponent implements OnInit {
   getTable(connectionStringId: string) {
     this.Table_loading = true;
     this.analysisService.GetTables(connectionStringId).subscribe(
-      res => { this.Tables = res; this.Table_loading = false; console.log(res); },
+      res => { this.Tables = res; this.Table_loading = false; },
       err => { this.Table_loading = false; }
     );
   }
@@ -120,10 +120,10 @@ export class ReviewProfileOutputComponent implements OnInit {
       data => {
         this.profiledDates = data;
         this.profiledDates_loading = false;
-        console.log(data);
+        
       },
       error => {
-        console.log(error);
+        
         this.profiledDates_loading = false;
       }
     );
@@ -149,7 +149,7 @@ export class ReviewProfileOutputComponent implements OnInit {
 
   onSubmitReviewProfileForm() {
     this.reviewProfileForm_loading = true;
-    console.log(this.reviewProfileForm.value);
+    
     this.analysisService.ReviewProfileOutput(this.reviewProfileForm.value).subscribe(
       data => {
         if (data != null) {

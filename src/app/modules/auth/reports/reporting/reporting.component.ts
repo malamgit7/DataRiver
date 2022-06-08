@@ -259,7 +259,7 @@ export class ReportingComponent implements OnInit {
       (res) => {
         this.allWorkSpaces = res;
       },
-      (err) => { console.log(err); }
+      (err) => {  }
     )
   }
   // Gets Queries written on SQL Server tab>New Query> SQL editor
@@ -276,7 +276,7 @@ export class ReportingComponent implements OnInit {
   GetAllTables(connectionStringId: string) {
     this.analysisService.GetAllTables(connectionStringId).subscribe(
       (res: any) => {
-        console.log(res);
+        
         this.tables = res[0];
         this.databaseName = res[0].databaseName;
         this.tables = res[0].tables
@@ -327,57 +327,63 @@ export class ReportingComponent implements OnInit {
       },
       err => {
         this.runcustomQueryForm_loading = false;
-        console.log(err)
+        
       }
     )
   }
   onSubmitRunCustomQuery() {
-    this.runcustomQueryForm_loading = true;
-    this.xAxisItems = []
-    this.yAxisItems = []
-    this.resultData = []
-    this.cols = [];
-    this.keys = [];
-    this.filterFields = '';
-    this.isError = false;
-    if (this.runCustomQueryform.invalid) {
-      return;
+    if (this.runCustomQueryform.get('TableName')!.value == '' || this.runCustomQueryform.get('TableName')?.value == null) {
+      this.onSubmitExecuteQueryForm()
     }
-    this.reportsService.ExecuteCustomeQuery(this.runCustomQueryform.value).subscribe(
-      (res: any) => {
-        this.runcustomQueryForm_loading = false;
-        this.getDatasetKeys(res[0]);
-        this.chartdataService.updateData(res);
-        this.resultData = res;
-        if (this.selectedWorkspacedata != null) {
-          this.renderSavedCharts();
-        }
-        this.keys = Object.keys(res[0]);
-        this.keys.forEach((key, i) => {
-          this.cols.push({ field: key, header: key.trim() });
-        });
-        var tmp: string[] = [];
-        this.keys.forEach((item) => {
-          tmp.push("'" + item + "'");
-        });
-        this.filterFields = tmp.join(",");
-        this.runCustomQueryform.get("GroupBy")?.value.forEach((item: any) => {
-          this.xAxisItems.push(item.ColumnName);
-        });
-        this.runCustomQueryform.get("Functions")?.value.forEach((item: any) => {
-          var _columnName = item.ColumnName
-          var _functionName = item.Function.split(')')[0].split('(')[0]
-          var _func = _functionName + "_" + _columnName
-          this.yAxisItems.push(_func);
-        });
-
-      },
-      (err: any) => {
-        this.error_message = err.error;
-        this.isError = true;
-        this.runcustomQueryForm_loading = false
+    else {
+      this.runcustomQueryForm_loading = true;
+      this.xAxisItems = []
+      this.yAxisItems = []
+      this.resultData = []
+      this.cols = [];
+      this.keys = [];
+      this.filterFields = '';
+      this.isError = false;
+      if (this.runCustomQueryform.invalid) {
+        return;
       }
-    );
+      this.reportsService.ExecuteCustomeQuery(this.runCustomQueryform.value).subscribe(
+        (res: any) => {
+          this.runcustomQueryForm_loading = false;
+          this.getDatasetKeys(res[0]);
+          this.chartdataService.updateData(res);
+          this.resultData = res;
+          if (this.selectedWorkspacedata != null) {
+            this.renderSavedCharts();
+          }
+          this.keys = Object.keys(res[0]);
+          this.keys.forEach((key, i) => {
+            this.cols.push({ field: key, header: key.trim() });
+          });
+          var tmp: string[] = [];
+          this.keys.forEach((item) => {
+            tmp.push("'" + item + "'");
+          });
+          this.filterFields = tmp.join(",");
+          this.runCustomQueryform.get("GroupBy")?.value.forEach((item: any) => {
+            this.xAxisItems.push(item.ColumnName);
+          });
+          this.runCustomQueryform.get("Functions")?.value.forEach((item: any) => {
+            var _columnName = item.ColumnName
+            var _functionName = item.Function.split(')')[0].split('(')[0]
+            var _func = _functionName + "_" + _columnName
+            this.yAxisItems.push(_func);
+          });
+
+        },
+        (err: any) => {
+          this.error_message = err.error;
+          this.isError = true;
+          this.runcustomQueryForm_loading = false
+        }
+      );
+    }
+
   }
   //#endregion
 
@@ -445,7 +451,7 @@ export class ReportingComponent implements OnInit {
     var queryId = (<HTMLInputElement>event.target).value
     this.selectedQuery = this.queries.find(x => x.queryId == queryId)!
     const databaseName = this.connectionStrings.find(x => x.connectionStringId == this.selectedQuery.connectionStringId).databaseName;
-    console.log(this.selectedQuery)
+    
     this.buildExecuteQueryForm()
     this.executeQueryForm.patchValue({
       QueryId: this.selectedQuery.queryId,
@@ -455,7 +461,7 @@ export class ReportingComponent implements OnInit {
       AddedBy: this.selectedQuery.addedBy,
       AddedDate: this.selectedQuery.addedDate,
     })
-    console.log(this.executeQueryForm.value)
+    
     this.onSubmitExecuteQueryForm();
   }
   onSelectConnectionInNewTab(event: Event) {
@@ -1073,11 +1079,10 @@ export class ReportingComponent implements OnInit {
     });
   }
 
-  async SetCustomQueryToEdit(queryId: string) {
+  SetCustomQueryToEdit(queryId: string) {
     this.buildRunCustomQueryform();
     this.onHideAllQueriesDialog();
     this.selectedWorkspacedata = null;
-    // this.selectedWorkspace = '';
     this.databaseName = '';
     this.tables = [];
     this.externalTables = [];
@@ -1183,8 +1188,6 @@ export class ReportingComponent implements OnInit {
         });
       }
     }
-    // this.GetAllTables(data.connectionStringId);
-    // this.onSubmitRunCustomQuery()
     if (data.chartinfo.length >= 1) {
       data.chartinfo.forEach((element: any, index: number) => {
         this.addChartInfo();
@@ -1274,26 +1277,6 @@ export class ReportingComponent implements OnInit {
     }
   }
 
-  runExistingQueryPostSelect(data: any, queries: any) {
-    console.log(data);
-    console.log(queries);
-    this.databaseName = this.connectionStrings.find(x => x.connectionStringId == data.connectionStringId).databaseName;
-    var querySQL = queries.find((x: any) => x.queryId == data.customQueryId).querySQL
-    this.buildExecuteQueryForm()
-    this.executeQueryForm.patchValue({
-      QueryId: data.customQueryId,
-      DatabaseName: this.databaseName,
-      ConnectionStringId: data.connectionStringId,
-      QuerySQL: querySQL,
-      AddedBy: this.todayDate,
-      AddedDate: this.todayDate,
-    })
-    console.log(this.executeQueryForm.value)
-    this.onSubmitExecuteQueryForm();
-  }
-
-
-
   SetCustomQueryDataAfterSave(data: any) {
     this.buildRunCustomQueryform();
     this.onHideAllQueriesDialog();
@@ -1304,6 +1287,9 @@ export class ReportingComponent implements OnInit {
     this.tables = [];
     this.externalTables = [];
     this.viewTables = [];
+
+
+    this.databaseName = data.databaseName;
 
     if (data.tableName) {
       this.getTableMeatadataForm.patchValue({
@@ -1326,7 +1312,6 @@ export class ReportingComponent implements OnInit {
         }
       );
     }
-
     this.runCustomQueryform.patchValue({
       CustomQueryId: data.customQueryId,
       ConnectionStringId: data.connectionStringId,
@@ -1459,14 +1444,41 @@ export class ReportingComponent implements OnInit {
 
       });
     }
-
-    this.GetAllTables(data.connectionStringId);
     if (data.tableName) {
+      this.GetAllTables(data.connectionStringId);
       this.onSubmitRunCustomQuery()
     }
     else {
-
+      this.runCustomQueryform.get('TableName')?.clearValidators(); this.runCustomQueryform.get('TableName')?.updateValueAndValidity();
+      this.runCustomQueryform.get('Functions')?.clearValidators(); this.runCustomQueryform.get('Functions')?.updateValueAndValidity();
+      this.runCustomQueryform.get('GroupBy')?.clearValidators(); this.runCustomQueryform.get('GroupBy')?.updateValueAndValidity();
+      // this.analysisService.GetQueriesByConnectionStringId(data.connectionStringId).subscribe(
+      //   res => {
+      //     this.queries = res;
+      //     console.log(this.queries);
+      //     this.runExistingQueryPostSelect(data, this.queries)
+      //   },
+      //   err => { }
+      // );
     }
+  }
+
+  runExistingQueryPostSelect(data: any, queries: any) {
+    console.log(data);
+    console.log(queries);
+    this.databaseName = this.connectionStrings.find(x => x.connectionStringId == data.connectionStringId).databaseName;
+    var querySQL = queries.find((x: any) => x.queryId == data.customQueryId).querySQL
+    this.buildExecuteQueryForm()
+    this.executeQueryForm.patchValue({
+      QueryId: data.customQueryId,
+      DatabaseName: this.databaseName,
+      ConnectionStringId: data.connectionStringId,
+      QuerySQL: querySQL,
+      AddedBy: this.todayDate,
+      AddedDate: this.todayDate,
+    })
+    console.log(this.executeQueryForm.value)
+    this.onSubmitExecuteQueryForm();
   }
 
   renderSavedCharts() {

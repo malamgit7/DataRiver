@@ -93,7 +93,6 @@ export class ProfilingComponent implements OnInit {
     }
     this.analysisService.GetExternalTableMetadata(this.getTableMeatadataForm.value).subscribe(
       data => {
-        console.log(data);
         this.Tablemetadata = data;
         this.getTableMeatadata_loading = false
         this.buildCreateTableProfileForm();
@@ -151,18 +150,15 @@ export class ProfilingComponent implements OnInit {
     });
 
     if (!this.createTableProfileForm.valid) {
-      console.log(this.createTableProfileForm.value);
       this.createTableProfileForm_loading = false;
       return;
     }
-    console.log(this.createTableProfileForm.value);
     this.analysisService.CreateExternalTableProfile(this.createTableProfileForm.value).subscribe(
       data => {
         this.createTableProfileForm_loading = false;
         this.toastr.success('Profile created successfully!', 'Success', { positionClass: 'toast-bottom-center' })
       },
       error => {
-        console.log(error);
         this.createTableProfileForm_loading = false;
         this.toastr.error('Failed to create profile!', 'Error', { positionClass: 'toast-bottom-center' })
       }
@@ -184,7 +180,7 @@ export class ProfilingComponent implements OnInit {
   getExternalTable(connectionStringId: string) {
     this.externalTable_loading = true;
     this.analysisService.GetExternalTables(connectionStringId).subscribe(
-      res => { this.ExternalTables = res; this.externalTable_loading = false; console.log(res); },
+      res => { this.ExternalTables = res; this.externalTable_loading = false; },
       err => { this.externalTable_loading = false; }
     );
   }
@@ -192,7 +188,7 @@ export class ProfilingComponent implements OnInit {
   getTable(connectionStringId: string) {
     this.Table_loading = true;
     this.analysisService.GetTables(connectionStringId).subscribe(
-      res => { this.Tables = res; this.Table_loading = false; console.log(res); },
+      res => { this.Tables = res; this.Table_loading = false; },
       err => { this.Table_loading = false; }
     );
   }

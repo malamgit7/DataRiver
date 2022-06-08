@@ -105,7 +105,7 @@ export class SqlConnectionsComponent implements OnInit {
     this.connectionTypes_loading = true;
     this.bridgeManagerService.GetConnectionStringType().subscribe(
       (res) => {
-        console.log(res);
+        
         this.connectionTypes = res;
         this.connectionTypes_loading = false;
       },
@@ -143,7 +143,7 @@ export class SqlConnectionsComponent implements OnInit {
   }
 
   DeleteSqlConnectionString(connectionString: any) {
-    console.log(connectionString);
+    
     this.deleteSqlConnectionString_loading = true;
     this.confirmationService.confirm({
       message: 'Are you sure that you want to delete ' + connectionString.connectionName + '?',
@@ -175,7 +175,7 @@ export class SqlConnectionsComponent implements OnInit {
       UpdatedBy: this.userName,
       UpdatedDate: this.todayDate
     });
-    console.log(this.sqlConnectionStringForm.value);
+    
     this.sqlConnectionStringForm_loading = true;
     if (this.sqlConnectionStringForm.invalid) {
       this.sqlConnectionStringForm_loading = false
@@ -185,7 +185,7 @@ export class SqlConnectionsComponent implements OnInit {
     this.bridgeManagerService.TestSqlConnectionString(this.sqlConnectionStringForm.value).subscribe(
       data => {
         if (data == true) {
-          console.log(data);
+          
           this.toastr.success('Successfully tested Connection String', 'Success', { positionClass: 'toast-bottom-center' })
           this.sqlConnectionStringForm_loading = false
         }
@@ -196,7 +196,7 @@ export class SqlConnectionsComponent implements OnInit {
 
       },
       error => {
-        console.log(error);
+        
         this.toastr.error('Error while testing Connection String', 'Error', { positionClass: 'toast-bottom-center' })
         this.sqlConnectionStringForm_loading = false;
       }

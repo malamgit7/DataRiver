@@ -108,7 +108,6 @@ export class QueriesComponent implements OnInit {
     this.analysisService.GetQueries().subscribe(
       res => {
         this.queries = res;
-        console.log(this.queries);
       },
       err => { }
     );
@@ -131,11 +130,9 @@ export class QueriesComponent implements OnInit {
       QuerySQL: query.querySQL
     });
     if (!this.executeQueryForm.valid) {
-      console.log(this.executeQueryForm.value);
       this.executeQueryForm_loading = false;
       return;
     }
-    console.log(this.executeQueryForm.value);
     this.time = 0;
     this.startTimer();
     this.analysisService.ExecuteQuery(this.executeQueryForm.value).subscribe(
@@ -159,7 +156,7 @@ export class QueriesComponent implements OnInit {
       UpdatedDate: this.todayDate,
       ScheduledStartDateTime: new Date(this.scheduleQueryForm.get("ScheduledStartDateTime")?.value).toISOString()
     });
-    console.log(this.scheduleQueryForm.value);
+    
     if (!this.scheduleQueryForm.valid) {
       this.scheduleQueryForm_loading = false;
       this.toastr.error('Please fill all the required fields', '', { positionClass: 'toast-bottom-right' });

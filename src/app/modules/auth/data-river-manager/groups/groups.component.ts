@@ -22,7 +22,7 @@ export class GroupsComponent implements OnInit {
   GetAllGroups() {
     this.dataRiverManagerService.GetAllGroups().subscribe(data => {
       this.groups = data;
-      console.log(data)
+      
     });
   }
 

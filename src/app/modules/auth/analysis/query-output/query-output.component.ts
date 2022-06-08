@@ -50,10 +50,10 @@ export class QueryOutputComponent implements OnInit {
   QueryOutputs() {
     this.queryOutputs_loading = true;
     this.analysisService.QueryOutputs().subscribe(
-      (res) => { this.queryOutputs = res; this.queryOutputs_loading = false; console.log(res) },
+      (res) => { this.queryOutputs = res; this.queryOutputs_loading = false; },
       err => {
         this.queryOutputs_loading = false;
-        console.log(err)
+        
       }
     );
   }
