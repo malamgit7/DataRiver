@@ -274,6 +274,7 @@ export class ReportingComponent implements OnInit {
   GetAllTables(connectionStringId: string) {
     this.analysisService.GetAllTables(connectionStringId).subscribe(
       (res: any) => {
+        console.log(res);
         this.tables = res[0];
         this.databaseName = res[0].databaseName;
         this.tables = res[0].tables
@@ -1070,6 +1071,7 @@ export class ReportingComponent implements OnInit {
 
   SetCustomQueryToEdit(queryId: string) {
     this.buildRunCustomQueryform();
+    this.onHideAllQueriesDialog();
     this.selectedWorkspacedata = null;
     this.selectedWorkspace = '';
     this.databaseName = '';
@@ -1077,7 +1079,7 @@ export class ReportingComponent implements OnInit {
     this.externalTables = [];
     this.viewTables = [];
     var data = this.allWorkSpaces.find(x => x.customQueryId == queryId);
-    this.onHideAllQueriesDialog();
+
     console.log(data);
     console.log(this.runCustomQueryform.get('CustomQueryName')!.value)
     this.selectedWorkspacedata = data;
@@ -1246,11 +1248,16 @@ export class ReportingComponent implements OnInit {
   }
 
   SetCustomQueryDataAfterSave(data: any) {
-    console.log(data);
+    this.buildRunCustomQueryform();
+    this.onHideAllQueriesDialog();
+
     this.selectedWorkspacedata = data;
     this.selectedWorkspace = data.customQueryName;
-    //#region Set Table metadata
     this.Tablemetadata = [];
+    this.tables = [];
+    this.externalTables = [];
+    this.viewTables = [];
+
     this.getTableMeatadataForm.patchValue({
       ConnectionStringId: data.connectionStringId,
       ExternalTableName: data.tableName
@@ -1270,9 +1277,7 @@ export class ReportingComponent implements OnInit {
         this.buildCreateTableProfileForm();
       }
     );
-    //#endregion
 
-    //#region patchValue
     this.runCustomQueryform.patchValue({
       CustomQueryId: data.customQueryId,
       ConnectionStringId: data.connectionStringId,
@@ -1283,50 +1288,53 @@ export class ReportingComponent implements OnInit {
       UpdatedBy: data.updatedBy,
       UpdatedDate: data.updatedDate
     });
-    data.functionss.forEach((element: any, index: number) => {
-      this.addFunctions();
-      var func = this.runCustomQueryform.get('Functions') as FormArray
-      func.controls[index].patchValue({
-        Id: element.id,
-        ColumnName: element.columnName,
-        Function: element.function,
-      })
-      this.onConfirmFunction(index);
-    });
-    data.groupby.forEach((element: any, index: number) => {
-      this.addGroupBy();
-      var gropuby = this.runCustomQueryform.get('GroupBy') as FormArray
-      gropuby.controls[index].patchValue({
-        Id: element.id,
-        ColumnName: element.columnName
-      })
-    });
-    data.sortby.forEach((element: any, index: number) => {
-      this.addSortBy();
-      var sortby = this.runCustomQueryform.get('SortBy') as FormArray
-      sortby.controls[index].patchValue({
-        Id: element.id,
-        ColumnName: element.columnName,
-        SortType: element.sortType
-      })
-      this.onConfirmSortBy(index);
-    });
-    data.filterby.forEach((element: any, index: number) => {
-      this.addFilterBy();
-      var filterby = this.runCustomQueryform.get('FilterBy') as FormArray
-      filterby.controls[index].patchValue({
-        Id: element.id,
-        ColumnName: element.columnName,
-        FilterOperator: element.filterOperator,
-        FilterValue: element.filterValue
-      })
-      this.onConfirmFilterBy(index);
-    });
-
-    //#endregion
-    this.GetAllTables(data.connectionStringId);
-    this.onSubmitRunCustomQuery()
-    this.onHideAllQueriesDialog();
+    if (data.functionss.length >= 1) {
+      data.functionss.forEach((element: any, index: number) => {
+        this.addFunctions();
+        var func = this.runCustomQueryform.get('Functions') as FormArray
+        func.controls[index].patchValue({
+          Id: element.id,
+          ColumnName: element.columnName,
+          Function: element.function,
+        })
+        this.onConfirmFunction(index);
+      });
+    }
+    if (data.groupby.length >= 1) {
+      data.groupby.forEach((element: any, index: number) => {
+        this.addGroupBy();
+        var gropuby = this.runCustomQueryform.get('GroupBy') as FormArray
+        gropuby.controls[index].patchValue({
+          Id: element.id,
+          ColumnName: element.columnName
+        })
+      });
+    }
+    if (data.sortby.length >= 1) {
+      data.sortby.forEach((element: any, index: number) => {
+        this.addSortBy();
+        var sortby = this.runCustomQueryform.get('SortBy') as FormArray
+        sortby.controls[index].patchValue({
+          Id: element.id,
+          ColumnName: element.columnName,
+          SortType: element.sortType
+        })
+        this.onConfirmSortBy(index);
+      });
+    }
+    if (data.filterby.length >= 1) {
+      data.filterby.forEach((element: any, index: number) => {
+        this.addFilterBy();
+        var filterby = this.runCustomQueryform.get('FilterBy') as FormArray
+        filterby.controls[index].patchValue({
+          Id: element.id,
+          ColumnName: element.columnName,
+          FilterOperator: element.filterOperator,
+          FilterValue: element.filterValue
+        })
+        this.onConfirmFilterBy(index);
+      });
+    }
     if (data.chartinfo.length >= 1) {
       data.chartinfo.forEach((element: any, index: number) => {
         this.addChartInfo();
@@ -1399,6 +1407,9 @@ export class ReportingComponent implements OnInit {
 
       });
     }
+
+    this.GetAllTables(data.connectionStringId);
+    this.onSubmitRunCustomQuery()
   }
 
   renderSavedCharts() {
