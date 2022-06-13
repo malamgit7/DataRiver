@@ -412,6 +412,15 @@
               </div>
             </div>
           </div>
+          <hr *ngIf="minimizedResultset.length>=1" style="color: white; height: 3px;">
+          <div class="row gx-2 gy-2">
+            <div class="col-sm-6" *ngFor="let minimizedResult of minimizedResultset">
+              <div class="card"
+                (click)="minimizeResultset(minimizedResult.resultsetId,minimizedResult.resultsetName, false)">
+                <div type="button" class="card-body p-2 text-truncate">{{minimizedResult.resultsetName}}</div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="col-sm-9">
           <div class="row gx-2 gy-2 mb-2" *ngIf="isError">
@@ -1435,7 +1444,7 @@
 
           <div class="row gx-2 gy-2 mb-2">
             <div class="col-sm-12">
-              <div *ngIf="resultData.length>=1" class="card" cdkDrag>
+              <div *ngIf="resultData.length>=1 && isResultsetMaximised(1)" class="card" cdkDrag>
                 <div class="card-body">
                   <p-table #dt [columns]="cols" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
                     urrentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
@@ -1445,6 +1454,11 @@
                       <div class="d-flex ">
                         <div class="flex-grow-1">
                           Dataset
+                        </div>
+                        <div class="bd-highlight me-2">
+                          <button type="button" class="btn btn-sm shadow-none"
+                            (click)="minimizeResultset(1, 'Resultset', true)"><i class="fas fa-minus"></i>
+                          </button>
                         </div>
                         <div class="bd-highlight me-0">
                           <button class="btn btn-sm btn-outline-primary shadow-sm" (click)="dt.exportCSV()"><i

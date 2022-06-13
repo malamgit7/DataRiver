@@ -155,6 +155,7 @@ export class ReportingComponent implements OnInit {
   chartTypeSelected: boolean = false;
 
   minimizedChartLists: any[] = []
+  minimizedResultset: any[] = []
   chartWidth!: number;
   chartHeight!: number;
 
@@ -413,6 +414,7 @@ export class ReportingComponent implements OnInit {
     this.Tablemetadata = [];
     this.resultData = [];
     this.minimizedChartLists = [];
+    this.minimizedResultset = []
     //#endregion
     this.runCustomQueryform.get('TableName')?.setValidators(Validators.required); this.runCustomQueryform.get('TableName')?.updateValueAndValidity();
     this.runCustomQueryform.get('Functions')?.setValidators(Validators.required); this.runCustomQueryform.get('Functions')?.updateValueAndValidity();
@@ -443,6 +445,7 @@ export class ReportingComponent implements OnInit {
     this.Tablemetadata = [];
     this.resultData = [];
     this.minimizedChartLists = [];
+    this.minimizedResultset = []
     //#endregion
 
     this.runCustomQueryform.get('CustomQueryId')?.setValidators(Validators.required); this.runCustomQueryform.get('CustomQueryId')?.updateValueAndValidity();
@@ -2470,8 +2473,32 @@ export class ReportingComponent implements OnInit {
     }
   }
 
+  minimizeResultset(resultsetId: number, resultsetName: string, minimize: boolean) {
+    if (minimize) {
+      this.minimizedResultset.push({
+        resultsetId: resultsetId,
+        resultsetName: resultsetName,
+        minimized: minimize
+      })
+    }
+    else {
+      var x = this.minimizedResultset.find(x => x.resultsetId == resultsetId);
+      this.minimizedResultset.splice(this.minimizedResultset.indexOf(x), 1);
+    }
+  }
+
   isChartMaximised(chartId: number) {
     var x = this.minimizedChartLists.find(x => x.chartId == chartId);
+    if (x == undefined) {
+      return true
+    }
+    else {
+      return false;
+    }
+  }
+
+  isResultsetMaximised(resultsetId: number) {
+    var x = this.minimizedResultset.find(x => x.resultsetId == resultsetId);
     if (x == undefined) {
       return true
     }
