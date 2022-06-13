@@ -163,6 +163,8 @@ export class ReportingComponent implements OnInit {
 
   executeQueryForm!: FormGroup;
   executeQueryForm_loading = false;
+
+  isAttributeIsDate: boolean = false
   //#endregion
 
   constructor(
@@ -410,6 +412,7 @@ export class ReportingComponent implements OnInit {
     this.iFieldFilterBy = [];
     this.Tablemetadata = [];
     this.resultData = [];
+    this.minimizedChartLists = [];
     //#endregion
     this.runCustomQueryform.get('TableName')?.setValidators(Validators.required); this.runCustomQueryform.get('TableName')?.updateValueAndValidity();
     this.runCustomQueryform.get('Functions')?.setValidators(Validators.required); this.runCustomQueryform.get('Functions')?.updateValueAndValidity();
@@ -439,6 +442,7 @@ export class ReportingComponent implements OnInit {
     this.iFieldFilterBy = [];
     this.Tablemetadata = [];
     this.resultData = [];
+    this.minimizedChartLists = [];
     //#endregion
 
     this.runCustomQueryform.get('CustomQueryId')?.setValidators(Validators.required); this.runCustomQueryform.get('CustomQueryId')?.updateValueAndValidity();
@@ -824,6 +828,7 @@ export class ReportingComponent implements OnInit {
         this.selectedWorkspace = '';
         this.minimizedChartLists = [];
         this.queries = [];
+        this.minimizedChartLists = [];
       }
     })
 

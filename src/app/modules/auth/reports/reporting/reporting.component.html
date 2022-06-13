@@ -433,7 +433,7 @@
                   <div class="card" style="z-index: inherit;" *ngIf="isChartMaximised(i)" cdkDrag m22Resizable>
                     <div class="card-header py-1">
                       <div class="row gx-0">
-                        <div class="col-sm-6 text-truncate">{{!function.get('ChartName').value? "Chart "+(i+1):
+                        <div class="col-sm-7 text-truncate">{{!function.get('ChartName').value? "Chart "+(i+1):
                           function.get('ChartName').value}}
                         </div>
                         <div class="col-sm-1"><button id="cogs" type="button" class="btn btn-sm shadow-none"
@@ -459,11 +459,11 @@
                               class="fas fa-minus"></i>
                           </button>
                         </div>
-                        <div class="col-sm-1">
+                        <!-- <div class="col-sm-1">
                           <button type="button" class="btn btn-sm shadow-none" (click)="maximizeChart(i)"><i
                               class="far fa-window-maximize"></i>
                           </button>
-                        </div>
+                        </div> -->
                         <div class="col-sm-1">
                           <button type="button" class="btn btn-sm shadow-none" (click)="removeChartInfo(i, $event)"><i
                               class="fas fa-window-close text-danger"></i>
