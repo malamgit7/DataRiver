@@ -1013,18 +1013,18 @@ export class ReportingComponent implements OnInit {
       AddedDate: this.todayDate,
       UpdatedDate: this.todayDate
     })
-    this.reportsService.SaveCustomQuery(this.runCustomQueryform.value).subscribe((res: any) => {
-
-      this.GetAllCustomQuery();
-      this.toastr.success('Successfully saved', 'Success', { positionClass: 'toast-bottom-right' })
-      this.todayDate = new Date().toISOString();
-      this.saveCustomQuery_loading = false;
-      this.onHideSaveQueryDialog();
-      this.SetCustomQueryDataAfterSave(res);
-    }, err => {
-      this.toastr.error(err.error, 'Error', { positionClass: 'toast-bottom-right' })
-      this.saveCustomQuery_loading = false;
-    });
+    this.reportsService.SaveCustomQuery(this.runCustomQueryform.value).subscribe(
+      (res: any) => {
+        this.GetAllCustomQuery();
+        this.toastr.success('Successfully saved', 'Success', { positionClass: 'toast-bottom-right' })
+        this.todayDate = new Date().toISOString();
+        this.saveCustomQuery_loading = false;
+        this.onHideSaveQueryDialog();
+        this.SetCustomQueryDataAfterSave(res);
+      }, err => {
+        this.toastr.error(err.error, 'Error', { positionClass: 'toast-bottom-right' })
+        this.saveCustomQuery_loading = false;
+      });
   }
 
   saveAsChartData() {
@@ -1038,13 +1038,13 @@ export class ReportingComponent implements OnInit {
     })
     this.reportsService.SaveAsCustomQuery(this.runCustomQueryform.value).subscribe(
       (res: any) => {
-
-        this.SetCustomQueryDataAfterSave(res);
         this.GetAllCustomQuery();
         this.toastr.success('Successfully saved', 'Success', { positionClass: 'toast-bottom-right' })
         this.todayDate = new Date().toISOString();
         this.saveCustomQuery_loading = false;
         this.onHideSaveQueryDialog();
+        console.log(res);
+        this.SetCustomQueryDataAfterSave(res);
       },
       err => {
         this.toastr.error(err.error, 'Error', { positionClass: 'toast-bottom-right' })
