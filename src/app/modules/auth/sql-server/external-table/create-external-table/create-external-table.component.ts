@@ -80,12 +80,12 @@ export class CreateExternalTableComponent implements OnInit {
     this.connectionString_loading = true;
     this.bridgeManagerService.GetStorageConnectionStrings().subscribe(
       data => {
-        
+
         this.connectionStrings = data;
         this.connectionString_loading = false;
       },
       error => {
-        
+
         this.connectionString_loading = false;
       }
     )
@@ -97,10 +97,10 @@ export class CreateExternalTableComponent implements OnInit {
       (res) => {
         this.syn_connectionStrings = res;
         this.syn_connectionString_loading = false;
-        
+
       },
       (err) => {
-        
+
         this.syn_connectionString_loading = false;
       }
     );
@@ -116,7 +116,7 @@ export class CreateExternalTableComponent implements OnInit {
 
   buildCreateETForm() {
     this.createETForm = this.formBuilder.group({
-      ConnectionStringId: ['', Validators.required],
+      connectionStringId: ['', Validators.required],
       FileSystem: this.fileSystem_Next,
       Path_Blob: this.blob_next,
       Name: ['', Validators.required],
@@ -165,12 +165,12 @@ export class CreateExternalTableComponent implements OnInit {
     this.dataAnalysisService.GetFileSystems(connectionStringId).subscribe(
       res => {
         this.containers = res;
-        
+
         this.GetFileSystems_loading = false
       },
       err => {
         this.GetFileSystems_loading = false
-        
+
       }
     )
   }
@@ -261,7 +261,7 @@ export class CreateExternalTableComponent implements OnInit {
       FileSystem: this.fileSystem_Next,
       Path_Blob: this.blob_next
     });
-    
+
 
     if (this.createETForm.invalid) {
       this.CreateView_loading = false
@@ -269,12 +269,12 @@ export class CreateExternalTableComponent implements OnInit {
       return;
     }
     this.dataAnalysisService.CreateExternalTableCustom(this.createETForm.value).subscribe(data => {
-      
+
       this.CreateView_loading = false
       this.toastr.success("Successfully created", "Success", { positionClass: 'toast-bottom-center' });
     },
       error => {
-        
+
         this.CreateView_loading = false;
         this.toastr.error(error.error, "Error", { positionClass: 'toast-bottom-center' });
         return;

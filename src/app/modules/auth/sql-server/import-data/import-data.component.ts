@@ -222,7 +222,7 @@ export class ImportDataComponent implements OnInit {
     this.dataAnalysisService.CreateFileAndTableSchema(formData).subscribe(
       (res) => {
         this.fileAndTableSchema = res;
-        
+
         if (res.length === 0) {
           window.alert("This file is empty")
           this.generateSchema_loading = false;
@@ -259,7 +259,7 @@ export class ImportDataComponent implements OnInit {
       (res) => {
         this.connectionStrings = res;
         this.connectionString_loading = false;
-        
+
       },
       (err) => {
         this.connectionString_loading = false;
@@ -281,7 +281,7 @@ export class ImportDataComponent implements OnInit {
         this.tableNames = res.tableNames;
       },
       (err) => {
-        
+
       }
     );
   }
@@ -438,7 +438,7 @@ export class ImportDataComponent implements OnInit {
         }
       },
       (err) => {
-        
+
         this.generateSchema_loading = false;
       }
     )
